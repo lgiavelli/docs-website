@@ -4,13 +4,9 @@ metaDescription: An introduction to New Relic's open-source Windows services int
 translationType: machine
 ---
 
-import nr1OhiWindowsServicesMetric from 'images/nr1-ohi-windows-services-metric.png'
+import infrastructureWindowsServicesMetric from 'images/infrastructure_screenshot-crop_windows-services-metric.webp'
 
-import windowsServicesOhi from 'images/WindowsServicesOHI.png'
-
-<Callout title="공개 미리보기">
-  이 기능은 현재 공개 미리 보기 상태이며 [0.3.0](https://github.com/newrelic/nri-winservices/releases/tag/v0.3.0-beta) 부터 시작하는 버전에만 적용됩니다.2021년 9월 출시.자세한 내용은 [Explorer Hub 게시물](https://discuss.newrelic.com/t/introducing-new-open-beta-version-of-the-windows-services-integration/160162) 을 확인하세요.
-</Callout>
+import infrastructureWindowsServices from 'images/infrastructure_diagram_windows-services.webp'
 
 New Relic의 Windows 서비스 통합은 Microsoft Windows 호스트에서 실행되는 서비스에 대한 데이터를 수집하여 당사 플랫폼으로 보냅니다. 각 서비스의 상태 및 시작 모드를 확인하고, 서비스를 실행 중인 호스트를 확인하고, 서비스에 대한 경고를 설정하는 등의 작업을 수행할 수 있습니다.
 
@@ -23,18 +19,25 @@ New Relic의 Windows 서비스 통합은 Microsoft Windows 호스트에서 실�
 Windows 서비스 통합을 통해 다음을 수행할 수 있습니다.
 
 * 모든 Windows 서비스, 상태(실행 중, 중지됨 등), 시작 모드(자동, 수동 등) 및 기타 서비스 [메타데이터](#metadata) 를 확인합니다.
+
 * 특정 Windows 서비스를 실행 중인 호스트를 확인하십시오.
+
 * New Relic을 사용하여 모니터링 중인 Windows 서비스를 기반으로 [경고를 설정합니다](#set-alerts) .
-* Windows 서비스를 추적하는 [대시보드](/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards) 를 만듭니다.
+
+* [Windows Services Quickstart를](https://newrelic.com/instant-observability/winservices) 설치하거나 직접 생성
+
+  <InlinePopover type="dashboards"/>
+
+  Windows 서비스를 추적합니다.
 
 <img
   title="New Relic - Windows services integration - Metric data"
   alt="New Relic - Windows services integration - Metric data"
-  src={nr1OhiWindowsServicesMetric}
+  src={infrastructureWindowsServicesMetric}
 />
 
 <figcaption>
-  **[one.newrelic.com](https://one.newrelic.com) > Dashboards** : Microsoft Windows 서비스 통합 메트릭을 사용하여 서비스에 대한 테이블을 생성할 수 있습니다.
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Dashboards**: Microsoft Windows 서비스 통합 메트릭을 사용하여 서비스에 대한 테이블을 생성할 수 있습니다.
 </figcaption>
 
 ## 호환성 및 요구 사항 [#requirements]
@@ -49,13 +52,13 @@ Windows 서비스 통합을 설치하려면:
 
 1. 디렉토리를 통합 폴더로 변경하십시오.
 
-   ```
+   ```shell
    cd C:\Program Files\New Relic\newrelic-infra\integrations.d\
    ```
 
-2. 샘플 구성 파일의 사본:
+2. 샘플 구성 파일을 복사합니다.
 
-   ```
+   ```shell
    copy winservices-config.yml.sample winservices-config.yml
    ```
 
@@ -76,50 +79,25 @@ Windows 서비스 통합은 인프라 모니터링 에이전트와 함께 번들
 
 또한 구성 옵션 [`inventory_source`](/docs/infrastructure/host-integrations/infrastructure-integrations-sdk/specifications/host-integrations-standard-configuration-format) 은(는) 통합과 호환되지 않습니다.
 
-다음은 Windows 서비스 통합 구성의 예입니다.
+다음은 이름이 `win32.*` 인 모든 서비스와 일치하는 정규식 패턴과 `newrelic-infra` 서비스와 직접 일치하는 Windows 서비스 통합 구성의 예입니다.
 
 <CollapserGroup>
   <Collapser
     id="example"
     title="winservices-config.yml"
   >
-    ```
+    ```yml
     integrations:
       - name: nri-winservices
         config:
-          # IP address and port used by the Prometheus exporter to bind the server.
-          # 
-          # exporter_bind_address: 127.0.0.1  
-          # exporter_bind_port: 9182
-
-          # To include services, create a list of filters to be applied to the service names.
-          # Services that find a match with any of the matching lists are included. By default,
-          # no service is included.
-          #
-          # Currently, only windowsService.name metadata is supported for filtering.
-          # Prepend "regex" to indicate that the pattern is a regular expression
-          #
+          exporter_bind_address: 127.0.0.1  
+          exporter_bind_port: 9182
           include_matching_entities:
             windowsService.name:
-              # - regex ".*"
-              # - "newrelic-infra"
-
-          # Time between consecutive metric collection of the integration.
-          # It must be a number followed by a time unit (s, m or h), without spaces.
-          #
+              - regex "win32.*"
+              - "newrelic-infra"
           scrape_interval: 30s
-
-        # Timeout used by the agent to restart the integration if no heartbeats are
-        # sent from the integration. Heartbeats are sent every 5s, so this timeout
-        # shouldn't be less than that.
-        #
         timeout: 60s
-
-        # Since this is a long-running integration, interval is ignored. To
-        # configure the interval period for collecting and sending data, edit
-        # the scrape_interval parameter.
-        #
-        # interval:
     ```
 
     자세한 내용 [은 온호스트 통합 구성의 일반 구조에](/docs/integrations/integrations-sdk/file-specifications/host-integration-configuration-overview) 대한 설명서를 참조하십시오.
@@ -128,15 +106,15 @@ Windows 서비스 통합은 인프라 모니터링 에이전트와 함께 번들
 
 ## 알림 설정 [#set-alerts]
 
-[NRQL 조건을 사용하여 Windows 서비스 경고를 생성](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-nrql-alert-conditions) 하여 모니터링하려는 서비스의 상태 변경에 대한 알림을 받을 수 있습니다. 다음은 Windows 서비스 데이터를 사용하는 경고 조건의 두 가지 예입니다.
+Windows 서비스를 만들 수 있습니다. <InlinePopover type="alerts"/>NRQL 조건을 사용하여 모니터링하려는 서비스의 상태 변경에 대한 알림을 받습니다. 다음은 Windows 서비스 데이터를 사용하는 경고 조건의 두 가지 예입니다.
 
 <CollapserGroup>
   <Collapser
     id="service"
     title="서비스가 실행되지 않습니다"
   >
-    ```
-    SELECT count(*) FROM Metric WHERE metricName = 'windows_service_state' AND state != 'running' AND service_name = 'lfsvc' FACET entity.name
+    ```sql
+    SELECT count(*) FROM Metric WHERE metricName = 'windows_service_state' AND state != 'running' FACET hostname, service_name
     ```
   </Collapser>
 
@@ -144,8 +122,8 @@ Windows 서비스 통합은 인프라 모니터링 에이전트와 함께 번들
     id="start-mode"
     title={<>시작 모드는 <InlineCode>auto</InlineCode> 이지만 현재 상태는 아닙니다. <InlineCode>running</InlineCode></>}
   >
-    ```
-    FROM Metric SELECT count(*) WHERE start_mode='auto' AND state!='running' FACET service_name
+    ```sql
+    FROM Metric SELECT count(*) WHERE start_mode = 'auto' AND state != 'running' FACET hostname, service_name
     ```
   </Collapser>
 </CollapserGroup>
@@ -157,7 +135,7 @@ Windows 호스트에서 데이터를 가져오기 위해 Windows 서비스 통�
 <img
   title="Windows services integration architecture"
   alt="Windows services integration architecture"
-  src={windowsServicesOhi}
+  src={infrastructureWindowsServices}
 />
 
 <figcaption>
@@ -168,11 +146,19 @@ Windows 호스트에서 데이터를 가져오기 위해 Windows 서비스 통�
 
 Windows 서비스 통합은 다음 데이터를 제공합니다.
 
+<Callout variant="tip">
+  이 통합은 [Win32_Service 클래스](https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-service)에서 제공하는 숫자 상태를 반환하는 차원 메트릭을 생성합니다. 이러한 측정항목을 읽을 수 있는 문자열 값으로 열거하는 것은 `start_mode` 및 `state` 속성에서 제공됩니다.
+</Callout>
+
 <table>
   <thead>
     <tr>
       <th>
-        미터법
+        메트릭 이름
+      </th>
+
+      <th>
+        열거된 속성
       </th>
 
       <th>
@@ -185,6 +171,10 @@ Windows 서비스 통합은 다음 데이터를 제공합니다.
     <tr>
       <td>
         `windows_service_start_mode`
+      </td>
+
+      <td>
+        `start_mode`
       </td>
 
       <td>
@@ -201,6 +191,10 @@ Windows 서비스 통합은 다음 데이터를 제공합니다.
     <tr>
       <td>
         `windows_service_state`
+      </td>
+
+      <td>
+        `state`
       </td>
 
       <td>
@@ -225,11 +219,11 @@ Windows 서비스 통합은 다음 메타데이터를 New Relic에 보냅니다.
 
 * `display_name`: 서비스 스냅인에 표시되는 서비스의 이름입니다.
 
-* `service_name`: 서비스의 고유 식별자입니다.
-
 * `process_id`: 서비스의 프로세스 식별자입니다.
 
 * `run_as`: 서비스가 실행되는 계정 이름입니다. 서비스 유형에 따라 계정 이름의 형식은 `DomainName\Username` 또는 `Username@DomainName` (UPN)일 수 있습니다. 값은 `NULL` 일 수 있는 `Win32_Service` 클래스의 `StartName` 속성에서 가져옵니다(이 경우 레이블은 빈 문자열로 보고됨).
+
+* `service_name`: 서비스의 고유 식별자입니다.
 
   <Callout variant="important">
     `StartName` 속성이 `NULL` 이면 서비스는 `LocalSystem` 계정으로 로그온됩니다. 커널 또는 시스템 수준 드라이브의 경우 서비스 이름을 기반으로 I/O 시스템에서 생성한 기본 개체 이름(예: `DWDOM\Admin` 으로 실행됩니다.

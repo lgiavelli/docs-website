@@ -9,8 +9,8 @@ translationType: machine
 
 New Relic의 자동 이상 감지는 이상 감지기에서 시작됩니다. 특정 데이터 세트에서 이상을 체계적으로 관찰하고 기록하는 방법입니다. 데이터 세트의 이름을 지정하고 구성하려면 관찰하려는 신호와 비정상적인 데이터를 저장할 위치를 알려주는 필드 세트인 이상 감지기 구성을 생성해야 합니다.
 
-<Callout title="베타 기능">
-  이 기능은 아직 개발 중이지만 사용해 보시기 바랍니다!
+<Callout title="미리보기 기능">
+  이 기능은 아직 미리 보기 단계이지만 사용해 보시기 바랍니다!
 </Callout>
 
 감시할 데이터 세트를 만드는 다양한 방법에 해당하는 세 가지 유형의 구성이 있습니다. 워크로드 구성은 [워크로드](/docs/new-relic-one/use-new-relic-one/workloads/workloads-isolate-resolve-incidents-faster) 에 포함된 모든 엔터티를 데이터세트로 사용하여 감지기를 생성합니다. 엔터티 유형 구성은 하나 이상의 계정에 있는 단일 [엔터티 유형](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic) (예: 모바일 앱)의 모든 엔터티를 데이터 세트로 사용합니다. NRQL 구성은 하나 이상의 [NRQL 쿼리](/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language/) 결과를 데이터세트로 사용합니다.
@@ -32,10 +32,10 @@ api.newrelic.com/graphiql에서 [GraphiQL](https://api.newrelic.com/graphiql) �
 ```
 mutation {
   anomalyDetectorConfigurationsWorkloadAnomalyDetectorCreate(
-    workloadGuid: "<var>WORKLOAD_GUID</var>",
+    workloadGuid: "WORKLOAD_GUID",
     anomalyDetector: {
-      name: "<var>NAME_OF_CONFIGURATION</var>",
-      excludedEntityGuids: ["<var>ENTITY_GUID_1</var>", "<var>ENTITY_GUID_2</var>", ...]
+      name: "NAME_OF_CONFIGURATION",
+      excludedEntityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...]
     }
   )
   {
@@ -55,15 +55,15 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsEntityTypeAnomalyDetectorCreate(
-    accountId: <var>ACCOUNT_ID</var>,
+    accountId: ACCOUNT_ID,
     anomalyDetector: {
-      name: "<var>NAME_OF_CONFIGURATION</var>",
+      name: "NAME_OF_CONFIGURATION",
       domainType: {
-        domain: "<var>ENTITY_DOMAIN</var>",
-        type: "<var>ENTITY_TYPE</var>"
+        domain: "ENTITY_DOMAIN",
+        type: "ENTITY_TYPE"
       },
-      includedEntityGuids: ["<var>ENTITY_GUID_1</var>", "<var>ENTITY_GUID_2</var>", ...],
-      additionalSourceAccountIds: [<var>ADDITIONAL_SOURCE_ACCOUNT_ID_1</var>, <var>ADDITIONAL_SOURCE_ACCOUNT_ID_2</var>, ...]
+      includedEntityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...],
+      additionalSourceAccountIds: [ADDITIONAL_SOURCE_ACCOUNT_ID_1, ADDITIONAL_SOURCE_ACCOUNT_ID_2, ...]
     }
   )
   {
@@ -91,15 +91,15 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsNrqlAnomalyDetectorCreate(
-    accountId: <var>ACCOUNT_ID</var>,
+    accountId: ACCOUNT_ID,
     anomalyDetector: {
-      name: "<var>NAME_OF_CONFIGURATION</var>",
+      name: "NAME_OF_CONFIGURATION",
       nrqlSignals: [
         {
-          accountId: <var>NRQL_QUERY_ACCOUNT_ID</var>,
-          name: "<var>NAME_OF_NRQL_SIGNAL</var>",
-          nrql: "<var>NRQL_QUERY</var>",
-          mutedFacetValues: ["<var>FACET_VALUE_1</var>", "<var>FACET_VALUE_2</var>", ...]
+          accountId: NRQL_QUERY_ACCOUNT_ID,
+          name: "NAME_OF_NRQL_SIGNAL",
+          nrql: "NRQL_QUERY",
+          mutedFacetValues: ["FACET_VALUE_1", "FACET_VALUE_2", ...]
         }
       ]
     }
@@ -127,13 +127,13 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsWorkloadAnomalyDetectorUpdate(
-    anomalyDetectorId: <var>DETECTOR_ID</var>,
+    anomalyDetectorId: DETECTOR_ID,
     anomalyDetector: {
-      name: "<var>UPDATED_DETECTOR_NAME</var>",
-      status: <var>DETECTOR_STATUS</var>,
-      deviationSensitivity: <var>DEVIATION_SENSITIVITY</var>,
-      excludedEntityGuids: ["<var>ENTITY_GUID_1</var>", "<var>ENTITY_GUID_2</var>", ...],
-      thresholds: [<var>THRESHOLD_SIGNAL_1</var>, <var>THRESHOLD_SIGNAL_2</var>, ...]
+      name: "UPDATED_DETECTOR_NAME",
+      status: DETECTOR_STATUS,
+      deviationSensitivity: DEVIATION_SENSITIVITY,
+      excludedEntityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...],
+      thresholds: [THRESHOLD_SIGNAL_1, THRESHOLD_SIGNAL_2, ...]
     }
   ) {
     anomalyDetectorId
@@ -155,14 +155,14 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsEntityTypeAnomalyDetectorUpdate(
-    anomalyDetectorId: <var>DETECTOR_ID</var>,
+    anomalyDetectorId: DETECTOR_ID,
     anomalyDetector: {
-      name: "<var>UPDATED_DETECTOR_NAME</var>",
-      status: <var>DETECTOR_STATUS</var>,
-      deviationSensitivity: <var>DEVIATION_SENSITIVITY</var>,
-      includedEntityGuids: ["<var>ENTITY_GUID_1</var>", "<var>ENTITY_GUID_2</var>", ...],
-      additionalSourceAccountIds: [<var>ADDITIONAL_SOURCE_ACCOUNT_ID_1</var>, <var>ADDITIONAL_SOURCE_ACCOUNT_ID_2</var>, ...],
-      thresholds: [<var>THRESHOLD_SIGNAL_1</var>, <var>THRESHOLD_SIGNAL_2</var>, ...]
+      name: "UPDATED_DETECTOR_NAME",
+      status: DETECTOR_STATUS,
+      deviationSensitivity: DEVIATION_SENSITIVITY,
+      includedEntityGuids: ["ENTITY_GUID_1", "ENTITY_GUID_2", ...],
+      additionalSourceAccountIds: [ADDITIONAL_SOURCE_ACCOUNT_ID_1, ADDITIONAL_SOURCE_ACCOUNT_ID_2, ...],
+      thresholds: [THRESHOLD_SIGNAL_1, THRESHOLD_SIGNAL_2, ...]
     }
   )
   {
@@ -186,29 +186,29 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsNrqlAnomalyDetectorUpdate(
-    anomalyDetectorId: <var>DETECTOR_ID</var>,
-    accountId: <var>ACCOUNT_ID</var>,
+    anomalyDetectorId: DETECTOR_ID,
+    accountId: ACCOUNT_ID,
     anomalyDetector: {
-      name: "<var>UPDATED_CONFIGURATION_NAME</var>",
-      status: <var>DETECTOR_STATUS</var>,
-      deviationSensitivity: <var>DEVIATION_SENSITIVITY</var>,
+      name: "UPDATED_CONFIGURATION_NAME",
+      status: DETECTOR_STATUS,
+      deviationSensitivity: DEVIATION_SENSITIVITY,
       newSignals: [
         {
-          accountId: <var>NRQL_QUERY_ACCOUNT_ID</var>,
-          name: "<var>NAME_OF_NRQL_SIGNAL</var>",
-          nrql: "<var>NRQL_QUERY</var>",
-          mutedFacetValues: ["<var>FACET_VALUE_1</var>", "<var>FACET_VALUE_2</var>", ...]
+          accountId: NRQL_QUERY_ACCOUNT_ID,
+          name: "NAME_OF_NRQL_SIGNAL",
+          nrql: "NRQL_QUERY",
+          mutedFacetValues: ["FACET_VALUE_1", "FACET_VALUE_2", ...]
         }
       ],
       updatedSignals: [
         {
-          queryId: <var>QUERY_ID</var>,
-          name: "<var>UPDATED_NAME_OF_NRQL_SIGNAL</var>",
-          mutedFacetValues: ["<var>FACET_VALUE_1</var>", "<var>FACET_VALUE_2</var>", ...],
-          threshold: <var>THRESHOLD</var>
+          queryId: QUERY_ID,
+          name: "UPDATED_NAME_OF_NRQL_SIGNAL",
+          mutedFacetValues: ["FACET_VALUE_1", "FACET_VALUE_2", ...],
+          threshold: THRESHOLD
         }
       ],
-      deletedQueries: [<var>QUERY_ID_1</var>, <var>QUERY_ID_2</var>]
+      deletedQueries: [QUERY_ID_1, QUERY_ID_2]
     }
   )
   {
@@ -243,7 +243,7 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsAnomalyDetectorDelete(
-    anomalyDetectorId: <var>DETECTOR_ID</var>
+    anomalyDetectorId: DETECTOR_ID
   )
   {
     success
@@ -309,7 +309,7 @@ mutation {
 {
   actor {
     anomalyDetectorConfigurations {
-      anomalyDetectors(filters: {anomalyDetectorIds: [<var>ANOMALY_DETECTOR_ID_1</var>, <var>ANOMALY_DETECTOR_ID_2</var>, ...]}) {
+      anomalyDetectors(filters: {anomalyDetectorIds: [ANOMALY_DETECTOR_ID_1, ANOMALY_DETECTOR_ID_2, ...]}) {
         id
         name
       }
@@ -378,8 +378,8 @@ mutation {
       anomalyDetectorThresholds(filters: {
         domainTypes: [
           {
-            domain: "<var>ENTITY_DOMAIN</var>",
-            type: "<var>ENTITY_TYPE</var>"
+            domain: "ENTITY_DOMAIN",
+            type: "ENTITY_TYPE"
           }
         ]
       }
@@ -406,8 +406,8 @@ mutation {
 ```
 mutation {
   anomalyDetectorConfigurationsValidateNrqlSignal(
-    accountId: <var>ACCOUNT_ID</var>,
-    nrql: "<var>NRQL</var>"
+    accountId: ACCOUNT_ID,
+    nrql: "NRQL"
   ) {
     invalidNrqlReasons
   }
@@ -451,32 +451,32 @@ NrqlAnomalyDetector 내의 null 값은 전역 기본값이 사용 중임을 나�
 
 구성 편집 변형에서 임계값을 변경할 수 있습니다. 워크로드 및 엔터티 유형 구성에는 엔터티 유형당 골든 신호당 하나씩 임계값 목록이 있습니다(워크로드에는 여러 엔터티 유형이 포함될 수 있음).
 
-NRQL 구성에는 사용자 지정 신호당 단일 임계값이 있습니다. 다음은 [업데이트 변형](#update-configuration) 에서 임계값을 업데이트하는 데 사용되는 <var>THRESHOLD</var> 개체의 예입니다.
+NRQL 구성에는 사용자 지정 신호당 단일 임계값이 있습니다. 다음은 [업데이트 변형](#update-configuration) 에서 임계값을 업데이트하는 데 사용되는 THRESHOLD 개체의 예입니다.
 
 ```
 {
-  signalName: "<var>SIGNAL_NAME</var>",
+  signalName: "SIGNAL_NAME",
   domainType: {
-    domain: "<var>ENTITY_DOMAIN</var>",
-    type: "<var>ENTITY_TYPE</var>"
+    domain: "ENTITY_DOMAIN",
+    type: "ENTITY_TYPE"
   },
-  deviationSensitivity: <var>DEVIATION_SENSITIVITY</var>,
-  significantDeviationDirection: <var>SIGNIFICANT_DEVIATION_DIRECTION</var>,
+  deviationSensitivity: DEVIATION_SENSITIVITY,
+  significantDeviationDirection: SIGNIFICANT_DEVIATION_DIRECTION,
   upperLimit: {
-    value: <var>LIMIT_VALUE</var>,
-    active: <var>STATUS</var>
+    value: LIMIT_VALUE,
+    active: STATUS
   },
   upperRelativePercent: {
-    value: <var>PERCENT_VALUE</var>,
-    active: <var>STATUS</var>
+    value: PERCENT_VALUE,
+    active: STATUS
   },
   lowerLimit: {
-    value: <var>LIMIT_VALUE</var>,
-    active: <var>STATUS</var>
+    value: LIMIT_VALUE,
+    active: STATUS
   },
   lowerRelativePercent: {
-    value: <var>PERCENT_VALUE</var>,
-    active: <var>STATUS</var>
+    value: PERCENT_VALUE,
+    active: STATUS
   }
 }
 ```

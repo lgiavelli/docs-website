@@ -7,31 +7,90 @@ metaDescription: 'With New Relic, you can create and consume SLI/SLOs.'
 translationType: machine
 ---
 
-import suggestedSli from 'images/suggested_sli.png'
+import slmAddServiceLevelExample from 'images/slm_screenshot-crop_add-service-level-example.webp'
 
-import customSli from 'images/custom_sli.png'
+import slmEditServiceLevelExample from 'images/slm_screenshot-crop_edit-service-level-example.webp'
 
-import sliTags from 'images/sli_tags.png'
+import slmTagExamples from 'images/slm_screenshot-crop_tag-examples.webp'
 
-import slmEditMenu2 from 'images/slm_edit_menu_2.png'
+import slmEditMenuOption from 'images/slm_screenshot-crop_edit-menu-option.webp'
 
-import slmSummaryEdit from 'images/slm-summary-edit.png'
+import slmSummaryEditButton from 'images/slm_screenshot-crop_summary-edit-button.webp'
+
+import slmEditMenu2 from 'images/slm_screenshot-crop_edit-menu-option.webp'
+
+import slmSummaryEdit from 'images/slm_screenshot-crop_summary-edit-button.webp'
+
+import slmWildcards from 'images/slm-wildcard.webp'
 
 [NewRelicUI](https://one.newrelic.com)を使用してSLIとSLOを手動で作成できます。または、 [NerdGraphAPI](/docs/apis/nerdgraph/examples/nerdgraph-slm/)と[TerraformServiceLevelリソース](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/service_level)を使用してプロセスを自動化することもできます。
 
-## 要件 [#requirements]
+## 要件と制限 [#requirements]
 
-[events-to-metricsを変更および削除する機能](/docs/accounts/accounts-billing/new-relic-one-user-management/user-capabilities#insights)が必要です。
+サービス レベルを作成および管理するには、次のものが必要です。
+
+* [フルプラットフォームユーザー](/docs/accounts/accounts-billing/new-relic-one-user-management/user-type)である必要があります。
+* [events-to-metricsを変更および削除する機能](/docs/accounts/accounts-billing/new-relic-one-user-management/user-capabilities#insights)が必要です。
+
+以下のようなエラーが出る場合は、ユーザーの権限を確認してください。
+
+* UIでSLI/SLOを保存するオプションが無効になっていました。
+* APIは、「タイプ`\"RootMutationType\".”`のフィールド`\"eventExportRegisterRule\"`をクエリできません」というエラーメッセージを返します。
+
+[複数のアカウント](/docs/accounts/accounts-billing/account-structure/new-relic-account-structure)を持つ New Relic 組織の場合: サービス レベルは 1 つのアカウントにのみ関連付けることができます。複数のアカウントにまたがるエンティティを持つワークロードのサービス レベルを作成しようとしている場合は、関連付けられているすべてのエンティティが同じアカウントに含まれるように、ワークロードを再構築する必要がある場合があります。1 つのアカウントで最大 500 個の SLI を作成できます。
+
+New Relic は、さまざまな方法でさまざまなソースからデータを取り込みます。それぞれに独自のフレーバーがあり、データの消費方法に多くの可能性をもたらします。データの特性により、サービス レベルを構成できないシナリオがいくつかあります。
+
+* **サブクエリ**。 サブクエリはサポートされていません。
+* **合計機能の追加**。 `SELECT sum(attributeA)`または`SELECT sum(attributeA + attributeB)`を使用できますが、式`SELECT sum(attributeA) + sum(attributeB)`はサポートされていません。
 
 ## SLIおよびSLOを作成するための重要な概念 [#key-concepts]
 
 SLIとSLOを定義する際には、これらの概念に留意してください。
+
+### 主要なユーザー エクスペリエンスを定義する [#define-user-exp]
+
+チームが所有する最高レベルの主要なユーザー エクスペリエンスを考えることから始めて、それ以上の粒度では価値が得られなくなるまで、基礎となる主要なユーザー エクスペリエンスに焦点を当てます。どの SL から開始するかを選択するときは、トップダウン アプローチを使用することをお勧めします。つまり、最も粒度の低い SL から開始し、必要な場合にのみより粒度の高い SL を作成します。
+
+まず、「システム境界」を特定します。これは、ユーザーが機能の「ブラック ボックス」として認識しているシステムの一部です。いくつかの例：
+
+* API の場合は、単なるサービスかもしれません。
+* データ パイプラインの場合、データをエンド ツー エンドで処理するために必要な一連のサービスである可能性があります。
+
+これらの最上位のサービス レベルを確立すると、サービスのすべてのエンドポイントが同じように動作するわけではなく、さらに分割する必要がある場合があります。例えば：
+
+* ログイン トランザクションでは、エラー時にブラウジング トランザクションよりも高い SLO が必要になる場合があります
+* 一部の操作の期間は、残りの操作よりもはるかに長くなります
+
+たとえば、大まかに言うと、New Relic での主要なユーザー エクスペリエンスは次のようになります。 _顧客がテレメトリ データを送信し、そのデータを後で製品 API または UI でクエリできるようにします。_
+
+そのユーザー エクスペリエンスのために、次のような SLO を作成できます。
+
+| 期間       | ターゲット | カテゴリ   | インジケータ                          |
+| -------- | ----- | ------ | ------------------------------- |
+| 過去 28 日間 | 99.9% | レイテンシー | ユーザーが取り込んだデータは、1 分未満でクエリに使用できます |
+
+通常、これらの種類のユーザー エクスペリエンスには複数のサービスが関与し、複数のチームや組織の境界にまたがっていることに注意してください。
+
+基盤となるユーザー エクスペリエンスの粒度を高めることで、New Relic でのもう 1 つの重要なユーザー エクスペリエンスは、 _顧客がカスタム ダッシュボードを使用してテレメトリ データを視覚化できるようになる可能性があります。_
+
+この SLO は次のようになります。
+
+| 期間       | ターゲット | カテゴリ | インジケータ                    |
+| -------- | ----- | ---- | ------------------------- |
+| 過去 28 日間 | 99.9% | 可用性  | ユーザーはダッシュボード UI を正常に操作します |
+
+細かすぎる例として、ダッシュボードにグラフ ウィジェットを追加することもユーザー エクスペリエンスです。ただし、このアクションに対して特定の SLO を作成しても、ユーザーがダッシュボード UI を正常に操作するという以前の SLO と比較して、追加の価値はありません。
+
+要約すると、トップダウン アプローチを使用し、最も粒度の低いサービス レベルから開始します。必要な場合にのみ、より詳細なサービス レベルを作成します。
 
 ### 関連するエンティティ [#sli-entity]
 
 New Relicエコシステムでは、すべてのサービスレベルが別の[エンティティ](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic/)にリンクされています。これは、スタック内でデータを報告する要素、またはアクセス可能なデータを生成する要素です。サービスレベルが関連するエンティティによって、SLI/SLOの結果が表示される場所が決まります。
 
 New Relic に報告される任意の NRDB イベントまたはディメンション メトリックで SLI を定義できます。ほとんどのカスタム イベントは、単一の New Relic エンティティに関連していませんが、より高いレベルのビジネスおよびユーザー エクスペリエンスの洞察を提供します。この場合でも、SLI を特定のエンティティまたはワークロードに関連付けることができます。
+
+SLI クエリは、関連エンティティが存在する同じアカウントのスコープ内にある必要があることに注意してください。
 
 ### SLIクエリ [#sli-queries]
 
@@ -50,7 +109,7 @@ SLIは、有効なリクエストの総数のうち、良いレスポンスの�
 
 このセクションでは、サービスやブラウザアプリケーションのパフォーマンスを測定するために一般的に使用されるいくつかのSLIを紹介します。
 
-### New Relic エージェントを搭載した APM サービスの SLI [#sli-apm]
+### New Relic エージェントを使用して計測された APM サービスと主要なトランザクションの SLI [#sli-apm]
 
 `Transaction`イベントに基づくと、これらのSLIはリクエストドリブンサービスで最も一般的です。
 
@@ -117,7 +176,7 @@ SLIは、有効なリクエストの総数のうち、良いレスポンスの�
   </Collapser>
 </CollapserGroup>
 
-### OpenTelemetryで計測されたAPMサービスのSLI [#sli-otel]
+### OpenTelemetry を使用して計測された APM サービスおよび主要なトランザクション用の SLI [#sli-otel]
 
 OpenTelemetryのスパンに基づくと、これらのSLIはリクエストドリブンのサービスで最も一般的なものです。
 
@@ -203,7 +262,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     WHERE: entityGuid = '{entityGuid}'
     ```
 
-    ここで、 `{entityGuid}`はサービスのGUIDです。
+    ここで、 `{entityGuid}`はブラウザアプリのGUIDです。
 
     **悪いイベントフィールド**
 
@@ -229,7 +288,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     WHERE: entityGuid = '{entityGuid}' AND largestContentfulPaint IS NOT NULL
     ```
 
-    ここで、 `{entityGuid}`はサービスのGUIDです。
+    ここで、 `{entityGuid}`はブラウザアプリのGUIDです。
 
     **良いイベントフィールド**
 
@@ -263,7 +322,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     WHERE: entityGuid = '{entityGuid}' AND firstInputDelay IS NOT NULL
     ```
 
-    ここで、 `{entityGuid}`はサービスのGUIDです。
+    ここで、 `{entityGuid}`はブラウザアプリのGUIDです。
 
     **良いイベントフィールド**
 
@@ -297,7 +356,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     WHERE: entityGuid = '{entityGuid}' AND cumulativeLayoutShift IS NOT NULL
     ```
 
-    ここで、 `{entityGuid}`はサービスのGUIDです。
+    ここで、 `{entityGuid}`はブラウザアプリのGUIDです。
 
     デスクトップとモバイルデバイスのCLSを別々に追跡するために、別々のSLIを作成したい場合は、フィールドの最後にこれらの条項のいずれかを追加してください。
 
@@ -328,15 +387,55 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
   </Collapser>
 </CollapserGroup>
 
+### 合成チェック用の SLI [#sli-synthetic]
+
+<CollapserGroup>
+  <Collapser
+    className="freq-link"
+    id="synthetic-success"
+    title="成功"
+  >
+    成功とは、すべてのチェックの数に対する、成功した合成チェックの数の比率です。
+
+    **有効なイベントフィールド**
+
+    ```sql
+    FROM: SyntheticCheck
+    WHERE: entity.guid = '{entityGuid}'
+    ```
+
+    ここで、 `{entityGuid}` 合成チェックの GUID です。
+
+    **良いイベントフィールド**
+
+    ```sql
+    FROM: SyntheticCheck
+    WHERE: entity.guid = '{entityGuid}' AND result='SUCCESS' 
+    ```
+
+    ここで、 `{entityGuid}` 合成チェックの GUID です。
+  </Collapser>
+</CollapserGroup>
+
 ## サービスレベルの作成と編集 [#create-edit]
 
-[UIの](https://one.newrelic.com/)いくつかの場所からSLIとSLOを作成できます。
+[UI の](https://one.newrelic.com)いくつかの場所から SLI と SLO を作成できます。
 
-* トップメニューの**サービスレベル**ビューから。 SLIは、ワークロードを含む、アカウント全体の任意のエンティティに関連付けることができます。
-* 任意の APM サービス、ブラウザ アプリケーション、または Synthetic モニターの \[**サービス レベル]**ページから。SLI は、その特定のエンティティに関連付けられます。この開始点を使用すると、New Relic は、利用可能な最新のデータに基づいて、このエンティティ タイプの最も一般的なサービス レベル インジケーターを自動的に作成します。
-* 任意のワークロードの **サービスレベル** タブから。SLI をワークロード内の任意のエンティティ、またはワークロード自体に関連付けることができます。
+* **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Service levels**に移動します。SLI は、ワークロードを含むアカウント全体の任意のエンティティに関連付けることができます。
 
-以下の手順に従ってください。
+* 任意の **Service levels** \[サービス レベル] ページから
+
+  <InlinePopover type="apm"/>
+
+  サービス、キー トランザクション、ブラウザ アプリケーション、または合成モニター。SLI はその特定のエンティティに関連付けられます。この開始点を使用すると、New Relic は、利用可能な最新のデータに基づいて、このエンティティ タイプの最も一般的なサービス レベル インジケーターを自動的に作成します。
+
+* 任意のワークロードの \[**サービス レベル**] タブから。SLI は、ワークロード内の任意のエンティティまたはワークロード全体に関連付けることができます。
+
+SLI の作成後、すぐにデータが表示されるわけではありません。最初の SLI 達成結果が表示されるまでに、数分の遅延が予想されます。デフォルトでは、データの保持期間は 13 か月です。
+
+サービス レベルは 1 つのアカウントにのみ関連付けることができることに注意してください。詳細については[、要件](#requirements)を参照してください。
+
+サービス レベルを作成するには、次の手順に従います。
 
 <CollapserGroup>
   <Collapser
@@ -344,7 +443,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     id="select-sli-source"
     title="SLIデータソースの選択"
   >
-    新しいSLIを定義するために、以下の2つのオプションのいずれかを選択します。
+    新しい SLI を定義するには、次の 3 つのオプションのいずれかを選択します。
 
     * **エンティティ データ**: SLI は、エージェントからの標準データまたは独自のカスタム イベントに基づいています。これは最も一般的なオプションです。これを選択する場合は、使用するエンティティ (APM サービスなど) を選択します。
     * **カスタム データ**: または、カスタム NRDB イベントまたはディメンション メトリックに基づいて SLI を作成することもできます。サービス レベル データを特定のエンティティに関連付けることができない場合、またはサービス レベルをワークロードに直接関連付ける場合は、このオプションを使用します。
@@ -363,7 +462,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     <img
       title="Suggested service levels"
       alt="Suggested service levels"
-      src={suggestedSli}
+      src={slmAddServiceLevelExample}
     />
 
     異なるタイプのエンティティを使用している場合、ディメンション メトリックをクエリする場合、または New Relic が提供するベースライン値をカスタマイズする場合は、必要に応じて SLI をカスタマイズできます。たとえば、 `WHERE`句を使用してヘルスチェックを除外できます。各クエリで異なるイベント タイプを使用することもできます。この場合、各有効なイベントが、適切なクエリまたは不適切なクエリの 1 つ以下のイベントにのみ対応していることを確認してください。
@@ -371,16 +470,89 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
     <img
       title="Custom service level"
       alt="Custom service level"
-      src={customSli}
+      src={slmEditServiceLevelExample}
     />
 
     データが収集されたアカウントは、SLIが参照しているエンティティのアカウントと一致します。各フィールドの内容については、上記のセクションを参照してください。
 
     右側には最終的なクエリが表示され、下部には過去数日間の有効なイベントと良い/悪いイベントの数のプレビューが表示されます。
 
-    <Callout variant="important">
-      現時点では、 `count()`と`sum()`の 2 つの集計関数がサポートされています。詳細については、 [FAQ](https://docs.newrelic.com/docs/service-level-management/faqs-slm)ページをご覧ください。
-    </Callout>
+    以下は、ディメンション メトリクスのパーセンテージ ベースの成功率の例です。これを SLI の有効/良好なイベントに変換してみましょう。
+
+    ```sql
+    FROM Metric
+    SELECT percentage(sum(scrooge_do_expire_count), 
+    WHERE status = 'success') AS 'Success Rate'
+    WHERE env='production' 
+    AND status != 'attempt'
+    ```
+
+    有効なクエリの場合、外側の`WHERE`句をコピーするだけです。
+
+    ```sql
+    FROM Metric
+    SELECT sum(scrooge_do_expire_count))
+    WHERE env='production'
+    AND status != 'attempt'
+    ```
+
+    良いイベントは、パーセンテージ関数の外側の`WHERE`句と`WHERE`句です。
+
+    ```sql
+    FROM Metric
+    SELECT sum(scrooge_do_expire_count))
+    WHERE env='production'
+    AND status != 'attempt'
+    AND status = 'success'
+    ```
+
+    現在サポートされている 4 つの集計関数は `count()` 、 `sum()` 、 `getField()` および `getCdfCount()`です。`Count` と `sum` すべてのイベント タイプで使用できますが、 `getField` と `getCdfCount` は **Metric**から選択した場合にのみ使用できます。
+
+    イベント データで `count()` 関数を使用して、有効/良好/不良イベントの数を数えます。
+
+    `sum()` 関数は、イベント データまたはディメンション メトリックに事前に集計されたカウンターがある場合に役立ちます。パラメータ、つまり合計に使用する属性が必要です。
+
+    `getField()` と `getCdfCount()` 関数を使用して、分布指標属性がしきい値を下回る、またはしきい値に達する頻度を確認します。どちらの関数にも属性が必要で、getCdfCount() には値を測定するためのしきい値も必要です。
+
+    `count()`を使用した例:
+
+    ```sql
+    FROM: JavaScriptError
+    SELECT count(*)
+    WHERE: entityGuid = '{entityGuid}' AND firstErrorInSession IS true
+    ```
+
+    `sum()`を使用した例:
+
+    ```sql
+    FROM ServerlessSample
+    SELECT sum(provider.errors.Sum)
+    WHERE awsAccountId = 'XXX'  And provider LIKE 'LambdaFunction%'
+    ```
+
+    `getField()` と `getCdfCount()`を組み合わせた使用例:
+
+    ```sql
+    FROM Metric
+    SELECT getField(`newrelic.goldenmetrics.synth.monitor.medianDurationS`, count) as 'Valid'
+
+    FROM Metric
+    SELECT getCdfCount(`newrelic.goldenmetrics.synth.monitor.medianDurationS`, 0.5) as 'Good'
+    ```
+
+    SLI クエリでワイルドカードを使用することもできます。例を次に示します。
+
+    ```sql
+    FROM ApiGatewaySample
+    SELECT sum(provider.cache%Count.Sum)
+    WHERE awsAccountId = 'XXX'
+    ```
+
+    <img
+      title="wilcards"
+      alt="wildcards"
+      src={slmWildcards}
+    />
   </Collapser>
 
   <Collapser
@@ -419,7 +591,7 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
       <img
         title="Service level tags"
         alt="Service level tags"
-        src={sliTags}
+        src={slmTagExamples}
       />
 
       最後に、オプションでそのサービスレベルの説明を追加できます。
@@ -428,20 +600,20 @@ OpenTelemetryのスパンに基づくと、これらのSLIはリクエストド�
 
 ### SLIの編集 [#edit-sli]
 
-SLI を作成したら、サービス レベル リスト ページから \[ **...** ] メニューをクリックしてから \[ `Edit` ] をクリックして、SLI を編集できます。
+SLI を作成したら、次に示すように、\[ **...** ] メニューをクリックしてから \[ `Edit` ] をクリックすることにより、サービス レベル リスト ページから編集できます。
 
 <img
-  title="Edit SLIs.png"
+  title="Edit SLIs"
   alt="Edit SLIs"
-  src={slmEditMenu2}
+  src={slmEditMenuOption}
 />
 
-または、 `Edit`をクリックして概要ページから。
+または、 `Edit`をクリックして、概要ページから同じことを行うことができます。
 
 <img
-  title="Edit SLIs summary page.png"
+  title="Edit SLIs summary page"
   alt="Edit SLIs summary page"
-  src={slmSummaryEdit}
+  src={slmSummaryEditButton}
 />
 
 ## SLM を最適化する [#optimize]

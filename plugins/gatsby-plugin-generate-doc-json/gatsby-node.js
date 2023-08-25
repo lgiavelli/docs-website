@@ -65,7 +65,7 @@ exports.onPostBuild = async ({ graphql, store }) => {
     {}
   );
 
-  allMdx.nodes.forEach((node) => {
+  allMdx.forEach((node) => {
     const { body: mdxBody, slug, mdxAST } = node;
 
     const filepath = path.join(program.directory, 'public', `${slug}.json`);

@@ -12,7 +12,7 @@ New Relic が監視している Java アプリケーションの場合、 [カ�
 
 ## UIでのXMLファイルの編集 [#ui]
 
-XML ファイルを New Relic の UI から直接編集する場合。 **[one.newrelic.com](https://one.newrelic.com) > APM> (select an app)> Settings> Instrumentation** にアクセスします。ここから以下のことができます。
+New Relic UI から XML ファイルを直接編集するには: **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > APM & services > (アプリを選択) > Settings > Instrumentation**に移動します。ここから次のことができます。
 
 * サンプルXMLファイルのダウンロード
 * 既存のXMLファイルを選択して編集します。
@@ -37,7 +37,7 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
       <thead>
         <tr>
           <th style={{ width: "150px" }}>
-            値
+            価値
           </th>
 
           <th>
@@ -97,7 +97,7 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
       <thead>
         <tr>
           <th style={{ width: "300px" }}>
-            値
+            価値
           </th>
 
           <th>
@@ -170,7 +170,7 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
       <thead>
         <tr>
           <th style={{ width: "200px" }}>
-            値
+            価値
           </th>
 
           <th>
@@ -280,7 +280,7 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
       <thead>
         <tr>
           <th style={{ width: "200px" }}>
-            値
+            価値
           </th>
 
           <th>
@@ -349,7 +349,7 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
     id="package-test"
     title="サンプルクラス"
   >
-    ```
+    ```java
     package test;
 
     import java.util.HashMap;
@@ -410,12 +410,13 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
     id="sample-xml-file"
     title="XMLインストルメントファイルのサンプルと説明"
   >
-    ```
+    ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <extension xmlns="https://newrelic.com/docs/java/xsd/v1.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="newrelic-extension extension.xsd "
-        name="customExtension" version="1.0">
+      xsi:schemaLocation="newrelic-extension extension.xsd"
+      name="customExtension" version="1.0">
+
       <instrumentation metricPrefix="EXAMPLE">
         <pointcut transactionStartPoint="true">
 
@@ -437,14 +438,16 @@ XMLファイル形式には、ルートノードとチャイルドノードが�
           </method>
         </pointcut>
 
-        <pointcut transactionStartPoint="false" ignoreTransaction="false"
+        <pointcut transactionStartPoint="false" 
+          ignoreTransaction="false"
           excludeFromTransactionTrace="false"
           metricNameFormat="SampleTester/methods">
+      
           <className>test.SampleTester</className>
           <method>
             <name>printMaxRepeat</name>
           </method>
-         <method>
+          <method>
             <name>printMax</name>
           </method>
         </pointcut>

@@ -103,7 +103,7 @@ New Relic에서 브라우저 모니터링을 사용하여 [사용자 정의 이�
     id="custom-attribute-forward-apm"
     title="APM 데이터에서 사용자 정의 속성 전달"
   >
-    APM 에이전트를 통해 APM `Transaction` 이벤트에 사용자 정의 속성을 추가한 경우 해당 사용자 정의 속성을 `PageView` 이벤트에 자동으로 전달할 수 있습니다.
+    사용자 정의 속성을 <InlinePopover type="apm"/>`Transaction` 이벤트를 APM 에이전트를 통해 자동으로 `PageView` 이벤트에 전달할 수 있습니다.
 
     1. [에이전트별 지침](/docs/insights/insights-data-sources/custom-data/add-custom-attributes-apm-data) 에 따라 맞춤 속성을 삽입합니다.
 
@@ -125,29 +125,19 @@ New Relic에서 브라우저 모니터링을 사용하여 [사용자 정의 이�
          <tbody>
            <tr>
              <td>
-               C SDK
-             </td>
-
-             <td>
-               지원되지 않습니다.
-             </td>
-           </tr>
-
-           <tr>
-             <td>
                가다
              </td>
 
              <td>
                속성을 활성화하려면 다음을 구성에 추가합니다(기본적으로 비활성화됨).
 
-               ```
+               ```go
                cfg.BrowserMonitoring.Attributes.Enabled = true
                ```
 
                그런 다음 포함할 속성을 추가합니다.
 
-               ```
+               ```go
                cfg.BrowserMonitoring.Attributes.Include = []string{"request.*"}
                ```
              </td>
@@ -171,16 +161,16 @@ New Relic에서 브라우저 모니터링을 사용하여 [사용자 정의 이�
              <td>
                [`<attributes enabled="true">`](/docs/agents/net-agent/installation-configuration/net-agent-configuration#browser-attributes) 요소를 `browserMonitoring` 요소의 하위로 추가합니다.
 
-               ```
+               ```xml
                <configuration xmlns="urn:newrelic-config">
-                 <var>...</var>
+                 ...
                  <browserMonitoring autoInstrument="true">
-                   <var>...</var>
+                   ...
                    <attributes enabled="true">
-                     <var>...</var>
+                     ...
                    </attributes>
                  </browserMonitoring>
-                 <var>...</var>
+                 ...
                </configuration>
                ```
 
@@ -194,7 +184,7 @@ New Relic에서 브라우저 모니터링을 사용하여 [사용자 정의 이�
              </td>
 
              <td>
-               앱 `newrelicjs` 구성 파일의 `browser_monitoring: {` 섹션에 [`attributes: {enabled: true}`](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration#browser-debug-enabled) 을 추가합니다.
+               앱 `newrelic.js` 구성 파일의 `browser_monitoring` 섹션에 [`attributes: {enabled: true}`](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration#browser-debug-enabled) 을 추가합니다.
              </td>
            </tr>
 
@@ -270,9 +260,9 @@ New Relic에서 브라우저 모니터링을 사용하여 [사용자 정의 이�
       </td>
 
       <td>
-        쿼리할 때 `PageAction` 이벤트가 표시되지 않으면 계정 [이 호환되는지](#requirements) 확인하십시오.
+        쿼리할 때 `PageAction` 이벤트가 표시되지 않으면 [요구 사항](#requirements)을 검토하십시오.
 
-        계정이 호환되는 경우 [예약된 속성 이름이나 잘못된 값](/docs/insights/new-relic-insights/adding-querying-data/inserting-custom-events-insights-api#limits) 을 사용하고 있지 않은지 확인하세요.
+        요구 사항이 충족되면 [예약된 속성 이름이나 유효하지 않은 값을](/docs/insights/new-relic-insights/adding-querying-data/inserting-custom-events-insights-api#limits)사용하고 있지 않은지 확인하세요.
       </td>
     </tr>
   </tbody>

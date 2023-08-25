@@ -8,9 +8,9 @@ metaDescription: 'New Relic''s Microsoft SQL Server integration: how to install 
 translationType: machine
 ---
 
-import windows from 'images/windows.png';
+import osLinux from 'images/os_icon_linux.webp'
 
-import linux from 'images/linux.png';
+import osWindows from 'images/os_icon_windows.webp'
 
 Microsoft SQL Server[統合](/docs/integrations/host-integrations/getting-started/introduction-host-integrations)は、MS SQL Server環境からプラットフォームにインベントリとメトリックを収集して送信します。プラットフォームでは、MSSQLServer環境の状態を確認できます。問題の原因を特定できるように、データベースとインスタンスレベルの両方のメトリックを収集します。
 
@@ -26,17 +26,21 @@ Microsoft SQL Server統合をインストールするには、次の手順を実
 
 ### MicrosoftSQLServerのバージョン [#microsoft-sql-server-versions]
 
-当社の統合は、Microsoft SQL Server 2008R2SP3以降と互換性があります。
+この統合は、2014 年から 2022 年までの Microsoft SQL Server バージョンと互換性があります。
+
+### TLS サポート [#supported-tls]
+
+TLS 認証は TLS 1.2 の最小バージョンである必要があります。
 
 ### 対応するオペレーティング・システム [#supported-os]
 
-* Windows
+* ウィンドウズ
 
-  <img style={{ width: '32px', height: '32px'}} class="inline" title="Windows" alt="Windows" src={windows}/>
+  <img style={{ width: '32px', height: '32px'}} class="inline" title="Windows" alt="Windows" src={osWindows}/>
 
 * Linux
 
-  <img style={{ width: '32px', height: '32px'}} class="inline" title="Linux" alt="Linux" src={linux}/>
+  <img style={{ width: '32px', height: '32px'}} class="inline" title="Linux" alt="Linux" src={osLinux}/>
 
 特定のWindowsバージョンの包括的なリストについては、 [互換性のあるオペレーティングシステム](/docs/infrastructure/install-infrastructure-agent/get-started/requirements-infrastructure-agent/#operating-systems)の表を確認してください。
 
@@ -79,7 +83,7 @@ Microsoft SQL Server統合をインストールするには：
 
 3. `C:\Program Files\New Relic\newrelic-infra\integrations.d\`に移動し、 `mssql-config.yml.sample`ファイルの名前を`mssql-config.yml`に変更します。
 
-4. お気に入りのエディターで`mssql-config.yml`構成ファイルを編集します。いくつかの[優れた構成ファイルの例を確認してください。](#examples) 。
+4. お気に入りのエディタで `mssql-config.yml` 構成ファイルを編集します。いくつかの [構成ファイルの例を確認してください。](#examples) 。
 
 5. Infrastructureエージェントを再起動します。[さまざまなLinux環境でInfrastructureエージェントを再起動する](/docs/infrastructure/install-infrastructure-agent/manage-your-agent/start-stop-restart-infrastructure-agent/#linux)方法を参照してください。
 
@@ -171,6 +175,8 @@ Microsoft SQL Serverを監視するには、 `CONNECT` 、 `VIEW SERVER STATE` �
   </Collapser>
 </CollapserGroup>
 
+<InstallFeedback/>
+
 ## 統合を構成する [#config]
 
 統合のYAML構成ファイル`mssql-config.yml`の構成を編集します。統合のYAML形式の構成では、必要なログイン資格情報を配置し、データの収集方法を構成できます。どのオプションを変更するかは、セットアップと設定によって異なります。[設定ファイルの例](#examples)を確認できます。
@@ -178,7 +184,7 @@ Microsoft SQL Serverを監視するには、 `CONNECT` 、 `VIEW SERVER STATE` �
 構成ファイルには、 `interval` 、 `timeout` 、 `inventory_source`などのすべての統合に適用できる共通の設定があります。これらの一般的な設定についてすべて読むには、 [構成フォーマット](/docs/create-integrations/infrastructure-integrations-sdk/specifications/host-integrations-newer-configuration-format/#configuration-basics)のドキュメントを参照してください。
 
 <Callout variant="important">
-  レガシー設定および定義ファイルを引き続き使用する場合は、この[ドキュメント](/docs/create-integrations/infrastructure-integrations-sdk/specifications/host-integrations-standard-configuration-format/)を参照してください。
+  レガシー構成および定義ファイルをまだ使用している場合は、この [ドキュメント](/docs/create-integrations/infrastructure-integrations-sdk/specifications/host-integrations-standard-configuration-format/) を参照してください。
 </Callout>
 
 ## mssql-config.ymlサンプルファイル [#examples]
@@ -263,7 +269,7 @@ Microsoft SQL Serverを監視するには、 `CONNECT` 、 `VIEW SERVER STATE` �
     id="multi-instance"
     title="マルチインスタンス接続"
   >
-    この構成は、同じSQLServer上の`mssql_instance1` }インスタンスと`mssql_instance1`インスタンスを監視します。インスタンスに直接接続する場合は、 `PORT`設定を削除する必要があります。 SQLブラウザサービスもサーバー上で実行されている必要があります。
+    この構成は、同じSQLServer上の`mssql_instance1` }インスタンスと`mssql_instance2`インスタンスを監視します。インスタンスに直接接続する場合は、 `PORT`設定を削除する必要があります。 SQLブラウザサービスもサーバー上で実行されている必要があります。
 
     ```yaml
     integrations:
@@ -335,6 +341,11 @@ Microsoft SQL Serverを監視するには、 `CONNECT` 、 `VIEW SERVER STATE` �
           environment: production
         inventory_source: config/mssql
     ```
+
+    次の点に注意してください。
+
+    * `ENABLE_BUFFER_METRICS`を有効にすると、 `sys.sysdatabases`および`sys.dm_os_buffer_descriptors`内部テーブルを含むクエリの実行が開始され、各データベースのバッファのプール サイズが取得されます。このクエリは、一部の SQL Server でオーバーヘッドを引き起こす可能性があります。`ENABLE_BUFFER_METRICS`を無効にすると、メトリック`bufferpool.sizePerDatabaseInBytes` MssqlDatabaseSample で報告されず、 `buferpool.sizeInBytes` MssqlInstanceSample で報告されません。
+    * `ENABLE_DATABASE_RESERVE_METRICS`を有効にすると、データベースごとに予約サイズが照会され、サイズと使用状況によってはサーバーに負荷がかかる場合があります。無効にすると、 `pageFileTotal`と`pageFileAvailable`両方のメトリックが MssqlDatabaseSample で報告されなくなります。
   </Collapser>
 
   <Collapser
@@ -420,7 +431,7 @@ Microsoft SQL Serverを監視するには、 `CONNECT` 、 `VIEW SERVER STATE` �
 
 ## データを見つけて使用する [#find-and-use]
 
-統合データを見つけるには、 [**one.newrelic.com**](http://one.newrelic.com) **>インフラストラクチャ>サードパーティサービス**に移動し、MicrosoftSQLServer統合リンクの1つを選択します。
+統合データを見つけるには、 **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > Third-party services** に移動し、Microsoft SQL Server 統合リンクの 1 つを選択します。
 
 Microsoft SQL Serverのデータは、次の[イベントタイプ](/docs/using-new-relic/welcome-new-relic/getting-started/glossary#event)に関連付けられています。
 
@@ -462,7 +473,7 @@ Microsoft SQL Server統合は、次のメトリックデータ属性を収集し
           </td>
 
           <td>
-            データベースごとのバッファープールのサイズ。
+            データベースごとのバッファー プールのサイズ。`ENABLE_BUFFER_METRICS` true に設定されている場合に報告されます。
           </td>
         </tr>
 
@@ -492,7 +503,7 @@ Microsoft SQL Server統合は、次のメトリックデータ属性を収集し
           </td>
 
           <td>
-            使用可能なページファイルサイズ（バイト単位）。
+            使用可能なページ ファイルのサイズ (バイト単位)。`ENABLE_DATABASE_RESERVE_METRICS` true に設定されている場合に報告されます。
           </td>
         </tr>
 
@@ -502,7 +513,7 @@ Microsoft SQL Server統合は、次のメトリックデータ属性を収集し
           </td>
 
           <td>
-            合計ページファイルサイズ（バイト単位）。
+            合計ページ ファイル サイズ (バイト単位)。`ENABLE_DATABASE_RESERVE_METRICS` true に設定されている場合に報告されます。
           </td>
         </tr>
       </tbody>
@@ -585,7 +596,7 @@ Microsoft SQL Server統合は、次のメトリックデータ属性を収集し
           </td>
 
           <td>
-            バッファプールのサイズ（バイト単位）。
+            バッファー プールのサイズ (バイト単位)。`ENABLE_BUFFER_METRICS` true に設定されている場合に報告されます。
           </td>
         </tr>
 

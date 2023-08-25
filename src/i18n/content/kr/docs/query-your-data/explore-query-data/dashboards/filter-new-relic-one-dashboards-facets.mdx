@@ -8,13 +8,13 @@ metaDescription: 'New Relic dashboards: You can use facet filtering to filter da
 translationType: machine
 ---
 
-import facetfiltering01Bis from 'images/facetfiltering01bis.png'
+import dashboardsFacetFiltering from 'images/dashboards_screenshot-crop_facet-filtering.webp'
 
-import facetfiltering02 from 'images/facetfiltering02.png'
+import dashboardsFacetFilteringExample from 'images/dashboards_screenshot-crop_facet-filtering-example.webp'
 
-import facetCases01 from 'images/facet_cases_01.png'
+import dashboardsFacetCases from 'images/dashboards_screenshot-crop_facet-cases.webp'
 
-import facetCases02 from 'images/facet_cases_02.png'
+import dashboardsFacetCasesExample from 'images/dashboards_screenshot-crop_facet-cases-example.webp'
 
 패싯 속성별로 [New Relic 대시보드](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) 를 필터링하여 대시보드를 보다 대화식으로 만들고 사용하기 쉽게 만들 수 있습니다.
 
@@ -41,11 +41,11 @@ UI의 기존 대시보드에 대해 다음 패싯이 포함된 NRQL 쿼리를 �
 <img
   title="facetfiltering01bis.png"
   alt="facetfiltering01bis.png"
-  src={facetfiltering01Bis}
+  src={dashboardsFacetFiltering}
 />
 
 <figcaption>
-  **[one.newrelic.com](https://one.newrelic.com) > Dashboards** : `FACET` 절을 포함하고 [차트 유형 요구 사항](#requirements) 을 충족하는 쿼리의 경우 해당 속성을 설정하여 간편한 대시보드 필터로 사용할 수 있습니다. 속성을 설정하여 현재 있는 대시보드를 필터링하거나 선택한 관련 대시보드를 필터링할 수 있습니다.
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Dashboards**: `FACET` 절을 포함하고 [차트 유형 요구 사항을](#requirements) 충족하는 쿼리의 경우 해당 속성을 설정하여 간편한 대시보드 필터로 사용할 수 있습니다. 현재 있는 대시보드를 필터링하거나 선택한 관련 대시보드를 필터링하도록 속성을 설정할 수 있습니다.
 </figcaption>
 
 **현재 대시보드 필터링** 을 선택하면 해당 차트가 사용 가능한 `userAgentName` 속성으로 현재 대시보드를 필터링하는 데 사용됩니다. 다음은 해당 대시보드를 필터링하기 위해 해당 속성 중 하나를 선택하는 보기입니다. 선택한 속성이 상단의 검색 표시줄에 필터로 나타납니다.
@@ -53,14 +53,14 @@ UI의 기존 대시보드에 대해 다음 패싯이 포함된 NRQL 쿼리를 �
 <img
   title="facetfiltering02.png"
   alt="facetfiltering02.png"
-  src={facetfiltering02}
+  src={dashboardsFacetFilteringExample}
 />
 
 <figcaption>
-  **[one.newrelic.com](https://one.newrelic.com) > Dashboards** : 패싯 필터링에 대해 설정한 속성을 선택하면 현재 대시보드가 필터링됩니다.
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Dashboards**: 패싯 필터링을 위해 설정한 속성을 선택하면 현재 대시보드를 필터링합니다.
 </figcaption>
 
-이 기능에 대한 자세한 내용은 [패싯 필터링에 대한 Explorers Hub 게시물을](https://discuss.newrelic.com/t/facet-linking-in-new-relic-one-now-you-can-use-facets-to-filter-your-new-relic-one-dashboards/82289) 참조하세요.
+이 기능에 대한 자세한 내용은 [패싯 필터링에 대한 지원 포럼 게시물을](https://discuss.newrelic.com/t/facet-linking-in-new-relic-one-now-you-can-use-facets-to-filter-your-new-relic-one-dashboards/82289) 참조하십시오.
 
 ## FACET CASES 절을 사용한 패싯 연결 [#facet-linking-cases]
 
@@ -77,7 +77,7 @@ FROM Transaction  FACET appName LIMIT 5 since 5 minutes ago
 <img
   title="facet_cases_01.png"
   alt="facet_cases_01.png"
-  src={facetCases01}
+  src={dashboardsFacetCases}
 />
 
 FACET CASES를 사용하면 여러 복잡한 조건을 보다 효율적으로 사용하여 사용자 정의 패싯 세트를 생성할 수 있습니다. 이전 예를 바탕으로 기간 데이터에서 오류를 제외하고 세 번째 범주에 추가하는 복합 조건을 포함하려고 한다고 가정해 보겠습니다.
@@ -90,7 +90,7 @@ FROM Transaction FACET CASES (where duration > 1 and error is NULL as 'UNACCEPTA
 <img
   title="facet_cases_02.png"
   alt="facet_cases_02.png"
-  src={facetCases02}
+  src={dashboardsFacetCasesExample}
 />
 
 그런 다음 패싯 연결을 사용하여 해당 패싯별로 대시보드를 필터링할 수 있습니다.

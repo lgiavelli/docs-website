@@ -6,27 +6,37 @@ tags:
   - workflows
   - Enrichments
   - Issues
-metaDescription: 'For applied intelligence, an explanations of the variables used for workflows.'
+metaDescription: 'For New Relic applied intelligence, an explanations of the variables used for workflows.'
 translationType: machine
 ---
 
-[워크플로](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows) 에 사용되는 변수에 대한 설명입니다.
+import alertsWorkflowVariables from 'images/alerts_screenshot-crop_workflow-variables.webp'
+
+New Relic 응용 인텔리전스 [워크플로](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows)에 사용되는 변수에 대한 설명입니다.
+
+<img
+  title="Applied intelligence workflow variables"
+  alt="Applied intelligence workflow variables"
+  src={alertsWorkflowVariables}
+/>
+
+<figcaption>
+  워크플로를 만들 때 변수를 사용하여 a) 알림을 생성할 문제 유형을 관리하고 b) 알림 페이로드의 콘텐츠에 포함할 항목을 지정할 수 있습니다. 이 스크린샷은 알림 페이로드 섹션을 보여줍니다.
+</figcaption>
 
 ## 변수 [#variables]
 
-문제 엔터티의 변수를 사용하여 알림에 표시되는 메시지 템플릿뿐만 아니라 보내려는 문제의 종류를 선택합니다.
-
-다음은 포괄적인 변수 목록입니다.
+다음은 워크플로 변수 및 해당 설명입니다.
 
 <table>
   <thead>
     <tr>
       <th style={{ width: "200px" }}>
-        키(첫 단어는 그룹화에 사용됨)
+        키(그룹화에 사용되는 첫 번째 단어)
       </th>
 
       <th>
-        표시 이름(첫 단어는 그룹화에 사용됨)
+        표시 이름(그룹화에 사용되는 첫 번째 단어)
       </th>
 
       <th>
@@ -46,7 +56,7 @@ translationType: machine
       </td>
 
       <td>
-        조건의 사용자 지정 위반 설명
+        조건의 사용자 지정 인시던트 설명입니다.
       </td>
     </tr>
 
@@ -60,7 +70,7 @@ translationType: machine
       </td>
 
       <td>
-        위반을 생성한 인시던트 감지 조건의 ID
+        인시던트를 생성한 인시던트 감지 조건의 ID입니다.
       </td>
     </tr>
 
@@ -74,13 +84,83 @@ translationType: machine
       </td>
 
       <td>
-        New Relic 위반 조건
+        New Relic이 조건을 위반했습니다.
       </td>
     </tr>
 
     <tr>
       <td>
-        축적.원점
+        축적.조건제품
+      </td>
+
+      <td>
+        경보 조건 제품
+      </td>
+
+      <td>
+        New Relic 상태 유형.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.deepLinkUrl
+      </td>
+
+      <td>
+        인시던트 콜백 URL
+      </td>
+
+      <td>
+        관련 인시던트 콜백에 대한 직접 링크.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.평가.metricValueFunction
+      </td>
+
+      <td>
+        맞춤 측정항목 값 함수
+      </td>
+
+      <td>
+        사용자 정의 메트릭 값 함수.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.평가.이름
+      </td>
+
+      <td>
+        <InlinePopover type="apm"/>조건 메트릭 이름
+      </td>
+
+      <td>
+        <InlinePopover type="apm"/>조건 메트릭 이름
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.nrqlQuery
+      </td>
+
+      <td>
+        NRQL 쿼리
+      </td>
+
+      <td>
+        조건의 NRQL 쿼리입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.원산지
       </td>
 
       <td>
@@ -88,7 +168,7 @@ translationType: machine
       </td>
 
       <td>
-        문제를 만든 New Relic 또는 제3자 출처
+        New Relic 또는 인시던트를 생성한 타사 소스.
       </td>
     </tr>
 
@@ -102,21 +182,105 @@ translationType: machine
       </td>
 
       <td>
-        위반을 생성한 인시던트 감지 정책 이름
+        인시던트를 생성한 인시던트 감지 정책 이름입니다.
       </td>
     </tr>
 
     <tr>
       <td>
-        축적.소스
+        축적.runbookUrl
       </td>
 
       <td>
-        문제 소스
+        런북 URL
       </td>
 
       <td>
-        소스에서 보고한 타겟 시스템
+        Runbook URL 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.출처
+      </td>
+
+      <td>
+        문제 출처
+      </td>
+
+      <td>
+        인시던트를 보고하는 시스템.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.태그.계정
+      </td>
+
+      <td>
+        New Relic 계정
+      </td>
+
+      <td>
+        New Relic 계정.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.태그.영향 서비스
+      </td>
+
+      <td>
+        영향을 받는 서비스
+      </td>
+
+      <td>
+        영향을 받는 서비스 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.태그.할당그룹
+      </td>
+
+      <td>
+        할당 그룹
+      </td>
+
+      <td>
+        할당 그룹 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        축적.태그.원인서비스
+      </td>
+
+      <td>
+        원인 서비스
+      </td>
+
+      <td>
+        원인 서비스 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        인정
+      </td>
+
+      <td>
+        인정
+      </td>
+
+      <td>
+        문제를 인정한 사용자입니다.
       </td>
     </tr>
 
@@ -126,11 +290,11 @@ translationType: machine
       </td>
 
       <td>
-        활성화된 문제
+        문제가 활성화된 시간
       </td>
 
       <td>
-        이슈 활성화 타임스탬프
+        문제 활성화의 타임스탬프입니다.
       </td>
     </tr>
 
@@ -144,7 +308,7 @@ translationType: machine
       </td>
 
       <td>
-        모든 사건 설명 목록
+        모든 인시던트 설명 목록입니다.
       </td>
     </tr>
 
@@ -158,7 +322,35 @@ translationType: machine
       </td>
 
       <td>
-        모든 사건 제목 목록
+        모든 인시던트 제목의 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        주석.와일드카드
+      </td>
+
+      <td>
+        경고 패싯
+      </td>
+
+      <td>
+        경고 패싯.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        폐쇄자
+      </td>
+
+      <td>
+        휴무일
+      </td>
+
+      <td>
+        이슈를 종료한 사용자의 ID입니다.
       </td>
     </tr>
 
@@ -172,7 +364,21 @@ translationType: machine
       </td>
 
       <td>
-        이슈 종결의 타임스탬프, 이슈가 종결되지 않은 경우 null
+        문제 종료의 타임스탬프. 이슈가 종료되지 않은 경우 Null입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        종료된 사고 수
+      </td>
+
+      <td>
+        종료된 인시던트 수
+      </td>
+
+      <td>
+        이 문제에 대해 종료된 인시던트의 총 수입니다.
       </td>
     </tr>
 
@@ -186,7 +392,49 @@ translationType: machine
       </td>
 
       <td>
-        이슈 생성 타임스탬프
+        문제 생성의 타임스탬프.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        dataMLModules.components
+      </td>
+
+      <td>
+        기계 학습 구성 요소
+      </td>
+
+      <td>
+        New Relic 응용지능 머신러닝 구성요소 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        dataMLModules.goldenSignals
+      </td>
+
+      <td>
+        기계 학습 황금 신호
+      </td>
+
+      <td>
+        New Relic 응용지능 머신러닝 골든 시그널 목록입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        dataMLModules.suggestedResponders
+      </td>
+
+      <td>
+        기계 학습 제안 응답자
+      </td>
+
+      <td>
+        (더 이상 사용되지 않음) New Relic 응용 인텔리전스 머신 러닝이 제안한 대응자 목록입니다.
       </td>
     </tr>
 
@@ -196,11 +444,11 @@ translationType: machine
       </td>
 
       <td>
-        영향을 받는 개체 데이터
+        영향을 받는 엔터티 데이터
       </td>
 
       <td>
-        영향을 받는 개체 이름, ID, 유형 및 종류를 설명하는 개체 목록
+        영향을 받는 엔터티 이름, ID, 유형 및 종류를 설명하는 개체 목록입니다.
       </td>
     </tr>
 
@@ -210,11 +458,11 @@ translationType: machine
       </td>
 
       <td>
-        영향을 받는 엔티티 ID
+        영향을 받는 엔터티 ID
       </td>
 
       <td>
-        영향을 받는 모든 엔티티 ID 세트
+        영향을 받는 모든 엔터티 ID 집합입니다.
       </td>
     </tr>
 
@@ -224,11 +472,11 @@ translationType: machine
       </td>
 
       <td>
-        영향을 받는 개체 종류
+        영향을 받는 엔터티 종류
       </td>
 
       <td>
-        영향을 받는 모든 엔터티 종류의 집합
+        영향을 받는 모든 엔터티 종류의 집합입니다.
       </td>
     </tr>
 
@@ -238,11 +486,11 @@ translationType: machine
       </td>
 
       <td>
-        영향을 받는 개체 이름
+        영향을 받는 엔터티 이름
       </td>
 
       <td>
-        영향을 받는 모든 엔티티 이름 세트
+        영향을 받는 모든 엔터티 이름의 집합입니다.
       </td>
     </tr>
 
@@ -252,11 +500,25 @@ translationType: machine
       </td>
 
       <td>
-        영향을 받는 개체 유형
+        영향을 받는 엔터티 유형
       </td>
 
       <td>
-        영향을 받는 모든 엔터티 유형 집합
+        영향을 받는 모든 엔터티 유형의 집합입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        영향을 받는 개체 수
+      </td>
+
+      <td>
+        영향을 받는 항목 수
+      </td>
+
+      <td>
+        이 문제에 영향을 받는 엔터티의 수입니다.
       </td>
     </tr>
 
@@ -270,7 +532,7 @@ translationType: machine
       </td>
 
       <td>
-        문제의 모든 집계된 인시던트 목록
+        모든 문제의 집계된 인시던트 목록입니다.
       </td>
     </tr>
 
@@ -280,11 +542,53 @@ translationType: machine
       </td>
 
       <td>
-        문제는 상관 관계가 있습니다.
+        문제가 연관되어 있습니다.
       </td>
 
       <td>
-        문제가 관련되어 있습니까?
+        문제가 상관 관계가 있는 경우(참, 거짓).
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        승인됨
+      </td>
+
+      <td>
+        문제가 확인됨
+      </td>
+
+      <td>
+        문제가 확인된 경우(true, false).
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        issueAckUrl
+      </td>
+
+      <td>
+        문제 확인 URL
+      </td>
+
+      <td>
+        문제를 확인하는 직접 링크.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        issueCloseUrl
+      </td>
+
+      <td>
+        닫기 URL 발행
+      </td>
+
+      <td>
+        문제를 종료하는 직접 링크.
       </td>
     </tr>
 
@@ -298,7 +602,7 @@ translationType: machine
       </td>
 
       <td>
-        관련 문제 페이지에 대한 직접 링크
+        관련 문제 페이지로 직접 연결되는 링크입니다.
       </td>
     </tr>
 
@@ -312,7 +616,7 @@ translationType: machine
       </td>
 
       <td>
-        UTC의 문제 활성화 문자열 형식
+        UTC에서 문제 활성화의 문자열 형식입니다.
       </td>
     </tr>
 
@@ -326,7 +630,7 @@ translationType: machine
       </td>
 
       <td>
-        UTC로 된 이슈 종결의 문자열 형식
+        UTC로 발행된 문제 종결의 문자열 형식입니다.
       </td>
     </tr>
 
@@ -340,7 +644,63 @@ translationType: machine
       </td>
 
       <td>
-        UTC로 문제 생성의 문자열 형식
+        UTC에서 문제 생성의 문자열 형식입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        문제 확인 시간
+      </td>
+
+      <td>
+        AcknowledgedAt 문자열 문제
+      </td>
+
+      <td>
+        UTC로 확인된 문제의 문자열 형식입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        발행종료시간
+      </td>
+
+      <td>
+        ClosedAt 문자열 문제
+      </td>
+
+      <td>
+        UTC로 발행된 문제 종결의 문자열 형식입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        issueDurationMs
+      </td>
+
+      <td>
+        발행 기간(밀리초)
+      </td>
+
+      <td>
+        문제가 발생한 이후 경과된 시간(밀리초)입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        issueDurationText
+      </td>
+
+      <td>
+        텍스트 발행 기간
+      </td>
+
+      <td>
+        문제 기간에 대한 인간 친화적인 표현.
       </td>
     </tr>
 
@@ -354,7 +714,35 @@ translationType: machine
       </td>
 
       <td>
-        문제의 고유 ID
+        문제의 고유 ID입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        issueTitle
+      </td>
+
+      <td>
+        문제 제목
+      </td>
+
+      <td>
+        일반적으로 첫 번째 사건의 제목입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        문제업데이트된 시간
+      </td>
+
+      <td>
+        UpdatedAt UTC 문자열 문제
+      </td>
+
+      <td>
+        문제 업데이트의 타임스탬프(UTC).
       </td>
     </tr>
 
@@ -364,11 +752,11 @@ translationType: machine
       </td>
 
       <td>
-        환경 관련 계정 ID 발급
+        발급 환경 관련 계정 ID
       </td>
 
       <td>
-        New Relic 응용 인텔리전스 환경 관련 계정 ID
+        New Relic 적용 인텔리전스 환경 연동 계정 아이디입니다.
       </td>
     </tr>
 
@@ -382,7 +770,7 @@ translationType: machine
       </td>
 
       <td>
-        New Relic 인시던트 감지 원래 인시던트 ID
+        New Relic 사건 감지 원본 사건 ID.
       </td>
     </tr>
 
@@ -392,11 +780,11 @@ translationType: machine
       </td>
 
       <td>
-        레이블 계정 ID
+        라벨 계정 ID
       </td>
 
       <td>
-        사고 감지 정책의 계정 ID
+        사고 감지 정책의 계정 ID입니다.
       </td>
     </tr>
 
@@ -406,11 +794,95 @@ translationType: machine
       </td>
 
       <td>
-        레이블 경고 정책 ID
+        경고 정책 ID 레이블 지정
       </td>
 
       <td>
-        위반을 생성한 인시던트 감지 정책 ID
+        인시던트를 생성한 인시던트 감지 정책 ID입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        labels.targetId
+      </td>
+
+      <td>
+        대상 ID
+      </td>
+
+      <td>
+        대상 ID.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        음소거 상태
+      </td>
+
+      <td>
+        음소거 상태 문제
+      </td>
+
+      <td>
+        문제의 계산된 음소거 상태(MUTED, NOT_MUTED).
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        nrAccountId
+      </td>
+
+      <td>
+        계정 ID
+      </td>
+
+      <td>
+        계정 ID.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        openIncidentsCount
+      </td>
+
+      <td>
+        진행 중인 인시던트 수
+      </td>
+
+      <td>
+        이 문제에 대해 열려 있는 총 인시던트 수입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        소유자
+      </td>
+
+      <td>
+        소유자
+      </td>
+
+      <td>
+        문제를 인정한 사람입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        정책 URL
+      </td>
+
+      <td>
+        알림 정책 URL
+      </td>
+
+      <td>
+        경고 정책 URL.
       </td>
     </tr>
 
@@ -420,11 +892,11 @@ translationType: machine
       </td>
 
       <td>
-        이슈 우선순위
+        문제 우선 순위
       </td>
 
       <td>
-        문제의 우선 순위 수준
+        문제의 우선 순위 수준(CRITICAL, HIGH, MEDIUM, LOW).
       </td>
     </tr>
 
@@ -434,11 +906,25 @@ translationType: machine
       </td>
 
       <td>
-        문제 우선순위 텍스트
+        문제 우선 순위 텍스트
       </td>
 
       <td>
-        소문자로 우선순위 발행
+        소문자로 우선순위를 발행합니다(Critical, High, Medium, Low).
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        실제 문제 수
+      </td>
+
+      <td>
+        문제 수
+      </td>
+
+      <td>
+        문제 수.
       </td>
     </tr>
 
@@ -452,7 +938,7 @@ translationType: machine
       </td>
 
       <td>
-        문제의 현재 상태
+        문제의 수명 주기 상태(CREATED, ACTIVATED, CLOSED).
       </td>
     </tr>
 
@@ -466,7 +952,7 @@ translationType: machine
       </td>
 
       <td>
-        소문자의 문제 상태
+        이슈의 수명 주기 상태 소문자(활성(열림), 닫힘).
       </td>
     </tr>
 
@@ -476,11 +962,11 @@ translationType: machine
       </td>
 
       <td>
-        문제 상태
+        문제 연관성 상태
       </td>
 
       <td>
-        문제의 현재 병합 상태
+        문제의 상관 관계 상태입니다.
       </td>
     </tr>
 
@@ -494,7 +980,7 @@ translationType: machine
       </td>
 
       <td>
-        문제에서 집계되거나 상관 관계가 있는 인시던트 수
+        문제에서 집계되거나 상관 관계가 있는 인시던트 수입니다.
       </td>
     </tr>
 
@@ -504,11 +990,11 @@ translationType: machine
       </td>
 
       <td>
-        문제가 트리거된 시간
+        문제 발생 시점
       </td>
 
       <td>
-        발행된 문제 알림의 타임스탬프
+        트리거된 문제 알림의 타임스탬프입니다.
       </td>
     </tr>
 
@@ -522,7 +1008,7 @@ translationType: machine
       </td>
 
       <td>
-        알림 트리거 이벤트
+        알림 트리거 이벤트(STATE_CHANGE, INCIDENT_ADDED, INCIDENT_CLOSED, CLOSE_INACTIVE, CLOSED_TTL, USER_ACTION, PRIORITY_CHANGED, MERGE_REQUEST).
       </td>
     </tr>
 
@@ -532,11 +1018,25 @@ translationType: machine
       </td>
 
       <td>
-        문제 업데이트 날짜
+        업데이트된 문제
       </td>
 
       <td>
-        문제의 타임스탬프가 마지막으로 업데이트됨
+        마지막으로 업데이트된 문제의 타임스탬프입니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        위반 차트 URL
+      </td>
+
+      <td>
+        사고 차트 URL
+      </td>
+
+      <td>
+        인시던트 차트 이미지에 링크합니다.
       </td>
     </tr>
 
@@ -550,7 +1050,7 @@ translationType: machine
       </td>
 
       <td>
-        트리거된 워크플로의 이름
+        트리거된 워크플로의 이름입니다.
       </td>
     </tr>
   </tbody>
@@ -561,7 +1061,7 @@ translationType: machine
 조건을 위반한 항목에 대한 정보를 얻으려면 쿼리의 `where` 문의 일부로 맞춤 변수를 사용할 수 있습니다. 예를 들어 EC2 인스턴스의 상태를 가져오려면 다음을 사용합니다.
 
 ```
-SELECT latest(ec2State) FROM ComputeSample where provider = 'Ec2Instance' and entityName in <var>{{entitiesData.names}}</var>
+SELECT latest(ec2State) FROM ComputeSample where provider = 'Ec2Instance' and entityName in {{entitiesData.names}}
 ```
 
 이 쿼리는 단일 필드만 사용하므로 단일 값(예: `stopped` )을 반환합니다. 변수 `entitiesData.names` 은 항목의 식별자 목록입니다. 같은 방식으로 다른 엔터티 속성을 사용할 수 있습니다.
@@ -617,7 +1117,7 @@ SELECT latest(ec2State) FROM ComputeSample where provider = 'Ec2Instance' and en
     id="transaction-failures"
     title="트랜잭션 실패 쿼리"
   >
-    애플리케이션 트랜잭션이 실패한 시점을 알고 싶을 때가 있습니다. 이 쿼리는 경고 정책 임계값을 위반한 <var>&#x7B;&#x7B;entitiesData.names}}</var> 변수로 필터링된 최신 HTTP 상태 코드 응답을 보여줍니다.
+    애플리케이션 트랜잭션이 실패한 시기를 알고 싶을 때가 있습니다. 이 쿼리는 &#x7B;&#x7B;entitiesData.names}}로 필터링된 최신 HTTP 상태 코드 응답을 보여줍니다. 경고 정책 임계값을 위반한 변수입니다.
 
     ```
     From Transaction select latest(http.statusCode), average(duration) where appName in {{entitiesData.names}}

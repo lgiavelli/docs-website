@@ -13,11 +13,11 @@ redirects:
   - /docs/apm/agents/python-agent/installation-configuration/python-agent-configuration
 ---
 
-import diagramPythonConfigPrecedence0 from 'images/diagram-python-config-precedence_0.png'
+import apmConfigSettings from 'images/apm_diagram_config-settings.webp'
 
 [Our Python agent](/docs/agents/python-agent/getting-started/introduction-new-relic-python) lets you change the default agent behavior agent using configuration options.
 
-The only required Python agent configuration setting is the [license key](/docs/subscriptions/license-key). The license key identifies the account where the agent reports application data. Depending on how you are hosting your application, the license key can be provided via a configuration file or an environment variable.
+The only required Python agent configuration setting is the <InlinePopover type="licenseKey" />. The license key identifies the account where the agent reports application data. Depending on how you are hosting your application, the license key can be provided via a configuration file or an environment variable.
 
 ## Configuration methods and precedence [#options]
 
@@ -28,7 +28,7 @@ The Python agent follows this order of precedence for configuration:
 <img
   title="diagram-python-config-precedence.png"
   alt="diagram-python-config-precedence.png"
-  src={diagramPythonConfigPrecedence0}
+  src={apmConfigSettings}
 />
 
 <figcaption>
@@ -425,18 +425,18 @@ If no environment is specified, the agent will use the default settings as speci
 
 The basic structure of the configuration file is:
 
-```py
+```ini
 [newrelic]
-<var>... default settings</var>
+... default settings
 
-[newrelic:<var>development</var>]
-<var>... override settings</var>
+[newrelic:development]
+... override settings
 
-[newrelic:<var>staging</var>]
-<var>... override settings</var>
+[newrelic:staging]
+... override settings
 
-[newrelic:<var>production</var>]
-<var>... override settings</var>
+[newrelic:production]
+... override settings
 ```
 
 ## General configuration settings [#general-settings]
@@ -492,7 +492,7 @@ These settings are available in the agent configuration file.
       </tbody>
     </table>
 
-    Specifies the [license key](/docs/subscriptions/license-key) of your New Relic account. This key associates your app's metrics with your New Relic account.
+    Specifies the <InlinePopover type="licenseKey" /> of your New Relic account. This key associates your app's metrics with your New Relic account.
   </Collapser>
 
   <Collapser
@@ -820,7 +820,7 @@ These settings are available in the agent configuration file.
 
     High security mode enforces certain security settings and prevents them from being overridden, so that no sensitive data is sent to us. Enabling high security mode means that request parameters are not collected, and you cannot send raw SQL.
 
-    To activate high security mode, set it to `true` in the local **.ini** configuration file **and** activate it in the Account Settings in the UI. For more information, see [High security](/docs/accounts-partnerships/accounts/security/high-security).
+    To activate high security mode, set it to `true` in the local **.ini** configuration file **and** activate it from the **Account settings** page. For more information, see [High security](/docs/accounts-partnerships/accounts/security/high-security).
   </Collapser>
 
   <Collapser
@@ -991,15 +991,15 @@ These settings are available in the agent configuration file.
       </tbody>
     </table>
 
-    Adds [tags](/docs/apm/new-relic-apm/maintenance/labels-categories-organize-your-apps-servers). Specify name:value separated by a colon `:`, and separate additional tags with semicolons `;`.
+    Adds [tags](/docs/apm/new-relic-apm/maintenance/labels-categories-organize-your-apps-servers). Specify _name:value_ separated by a colon `:`, and separate additional tags with semicolons `;`.
 
     <CollapserGroup>
       <Collapser
         id="example-2-labels"
         title="Two tags"
       >
-        ```py
-        <var>Server</var>:<var>One</var>;<var>Data Center</var>:<var>Primary</var>
+        ```ini
+        labels = Server:One;Data Center:Primary
         ```
       </Collapser>
     </CollapserGroup>
@@ -1213,6 +1213,10 @@ These settings are available in the agent configuration file.
     We'll record transaction traces when they exceed this threshold. The format is a number of seconds (decimal points allowed).
 
     See our glossary entry for [apdex_t](/docs/using-new-relic/welcome-new-relic/get-started/glossary/#apdex_t)
+
+    <Callout variant="important">
+      This is only set in the config file or the environment variable if `serverless_mode` is set, which is enabled for AWS Lambda.  Otherwise, the local `apdex_t` value is overridden by the value in UI application settings which is then used to set the `apdex_f` value.
+    </Callout>
   </Collapser>
 </CollapserGroup>
 
@@ -1862,7 +1866,7 @@ For more information about transaction traces, see [Transaction traces](/docs/tr
       my-app/newrelic.ini
     </b>
 
-    ```py
+    ```ini
     [newrelic]
     ...
     transaction_tracer.function_trace = common.utils:validate*
@@ -2283,7 +2287,7 @@ Here are error collector settings available via the agent configuration file.
     This setting is only compatible with some web frameworks, as some frameworks do not use exceptions to return HTTP responses.
 
     <Callout variant="tip">
-      This configuration option is only available in Python Agent versions 6.4.0 and newer.
+      This configuration option is only available in Python agent versions 6.4.0 and newer.
     </Callout>
   </Collapser>
 
@@ -2590,7 +2594,7 @@ Here are browser monitoring settings available via the agent configuration file.
       >
         If you are generating HTML page responses and using the `Content-Type` of `application/xhtml+xml`, you can override the allowed content types to list both this content type and the default `text/html` by using:
 
-        ```py
+        ```ini
         browser_monitoring.content_type = text/html application/xhtml+xml
         ```
 
@@ -3266,7 +3270,7 @@ Event harvest settings limit the amount of event type data sent to New Relic. Wh
 
 * Event harvest settings affect the limits for a single instance of the agent, and not across the entire application. See the usage example below for how to set limits across an entire application.
 * [Real time streaming](/docs/agents/manage-apm-agents/agent-data/real-time-streaming) sends data every five seconds (12 times per minute), but the event harvest settings still affect the rate in events per **minute**. Enabling or disabling real time streaming does not require changing these settings.
-* With real time streaming (enabled by default), [New Relic](https://one.newrelic.com) will display the event harvest limits for entities in five second intervals. This means, for example, when you set a limit value of 1200 in the config file, you'll see it as 100 in New Relic.
+* With real time streaming (enabled by default), New Relic will display the event harvest limits for entities in five second intervals. This means, for example, when you set a limit value of 1200 in the config file, you'll see it as 100 in New Relic.
 
 ### Usage example
 
@@ -3277,6 +3281,10 @@ Let's say an application is deployed across 10 hosts, each running four processe
 Based on that calculation, the final setting is:
 
 event_harvest_config.harvest_limits.span_event_data = 250
+
+<Callout variant="tip">
+  Because of the way New Relic harvests data (12 times per minute), if the event data count is less than 12, it will show up as 0 in New Relic.
+</Callout>
 
 Event harvest configuration settings include:
 
@@ -3670,9 +3678,9 @@ These garbage collection runtime metrics settings are available via the agent co
   </Collapser>
 </CollapserGroup>
 
-## New Relic CodeStream settings [#codestream-integration]
+## Code-level metrics settings [#codestream-integration]
 
-The following settings are available for configuration of CodeStream code level metrics in the agent.
+The following settings are available for configuration of code-level metrics in the agent.
 
 <CollapserGroup>
   <Collapser
@@ -3713,7 +3721,7 @@ The following settings are available for configuration of CodeStream code level 
       </tbody>
     </table>
 
-    Set this to `false` to disable agent attribute collection for code level metrics.
+    Set this to `false` to disable agent attribute collection for code-level metrics.
   </Collapser>
 
   <Collapser
@@ -3808,7 +3816,9 @@ The following settings are available for configuration of CodeStream code level 
 
 ## Application logging settings [#application-logging]
 
-The following settings are available for configuration of application logging in the agent.
+The following settings are available for configuration of application logging in the agent. 
+
+For some tips on configuring logs for the Python agent, see [Configure Python logs in context](/docs/logs/logs-context/configure-logs-context-python). 
 
 <Callout variant="important">
   Requires [Python agent version 7.12.0.176 or higher](/docs/agents/python-agent/installation-configuration/upgrade-python-agent).
@@ -4080,6 +4090,67 @@ The following settings are available for configuration of application logging in
   </Collapser>
 </CollapserGroup>
 
+
+## Instrumentation settings [#instrumentation-settings]
+
+<Callout variant="important">
+  Requires [Python agent version 8.7.1 or higher](/docs/agents/python-agent/installation-configuration/upgrade-python-agent).
+</Callout>
+
+These instrumentation package specific settings are available via the agent configuration file:
+
+<CollapserGroup>
+  <Collapser
+    id="instrumentation-graphql-capture-introspection-queries"
+    title="instrumentation.graphql.capture_introspection_queries"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            false
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Set in](#options)
+          </th>
+
+          <td>
+            Config file
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment-variables)
+          </th>
+
+          <td>
+            `NEW_RELIC_INSTRUMENTATION_GRAPHQL_CAPTURE_INTROSPECTION_QUERIES`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    When enabled, the agent will capture transactions for introspection queries in GraphQL.
+  </Collapser>
+</CollapserGroup>
 
 ## Other configuration settings [#other-settings]
 
@@ -4468,7 +4539,7 @@ Here are assorted other settings available via the agent configuration file.
     **Example: Built-in exception and user-defined exception**
 
     ```py
-    <var>KeyError</var> <var>my_module</var>:<var>MyException</var>
+    KeyError my_module:MyException
     ```
   </Collapser>
 
@@ -4520,9 +4591,9 @@ Here are assorted other settings available via the agent configuration file.
       </tbody>
     </table>
 
-    By default, the agent starts when it receives the first transaction (either web or [non-web](/docs/apm/transactions/intro-transactions/monitor-background-processes-other-non-web-transactions)). The agent then starts in parallel, ensuring that this initial request is not delayed. However, the agent does not record the details of this initial request because the agent cannot collect data until registration is complete.
+    By default, the agent starts when it receives the first transaction (either web or [non-web](/docs/apm/transactions/intro-transactions/monitor-background-processes-other-non-web-transactions)). The agent then starts in parallel, ensuring that this initial request isn't delayed. However, the agent doesn't record the details of this initial request because the agent cannot collect data until registration is complete. This is the recommended configuration for the majority of web applications in order to not delay the first couple transactions while New Relic starts up.
 
-    To override this, you can set a startup timeout in seconds. The agent will then pause the initial transaction and wait for registration to complete.
+    To override this, you can set a startup timeout in seconds. The agent will then pause the initial transaction and wait for registration to complete. This might be useful when instrumenting a single program run or task, where the process runs once and immediately terminates.
 
     <Callout variant="important">
       Since `startup_timeout` delays your app start, we recommend only setting a startup timeout for background task queuing systems, not web applications.
@@ -4727,7 +4798,7 @@ To disable default instrumentation, provide a special `import-hook` section corr
   >
     Add the following to the configuration file:
 
-    ```py
+    ```ini
     [import-hook:MySQLdb]
     enabled = false
     ```

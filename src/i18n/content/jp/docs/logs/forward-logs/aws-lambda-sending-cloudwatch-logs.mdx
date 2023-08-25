@@ -13,16 +13,24 @@ AWS Lambda関数`newrelic-log-ingestion`を使用して、 [AmazonCloudWatchロ�
 
 CloudWatchのログをNew Relicに転送することで、ログデータの収集、処理、探索、クエリ、アラートなどのログ管理機能が強化されます。
 
-## Cloudwatch logs Lambda functionのインストールと設定 [#install-function]
+## CloudWatch ログ Lambda 関数をインストールして設定する [#install-function]
 
 以下の設定は、環境変数を設定するための一つの方法です。 [Functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) のページからも設定できます。
 
 次の項目を完了します。
 
-1. [New Relic のライセンスキーがあることを確認してください](/docs/accounts/install-new-relic/account-setup/license-key) 。
-2. [AWS Serverless Application Repository](https://serverlessrepo.aws.amazon.com/applications "リンクが新しいウィンドウで開きます。") をブラウザで開きます。
+1. あなたが持っていることを確認してください
+
+   <InlinePopover type="licenseKey"/>
+
+   .
+
+2. [AWS Serverless Application Repository](https://serverlessrepo.aws.amazon.com/applications) をブラウザで開きます。
+
 3. `newrelic`を検索し、 **\[カスタムIAMロールまたはリソースポリシーを作成するアプリを表示する]をオン**にして、 `newrelic-log-ingestion`を見つけます。
+
 4. `newrelic-log-ingestion`の詳細を開き、\[**デプロイ**]をクリックします。
+
 5. 機能の **Configure** メニューの **Environment Variables** に進み、以下の環境変数を使ってログフォワーディングを設定します。
 
 <table>
@@ -57,7 +65,7 @@ CloudWatchのログをNew Relicに転送することで、ログデータの収�
       </td>
 
       <td>
-        [New Relicのライセンスキー](/docs/accounts/install-new-relic/account-setup/license-key) データをNew Relicに送信する際に使用します。 **必要です。**
+        <InlinePopover type="licenseKey"/>New Relic にデータを送信するために使用されます。 **必要。**
       </td>
     </tr>
 
@@ -68,19 +76,6 @@ CloudWatchのログをNew Relicに転送することで、ログデータの収�
 
       <td>
         ログをNewRelicに転送するかどうかを決定します。**必須。**ロギングをオンにするには、これを`true`に設定します。
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        `NR_LOGGING_ENDPOINT`
-      </td>
-
-      <td>
-        New Relic のログ用インジェストエンドポイント。 **必須**.2つのエンドポイントがあります。
-
-        * 私たち： `https://log-api.newrelic.com/log/v1`
-        * EU： `https://log-api.eu.newrelic.com/log/v1`
       </td>
     </tr>
 
@@ -130,13 +125,37 @@ CloudWatchのログをNew Relicに転送することで、ログデータの収�
 
 1. 左側のメニューから「 **Functions** 」を選択します。
 2. 以前に作成した`newrelic-log-ingestion`関数を見つけて選択します。
-3. **Designer** の下で、 **Add Triggers** をクリックし、ドロップダウンから **Cloudwatch Logs** を選択します。
+3. \[**デザイナー**] で \[**トリガーの追加**] をクリックし、ドロップダウンから \[ **CloudWatch Logs** ] を選択します。
 4. お客様のアプリケーションに適切な **Log group** を選択してください。
 5. フィルターの名前を入力します。
 6. オプションです。 [フィルターパターンを入力](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 7. **Enable trigger** のチェックボックスをチェックし、 **Add** をクリックしてトリガーを作成します。
 
-## リトライの設定（オプション） [#config-retries]
+<InstallFeedback/>
+
+## オプション: さまざまなログ エンドポイントを構成する [#config-endpoints]
+
+必要に応じてカスタム ロギング エンドポイントを設定できます。これにより、たとえば、FedRAMP 準拠のエンドポイントを使用できるようになります。
+
+そのためには、上記で説明したアプリケーションをデプロイしてから、次のことを行う必要があります。
+
+1. AWS で最近デプロイされたラムダ関数ビューに移動します。
+
+2. 下にスクロールして `Configuration` タブをクリックします。
+
+3. `Configuration` タブ内の左側のメニューで、 `Environment Variables`をクリックします。
+
+4. ここで、既存の環境変数のリストを確認できます。 `Environment Variables` テーブルの右上にある **Edit**\[編集] をクリックするだけです。
+
+5. 適切なエンドポイントで `NR_LOGGING_ENDPOINT` を更新します。
+
+   * _米国_の場合: `https://log-api.newrelic.com/log/v1`
+   * _EU_の場合: `https://log-api.eu.newrelic.com/log/v1`
+   * _FedRAMP_の場合: `https://gov-log-api.newrelic.com/log/v1`
+
+6. クリック **保存**.
+
+## オプション: 再試行を構成する [#config-retries]
 
 通信の問題で機能がデータの送信に失敗した場合に実行するリトライの回数を設定することができます。推奨数は3回ですが、以下のパラメーターを変更することで、リトライの動作を変更することができます。
 
@@ -162,9 +181,9 @@ As an example, in default above configuration, first retry will happen after 1 s
 
 ## ログデータを表示する [#find-data]
 
-すべてが正しく構成され、データが収集されている場合は、次の両方の場所にデータログが表示されます。
+すべてが正しく構成され、データが収集されている場合は、次の両方の場所にログ データが表示されるはずです。
 
-* [NewRelicのログUI](https://one.newrelic.com/launcher/logger.log-launcher)
+* [ログUI](https://one.newrelic.com/launcher/logger.log-launcher)
 * [NRQLクエリ](/docs/chart-builder/use-chart-builder/choose-data/use-advanced-nrql-mode-specify-data)を実行するための新しいRelicツール。たとえば、次のようなクエリを実行できます。
 
 ```

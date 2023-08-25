@@ -34,8 +34,8 @@ For developer teams, or anyone needing to deploy the agent on a Linux App Servic
 
 In order to monitor non-web apps (including WebJobs), or ASP.NET Core apps targeting .NET Framework, you must explicitly enable the agent for that application's `.exe` process via one of these two methods:
 
-* [Enable via placement of local `newrelic.config` file](/docs/agents/net-agent/installation/install-net-agent-windows#newrelic-config-local).
-* [Enable via application config file](/docs/agents/net-agent/installation/install-net-agent-windows#app-config)
+* [Enable via placement of local `newrelic.config` file](/install/dotnet/?deployment=windowsInstallNonIis&docker=noDocker#newrelic-config).
+* [Enable via application config file](/install/dotnet/?deployment=windowsInstallNonIis&docker=noDocker#app-config)
 
 In addition, WebJobs may need [custom instrumentation](/docs/agents/net-agent/custom-instrumentation/introduction-net-custom-instrumentation) for transactions to appear in APM, and [additional configuration](/docs/apm/agents/net-agent/configuration/net-agent-configuration/#service-sendDataOnExit) if they run for less than one minute.
 
@@ -53,19 +53,29 @@ To install the .NET agent for an Azure Web App using the New Relic Azure Site Ex
 4. In the Azure portal, add New Relic [app settings](#web-app-agent-settings) to your Azure App Service. This installs the latest .NET agent version. With version 10.x, we dropped support for .NET Framework 4.6.1 and lower and .NET Core 3.0 and lower (see [the migration guide](/docs/apm/agents/net-agent/getting-started/9x-to-10x-agent-migration-guide)). If you need a lower agent version, use the `NEWRELIC_AGENT_VERSION_OVERRIDE` environment variable. For example: `NEWRELIC_AGENT_VERSION_OVERRIDE=9.9.0`.
 5. Restart your web app.
 
-<Callout variant="important">
-If you need to add a custom instrumentation XML, or modify the base `newrelic.config` file, you'll find the .NET Framework agent at `%HOME%\NewRelicAgent\Framework`, and the .NET Core agent at`%HOME%\NewRelicAgent\Core`.
-</Callout>
+A couple notes related to this install process:
+
+* If you need to add a custom instrumentation XML, or modify the base `newrelic.config` file, you'll find the .NET agent for .NET Framework at `%HOME%\NewRelicAgent\Framework`, and the agent for .NET Core at`%HOME%\NewRelicAgent\Core`.
+* This install method monitors **all** .NET Core applications on the Azure Web Apps instance. If you'd like to disable monitoring for specific .NET Core applications, you can do either of these: 
+  * Disable the agent in an [`appsettings.json` file](/docs/apm/agents/net-agent/configuration/net-agent-configuration/#appsettings-json).
+  * In a `newrelic.config` file located in the app's root directory, set [`agentEnabled` to `false`](/docs/apm/agents/net-agent/configuration/net-agent-configuration/#config-agentEnabled).
+
+### Updating the agent with the New Relic Azure Site Extension[#site-extention-update]
+
+To update the .NET agent for an Azure Web App using the New Relic Azure Site Extension follow the installation instructions to:
+
+* Install the latest version of the  New Relic Azure Site Extension, which updates the agent files to the latest version.
+* Restart the web app to start the updated agent.
 
 ## Install using NuGet (.NET Framework) [#nuget-install-net-framework]
 
-The NuGet installation method packages the New Relic Agent with your application so that it is available to the Azure Web App Host.
+The NuGet installation method packages the New Relic agent with your application so that it is available to the Azure Web App Host.
 
 The NuGet packages in this procedure support only the old `packages.config`. They do not support the current `PackageReference` format. For more information, see [Microsoft's package reference documentation](https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files).
 
 For multi-project solutions, make sure you have selected the correct project (for example, a specific web app project) before installing the NuGet package.
 
-If you are upgrading the .NET Framework agent using NuGet, any changes you made in the `newrelic.config` will be overwritten. To preserve any changes, save your `newrelic.config` outside of your project, then restore it after upgrading.
+If you're upgrading the .NET Framework agent using NuGet, any changes you made in the `newrelic.config` will be overwritten. To preserve any changes, save your `newrelic.config` outside of your project, then restore it after upgrading.
 
 To install the .NET agent on an Azure Web App using NuGet:
 
@@ -75,7 +85,7 @@ To install the .NET agent on an Azure Web App using NuGet:
    * **64-bit**: `Install-Package NewRelic.Azure.WebSites.x64`
 3. Publish your application.
 4. In the Azure portal, open the web app you want to monitor, then select **Settings > Configuration**.
-5. From **Configuration**, select **+** **New application setting** and add these key/value pairs.
+5. From **Configuration**, select **+ New application setting** and add these key/value pairs.
 
 <Callout variant="important">
 These examples all assume that your Azure Web App uses a `D:` file system root. If your Azure Web uses a `C:` root, you need to use the correct drive letter when configuring these paths.
@@ -141,9 +151,9 @@ These examples all assume that your Azure Web App uses a `D:` file system root. 
 
 ## Install using NuGet (.NET Core) [#nuget-install-net-core]
 
-The NuGet installation method packages the New Relic Agent with your application so that it is available to the Azure Web App Host.
+The NuGet installation method packages the New Relic agent with your application so that it is available to the Azure Web App Host.
 
-New Relic .NET Core agent supports Linux and Windows applications on Azure App Services. The installation process for Azure App Services differs from the .NET Core agent installation procedures for [Linux](/docs/agents/net-agent/installation/install-net-core-agent-linux) and [Windows](/docs/agents/net-agent/installation/install-net-agent-windows#installing_core).
+Our .NET agent supports .NET Core Linux and Windows applications on Azure App Services. The installation process for Azure App Services differs from the [.NET agent install procedures](/install/dotnet) for Linux and Windows.
 
 To install the .NET agent on an Azure Web App using NuGet:
 
@@ -158,6 +168,9 @@ To install the .NET agent on an Azure Web App using NuGet:
        ```xml
        <log directory="D:\Home\LogFiles\NewRelic" level="info"></log>
        ```
+       <Callout variant="tip">
+If you don't want to modify the config file, add a new application setting: `NEWRELIC_LOG_DIRECTORY=D:\Home\LogFiles\NewRelic`
+       </Callout>
      </Collapser>
 
      <Collapser
@@ -167,11 +180,14 @@ To install the .NET agent on an Azure Web App using NuGet:
        ```xml
        <log directory="/home/LogFiles/NewRelic" level="info"></log>
        ```
+       <Callout variant="tip">
+If you don't want to modify the config file, add a new application setting: `NEWRELIC_LOG_DIRECTORY=/home/LogFiles/NewRelic`
+       </Callout>
      </Collapser>
    </CollapserGroup>
 3. Publish your application.
 4. In the Azure portal, open the web app you want to monitor, then select **Settings > Configuration**.
-5. From **Configuration**, select **+** **New application setting** and add these key/value pairs.
+5. From **Configuration**, select **+ New application setting** and add these key/value pairs.
 
 <Callout variant="important">
 These examples all assume that your Azure Web App uses a `D:` file system root. If your Azure Web uses a `C:` root, you need to use the correct drive letter when configuring these paths.
@@ -309,7 +325,7 @@ These examples all assume that your Azure Web App uses a `D:` file system root. 
 
            <tr>
              <td>
-               `NEWRELIC_PROFILER_LOG_DIRECTORY`
+               `NEWRELIC_LOG_DIRECTORY`
              </td>
 
              <td>
@@ -327,9 +343,9 @@ These examples all assume that your Azure Web App uses a `D:` file system root. 
 
 To add your app settings:
 
-1. Make sure you have your [license key](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key) before adding the New Relic .NET agent's app settings.
+1. Make sure you have your <InlinePopover type="licenseKey" /> before adding the New Relic .NET agent's app settings.
 2. In the Azure portal, search for and open **App Services** to go to the web app you want to monitor. Next, select **Configuration > Application settings**.
-3. From **Application settings**, select **+** **New application setting** and add these key/value pairs:
+3. From **Application settings**, select **+ New application setting** and add these key/value pairs:
 
    <table>
      <thead>
@@ -351,7 +367,7 @@ To add your app settings:
          </td>
 
          <td>
-           <var>YOUR_LICENSE_KEY</var>
+           YOUR_LICENSE_KEY
          </td>
        </tr>
 
@@ -361,7 +377,7 @@ To add your app settings:
          </td>
 
          <td>
-           <var>YOUR_APP_NAME</var>
+           YOUR_APP_NAME
          </td>
        </tr>
      </tbody>
@@ -390,7 +406,7 @@ To add your app settings:
          </td>
 
          <td>
-           <var>DESIRED_AGENT_VERSION_NUMBER</var>
+           DESIRED_AGENT_VERSION_NUMBER
          </td>
        </tr>
 
@@ -398,25 +414,22 @@ To add your app settings:
    </table>
 4. Save and restart your web app.
 
-Setting the license key and app name with **Application settings** will override the `newrelic.config`.
+Setting the <InlinePopover type="licenseKey" /> and app name with **Application settings** will override the `newrelic.config`.
 
 To verify your app's environment variables in your app's Kudu diagnostic console, go to **Environment > Environment variables**.
 
 For example:
 
 ```
-https://<var>myappname</var>.scm.azurewebsites.net/Env.cshtml#envVariables
+https://myappname.scm.azurewebsites.net/Env.cshtml#envVariables
 ```
+
 
 ## View your app's performance [#checking-application-performance]
 
-Your application must receive traffic in order for you to view its performance in New Relic. You may need to wait a few minutes for data to start appearing. If no data appears, see the [troubleshooting procedures](/docs/agents/net-agent/azure-troubleshooting/azure-web-apps-using-always-on-and-no-data-appears) for Azure Web Apps.
+Your application must receive traffic in order for you to view its performance in New Relic. You may need to wait a few minutes for data to start appearing. If no data appears, see the [troubleshooting procedures](/docs/agents/net-agent/azure-troubleshooting/azure-web-apps-using-always-on-and-no-data-appears) for Azure Web Apps. To view your app's performance in New Relic: Go to **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > APM & services > (select an app)**. The [APM **Summary** page](/docs/apm/applications-menu/monitoring/apm-overview-page) automatically appears.
 
-To view your app's performance in New Relic: Go to **[one.newrelic.com](https://one.newrelic.com) > APM > (select an app)**. The [APM **Summary** page](/docs/apm/applications-menu/monitoring/apm-overview-page) automatically appears.
-
-You can also view detailed information about [errors](/docs/apm/applications-menu/error-analytics/introduction-error-analytics), [database and instance performance issues](/docs/apm/applications-menu/features/analyze-database-instance-level-performance-issues), and [more](/docs/apm/new-relic-apm/getting-started/introduction-new-relic-apm).
-
-If you created your New Relic app prior to October 2017, you can use the Azure portal to select the New Relic account blade. You will be automatically logged in with [SAML Single Sign-on (SSO)](/docs/accounts-partnerships/accounts/saml-single-sign/new-relic-partners-saml-sso) to APM. You can also view your application's error rate and throughput data in the Azure portal by going to **New Relic Accounts > (select your app)**.
+<InstallFeedback />
 
 ## Troubleshooting
 

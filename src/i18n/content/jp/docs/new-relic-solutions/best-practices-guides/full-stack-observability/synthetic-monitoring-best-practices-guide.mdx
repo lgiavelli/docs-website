@@ -4,12 +4,12 @@ tags:
   - New Relic solutions
   - Best practices guides
 metaDescription: Best practices designed to help you get the most out of New Relic's synthetic monitoring.
-translationType: 'human'
+translationType: human
 ---
 
-import syntheticsCreateMonitor from 'images/synthetics-create-monitor.png';
+import syntheticsCreateMonitor from 'images/synthetic_screenshot-crop_Create-monitor-page.webp'
 
-import syntheticsMonitorCriticalAlert from 'images/synthetics-monitor-critical-alert.png';
+import syntheticsMonitorCriticalAlert from 'images/synthetic_screenshot-crop_monitor-critical-alert.webp'
 
 Syntheticsモニタリングを使用すると、アプリを監視しテストできるので、エンドユーザーに影響が生じる前に問題に対処できます。そのフルパワーを活用するための5つのヒントを以下にご紹介します。
 
@@ -21,7 +21,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
 
 ### Syntheticモニターを追加する [#howto-1]
 
-1. モニターを追加するには、**[one.newrelic.com](http://one.newrelic.com)** > **Synthetics**の順に移動します。（[EUベースのアカウント](/docs/using-new-relic/welcome-new-relic/get-started/introduction-eu-region-data-center)をお持ちの場合は、**[one.eu.newrelic.com](http://one.eu.newrelic.com)**に移動します。） **Create monitor**をクリックします。
+1. モニターを追加するには、**[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetics**の順に移動します。（[EUベースのアカウント](/docs/using-new-relic/welcome-new-relic/get-started/introduction-eu-region-data-center)をお持ちの場合は、**[one.eu.newrelic.com](http://one.eu.newrelic.com)**に移動します。） **Create monitor**をクリックします。
 
 <img
   src={syntheticsCreateMonitor}
@@ -36,7 +36,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
    * **SSL検証（Pingとシンプルブラウザ用）。**このオプションは、SSL証明書チェーンの有効性を検証します。次の構文を実行することによって複製することができます。
 
      ```sh
-     openssl s_client -servername <var>{YOUR_HOSTNAME}</var> -connect <var>{YOUR_HOSTNAME</var>}:443 -CApath /etc/ssl/certs > /dev/null
+     openssl s_client -servername {YOUR_HOSTNAME} -connect {YOUR_HOSTNAME}:443 -CApath /etc/ssl/certs > /dev/null
      ```
 
    * **HEADリクエストのバイパス（Pingモニター用）。**このオプションは、デフォルトのHEADリクエストをスキップし、その代わりにpingチェックを含むGET動詞を使用します。HEADリクエストが失敗した場合、GETリクエストは常時発生します。
@@ -74,7 +74,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
   >
     モニターのリストを表示するには：
 
-    **[one.newrelic.com](https://one.newrelic.com) > Explorer > Synthetic monitors**の順に移動します。
+    **[one.newrelic.com](https://one.newrelic.com/all-capabilities)** > **Synthetic Monitoring**の順に移動します。
 
     詳しくは、[中核となるUIコンポーネントの操作](/docs/new-relic-one/use-new-relic-one/get-started/new-relic-one-core-ui-components)に関するドキュメンテーションを参照してください。
   </Collapser>
@@ -85,7 +85,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
   >
     [モニターインデックス](/docs/synthetics/new-relic-synthetics/pages/synthetics-monitors-index-access-your-monitors)ページを使用してモニターのリストを表示する:
 
-    [**one.newrelic.com**](http://one.newrelic.com/) **> Synthetics**の順に移動します。
+    **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetics**の順に移動します。
   </Collapser>
 </CollapserGroup>
 
@@ -93,7 +93,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
 
 世界中のさまざまな地域からアクセスされるウェブアプリのパフォーマンスを確認する必要があります。[結果](/docs/synthetics/new-relic-synthetics/pages/synthetics-results-access-individual-monitor-runs)ページには、開発から本番までのすべてがユーザー体験にいかに影響するかが表示されます。リストされているものを並べ替えて、問題のある領域や異常結果を特定できます。場所別にフィルタリングして、さまざまな場所からのモニターのパフォーマンスを比較してみてください。（以下の「ネットワークタイミング」グラフは、一定期間にわたるウェブページのパフォーマンスのスナップショットを示しています。）これを行うには、以下を実行します。
 
-1. [**one.newrelic.com**](http://one.newrelic.com/) **> Synthetics**の順に移動します。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetics**の順に移動します。
 2. **モニター**タブからモニターを選択します。
 3. **モニター**をクリックし、**結果**をクリックします。
 
@@ -103,7 +103,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
 
 [Syntheticsリソース](/docs/synthetics/new-relic-synthetics/pages/synthetics-resources-understand-load-times)ページには、ウェブサイトのさまざまなコンポーネント（CSS、JavaScript、画像、HTMLなど）が全体的な負荷にどのように影響しているかが表示されます。ランタイムに収集される詳細なメトリクスを掘り下げて調べ、サードパーティリソースによって費やされる時間に関するパフォーマンス情報を検出し、各リソースのHTTP応答コードを特定することができます。これを行うには、以下を実行します。
 
-1. [**one.newrelic.com**](http://one.newrelic.com/)へ移動します。**Synthetics**をクリックします。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities)**へ移動します。**Synthetics**をクリックします。
 2. **モニター**ドロップダウンメニューから、モニターを選択します。
 3. **モニター**をクリックし、**リソース**をクリックします。
 
@@ -111,7 +111,7 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
 
 スクリプト化ブラウザを使用して、Selenium JavaScript Webdriverバインディングで複雑な監視ワークフローを構築できます。たとえば、アプリケーションにログインして特定のリンクにナビゲートし、ページ要素がロードされてアサーションを追加するのを待機できます。これを行うには、以下を実行します。
 
-1. [**one.newrelic.com**](http://one.newrelic.com/) **> Synthetics**の順に移動します。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetics**の順に移動します。
 2. モニタータイプ（スクリプト化ブラウザなど）を選択します。
 3. モニターの名前と詳細（`sitename.com`のスクリプト化ブラウザなど）を入力します
 4. モニターを実行する場所 (ムンバイ、ソウル、コロンバス、モントリオールなど) を選択します。
@@ -121,66 +121,63 @@ Syntheticsモニターは、ウェブサイトのパフォーマンスを測定�
 
 ```js
 /**
- * Script Name: scripted browser - next gen runtime
+ * Script Name: Best Practices - Chrome 100
  * Author: New Relic
- * Version: 1.0
+ * Version: 1.4
  * Purpose: best practices example
- * Reference: https://docs.newrelic.com/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100
+ * Reference: https://docs.newrelic.com/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100/
  */
 
 // -------------------- CONSTANTS
-const SCRIPT_NAME = "scripted browser - next gen runtime" // name to record in script log
-const DEFAULT_TIMEOUT = 10000                             // default is 10 seconds to locate page loc
-const PAGE_LOAD_TIMEOUT = 60000                           // a negative value defaults to 180 seconds
-const USER_AGENT = "default"                              // set the user agent for Chrome
-const PROTOCOL = "https://"                               // set the protocol
-const USERNAME = ""                                       // username:
-const PASSWORD = ""                                       // password@
-const DOMAIN = "newrelic.com"                             // your domain
-const PATH = ""                                           // /path/to/page
-const CHECK = "All your telemetry in one secure cloud."   // text to match on page
-
+const SCRIPT_NAME = "Best Practices - Chrome 100"                        // name to record in script log
+const IMPLICIT_TIMEOUT = 3000                                            // default implicit timeout is 10 seconds, 4 seconds x 14 findElement operations = 42 seconds, assuming all operations time out
+const PAGE_LOAD_TIMEOUT = 60000                                          // default page load timeout is 60 seconds, fail early to prevent long duration timeouts
+const SCRIPT_TIMEOUT = 20000                                             // default script timeout is 30 seconds
+const USER_AGENT = "default"                                             // set the user agent for Chrome
+const PROTOCOL = "https://"                                              // set the protocol
+const USERNAME = ""                                                      // username:
+const PASSWORD = ""                                                      // password@
+const DOMAIN = "docs.newrelic.com"                                       // your domain
+const PATH = "/docs/new-relic-solutions/get-started/intro-new-relic/"    // path to main page
+const CHECK = "Need some inspiration first? Check out this intro video." // text to match on page
 const AUTH = USERNAME + PASSWORD
-const FULL_URL = PROTOCOL + AUTH + DOMAIN + PATH
+const MAIN_URL = PROTOCOL + AUTH + DOMAIN + PATH
+
+// -------------------- DEPENDENCIES
+var assert = require("assert")
 
 // -------------------- CONFIGURATION
-var assert = require("assert")
-// script-wide timeout (ms) for functions: waitForAndFindElement and waitForPendingRequests
-// better to fail early if it is expected to take less time than the DEFAULT_TIMEOUT
-// in order to release the heavy worker thread on the minion for the next job
-$webDriver.manage().setTimeouts({pageLoad: DEFAULT_TIMEOUT})  // sets element load timeout
-$webDriver.manage().setTimeouts({pageLoad: PAGE_LOAD_TIMEOUT}) // sets page load timeout
+await $webDriver.manage().setTimeouts({
+  implicit: IMPLICIT_TIMEOUT,  // sets element load timeout
+  pageLoad: PAGE_LOAD_TIMEOUT, // sets page load timeout
+  script: SCRIPT_TIMEOUT       // sets script timeout
+})
 
 // -------------------- VARIABLES
 var By = $selenium.By
 var loc = {
-  main: By.id("main-content"),
-  nav: By.className("js-header-site-nav"),
-  telemetry: By.xpath("//*[@id='main-content']/article/div[5]/div[2]/div/div[1]/a/div/div/div[2]"),
-  tools: [
-    { service: 'apm',        selector: By.xpath("//*[@id='tab-21882']/div/span[2]") },
-    { service: 'infra',      selector: By.xpath("//*[@id='tab-22578']/div/span[2]") },
-    { service: 'k8s',        selector: By.xpath("//*[@id='tab-22579']/div/span[2]") },
-    { service: 'logs',       selector: By.xpath("//*[@id='tab-22580']/div/span[2]") },
-    { service: 'errors',     selector: By.xpath("//*[@id='tab-22581']/div/span[2]") },
-    { service: 'browser',    selector: By.xpath("//*[@id='tab-22582']/div/span[2]") },
-    { service: 'mobile',     selector: By.xpath("//*[@id='tab-22583']/div/span[2]") },
-    { service: 'synthetics', selector: By.xpath("//*[@id='tab-22584']/div/span[2]") },
-    { service: 'npm',        selector: By.xpath("//*[@id='tab-22585']/div/span[2]") },
-    { service: 'codestream', selector: By.xpath("//*[@id='tab-22586']/div/span[2]") }
+  video: By.css("#gatsby-focus-wrapper > div.css-1uz5ayg > div > main > div > article > div > div > div:nth-child(1) > div > p:nth-child(2)"),
+  start: By.css("#gatsby-focus-wrapper > div.css-1uz5ayg > div > main > div > h1"),
+  e: [
+    { step: 'signup',     selector: By.css("#sign-up-for-new-relic-if-you-havent-already") },
+    { step: 'ingest',     selector: By.css("#ingest-some-data") },
+    { step: 'dashboards', selector: By.css("#check-out-some-dashboards") },
+    { step: 'data',       selector: By.css("#add-more-data") },
+    { step: 'alerting',   selector: By.css("#set-up-alerting") },
+    { step: 'users',      selector: By.css("#add-users") }
   ]
 }
 
 // -------------------- FUNCTIONS
 // for backwards compatibility with legacy runtimes
 async function waitForAndFindElement(locator, timeout) {
-  const webElement = await $webDriver.wait(
+  const element = await $webDriver.wait(
     $selenium.until.elementLocated(locator),
     timeout,
     "Timed-out waiting for element to be located using: " + locator
   )
   await $webDriver.wait(
-    $selenium.until.elementIsVisible(webElement),
+    $selenium.until.elementIsVisible(element),
     timeout,
     "Timed-out waiting for element to be visible using ${element}"
   )
@@ -189,8 +186,13 @@ async function waitForAndFindElement(locator, timeout) {
 
 // -------------------- START OF SCRIPT
 console.log("Starting synthetics script: " + SCRIPT_NAME)
-console.log("Default timeout is set to " + DEFAULT_TIMEOUT / 1000 + " seconds")
-console.log("URI: " + FULL_URL)
+
+// confirm timeouts are set
+const {implicit, pageLoad, script} = await $webDriver.manage().getTimeouts()
+console.log("Timeouts are set to:")
+console.log("  IMPLICIT: " + implicit / 1000 + "s")
+console.log("  PAGE LOAD: " + pageLoad / 1000 + "s")
+console.log("  SCRIPT: " + script / 1000 + "s")
 
 // Setting User Agent is not then-able, so we do this first (if defined and not default)
 if (USER_AGENT && 0 !== USER_AGENT.trim().length && USER_AGENT != "default") {
@@ -198,55 +200,35 @@ if (USER_AGENT && 0 !== USER_AGENT.trim().length && USER_AGENT != "default") {
   console.log("Setting User-Agent to " + USER_AGENT)
 }
 
-// Get browser capabilities and do nothing with it, so that we start with a then-able command
-$webDriver
-  .getCapabilities()
-  .then(function () {})
-  // Step 1
-  // if an error happens at any step, script execution is halted and a failed result is returned
-  .then(function () {
-    console.log("1. first step")
-    return $webDriver.get(FULL_URL)
-  })
-  // Step 2
-  .then(function () {
-    console.log("2. waitForAndFindElement: ", loc.main.value)
-    // verify id for main has loaded
-    return waitForAndFindElement(loc.main, DEFAULT_TIMEOUT)
-  })
-  // Step 3
-  .then(function () {
-    console.log("3. waitForAndFindElement: ", loc.nav.value)
-    // verify site nav has loaded
-    return waitForAndFindElement(loc.nav, DEFAULT_TIMEOUT)
-  })
-  // Step 4
-  .then(function () {
-    console.log("4. findElement: ", loc.telemetry.value)
-    return $webDriver.findElement(loc.telemetry, DEFAULT_TIMEOUT)  })
-  // Step 5
-  .then(function (el) {
-    console.log("5. getText")
-    return el.getText()
-  })
-  // Step 6
-  .then(function (text) {
-    console.log("6. assert.equal: " + text + " == " + CHECK)
-    assert.equal(text, CHECK, "validation text not found")
-  })
-  // Step 7 (if assert is equal)
-  .then(function () {
-    console.log("7. verify tools:")
-    // loop through the tools array
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    loc.tools.forEach(function (nr, i, arr) {
-      let n = i+1
-      console.log("  " + n + ". " + nr.service)
-      // verify each asset has loaded
-      return $webDriver.findElement(nr.selector, DEFAULT_TIMEOUT).catch(function (err) {
-        console.error("Failure in Step 7." + n)
-        throw err
-      })
-    })
-  })
+// if an error happens at any step, script execution is halted and a failed result is returned
+console.log("1. get: " + MAIN_URL)
+await $webDriver.get(MAIN_URL)
+
+console.log("2. waitForAndFindElement: " + loc.video)
+const textBlock = await waitForAndFindElement(loc.video, IMPLICIT_TIMEOUT)
+
+console.log("3. getText: " + CHECK)
+const text = await textBlock.getText()
+
+console.log("4. assert.equal: " + text)
+assert.equal(text, CHECK, "validation text not found")
+
+console.log("5. waitForAndFindElement: " + loc.start)
+const platformMenu = await waitForAndFindElement(loc.start, IMPLICIT_TIMEOUT)
+
+console.log("6. takeScreenshot")
+await $webDriver.takeScreenshot()
+
+console.log("7. findElement")
+loc.e.forEach(async function (nr, i) {
+  let n = i + 1
+  try{
+    // verify each asset has loaded
+    console.log("  " + n + ". " + nr.step + ": " + nr.selector)
+    await $webDriver.findElement(nr.selector)
+  }catch(exception){
+    console.error("Failure in Step 7." + n)
+    throw exception
+  }
+})
 ```

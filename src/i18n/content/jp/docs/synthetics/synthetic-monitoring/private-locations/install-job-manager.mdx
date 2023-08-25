@@ -8,11 +8,11 @@ metaDescription: Install New Relic's container based job manager that accepts an
 translationType: machine
 ---
 
-import dockerLogoCrop from 'images/docker-logo-crop.png';
+import syntheticDocker from 'images/synthetic_logo_docker.webp'
 
-import integrationK8 from 'images/img-integration-k8.png';
+import synthetick8s from 'images/synthetic_logo_k8logo.webp'
 
-シンセティック モニタリング ジョブ マネージャーは、 [Docker コンテナー](https://www.docker.com/resources/what-container)ベースのリソースであり、 [プライベート ロケーション](/docs/synthetics/new-relic-synthetics/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations)に割り当てられた[シンセティック モニター](/docs/synthetics/new-relic-synthetics/getting-started/types-synthetics-monitors)を受け入れて実行します。
+シンセティック モニタリング ジョブ マネージャーは、 [Docker コンテナー](https://www.docker.com/resources/what-container)ベースのリソースであり、 [プライベート ロケーション](/docs/synthetics/synthetic-monitoring/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations)に割り当てられた[シンセティック モニター](/docs/synthetics/synthetic-monitoring/getting-started/types-synthetics-monitors)を受け入れて実行します。
 
 ジョブ マネージャーは、Docker コンテナー システム環境または Kubernetes コンテナー オーケストレーション システム環境で動作できます。ジョブ マネージャーは、その環境を自動検出して、適切な動作モードを選択します。
 
@@ -47,7 +47,7 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 <CollapserGroup>
   <Collapser
     id="docker-requirements"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>コンテナシステム環境要件</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>コンテナシステム環境要件</>}
   >
     <table>
       <thead>
@@ -81,7 +81,7 @@ Synthetics ジョブ マネージャーをホストするには、システム�
           </td>
 
           <td>
-            最新のマルチコアCPU
+            最新のマルチコア AMD64 / x86_64 CPU
           </td>
         </tr>
 
@@ -144,7 +144,7 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
   <Collapser
     id="kubernetes-requirements"
-    title={<><img src={integrationK8} title="Kubernetes icon" alt="Kubernetes icon" style={{ height: '35px', width: '40px' }}/>Kubernetes コンテナ オーケストレーション システムの環境要件</>}
+    title={<><img src={synthetick8s} title="Kubernetes icon" alt="Kubernetes icon" style={{ height: '35px', width: '40px' }}/>Kubernetes コンテナ オーケストレーション システムの環境要件</>}
   >
     <table>
       <thead>
@@ -209,7 +209,7 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
         <tr>
           <td>
-            ノード API ランタイム ポッド
+            Node.js API ランタイム ポッド
           </td>
 
           <td>
@@ -217,14 +217,14 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
             追加の考慮事項：
 
-            * Node API ランタイム ポッドに割り当てられたリソースは、ユーザーが構成できます。
+            * Node.js API ランタイム ポッドに割り当てられたリソースは、ユーザーが構成できます。
             * CPUとメモリの両方の最大制限要求リソース比率は2です。
           </td>
         </tr>
 
         <tr>
           <td>
-            ノード ブラウザ ランタイム ポッド
+            Node.js ブラウザー ランタイム ポッド
           </td>
 
           <td>
@@ -232,7 +232,7 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
             追加の考慮事項：
 
-            * ノード ブラウザ ランタイム ポッドに割り当てられたリソースは、ユーザーが設定できます。
+            * Node.js ブラウザー ランタイム ポッドに割り当てられたリソースは、ユーザーが構成できます。
             * CPUとメモリの両方の最大制限要求リソース比率は2です。
           </td>
         </tr>
@@ -305,11 +305,11 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
 ## プライベートロケーションキー
 
-合成ジョブ マネージャーを起動する前に、 [プライベート ロケーション キー](/docs/synthetics/new-relic-synthetics/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations#create-location)が必要です。Synthetics ジョブ マネージャーはキーを使用して New Relic に対して認証し、そのプライベートな場所に関連付けられたモニターを実行します。
+合成ジョブ マネージャーを起動する前に、 [秘密の場所のキー](/docs/synthetics/synthetic-monitoring/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations#create-location)が必要です。Synthetics ジョブ マネージャーはキーを使用して New Relic に対して認証し、そのプライベートな場所に関連付けられたモニターを実行します。
 
 既存のプライベートロケーションのキーを見つけるには：
 
-1. [**one.newrelic.com**](http://one.newrelic.com/) **> Synthetics>Privatelocationsに移動します**。
+1. **[one.newrelic.com > シンセティック モニタリング > プライベート ロケーション](https://one.newrelic.com/synthetics-nerdlets/private-location-list)**に移動します。
 
 2. **プライベート ロケーション**インデックスで、合成ジョブ マネージャーを割り当てるプライベート ロケーションを見つけます。
 
@@ -321,11 +321,17 @@ Synthetics ジョブ マネージャーをホストするには、システム�
 
 ## 合成ジョブ マネージャーのインストール、更新、および構成 [#install]
 
+同じホスト内で複数の Docker プライベート ロケーション コンテナーを実行している場合、ポートの競合が発生します。このポートの競合を回避するには、ジョブ マネージャーのセットアップを開始するときに必ず次のことを行ってください。
+
+* 異なるホストでジョブ マネージャーと CPM を実行します。
+* 各ジョブ マネージャーを個別のホストで実行します。
+* 各 CPM を異なるホストで実行します。
+
 Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https://hub.docker.com/)でホストされています。[hub.docker.com/r/newrelic/synthetics-job-manager/tags](https://hub.docker.com/r/newrelic/synthetics-job-manager/tags)に移動しますすべてのリリースのリストについては。
 
 ローカル イメージ リポジトリでイメージをホストしている場合を除き、Docker が合成ジョブ マネージャーと合成ランタイム イメージをプルできるように、ファイアウォールを介した`docker.io`への接続を許可する必要があります。Synthetics ジョブ マネージャーが起動すると、ランタイム イメージが自動的にプルされます。ローカル リポジトリとランナー レジストリ エンドポイントを設定する方法の詳細については、 [Docker 環境の構成](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#docker-env-config)と[Kubernetes 環境の構成](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#kubernetes-env-config)を参照してください。
 
-高度な構成設定の詳細については、 [synthetics ジョブ マネージャーの構成](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration)を参照してください。
+高度な構成設定の詳細については、 [synthetics ジョブ マネージャーの構成](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration)を参照してください。
 
 ## 合成ジョブ マネージャーを開始する [#start]
 
@@ -334,7 +340,7 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
 <CollapserGroup>
   <Collapser
     id="docker-update"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>開始手順</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>開始手順</>}
   >
     1. [プライベートロケーションキー](#private-location-key)を見つけます。
 
@@ -346,8 +352,8 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
 
          ```
          docker run \
-             --name <var>YOUR_CONTAINER_NAME</var> \
-             -e "PRIVATE_LOCATION_KEY=<var>YOUR_PRIVATE_LOCATION_KEY</var>" \
+             --name YOUR_CONTAINER_NAME \
+             -e "PRIVATE_LOCATION_KEY=YOUR_PRIVATE_LOCATION_KEY" \
              -v /var/run/docker.sock:/var/run/docker.sock:rw \
              -d \
              --restart unless-stopped \
@@ -358,8 +364,8 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
 
          ```
          docker run ^
-             --name <var>YOUR_CONTAINER_NAME</var> ^
-             -e "PRIVATE_LOCATION_KEY=<var>YOUR_PRIVATE_LOCATION_KEY</var>" ^
+             --name YOUR_CONTAINER_NAME ^
+             -e "PRIVATE_LOCATION_KEY=YOUR_PRIVATE_LOCATION_KEY" ^
              -v /var/run/docker.sock:/var/run/docker.sock:rw ^
              -d ^
              --restart unless-stopped ^
@@ -369,20 +375,20 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
        ミニオンコンテナのログを表示します。
 
        ```
-       docker logs --follow <var>YOUR_CONTAINER_NAME</var>
+       docker logs --follow YOUR_CONTAINER_NAME
        ```
   </Collapser>
 
   <Collapser
     id="kubernetes-install"
-    title={<><img src={integrationK8} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>の開始手順</>}
+    title={<><img src={synthetick8s} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>の開始手順</>}
   >
     1. [プライベートロケーションキー](#private-location-key)を見つけます。
 
     2. Kubernetes クラスターで合成ジョブ マネージャーの名前空間を設定します。
 
        ```
-       kubectl create namespace <var>YOUR_NAMESPACE</var>
+       kubectl create namespace YOUR_NAMESPACE
        ```
 
     3. NewRelicHelmリポジトリからHelmチャートをコピーします。
@@ -390,7 +396,7 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
        * チャートを初めてコピーする場合：
 
          ```
-         helm repo add <var>YOUR_REPO_NAME</var> https://helm-charts.newrelic.com
+         helm repo add YOUR_REPO_NAME https://helm-charts.newrelic.com
          ```
 
        * 以前にNewRelicHelmリポジトリからHelmチャートをコピーした場合は、最新のものを入手してください。
@@ -404,19 +410,19 @@ Synthetics ジョブ マネージャーのイメージは、 [Docker Hub](https:
        * Synthetics ジョブ マネージャーの新規インストールの場合:
 
          ```
-         helm install <var>YOUR_JOB_MANAGER_NAME</var> <var>YOUR_REPO_NAME</var>/synthetics-job-manager -n <var>YOUR_NAMESPACE</var> --set synthetics.privateLocationKey=<var>YOUR_PRIVATE_LOCATION_KEY</var>
+         helm install YOUR_JOB_MANAGER_NAME YOUR_REPO_NAME/synthetics-job-manager -n YOUR_NAMESPACE --set synthetics.privateLocationKey=YOUR_PRIVATE_LOCATION_KEY
          ```
 
        * 既存の Synthetics ジョブ マネージャーのインストールを更新するには:
 
          ```
-         helm upgrade <var>YOUR_JOB_MANAGER_NAME</var> <var>YOUR_REPO_NAME</var>/synthetics-job-manager -n <var>YOUR_NAMESPACE</var> --set synthetics.privateLocationKey=<var>YOUR_PRIVATE_LOCATION_KEY</var>
+         helm upgrade YOUR_JOB_MANAGER_NAME YOUR_REPO_NAME/synthetics-job-manager -n YOUR_NAMESPACE --set synthetics.privateLocationKey=YOUR_PRIVATE_LOCATION_KEY
          ```
 
     5. Synthetics ジョブ マネージャー ポッドが稼働しているかどうかを確認します。
 
        ```
-       kubectl get -n <var>YOUR_NAMESPACE</var> pods
+       kubectl get -n YOUR_NAMESPACE pods
        ```
 
        各ポッドの`status`属性が`running`として表示されると、Synthetics ジョブ マネージャーが起動し、プライベート ロケーションに割り当てられたモニターを実行する準備が整います。
@@ -430,15 +436,15 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 <CollapserGroup>
   <Collapser
     id="docker-stop"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>停止手順</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>停止手順</>}
   >
     [Dockerコンテナーは、コンテナー名またはコンテナーIDのいずれかで停止](https://docs.docker.com/engine/reference/commandline/stop/)できます。
 
     * Linux、macOS、およびWindowsのコンテナー名の停止：
 
       ```
-      docker stop <var>YOUR_CONTAINER_NAME</var>
-        docker rm <var>YOUR_CONTAINER_NAME</var>
+      docker stop YOUR_CONTAINER_NAME
+        docker rm YOUR_CONTAINER_NAME
       ```
 
     * Linux / macOSのコンテナID停止：
@@ -446,7 +452,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
       例では、コンテナは停止され、削除されます。コンテナのみを停止するには、 `docker rm $CONTAINER_ID`を省略します。
 
       ```
-      CONTAINER_ID=$(docker ps -aqf name=<var>YOUR_CONTAINER_NAME</var>)
+      CONTAINER_ID=$(docker ps -aqf name=YOUR_CONTAINER_NAME)
         docker stop $CONTAINER_ID
         docker rm $CONTAINER_ID
       ```
@@ -456,7 +462,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
       例では、コンテナは停止され、削除されます。コンテナのみを停止するには、 `docker rm $CONTAINER_ID`を省略します。
 
       ```
-      FOR /F "tokens=*" %%CID IN ('docker ps -aqf name=<var>YOUR_CONTAINER_NAME</var>') do (SET CONTAINER_ID=%%CID)
+      FOR /F "tokens=*" %%CID IN ('docker ps -aqf name=YOUR_CONTAINER_NAME') do (SET CONTAINER_ID=%%CID)
         docker stop %CONTAINER_ID%
         docker rm %CONTAINER_ID%
       ```
@@ -464,24 +470,24 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 
   <Collapser
     id="kubernetes-delete"
-    title={<><img src={integrationK8} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>の削除手順</>}
+    title={<><img src={synthetick8s} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>の削除手順</>}
   >
-    1. 削除する Synthetics ジョブ マネージャー ポッドの<var>JOB_MANAGER_POD_INSTALLATION_NAME</var>を取得します。
+    1. 削除する Synthetics ジョブ マネージャー ポッドの JOB_MANAGER_POD_INSTALLATION_NAME を取得します。
 
        ```
-       helm list -n <var>YOUR_NAMESPACE</var>
+       helm list -n YOUR_NAMESPACE
        ```
 
     2. ミニオンポッドを削除します。
 
        ```
-       helm uninstall -n <var>YOUR_NAMESPACE</var> <var>JOB_MANAGER_POD_INSTALLATION_NAME</var>
+       helm uninstall -n YOUR_NAMESPACE JOB_MANAGER_POD_INSTALLATION_NAME
        ```
 
     3. Kubernetes クラスターで合成ジョブ マネージャー用に設定された名前空間を削除します。
 
        ```
-       kubectl delete namespace <var>YOUR_NAMESPACE</var>
+       kubectl delete namespace YOUR_NAMESPACE
        ```
   </Collapser>
 </CollapserGroup>
@@ -493,7 +499,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 <CollapserGroup>
   <Collapser
     id="docker-dependencies"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>の依存関係</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>の依存関係</>}
   >
     Synthetics ジョブ マネージャーは Docker で実行され、Docker をサンドボックス テクノロジとして活用できます。これにより、モニターの実行が完全に分離され、セキュリティ、信頼性、再現性が向上します。スクリプト化されたモニターまたはブラウザー モニターが実行されるたびに、synthetics ジョブ マネージャーはまったく新しい Docker コンテナーを作成し、一致するランタイムを使用してそれを実行します。
 
@@ -501,7 +507,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 
     起動時に重要な依存関係があります。サンドボックスを有効にするには、次のことを確認してください。
 
-    * 書き込み可能な Docker UNIX ソケットが`/var/run/docker.sock`または`DOCKER_HOST` [環境変数](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration/#environment-variables)にマウントされています。詳細については、Docker の[Daemon ソケット オプション](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option)を参照してください。
+    * 書き込み可能な Docker UNIX ソケットが`/var/run/docker.sock`または`DOCKER_HOST` [環境変数](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#environment-variables)にマウントされています。詳細については、Docker の[Daemon ソケット オプション](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option)を参照してください。
 
       <Callout variant="caution">
         ホスト上のコア数によって、シンセティック ジョブ マネージャーがホスト上で同時に実行できるランタイム コンテナーの数が決まります。メモリ要件はランタイム コンテナーの予想される数に合わせて調整されるため、リソースの競合を避けるため**に、同じホストで複数の合成ジョブ マネージャーを実行しない**ことをお勧めします。
@@ -520,7 +526,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 <CollapserGroup>
   <Collapser
     id="run-non-root"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>の非rootユーザーとして実行</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>の非rootユーザーとして実行</>}
   >
     詳細については、[セキュリティ](https://docs.docker.com/engine/security/security/)および[AppArmorセキュリティプロファイル](https://docs.docker.com/engine/security/apparmor/)に関するDockerの公式ドキュメントを参照してください。
 
@@ -528,7 +534,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
 
     1. `my_user`がホストでDockerエンジンを使用できることを確認します。
 
-       `my_user`[が`"docker"`システムグループに属して](https://docs.docker.com/engine/install/linux-postinstall/)いることを確認します。
+       `my_user`[が`"docker"`システム グループに属して](https://docs.docker.com/engine/install/linux-postinstall/)いることを確認します。ブリッジ ネットワークを作成するには、 `docker.sock`への限定されたルート アクセスが引き続き必要です。
 
        また
 
@@ -541,13 +547,13 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
        これらの条件が満たされたら、synthetics ジョブ マネージャーを起動するときにオプション`"-u <uid>:<gid>"`を使用します。
 
        ```
-       docker run ... -u <var>1002</var> ...
+       docker run ... -u 1002 ...
        ```
 
        また
 
        ```
-       docker run ... -u <var>1002</var> -e DOCKER_HOST=http://localhost:2375 ...
+       docker run ... -u 1002 -e DOCKER_HOST=http://localhost:2375 ...
        ```
   </Collapser>
 </CollapserGroup>
@@ -563,16 +569,16 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
   >
     必要に応じて、次のオプションを使用してください。
 
-    * Docker ログを追跡し、モニターの正常性を確認するには、 [synthetics ジョブ マネージャーのメンテナンスと監視](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-maintenance-monitoring)を参照してください。
+    * Docker ログを追跡し、モニターの正常性を確認するには、 [synthetics ジョブ マネージャーのメンテナンスと監視](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-maintenance-monitoring)を参照してください。
 
     * Kubernetes コンテナー オーケストレーション システム環境の合成ジョブ マネージャーの場合、次の Helm `show`コマンドを使用して、それぞれ`chart.yaml`と`values.yaml`を表示できます。
 
       ```
-      helm show chart <var>YOUR_REPO_NAME</var>/synthetics-job-manager
+      helm show chart YOUR_REPO_NAME/synthetics-job-manager
       ```
 
       ```
-      helm show values <var>YOUR_REPO_NAME</var>/synthetics-job-manager
+      helm show values YOUR_REPO_NAME/synthetics-job-manager
       ```
   </Collapser>
 
@@ -634,7 +640,7 @@ Docker コンテナー システム環境で、Docker `stop`プロシージャ�
       </td>
 
       <td>
-        プロキシによる New Relic との通信を設定するには、次の名前の[環境変数](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration#environment-variables)を使用します。 `HORDE_API_PROXY*.`
+        プロキシによる New Relic との通信をセットアップするには、次の名前の[環境変数](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration#environment-variables)を使用します。 `HORDE_API_PROXY*.`
       </td>
     </tr>
 

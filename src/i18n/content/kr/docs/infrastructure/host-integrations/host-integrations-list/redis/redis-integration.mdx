@@ -8,15 +8,13 @@ metaDescription: 'New Relic''s Redis integration: how to install it, configure i
 translationType: machine
 ---
 
-import guidedInstallCli from 'images/guided-install-cli.png'
-
 Redis 통합은 [Redis](https://redis.io) 서버에서 New Relic 제품으로 중요한 성능 데이터를 보고합니다. 사전 구축된 대시보드에서 이 [메트릭 데이터](#metrics) 및 [인벤토리 데이터](#inventory) 를 보고, 경고 정책을 생성하고, 사용자 지정 쿼리 및 차트를 생성할 수 있습니다. 또한 애플리케이션에 중요한 키를 지정하고 키 길이에 대한 정보를 얻을 수 있습니다.
 
 통합을 설치하고 수집하는 데이터를 보려면 계속 읽으십시오.
 
 ## 호환성 및 요구 사항 [#comp-req]
 
-통합은 Redis 버전 3.0 이상과 호환됩니다.
+우리의 통합은 3.0에서 7.0까지의 Redis 버전과 호환됩니다.
 
 통합을 설치하기 전에 다음 요구 사항을 충족하는지 확인하십시오.
 
@@ -51,12 +49,6 @@ Redis 통합은 [Redis](https://redis.io) 서버에서 New Relic 제품으로 �
 ## 빠른 시작 [#quick]
 
 Redis 서버를 신속하게 계측하고 설치 안내를 통해 원격 측정 데이터를 보내십시오. 가이드 설치는 New Relic CLI 및 인프라 에이전트를 다운로드하고 설치하는 사용자 환경에 대한 사용자 정의 CLI 명령을 생성합니다.
-
-<img
-  title="The guided install CLI."
-  alt="A screenshot of the guided install CLI."
-  src={guidedInstallCli}
-/>
 
 시작할 준비가 되셨습니까? 이 버튼 중 하나를 클릭하여 사용해 보십시오.
 
@@ -108,7 +100,7 @@ Redis 통합을 설치하려면 환경에 대한 지침을 따르세요.
     id="linux-install"
     title="Linux"
   >
-    1. 파일 이름 `nri-redis` 을(를) 사용하여 [통합 설치](/docs/install-integrations-package) 지침을 따르십시오.
+    1. [인프라 에이전트를 설치하고](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install) `INTEGRATION_FILE_NAME` 변수를 `nri-redis` 로 바꿉니다.
 
     2. 디렉토리를 통합 구성 폴더로 변경하십시오.
 
@@ -161,12 +153,12 @@ Redis 통합을 설치하려면 환경에 대한 지침을 따르세요.
   >
     1. 다음에서 `nri-redis` .MSI 설치 프로그램 이미지를 다운로드합니다.
 
-       [http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-redis/nri-redis-amd64.msi](http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-redis/nri-redis-amd64.msi)
+       [https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-redis/nri-redis-amd64.msi](https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-redis/nri-redis-amd64.msi)
 
     2. Windows 명령 프롬프트에서 설치하려면 다음을 실행하십시오.
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-redis-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-redis-amd64.msi
        ```
 
        또는 탐색기에서 파일을 두 번 클릭합니다.
@@ -182,6 +174,8 @@ Redis 통합을 설치하려면 환경에 대한 지침을 따르세요.
     5. [인프라 에이전트를 다시 시작하십시오](/docs/infrastructure/new-relic-infrastructure/configuration/start-stop-restart-check-infrastructure-agent-status) .
   </Collapser>
 </CollapserGroup>
+
+<InstallFeedback/>
 
 ## Redis 서버를 위한 New Relic 사용자 생성 [#enable-instance]
 
@@ -1262,4 +1256,4 @@ Redis 통합은 Redis 서비스에 대한 다음과 같은 추가 [속성](/docs
 
 ## 소스 코드 확인 [#source-code]
 
-이 통합은 오픈 소스 소프트웨어입니다. 즉 [, 소스 코드를 탐색하고](https://github.com/newrelic/nri-redis "링크가 새 창에서 열립니다.") 개선 사항을 보내거나 고유한 포크를 만들어 빌드할 수 있습니다.
+이 통합은 오픈 소스 소프트웨어입니다. 즉 [, 소스 코드를 탐색하고](https://github.com/newrelic/nri-redis) 개선 사항을 보내거나 자신만의 포크를 만들어 빌드할 수 있습니다.

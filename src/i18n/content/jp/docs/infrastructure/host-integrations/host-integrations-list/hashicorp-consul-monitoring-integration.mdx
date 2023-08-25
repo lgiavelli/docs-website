@@ -8,9 +8,11 @@ metaDescription: 'New Relic''s HashiCorp integration: what data it reports and h
 translationType: machine
 ---
 
-import guidedInstallCli from 'images/guided-install-cli.png'
+当社の HashiCorp Consul [オンホスト統合は、](/docs/integrations/host-integrations/getting-started/introduction-host-integrations) Consul データセンター環境からインベントリとメトリクスを収集して New Relic に送信し、そこで環境の健全性を確認できます。データセンターとエージェント/ノード レベルの両方でデータを収集します。
 
-HashiCorp Consulのオンホスト[統合により](/docs/integrations/host-integrations/getting-started/introduction-host-integrations)、インベントリとメトリックが収集され、Consul環境からNew Relicに送信されます。ここで、Consulデータセンター環境の状態を確認できます。データセンターレベルとエージェント/ノードレベルの両方でデータを収集します。
+<Callout variant="tip">
+  [Hashicorp Cloud Platform Consul 統合](/docs/infrastructure/host-integrations/host-integrations-list/hashicorp-consul-monitoring-integration)もあることに注意してください。
+</Callout>
 
 統合をインストールし、収集するデータを確認するために読んでください。
 
@@ -30,12 +32,6 @@ HashiCorp Consulのオンホスト[統合により](/docs/integrations/host-inte
 ## クイックスタート [#quick]
 
 領事館の環境をすばやく計測し、ガイド付きインストールでテレメトリデータを送信します。ガイド付きインストールでは、環境に合わせてカスタマイズされたCLIコマンドを作成し、NewRelicCLIとインフラストラクチャエージェントをダウンロードしてインストールします。
-
-<img
-  title="The guided install CLI."
-  alt="A screenshot of the guided install CLI."
-  src={guidedInstallCli}
-/>
 
 始める準備はできましたか？これらのボタンのいずれかをクリックして試してください。
 
@@ -86,7 +82,7 @@ HashiCorp Consul統合をインストールするには、ご使用の環境の�
     id="linux-install"
     title="Linux"
   >
-    1. ファイル名`nri-consul`を使用して[、統合をインストールする](/docs/install-integrations-package)ための指示に従います。
+    1. [インフラストラクチャ エージェントをインストールし](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install)、 `INTEGRATION_FILE_NAME`変数を`nri-consul`に置き換えます。
 
     2. ディレクトリを統合フォルダに変更します。
 
@@ -111,12 +107,12 @@ HashiCorp Consul統合をインストールするには、ご使用の環境の�
   >
     1. `nri-consul` .MSIインストーラーイメージを以下からダウンロードします。
 
-       [http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
+       [https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
 
     2. Windowsコマンドプロンプトからインストールするには、次のコマンドを実行します。
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-consul-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-consul-amd64.msi
        ```
 
     3. Integrationsディレクトリ`C:\Program Files\New Relic\newrelic-infra\integrations.d\`で、次のコマンドを実行してサンプル構成ファイルのコピーを作成します。
@@ -135,6 +131,8 @@ HashiCorp Consul統合をインストールするには、ご使用の環境の�
 
 * **高度：**統合は[tarball形式](/docs/integrations/host-integrations/installation/install-host-integrations-built-new-relic#tarball)でも利用可能であり、パッケージマネージャーの外部にインストールできます。
 * **オンホスト統合は自動的に更新されません。**最良の結果を得るには、統合パッケージと[インフラストラクチャエージェント](/docs/infrastructure/new-relic-infrastructure/installation/update-infrastructure-agent)を定期的に[更新して](/docs/integrations/host-integrations/installation/update-infrastructure-host-integration-package)ください。
+
+<InstallFeedback/>
 
 ## 構成 [#configuration]
 
@@ -1149,4 +1147,4 @@ HashiCorp Consul統合は、ConsulAgentノードの構成パラメーターと�
 
 ## ソースコードを確認してください [#source-code]
 
-この統合はオープンソースソフトウェアです。つまり[、ソースコードを参照して](https://github.com/newrelic/nri-consul "リンクが新しいウィンドウで開きます。")改善を送信したり、独自のフォークを作成してビルドしたりできます。
+この統合はオープン ソース ソフトウェアです。つまり[、ソース コードを参照して](https://github.com/newrelic/nri-consul)改善を送信したり、独自のフォークを作成してビルドしたりできます。

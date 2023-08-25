@@ -4,11 +4,9 @@ metaDescription: Use New Relic's browser monitoring AJAX page to pinpoint proble
 translationType: machine
 ---
 
-import nrOneAjaxBrowser from 'images/nr-one-ajax-browser.png'
+import browserAjaxDetails from 'images/browser_screenshot-full_ajax-details.webp'
 
-import nrOneAjaxDetails from 'images/nr-one-ajax-details.png'
-
-ブラウザモニタリングの**AJAXUI**は、ブラウザからHTTPまたはHTTPSドメインなどの外部エンドポイントへの最近のAJAXリクエストを表示します。この情報は、サイトのWebページの一部を更新する時間のかかるまたは失敗したAJAX呼び出しがある場合に、エンドユーザーエクスペリエンスの問題を特定するのに役立ちます。デスクトップブラウザ、モバイルデバイス、タブレットなど、デバイスの種類ごとに問題を確認できます。
+当社のブラウザー モニタリング**AJAX** UI は、ブラウザーから HTTP や HTTPS ドメインなどの外部エンドポイントへの最近の AJAX リクエストを表示します。この情報は、サイトの Web ページの一部を更新する AJAX 呼び出しに時間がかかる場合や失敗する場合に、エンド ユーザー エクスペリエンスの問題を特定するのに役立ちます。デスクトップ ブラウザー、モバイル デバイス、タブレットなど、デバイスの種類別に問題を確認できます。
 
 ## トラブルシューティングのポイント [#troubleshooting]
 
@@ -79,19 +77,11 @@ import nrOneAjaxDetails from 'images/nr-one-ajax-details.png'
 
 アプリのAJAXリクエストに関する問題をトラブルシューティングするためのものです。
 
-1. アクセス先 **[one.newrelic.com](https://one.newrelic.com) > ブラウザ> （アプリを選択）> AJAX**.
+1. **[one.newrelic.com >All capabilities](https://one.newrelic.com/all-capabilities) > Browser > (アプリを選択) > AJAX**に移動します。
 2. デバイスのタイプを選択します：デスクトップ（デフォルト）、モバイル、およびタブレット。
-3. パフォーマンスまたはページビューごとに特定のAJAX呼び出しの詳細を確認するには、リンクをクリックします。
+3. AJAX リクエストをクリックします。
 
-<img
-  title="New Relic browser monitoring: AJAX summary"
-  alt="A screenshot of the AJAX summary UI in New Relic"
-  src={nrOneAjaxBrowser}
-/>
-
-<figcaption>
-  **[one.newrelic.com](https://one.newrelic.com) > ブラウザ> （アプリを選択）> AJAX**: サイト上のウェブページの一部を更新するAJAXコールに時間がかかったり、失敗したりすることによる問題を特定します。
-</figcaption>
+Ajax リクエストに照準を合わせたら、調査を開始します。これらの戦略のいくつかを試してください。
 
 <CollapserGroup>
   <Collapser
@@ -108,7 +98,7 @@ import nrOneAjaxDetails from 'images/nr-one-ajax-details.png'
           </th>
 
           <th>
-            コメント
+            コメントコメント
           </th>
         </tr>
       </thead>
@@ -121,6 +111,10 @@ import nrOneAjaxDetails from 'images/nr-one-ajax-details.png'
 
           <td>
             UIで使用可能な**並べ替え**オプションのいずれかを使用します。 2分以上かかるすべてのAJAXリクエストは自動的に除外されます
+          </td>
+
+          <td>
+            **Group by**\[グループ化] オプションを使用して `requestUrl` または `groupedRequestUrl` を選択すると、データをより柔軟に表示できます。
           </td>
         </tr>
 
@@ -163,21 +157,26 @@ import nrOneAjaxDetails from 'images/nr-one-ajax-details.png'
   >
     **AJAX**サマリーページから特定のコールを選択した後、 **AJAXパフォーマンス**リンクを使用して詳細情報にドリルダウンできます。これには、 [セッショントレースの詳細](/docs/browser/browser-monitoring/browser-pro-features/session-traces-explore-webpages-life-cycle)への直接リンクが含まれます。
 
-    ここから、タブを選択してページビューごとのパフォーマンスデータを取得することもできます。 （アプリサーバーのリクエストがブラウザの`PageView`トランザクションを大幅に上回っている場合、これはバックエンドへのリクエストの一部がAJAXを介して行われるためです。詳細については、 [トラブルシューティング手順](/docs/browser/new-relic-browser/troubleshooting/app-server-requests-greatly-outnumber-browser-pageview-transactions)をご覧ください。）
+    ここからタブを選択して、ページ ビュー別のパフォーマンス データを取得することもできます。(アプリ サーバーのリクエスト数がブラウザの `PageView` トランザクション数を大幅に上回っている場合は、バックエンドへのリクエストの一部が AJAX を介して行われているためです。詳細については、 [トラブルシューティング手順を](/docs/browser/new-relic-browser/troubleshooting/app-server-requests-greatly-outnumber-browser-pageview-transactions)参照してください。)
 
     <img
       title="New Relic browser monitoring: AJAX details"
       alt="A screenshot of the AJAX details UI in New Relic"
-      src={nrOneAjaxDetails}
+      src={browserAjaxDetails}
     />
 
     <figcaption>
-      **[one.newrelic.com](https://one.newrelic.com) > Browser> (select an app)> AJAX> (select an AJAX call)**: この例では、特定のAJAXコールのパフォーマンス詳細を示しています。また、ページビューごとにパフォーマンスの詳細を表示することもできます。
+      **[one.newrelic.com >All capabilities](https://one.newrelic.com/all-capabilities) > Browser > (アプリを選択) > AJAX > (AJAX 呼び出しを選択)**: この例は、特定の AJAX 呼び出しのパフォーマンスの詳細を示します。ページビューごとにパフォーマンスの詳細を表示することもできます。
     </figcaption>
 
     **平均応答時間** チャート上のAJAXエンドポイントは、4つの時間帯として表示される場合と2つの時間帯として表示される場合があります。これは、 [クロスアプリケーショントレースヘッダー](/docs/apm/transactions/cross-application-traces/cross-application-tracing#security) があるかどうかによります。
 
-    * 4つの時間帯（**アプリケーションの時間** 、 **キューの時間** 、 **ネットワークの時間** 、 **コールバックの時間** ）があります。これらのAJAXコールは、クロスアプリケーショントレースヘッダーを提供するAPMエージェントが監視するアプリケーションに対して行われます。
+    * 4 つの期間 (**アプリケーション時間**、 **キュー時間**、 **ネットワーク時間**、および **コールバック時間**): これらの AJAX 呼び出しは、監視対象のアプリに対して行われます。
+
+      <InlinePopover type="apm"/>
+
+      クロス アプリケーション トレース ヘッダーを提供するエージェント。
+
     * 2つの時間帯（**応答時間** と **コールバック時間** ）があります。これらのAJAXコールは、APMエージェントが監視していないアプリに対して行われているか、クロスアプリケーショントレースヘッダーを提供していないエージェントによって監視されているかのどちらかです。
   </Collapser>
 

@@ -1,5 +1,5 @@
 ---
-title: 'Python:コンテキストでのログの設定'
+title: コンテキスト内の Python エージェント ログ
 tags:
   - Logs
   - Enable log management in New Relic
@@ -8,14 +8,11 @@ metaDescription: 'For apps monitored by the Python agent, learn how to link log 
 translationType: machine
 ---
 
-コンテキスト内のAPMログは、ログをアプリ、ホスト、およびその他のエンティティのすべてのテレメトリデータに接続します。このすべてのデータを1つのツールにまとめることで、次のことが可能になります。
+私たちのPythonで <InlinePopover type="apm"/>これにより、他の New Relic データのコンテキスト **で**アプリのログを確認できます。 この機能の一般的な情報については、 [コンテキスト内の APM ログ を](/docs/apm/new-relic-apm/getting-started/get-started-logs-context)参照してください。
 
-* タイムクリティカルな問題のトラブルシューティングを行うときに、何千ものログのノイズをカットして、最も関連性の高いログのみが自動的に表示されるようにします。
-* 複数のタイプのテレメトリデータ内をナビゲートし、データを元の問題に関連付けます。
-* UIの同じ場所から、より詳細な情報に簡単にドリルダウンできます。
-* 問題を特定して解決するために必要なログ行を見つけます。
-
-例を含む詳細について[は、コンテキストでAPMログを](/docs/apm/new-relic-apm/getting-started/get-started-logs-context)開始する方法を学習してください。
+<Callout variant="tip">
+  Python ログがたくさんありますか? [それらを最適化および管理する方法については、チュートリアル](/docs/tutorial-large-logs/get-started-managing-large-logs/)をご覧ください。
+</Callout>
 
 ## コンテキストオプションの自動ログ [#automatic]
 
@@ -28,9 +25,9 @@ translationType: machine
   >
     これは最も単純なアプローチであり、ログフォワーダーの設定にアクセスしたり関心を持ったりしていない開発者や、アプリのコンテキストでログやその他のリンクメタデータの機能を確認したいアカウントに最適です。多くのオーバーヘッド。
 
-    このオプションを使用すると、ログに`span.id` 、 `trace.id` 、 `hostname` 、 `entity.guid` 、および`entity.name`が含まれます。これらの属性は、ログをスパン、トレース、およびその他のテレメトリに自動的にリンクし、トラブルシューティングを容易にします。
+    このオプションを使用して、エージェントは`span.id` 、 `trace.id` 、 `hostname` 、 `entity.guid` 、および`entity.name`を追加します。[ログ転送の制限について学習します。](/docs/logs/logs-context/get-started-logs-context#forwarding-details)
 
-    ログ転送機能を備えたエージェントバージョン（ [Pythonエージェント7.12.0.176以降](https://docs.newrelic.com/docs/release-notes/agent-release-notes/python-release-notes/)）をインストールし、構成を更新して転送を有効にするだけです。
+    必要なのは、ログ転送機能を備えたエージェント バージョン ( [Python エージェント 7.12.0.176 以降](https://docs.newrelic.com/docs/release-notes/agent-release-notes/python-release-notes/)) をインストールすることだけです。転送が無効になっている場合は、次の構成を使用できます。
 
     newrelic.ini：
 
@@ -46,7 +43,7 @@ translationType: machine
     NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
     ```
 
-    このオプションは、将来のエージェントバージョンでデフォルトでオンになる可能性があります。
+    このオプションは、[エージェント バージョン 7.16.0.178](/docs/release-notes/agent-release-notes/python-release-notes/python-agent-71600178)からデフォルトでオンになっています。
 
     **オプションの調整：**
 
@@ -120,7 +117,7 @@ translationType: machine
     id="3-old-formatter"
     title="オプション3：手動プロセスを使用して、ログを転送および装飾します。"
   >
-    手動インストールオプションを使用して、Pythonで監視されているAPMアプリのコンテキストでログを有効にすることもできます。
+    手動インストール オプションを使用して、コンテキスト内のログを有効にすることもできます。 <InlinePopover type="apm"/>Python によって監視されるアプリ。
 
     1. [NewRelicでのロギングをすでに設定し](/docs/logs/enable-log-management-new-relic/enable-log-monitoring-new-relic/enable-log-management-new-relic/)ていることを確認してください。これには、アプリケーションログを収集し、NewRelicに転送されるメタデータを拡張するサポートされているログフォワーダーの構成が含まれます。
 
@@ -151,6 +148,8 @@ translationType: machine
   </Collapser>
 </CollapserGroup>
 
+<InstallFeedback/>
+
 ## データを保護する [#obfuscation]
 
 ログには、HIPAAまたはその他のコンプライアンスプロトコルによって保護されている機密情報が含まれている場合があります。デフォルトでは、クレジットカードや社会保障番号などのアイテムのように見える番号パターンを難読化しますが、追加情報をハッシュまたはマスクする必要がある場合があります。
@@ -159,9 +158,9 @@ translationType: machine
 
 ## 次は何ですか？ [#what-next]
 
-APMのログを文脈に合わせて設定した後は、ログデータを最大限に活用しましょう。
+設定後 <InlinePopover type="apm"/>状況に応じてログを記録し、ログ データを最大限に活用します。
 
-* [Logs UI](/docs/logs/log-management/ui-data/use-logs-ui/) を使って、プラットフォーム全体のロギングデータを調べてみましょう。
+* [ログ UI](/docs/logs/log-management/ui-data/use-logs-ui/)を使用して、プラットフォーム全体のログ データを探索します。
 * [APM UI](/docs/logs/log-management/ui-data/use-logs-ui/#links) で、アプリケーションのパフォーマンスのコンテキストでログを確認できます。 [エラーのトラブルシューティング](/docs/apm/apm-ui-pages/error-analytics/errors-page-find-fix-verify-problems/) [分散型トレース](/docs/apm/distributed-tracing/ui-data/understand-use-distributed-tracing-data) 、スタックトレース、アプリケーションログなどを使用します。
 * [インフラストラクチャ監視エージェント](/docs/logs/enable-log-management-new-relic/enable-log-monitoring-new-relic/forward-your-logs-using-infrastructure-agent/) でログを転送することで、アプリケーションとプラットフォームの両方のパフォーマンスデータをより深く把握することができます。 [インフラストラクチャーのログ](/docs/logs/log-management/ui-data/use-logs-ui/#links) をUIで確認することができます。
 * [アラートを](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-alert-conditions/)設定します。

@@ -8,40 +8,47 @@ metaDescription: Here are some tips for working with OpenTelemetry metrics and N
 translationType: machine
 ---
 
-import queryCumulativeSums from 'images/query-cumulative-sums.png'
+import opentelemetryQueryCumulativeSums from 'images/opentelemetry_screenshot-full_query-cumulative-sums.webp'
 
-import sumDerivativeFunction from 'images/sum-derivative-function.png'
+import opentelemetrySumDerivativeFunction from 'images/opentelemetry_screenshot-crop_sum-derivative-function.webp'
 
-import histogram1 from 'images/histogram-1.png'
+import opentelemetryHistogramOne from 'images/opentelemetry_screenshot-crop_histogram-one.webp'
 
-import histogram2 from 'images/histogram-2.png'
+import opentelemetryHistogramTwo from 'images/opentelemetry_screenshot-crop_histogram-two.webp'
+
+import opentelemetryQueryCumulativeSumGauge from 'images/opentelemetry_screenshot-full_query-cumulative-sum-guage.webp'
+
+import opentelemetryCumulativeValueCumulativeSum from 'images/opentelemetry_screenshot-full_query-latest-cumulative-value-cumulative-sum.webp'
+
+import opentelemetryRateChangeCumulativeSum from 'images/opentelemetry_screenshot-full_query-rate-change-cumulative-sum.webp'
+
+import opentelemetryRateCumulativeSum from 'images/opentelemetry_screenshot-full_query-rate-cumulative-sum.webp'
+
+수출 const 연도 = 2023; 수출 const gaDate = '4월 4일'; 내보내기 const gaDateAndYear = gaDate + ', ' + 연도;
 
 OpenTelemetry 메트릭은 New Relic 차원 메트릭과 크게 호환됩니다. OpenTelemetry 메트릭 v0.10을 지원합니다. 지원되는 모든 메트릭 유형에는 쿼리 시 메트릭 데이터를 패싯 또는 필터링하는 데 사용할 수 있는 차원에 직접 매핑되는 독립적인 관련 속성 집합(이름-값 쌍)이 포함됩니다. OpenTelemetry 메트릭은 이를 생성한 원래 엔터티를 식별하고 패싯 및 필터링을 위해 차원에 매핑하는 [리소스](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) 속성 집합과 함께 제공됩니다.
 
-메트릭에 대한 OpenTelemetry [데이터 모델](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/datamodel.md#metric-points) 은 합계, 게이지, 히스토그램 및 요약과 같은 다양한 메트릭 유형을 정의합니다.
-
-<Callout variant="important">
-  OpenTelemetry Protocol이 성숙해지고 더 많은 구성 요소가 [stable](https://github.com/open-telemetry/opentelemetry-proto#maturity-level) 로 선언됨에 따라 2022년 9월 이전에 OTLP 끝점에서 지원하는 버전을 v0.10.0에서 최신 릴리스인 v0.16.0 이상으로 이동할 예정입니다.
-
-  커뮤니티가 보다 안정적인 OTLP 릴리스를 향해 이동함에 따라 중단을 최소화하기 위해 취할 수 있는 조치 및 v0.10.0 지원 EOL 일정에 대한 추가 커뮤니케이션이 곧 있을 예정입니다.
-</Callout>
+메트릭에 대한 OpenTelemetry [데이터 모델](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/data-model.md#metric-points) 은 합계, 게이지, 히스토그램 및 요약과 같은 다양한 메트릭 유형을 정의합니다.
 
 ### 합계 메트릭 [#sums]
 
-OpenTelemetry 합계는 주어진 기간 동안의 모든 데이터 포인트의 합계인 스칼라 메트릭입니다. 합계에는 보고된 값이 이전 측정을 통합하는지(누적 시간성) 그렇지 않은지(델타 시간성) 나타내는 [시간성](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/datamodel.md#temporality) 개념이 있습니다.
+OpenTelemetry 합계는 지정된 기간 동안의 모든 데이터 포인트의 합계인 스칼라 메트릭입니다. 합계에는 보고된 값이 이전 측정을 통합하는지(누적 시간성) 그렇지 않은지(델타 시간성)을 나타내는 [시간성](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/data-model.md#temporality) 개념이 있습니다.
 
 또한 합계는 단조(상승만 또는 하락만) 또는 비단조(위 및 아래로 이동)일 수 있습니다.
 
-#### 델타 합계 [#delta]
+#### 델타 합계 [#delta-sums]
 
-New Relic에서 델타 메트릭은 단조인지 비단조인지에 따라 다르게 처리됩니다.
+델타 합은 단조인지 비단조인지에 따라 다르게 처리됩니다.
 
-* 단조 델타 합계는 카운트 메트릭 유형에 매핑됩니다.
-* 비단조 델타 합계는 지원되지 않습니다. 이러한 방식으로 측정된 것들은 사용되는 것으로 합산될 가능성이 가장 높기 때문에 의미 있는 데이터를 생성하지 않습니다. 자세한 논의는 [이 커뮤니티 풀 리퀘스트](https://github.com/open-telemetry/opentelemetry-specification/pull/2314#pullrequestreview-877408961) 와 [게이지 대 카운터](https://docs.newrelic.com/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-view-your-data/#jvms-and-metric-types) 에 대한 문서를 참조하십시오.
+* 단순 델타 합계는 [카운트](/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 메트릭 유형에 매핑됩니다.
+* 비단조 델타 합계는 지원되지 않습니다. 이러한 방식으로 측정된 것들은 사용된 것으로 합산될 가능성이 높기 때문에 의미 있는 데이터를 생성하지 않습니다. 자세한 내용은 [이 커뮤니티 풀 요청](https://github.com/open-telemetry/opentelemetry-specification/pull/2314#pullrequestreview-877408961) 및 [게이지와 카운터에 대한 문서를](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-view-your-data/#jvms-and-metric-types) 참조하십시오.
 
-#### 누적 합계 [#cumulative]
+#### 누적 합계 [#cumulative-sums]
 
-단조 및 비단조 누적 합계는 New Relic 게이지 메트릭 유형에 매핑됩니다.
+누적 합계는 단조인지 비단조인지에 따라 다르게 처리됩니다.
+
+* 단순하지 않은 누적 합계는 [게이지](/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 메트릭 유형에 매핑됩니다.
+* 단순 누적 합계는 [cumulativeCount](/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 지표 유형에 매핑됩니다. 이는 `gauge` 측정항목 유형에 계속 매핑되는 gaDateAndYear 이전에 누적 단순 합계를 전송한 계정을 제외하고는 사실입니다. [전환 가이드를](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/get-started/cumulative-metrics-transition-guide)참조하세요.
 
 #### 합계 구성 예 [#config-sums]
 
@@ -49,39 +56,37 @@ New Relic에서 델타 메트릭은 단조인지 비단조인지에 따라 다�
 
 ### 게이지 측정항목 [#gauge]
 
-OpenTelemetry 게이지 메트릭 데이터 포인트는 주어진 시간에 샘플링된 값을 나타냅니다. 이 값은 New Relic 게이지 메트릭 유형으로 변환됩니다. OpenTelemetry 게이지에는 집계 시간성이 없지만 샘플링된 값은 쿼리 시 집계될 수 있습니다.
+OpenTelemetry 게이지 메트릭 데이터 포인트는 지정된 시간에 샘플링된 값을 나타냅니다. 이러한 값은 New Relic [게이지](/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 메트릭 유형으로 변환됩니다. OpenTelemetry 게이지에는 집계 시간성이 없지만 샘플링된 값은 쿼리 시간에 집계될 수 있습니다.
 
 ### 히스토그램 측정항목 [#otel-histogram]
 
 OpenTelemetry [히스토그램](https://github.com/open-telemetry/opentelemetry-specification/blob/87a5ed7f0d4c403e2b336f275ce3e7fd66a8041b/specification/metrics/datamodel.md#histogram) 은 기록된 값의 모집단을 총 개수 및 합계와 함께 간결하게 나타냅니다. 선택적으로 히스토그램에는 명시적 경계와 해당 버킷의 모집단에 대한 개수 값이 있는 일련의 버킷이 포함될 수 있습니다.
 
-<Callout variant="caution">
-  New Relic은 현재 누적 히스토그램을 지원하지 않습니다. 대신 누적 히스토그램을 델타 시간으로 변환하십시오.
+모든 OpenTelemetry 히스토그램은 New Relic의 [분포](/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 메트릭 유형으로 변환되며 이는 확장된 지수 기반 2 히스토그램으로 뒷받침됩니다(자세한 설명은 [NrSketch](https://github.com/newrelic-experimental/newrelic-sketch-java#new-relic-sketch) 참조).
 
-  델타 시간성을 사용하도록 SDK를 구성하기 전에 [OTLP 메트릭 내보내기에 대한 사양을](https://github.com/open-telemetry/opentelemetry-specification/blob/ce50e4634efcba8da445cc23523243cb893905cb/specification/metrics/sdk_exporters/otlp.md#opentelemetry-metrics-exporter---otlp) 참조하세요.
+#### 델타 막대 그래프 [#delta-histograms]
 
-  이 계정 쿼리를 사용하여 지원되지 않는 일시적으로 인해 측정항목이 삭제되는지 확인할 수 있습니다.
+지수 히스토그램의 경우 NrSketch로 직접 변환할 수 있습니다.
 
-  ```sql
-  FROM NrIntegrationError SELECT * WHERE message = 'One or more OTLP metric data point(s) were dropped due to unsupported AggregationTemporality.'
-  ```
-</Callout>
+명시적 범위 히스토그램의 경우 OpenTelemetry 히스토그램 버킷의 개수가 선형 보간법을 사용하여 New Relic의 분포 메트릭 버킷에 할당됩니다. 또한 OpenTelemetry에는 New Relic에서 너비가 0인 버킷으로 나타내는 음수 및 양수 무한대 버킷이 있습니다. 음수 및 양수 무한대에 대한 표현이 없기 때문에 이렇게 합니다. 예를 들어 경계가 `\[-∞, 10)` 인 OpenTelemetry 버킷은 너비가 0인 `\[10,10)` New Relic 버킷으로 표시됩니다. 이 변환으로 인해 배포 엔드포인트에서 과장된 버킷 수를 볼 수 있습니다.
 
-OpenTelemetry 히스토그램은 축척된 지수 2 밑 히스토그램으로 뒷받침되는 New Relic의 [분포](https://docs.newrelic.com/docs/telemetry-data-platform/understand-data/metric-data/metric-data-type/#metric-types) 메트릭 유형으로 변환됩니다(더 자세한 설명은 [NrSketch](https://github.com/newrelic-experimental/newrelic-sketch-java#new-relic-sketch) 참조).
+#### 누적 히스토그램 [#cumulative-histograms]
 
-OpenTelemetry 히스토그램 버킷의 카운트는 선형 보간을 사용하여 New Relic의 분포 메트릭 버킷에 할당됩니다. 또한 OpenTelemetry에는 New Relic에서 너비가 0인 버킷으로 나타내는 음수 및 양수 무한대 버킷이 있습니다. 음의 무한대와 양의 무한대에 대한 표현이 없기 때문에 이렇게 합니다. 예를 들어 경계가 `\[-∞, 10)` 인 OpenTelemetry 버킷은 `\[10,10)` 너비가 0인 New Relic 버킷으로 표시됩니다. 이 변환으로 인해 배포 엔드포인트에서 버킷 수가 과장된 것을 볼 수 있습니다.
+누적 히스토그램은 [델타 히스토그램](#delta-histogram)으로 변환됩니다. 번역 프로세스에 대한 자세한 내용은 [누적 메트릭을](/docs/data-apis/understand-data/metric-data/cumulative-metrics)참조하십시오.
 
 ### 요약 측정항목 [#summary-metric]
 
-OpenTelemetry 요약 메트릭 데이터 포인트는 분위수 요약을 나타내는 데 사용됩니다(예: P99 지연 시간). 이는 New Relic 요약 메트릭 유형에 직접 매핑됩니다.
+OpenTelemetry 요약 메트릭 데이터 포인트는 Quantile 요약(예: P99 대기 시간)을 나타내는 데 사용됩니다. 이들은 New Relic 요약 메트릭 유형에 직접 매핑되지만 우리가 유지하는 유일한 분위수는 최소 및 최대에 대한 0.0 및 1.0 분위수입니다. 백분위수를 캡처하려는 경우 [히스토그램 메트릭](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/best-practices/opentelemetry-best-practices-metrics/#otel-histogram) 을 선호합니다.
 
 요약 메트릭 데이터 포인트에는 개수, 합계 및 분위수 값이 포함되며 최소값은 0.0이고 최대값은 1.0입니다. OpenTelemetry는 다른 형식과의 호환성을 위한 요약 메트릭을 제공합니다.
 
 ### 시작 시간 [#start-time]
 
-`startTimeUnixNano` 필드는 OpenTelemetry [사양](https://github.com/open-telemetry/opentelemetry-specification/blob/87a5ed7f0d4c403e2b336f275ce3e7fd66a8041b/specification/metrics/datamodel.md#temporality) 에 따라 선택 사항입니다. 이 필드가 제공되면 결과 New Relic 메트릭의 타임스탬프에 사용되며 `duration` 은 `timeUnixNano - startTimeUnixNano` 로 계산됩니다. `duration` 필드는 New Relic 메트릭에서 쿼리 가능한 `endTimeStamp` 속성을 계산하는 데 사용되지만 다른 의미는 없습니다.
+`startTimeUnixNano` 필드는 OpenTelemetry [사양](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#resets-and-gaps) 에 따라 선택 사항입니다. 델타 집계 시간성의 경우, 존재하는 경우 결과 New Relic 메트릭의 타임스탬프에 사용되며 `duration` 은 `timeUnixNano - startTimeUnixNano` 로 계산됩니다. `duration` 필드는 New Relic 메트릭에서 쿼리 가능한 `endTimeStamp` 속성을 계산하는 데 사용되지만 다른 의미론적 용도는 제공하지 않습니다.
 
 `startTimeUnixNano` 이 제공되지 않으면 결과 New Relic 메트릭의 타임스탬프 필드에 `timeUnixNano` 이 사용되고 기간 필드는 0으로 설정됩니다.
+
+누적 집계 시간성의 경우 `startTimeUnixNano` 시계열의 첫 번째 관찰을 나타내며 재설정을 감지하는 데 사용됩니다. `timeUnixNano` 은 누적 데이터 포인트의 타임스탬프로 해석됩니다. 그런 다음 누적 데이터 포인트는 [델타 집계 시간성으로 변환됩니다](/docs/data-apis/understand-data/metric-data/cumulative-metrics/#delta-conversion).
 
 ### 속성의 배열 값 [#array-values]
 
@@ -95,9 +100,55 @@ OpenTelemetry는 추적과 같은 다른 신호를 메트릭 이벤트에 연결
 
 New Relic에서 메트릭 NRQL 쿼리를 작성하려면 다음 팁을 고려하십시오.
 
+#### cumulativeCounts로 저장된 쿼리 누적 합계 [#sums-as-counts]
+
+다음은 데이터를 쿼리하는 몇 가지 방법입니다.
+
+<CollapserGroup>
+  <Collapser
+    className="freq-link"
+    id="cumulative"
+    title="예: 최신 누적 값 조회"
+  >
+    누적 합계의 원시 누적 값을 보려면 [`getField()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#func-getfield) 와 함께 [`latest()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#latest) NRQL 함수를 사용할 수 있습니다.
+
+    ```sql
+    FROM Metric SELECT latest(otelcol_process_uptime[cumulative]) TIMESERIES FACET dimensions()
+    ```
+
+    <img
+      title="Screen shot showing how to query the latest cumulative value of a cumulative sum"
+      alt="Screen shot showing how to query the latest cumulative value of a cumulative sum"
+      src={opentelemetryCumulativeValueCumulativeSum}
+    />
+  </Collapser>
+
+  <Collapser
+    className="freq-link"
+    id="rate-function"
+    title="예: 누적 합계 변화율 조회"
+  >
+    `cumulativeCount` 로 저장된 누적 합계에 대해 주어진 시간 간격 동안의 변화율을 보려면 [`rate()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#func-rate) 및 [`sum()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#func-sum) NRQL 함수를 사용할 수 있습니다.
+
+    ```sql
+    FROM Metric SELECT rate(sum(otelcol_process_uptime), 1 minute) TIMESERIES FACET dimensions()
+    ```
+
+    <img
+      title="Screen shot showing how to query the rate of a cumulative sum"
+      alt="Screen shot showing how to query the rate of a cumulative sum"
+      src={opentelemetryRateCumulativeSum}
+    />
+
+    [재설정 및 간격](https://github.com/open-telemetry/opentelemetry-specification/blob/87a5ed7f0d4c403e2b336f275ce3e7fd66a8041b/specification/metrics/datamodel.md#resets-and-gaps) 처리 방법에 대한 자세한 내용은 [누적 지표 보고 세부 정보](/docs/data-apis/understand-data/metric-data/cumulative-metrics) 를 참조하십시오.
+  </Collapser>
+</CollapserGroup>
+
 #### 게이지로 저장된 누적 합계 쿼리 [#sums-as-gauges]
 
-누적 합계는 게이지로 변환되므로 다음은 데이터를 쿼리하는 몇 가지 방법입니다.
+gaDateAndYear 이전에 누적 합계를 보고한 New Relic 고객은 누적 합계가 `gauge` 유형으로 변환됩니다. 이것이 어떻게 변경되는지에 대한 자세한 내용은 [누적 지표 전환 가이드 를](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/get-started/cumulative-metrics-transition-guide)참조하십시오.
+
+누적 합계가 `gauge` 유형으로 저장된 경우 데이터를 쿼리하는 몇 가지 방법은 다음과 같습니다.
 
 <CollapserGroup>
   <Collapser
@@ -108,13 +159,13 @@ New Relic에서 메트릭 NRQL 쿼리를 작성하려면 다음 팁을 고려하
     누적 합계에 대한 원시 게이지 값을 보려면 [`latest()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#latest) NRQL 함수를 사용할 수 있습니다.
 
     ```sql
-    SELECT latest(totalApiBytesSent) FROM Metric TIMESERIES FACET description, statusCode
+    FROM Metric SELECT latest(otelcol_process_uptime) TIMESERIES FACET dimensions()
     ```
 
     <img
       title="Screen shot showing how to query a cumulative sum as a gauge"
       alt="Screen shot showing how to query a cumulative sum as a gauge"
-      src={queryCumulativeSums}
+      src={opentelemetryQueryCumulativeSumGauge}
     />
   </Collapser>
 
@@ -126,13 +177,13 @@ New Relic에서 메트릭 NRQL 쿼리를 작성하려면 다음 팁을 고려하
     게이지로 저장된 누적 합계에 대해 주어진 시간 간격 동안의 변화율을 보려면 [`derivative()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#derivative) NRQL 함수를 사용할 수 있습니다.
 
     ```sql
-    SELECT derivative(totalApiBytesSent, 1 second) FROM Metric TIMESERIES 5 MINUTES SLIDE BY 1 MINUTE FACET description, statusCode
+    FROM Metric SELECT derivative(otelcol_process_uptime, 1 minute) TIMESERIES FACET dimensions()
     ```
 
     <img
       title="Screenshot showing rate of change over a given time interval for a cumulative sum"
       alt="Screenshot showing rate of change over a given time interval for a cumulative sum"
-      src={sumDerivativeFunction}
+      src={opentelemetryRateChangeCumulativeSum}
     />
 
     New Relic은 현재 [재설정 및 간격](https://github.com/open-telemetry/opentelemetry-specification/blob/87a5ed7f0d4c403e2b336f275ce3e7fd66a8041b/specification/metrics/datamodel.md#resets-and-gaps) 에 대한 보고 또는 누적 카운터로 설명하는 것을 지원하지 않습니다.
@@ -145,7 +196,7 @@ New Relic이 누적 합계를 게이지로 변환할 때 [`latest()`](/docs/quer
 
 #### 쿼리 히스토그램 측정항목 [#query-histograms]
 
-OpenTelemetry 메트릭에서 변환된 New Relic 히스토그램은 다른 New Relic 히스토그램과 동일한 쿼리 의미 체계를 갖습니다. 즉, [`histogram()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#func-histogram) NRQL 함수를 사용하여 구성 가능한 버킷 수와 버킷 너비로 히스토그램을 나타낼 수 있습니다. 엔드포인트 버킷에서 더 많은 버킷 수가 표시될 수 있습니다. 이는 음수 및 양수 무한대 OpenTelemetry 버킷을 너비가 0인 New Relic 버킷에 추가하기 때문입니다.
+OpenTelemetry 메트릭에서 변환된 New Relic 히스토그램은 다른 New Relic 히스토그램과 동일한 쿼리 의미 체계를 갖습니다. 즉, [`histogram()`](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#func-histogram) NRQL 함수를 사용하여 구성 가능한 버킷 수와 버킷 너비로 히스토그램을 나타낼 수 있습니다. 누적 히스토그램을 델타 히스토그램으로 변환하므로 델타 히스토그램이 쿼리되는 것과 같은 방식으로 쿼리됩니다. 엔드포인트 버킷에서 더 큰 버킷 수를 볼 수 있는 명시적 범위 히스토그램에 유의하십시오. 이는 음수 및 양수 무한 바인딩 OpenTelemetry 버킷을 너비가 0인 New Relic 버킷에 추가하기 때문입니다.
 
 <CollapserGroup>
   <Collapser
@@ -160,7 +211,7 @@ OpenTelemetry 메트릭에서 변환된 New Relic 히스토그램은 다른 New 
     <img
       title="Screenshot showing a histogram query"
       alt="Screenshot showing a histogram query"
-      src={histogram1}
+      src={opentelemetryHistogramOne}
     />
   </Collapser>
 
@@ -169,7 +220,7 @@ OpenTelemetry 메트릭에서 변환된 New Relic 히스토그램은 다른 New 
     id="histogram-heat-map"
     title="예: 히트 맵"
   >
-    FACET 키워드는 히트 맵 차트를 생성하는 데에도 사용할 수 있습니다.
+    `FACET` 키워드를 사용하여 히트 맵 차트를 생성할 수도 있습니다.
 
     ```sql
     FROM Metric SELECT histogram(test.histogram, buckets: 100, width: 1000) FACET distributionType SINCE 1 day ago
@@ -178,11 +229,11 @@ OpenTelemetry 메트릭에서 변환된 New Relic 히스토그램은 다른 New 
     <img
       title="Screenshot showing a heat map"
       alt="Screenshot showing a heat map"
-      src={histogram2}
+      src={opentelemetryHistogramTwo}
     />
   </Collapser>
 </CollapserGroup>
 
 <Callout variant="important">
-  `TIMESERIES` 키워드는 New Relic 히스토그램에 지원되지 않습니다.
+  `TIMESERIES` 키워드는 `percentiles()` 을(를) charing하지 않는 한 New Relic 히스토그램에 대해 지원되지 않습니다.
 </Callout>

@@ -3,9 +3,14 @@ subject: .NET agent
 releaseDate: '2022-04-04'
 version: 9.7.0.0
 downloadLink: 'https://download.newrelic.com/dot_net_agent/latest_release'
+features: ['Add in agent log forwarding', 'Add application log metrics', 'Add in agent log decoration', 'Add flexibility to accepted values for boolean environment variables']
+bugs: ['Add environment variable to disable the use of AppDomain for method caching']
+security: []
 ---
 
 **Notice:** For the new application logging features, if you install using the MSI, please update to version 9.7.1 or later.
+
+**Notice:** If using Microsoft.Extensions.Logging as your logging framework of choice, please use .NET agent version 10.1.0 or newer.  We encourage you to adopt the newer version due to bug [#1230](https://github.com/newrelic/newrelic-dotnet-agent/issues/1230), which we fixed in [#1237](https://github.com/newrelic/newrelic-dotnet-agent/pull/1237), that was resolved in .NET agent version 10.1.0.
 
 ### New Features
 * Adds support for logging metrics which shows the rate of log message by severity in the Logs chart in the APM **Summary** view for Log4net, Serilog, and Microsoft.Extensions.Logging. This is enabled by default in this release. ([#1034](https://github.com/newrelic/newrelic-dotnet-agent/pull/1034))

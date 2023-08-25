@@ -8,32 +8,32 @@ metaDescription: 'The New Relic Node.js agent supports these frameworks, archite
 translationType: human
 ---
 
-Our Node.js agent includes built-in instrumentation of the most popular Node frameworks, app servers, databases, and message queuing systems. For frameworks and libraries that aren't instrumented out of the box, you can extend the agent with our [Node agent API](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/).
+Node.jsエージェントには、最も一般的なNode.jsフレームワーク、アプリケーションサーバー、データベース、およびメッセージキューシステムのビルトイン・インストゥルメンテーションが含まれています。追加設定なしでインストゥルメントされていないフレームワークとライブラリに関しては、[Node.jsエージェントAPI](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/)でエージェントを拡張できます。
 
-Our Node.js agent is publicly available on the [Node Package Manager (npm) repository](https://npmjs.org/package/newrelic) as well as on [GitHub](https://github.com/newrelic/node-newrelic). Ready to try out New Relic's Node.js agent? [Create a New Relic account](https://newrelic.com/signup)!
+Node.js用エージェントは、[Node Package Manager（npm）リポジトリ](https://npmjs.org/package/newrelic)と[GitHub](https://github.com/newrelic/node-newrelic)で公開されています。New RelicのNode.jsエージェントを試してみませんか？[New Relicアカウントを作成します](https://newrelic.com/signup)。
 
 ## エージェントのインストール要件
 
-Before [installing the agent](/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent), check that your system meets its minimum requirements. For best performance, use the latest active long term support (LTS) version of Node.js.
+[エージェントをインストールする](/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent)前に、お使いのシステムが最小要件を満たしていることを確認してください。パフォーマンスを最大化するために、Node.jsの最新のアクティブな長期サポート（LTS）バージョンを使用してください。
 
 <CollapserGroup>
   <Collapser
     id="operating systems"
-    title="Compatible operating systems"
+    title="互換性のあるオペレーティングシステム"
   >
-    The Node agent is compatible with the following operating systems:
+    Node.jsエージェントは、次のオペレーティングシステムに対応しています。
 
     * Linux
     * SmartOS
     * MacOS 10.7以上
-    * Windows Server 2008 and higher The following are proposed time ranges. The actual release date may vary.
+    * Windows Server 2008以降、推奨時間範囲は次のとおりです。実際のリリース日は異なる可能性があります。
   </Collapser>
 
   <Collapser
     id="host"
     title="ホスティングサービス"
   >
-    It's also compatible with these hosting services:
+    また、以下のホスティングサービスにも対応しています。
 
     * [Google App Engine（GAE）フレキシブル環境](/docs/agents/nodejs-agent/hosting-services/install-new-relic-nodejs-agent-gae-flexible-environment)
     * AWS EC2
@@ -52,7 +52,7 @@ Before [installing the agent](/docs/apm/agents/nodejs-agent/installation-configu
     id="system"
     title="システム要件"
   >
-    We will support the [latest even versions of Node.js releases](https://nodejs.org/en/about/releases/) by the beginning of the following active long term support schedule. The version support policy does not replace our general end-of-life (EOL) policy.
+    当社は、以下のアクティブな長期サポートスケジュールの開始により、[Node.jsリリースの最新偶数バージョン](https://nodejs.org/en/about/releases/)をサポートします。バージョンサポートポリシーは、一般的な有効期限（EOL）ポリシーを置き換えません。
 
     提案される時間範囲を以下に示します。実際のリリース日は異なる可能性があります。
 
@@ -118,7 +118,7 @@ Before [installing the agent](/docs/apm/agents/nodejs-agent/installation-configu
       </tbody>
     </table>
 
-    The following are proposed time ranges for EOL on older Node.js versions. The actual release date may vary.
+    古いNode.jsバージョンのEOLの推奨時間範囲を以下に示します。実際のリリース日は異なる可能性があります。
 
     <table>
       <thead>
@@ -162,7 +162,7 @@ Before [installing the agent](/docs/apm/agents/nodejs-agent/installation-configu
           </td>
 
           <td>
-            2021年7月26日現在で、Node.jsエージェントのv8を使用したNode.js 10のサポートを終了しました。この移行の簡単な準備方法などの詳細については、[エクスプローラーハブの投稿](https://discuss.newrelic.com/t/important-upcoming-changes-to-support-and-capabilities-across-browser-node-js-agent-query-builder-net-agent-apm-errors-distributed-tracing/153373)を参照してください。
+            2021年7月26日現在で、Node.jsエージェントのv8を使用したNode.js 10のサポートを終了しました。この移行の簡単な準備方法などの詳細については、[サポートフォーラムの投稿](https://discuss.newrelic.com/t/important-upcoming-changes-to-support-and-capabilities-across-browser-node-js-agent-query-builder-net-agent-apm-errors-distributed-tracing/153373)を参照してください。
           </td>
         </tr>
       </tbody>
@@ -170,11 +170,11 @@ Before [installing the agent](/docs/apm/agents/nodejs-agent/installation-configu
   </Collapser>
 </CollapserGroup>
 
-## Instrument with Node.js [#instrument]
+## Node.jsを備えたインストゥルメント [#instrument]
 
-After installation, the agent automatically instruments with our catalog of supported Node.js libraries and frameworks. This gives you immediate access to granular information specific to your web apps and servers.
+インストール後、エージェントはサポートされているNode.jsライブラリとフレームワークのカタログを使用して自動インストゥルメントします。これにより、ウェブアプリケーションやサーバーに固有の詳細情報に即座にアクセスできます。
 
-For unsupported frameworks or libraries, you'll need to instrument the agent yourself using the [Node.js agent API](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api).
+未対応のフレームワークまたはライブラリの場合、[Node.jsエージェントAPI](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api)を使用してエージェントを自身でインストゥルメントする必要があります。
 
 <CollapserGroup>
   <Collapser
@@ -183,12 +183,83 @@ For unsupported frameworks or libraries, you'll need to instrument the agent you
   >
     Node.jsエージェントは、以下のデータストアに対するNode.jsアプリケーション呼び出しのパフォーマンスを監視します。
 
-    * [Cassandra](https://www.npmjs.com/package/cassandra-driver)
-    * [Memcached](https://www.npmjs.com/package/memcached)
-    * [MongoDB](https://www.npmjs.com/package/mongodb)
-    * MySQL（[mysql](https://www.npmjs.com/package/mysql)と[mysql2](https://www.npmjs.com/package/mysql2)パッケージ経由）
-    * [Redis](https://www.npmjs.com/package/redis)
-    * [Postgres](https://www.npmjs.com/package/pg)（[ネイティブ](https://www.npmjs.com/package/pg-native)と[ピュアのJavaScript](https://www.npmjs.com/package/pg-js)パッケージを含む）
+    <table>
+      <thead>
+        <tr>
+          <th>
+            データストア
+          </th>
+
+          <th>
+            メモ
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>
+            [Cassandra](https://www.npmjs.com/package/cassandra-driver)
+          </td>
+
+          <td/>
+        </tr>
+
+        <tr>
+          <td>
+            [Memcached](https://www.npmjs.com/package/memcached)
+          </td>
+
+          <td/>
+        </tr>
+
+        <tr>
+          <td>
+            [MongoDB](https://www.npmjs.com/package/mongodb)
+          </td>
+
+          <td/>
+        </tr>
+
+        <tr>
+          <td>
+            MySQL
+          </td>
+
+          <td>
+            [mysql](https://www.npmjs.com/package/mysql)と[mysql2](https://www.npmjs.com/package/mysql2)パッケージ経由
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            [Redis](https://www.npmjs.com/package/redis)
+          </td>
+
+          <td/>
+        </tr>
+
+        <tr>
+          <td>
+            [Postgres](https://www.npmjs.com/package/pg)
+          </td>
+
+          <td>
+            [ネイティブ](https://www.npmjs.com/package/pg-native)と[ピュアのJavaScript](https://www.npmjs.com/package/pg-js)パッケージを含む
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            [Prisma](https://www.prisma.io/)
+          </td>
+
+          <td>
+            Prismaインストゥルメンテーションは、Prisma自体をデータストアとして扱い、Prismaが使用するように設定された基礎となるSQLまたはNoSQLをデータストアとして扱いません。つまり、メトリクスとトレースによりPrisma ORMクエリ（`find`や`updateMany`）が表示され、SQLステートメント（`SELECT`や`UPDATE`）は表示されません。例外として、未処理のPrismaクエリは、実際の未処理のSQLまたはNoSQLクエリを記録します。
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </Collapser>
 
   <Collapser
@@ -205,6 +276,8 @@ For unsupported frameworks or libraries, you'll need to instrument the agent you
     Node.jsエージェントは、ネイティブ`http`モジュールをインストゥルメントします。
 
     また、人気のある[undici](https://www.npmjs.com/package/undici)クライアントも実験的なサポートを受けています。undiciを使用するには、`feature_flag.undici_instrumentation = true`を`newrelic.js` [設定ファイル](/docs/apm/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration/#methods-and-precedence)で設定してください。
+
+    [aws-sdk](https://www.npmjs.com/package/aws-sdk)を使用したAmazon Web Services（AWS）へのすべての呼び出しが追跡されます。
   </Collapser>
 
   <Collapser
@@ -326,6 +399,42 @@ For unsupported frameworks or libraries, you'll need to instrument the agent you
             1.33.0
           </td>
         </tr>
+
+        <tr>
+          <td>
+            [Amazon DynamoDB](https://aws.amazon.com/dynamodb/)
+          </td>
+
+          <td>
+            [aws-sdk](https://www.npmjs.com/package/aws-sdk) - バージョン2と3の両方。
+          </td>
+
+          <td>
+            2.380.0
+          </td>
+
+          <td>
+            6.1.0
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            [Prisma](https://prisma.io/)
+          </td>
+
+          <td>
+            [@prisma/クライアント](https://www.npmjs.com/package/@prisma/client)
+          </td>
+
+          <td>
+            4.0.0
+          </td>
+
+          <td>
+            9.11.0
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -340,22 +449,29 @@ For unsupported frameworks or libraries, you'll need to instrument the agent you
 
     * [winston](https://www.npmjs.com/package/winston)
     * [pino](https://www.npmjs.com/package/pino)
+    * [bunyan](https://www.npmjs.com/package/bunyan)
   </Collapser>
 
   <Collapser
     id="messages"
-    title="Messages queue"
+    title="メッセージキュー"
   >
-    [Message queue instrumentation](/docs/agents/nodejs-agent/troubleshooting/troubleshoot-message-consumers) is only available with the [New Relic Node.js agent v2 or higher](/docs/release-notes/agent-release-notes/nodejs-release-notes). Currently supported message queue instrumentation: `amqplib`.
+    [メッセージキューのインストゥルメンテーション](/docs/agents/nodejs-agent/troubleshooting/troubleshoot-message-consumers)は、[New Relic Node.js エージェントv2以上](/docs/release-notes/agent-release-notes/nodejs-release-notes)でのみ使用可能です。現在サポートされているメッセージキューのインストゥルメンテーション：
+
+    * [amqplib](https://www.npmjs.com/package/amqplib)。
+    * [Amazon SQS](https://www.npmjs.com/package/aws-sdk) - AWS SDKのバージョン2と3の両方。
+    * [Amazon SNS](https://www.npmjs.com/package/aws-sdk) - AWS SDKのバージョン2と3の両方。
 
     他のメッセージキューライブラリには、[カスタムインストゥルメンテーション](/docs/agents/nodejs-agent/supported-features/nodejs-custom-instrumentation#message-client)を使用します。
   </Collapser>
 
   <Collapser
     id="langtech"
-    title="Supported languages and technologies"
+    title="対応言語とテクノロジー"
   >
-    [TypeScript](https://www.npmjs.com/package/typescript) is a programming language that can compile to JavaScript. After installation, the Node.js agent automatically instruments your TypeScript apps, giving you immediate access to performance data right out of the box.
+    [TypeScript](https://www.npmjs.com/package/typescript)はJavaScriptにコンパイルできるプログラミング言語です。インストール後、Node.jsエージェントはTypeScriptアプリを自動インストゥルメントし、すぐにパフォーマンスデータにアクセスできるようにします。
+
+    [ESモジュールは](https://nodejs.org/api/esm.html#introduction)、共有/再利用のためにJavaScriptコードをパッケージ化するための公式標準です。Node.jsエージェントは、Node.jsバージョン16.12.0以降およびエージェントのバージョン9.1.0以降を実行する、ESモジュールアプリケーションの**実験的**サポートを提供します。以降およびエージェントのバージョン9.1.0以降追加情報と手順については、[ESモジュールのドキュメント](/docs/apm/agents/nodejs-agent/installation-configuration/es-modules)を参照してください。
   </Collapser>
 
   <Collapser
@@ -368,12 +484,13 @@ For unsupported frameworks or libraries, you'll need to instrument the agent you
     * [Hapi](https://www.npmjs.com/package/hapi)
     * [Koa](https://www.npmjs.com/package/koa) 2.0.0以上（エージェントとともに[外部モジュール](https://github.com/newrelic/node-newrelic-koa)がロードされます）
     * [Fastify](https://www.npmjs.com/package/fastify)
-    * [Next.js](https://www.npmjs.com/package/next) 12.0.9以降（ミドルウェア インストゥルメンテーションには12.2.0以降が必要）
+    * [Nest.js](https://nestjs.com/) 8.0.0以降（`nest start`コマンドを使用してアプリケーションを起動する場合は、スタートアップバイナリを変更してNew Relicエージェント`nest start --exec 'node -r newrelic'`を読み込みます）
+    * [Next.js](https://www.npmjs.com/package/next) 12.0.9〜13.3.0（ミドルウェア インストゥルメンテーションには12.2.0以降が必要）
 
     サポートされているフレームワークをデフォルトのルーターとともに使用している場合、Node.jsエージェントはフレームワークのルート名をそのまま読み取ることができます。ただし、フレームワークが提供する名前より固有な名前が必要な場合は、New Relicが[Node.jsトランザクションネーミングAPI](/docs/nodejs/nodejs-transaction-naming-api) によって提供する1つ以上のツールを使用できます。
 
     <Callout title="有効期限（EOL）の通知">
-      2021年11月に、いくつかの機能のサポートを終了しました。これには、Node.jsエージェント用のHapi 19.2より前のOracle Driver PackageとHapiバージョンが含まれています。この移行の簡単な準備方法などの詳細については、[エクスプローラーハブの投稿](https://discuss.newrelic.com/t/important-upcoming-changes-to-capabilities-and-support-across-node-agents-suggested-pagerduty-responders-incident-workflows-and-kubernetes-instrumentation/164481?u=dholloran)を参照してください。
+      2021年11月に、いくつかの機能のサポートを終了しました。これには、Node.jsエージェント用のHapi 19.2より前のOracle Driver PackageとHapiバージョンが含まれています。この移行の簡単な準備方法などの詳細については、[サポートフォーラムの投稿](https://discuss.newrelic.com/t/important-upcoming-changes-to-capabilities-and-support-across-node-agents-suggested-pagerduty-responders-incident-workflows-and-kubernetes-instrumentation/164481?u=dholloran)を参照してください。
     </Callout>
   </Collapser>
 </CollapserGroup>
@@ -412,7 +529,7 @@ Node.jsエージェントはその他の機能と統合し、スタック全体�
       </td>
 
       <td>
-        インフラストラクチャとAPMエージェントを同じホストにインストールすると、自動的に相互に検出します。その後、APM UIにホストのリストを表示し、インフラストラクチャUIでAPMアプリでインフラストラクチャホストをフィルタリングできます。詳細については、[インフラストラクチャモニターにおけるAPMデータ](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure)を参照してください。
+        インフラストラクチャとAPMエージェントを同じホストにインストールすると、それらは自動的にお互いを検出します。その後、APM UIにホストのリストを表示し、Infrastructure UIのAPMアプリ別にホストをフィルタリングできます。詳細については、[インフラストラクチャモニターにおけるAPMデータ](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure)を参照してください。
       </td>
     </tr>
 

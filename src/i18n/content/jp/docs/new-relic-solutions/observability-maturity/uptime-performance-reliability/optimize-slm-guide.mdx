@@ -1,5 +1,5 @@
 ---
-title: サービスレベル管理：信頼性の決定にうまく影響を与える
+title: 'サービスレベル管理: 信頼性の決定に影響を与える'
 tags:
   - Observability maturity
   - 'Uptime, performance, and reliability'
@@ -9,23 +9,23 @@ metaDescription: 'New Relic observability maturity series: our service level man
 translationType: machine
 ---
 
-import theWholeIsGreater from 'images/theWholeIsGreater.png'
+import omSlTheWholeIsGreater from 'images/om-sl_diagram_theWholeIsGreater.webp'
 
-import apmOverviewScreen from 'images/apm-overview-screen.png'
+import apmOverviewScreen from 'images/apm_screenshot-full_overview-screen.webp'
 
-import serviceBoundary from 'images/service-boundary.png'
+import apmServiceBoundary from 'images/apm_screenshot-crop_service-boundary.webp'
 
-import latencyBaseline from 'images/latency-baseline.png'
+import apmLatencyBaseline from 'images/apm_screenshot-full_latency-baseline.webp'
 
-import serviceLevelsStartFromApm from 'images/service-levels-start-from-apm.png'
+import apmSLStartFromApm from 'images/apm_screenshot-full_sl-start-from-apm.webp'
 
-import addInputServiceLevel from 'images/add-input-service-level.png'
+import apmAddInputServiceLevel from 'images/apm_screenshot-crop_add-input-service-level.webp'
 
-import syntheticsSetup20220330 from 'images/synthetics-setup-2022-03-30.png'
+import apmSyntheticsSetup from 'images/apm_screenshot-crop_synthetics-setup.webp'
 
-import transactionListNrql from 'images/transaction-list-nrql.png'
+import queriesnrqlTransactionListNrql from 'images/queries-nrql_screenshot-full_transaction-list-nrql.webp'
 
-import capabilityFilterClause from 'images/capability-filter-clause.png'
+import apmCapabilityFilterClause from 'images/apm_screenshot-crop_capability-filter-clause.webp'
 
 このガイドでは、サービスレベル管理の品質を改善および最適化する方法について説明します。これは[、可観測性の成熟度に関するシリーズ](/docs/new-relic-solutions/observability-maturity/introduction)の一部です。
 
@@ -44,7 +44,7 @@ import capabilityFilterClause from 'images/capability-filter-clause.png'
 信頼性を実践する上で求められるビジネス上の成果は、ビジネスに影響を与えるインシデントの発生件数、発生期間、それに関わる人数を減らすことです。
 
 1. 業務に支障をきたすインシデントの発生を抑制する
-2. 解決までの平均時間（MTTR）を削減
+2. 解決までの平均時間 (MTTR) を短縮
 3. 重大事故1件当たりの平均従事者数（FTE）を削減する
 
 ### 運用成果 [#operational-outcomes]
@@ -181,12 +181,12 @@ import capabilityFilterClause from 'images/capability-filter-clause.png'
     <img
       title="The whole is greater than the sum of its parts. - Aristotle"
       alt="The whole is greater than the sum of its parts. - Aristotle"
-      src={theWholeIsGreater}
+      src={omSlTheWholeIsGreater}
     />
 
-    出力性能とは、バックエンドの技術がどれだけリクエストに応えることができるかを意味します。
+    出力パフォーマンスとは、特にバックエンド テクノロジーがリクエストにどれだけうまく応答できるかを指します。
 
-    New Relicのコア機能の1つは、膨大な量のデータを非常に迅速に消費およびクエリする機能です。これには、驚異的なレベルの並列非同期分散トランザクションを備えた並外れたアーキテクチャが必要であることが想像できます。 New Relicは、ほとんどのクライアント向け機能を測定するのと同じように、クエリ出力の状態を測定します。つまり、エラーのないHTTPクエリリクエストが応答を受信する速度の基準に基づいています。 NRQLクエリごとに、バックエンドへの1つの要求と、クライアントへの1つの応答があります。大多数のアプリケーションとデジタル製品にとって、これは単純な事実です。
+    New Relic のコア機能の 1 つは、膨大な量のデータを非常に迅速に消費してクエリする機能です。これには、驚異的なレベルの並列非同期分散トランザクションを備えた並外れたアーキテクチャが必要であることが想像できます。New Relic は、ほとんどのクライアント向け機能を測定するのと同じように、クエリ出力の健全性を測定します。つまり、HTTP クエリ要求が応答を受信する速度とエラーのない標準によって測定します。NRQL クエリごとに、バックエンドへの 1 つのリクエストとクライアントへの 1 つのレスポンスがあります。アプリケーションとデジタル製品の大多数にとって、これは単純な事実です。
 
     アウトプット・パフォーマンスは、次のような方法で測定されます。
 
@@ -198,7 +198,7 @@ import capabilityFilterClause from 'images/capability-filter-clause.png'
     id="slm-health-input"
     title="入力パフォーマンス"
   >
-    入力パフォーマンスは、アプリケーションに接続する機能によって簡単に測定されます。これは伝統的に「稼働時間」として知られています。上記の同じ例であるNRQLクエリを使用します。
+    入力パフォーマンスは、アプリケーションに接続する能力によって簡単に測定されます。これは伝統的に「稼働時間」として知られています。上記と同じ例を使用します: NRQL クエリ。
 
     出力性能は、接続が行われた後の応答を測定します。もし、クライアントとバックエンドの接続に失敗したらどうなるのでしょうか？出力を測定する前に接続が必要なため、その接続障害は出力性能に反映されません。
 
@@ -257,11 +257,10 @@ import capabilityFilterClause from 'images/capability-filter-clause.png'
 を想定しています。
 
 * お客様の主要なアプリケーションは、 [New Relic APM エージェント](/docs/apm/new-relic-apm/getting-started/introduction-apm) でインストルメントされています。
+* アプリケーション名は、 [サービス特性ガイド](/docs/new-relic-solutions/observability-maturity/operational-efficiency/sc-implementation-guide/#improvement-process)で概説されているように、おなじみの命名規則に従います。
+* アプリケーションは [エンティティ エクスプローラー](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find)で見つけることができます。
 
-2. アプリケーション名は、 [サービス特性ガイド](/docs/new-relic-solutions/observability-maturity/operational-efficiency/sc-implementation-guide/#improvement-process)で概説されているように、おなじみの命名規則に従います。
-3. [NewRelicExplorerでアプリケーションを見つける方法に精通しています](/docs/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/#find)。
-
-New Relic Explorerで、アプリケーション（「サービス-APM」のエンティティタイプ）を見つけて選択します。以下の概要画面が表示されます。**まだ「サービスレベル」をクリックしないでください。**
+エンティティ エクスプローラーで、アプリケーション (エンティティ タイプ `Services - APM`) を見つけて選択します。以下の概要画面が表示されます。**まだ `Service levels` をクリックしないでください。**
 
 <img
   alt="APM Overview screenshot"
@@ -284,7 +283,7 @@ New Relic Explorerで、アプリケーション（「サービス-APM」のエ�
 
 <img
   alt="Service map example"
-  src={serviceBoundary}
+  src={apmServiceBoundary}
 />
 
 ### 3.ベースラインを確立する
@@ -309,7 +308,7 @@ FROM Transaction SELECT percentile(duration, 95) AS 'Latency Baseline SLI' WHERE
 
 <img
   alt="Latency Baseline"
-  src={latencyBaseline}
+  src={apmLatencyBaseline}
 />
 
 ベースラインを成功（エラーなし）にするには、次のクエリを試してください。必ず、独自のアプリケーション名を`Order-Processing`に置き換えてください。
@@ -320,7 +319,7 @@ FROM Transaction SELECT percentage(count(*), WHERE error is false) AS 'Success B
 
 ### 4.サービスレベルを作成します
 
-New Relicプラットフォームは、推奨されるAPMとブラウザのベースラインを自動的に計算します。
+New Relic プラットフォームは、推奨値を自動的に計算します <InlinePopover type="apm"/>あなたのためのブラウザのベースライン。
 
 **注：** \[**サービスレベルの追加**]ボタンが表示されない場合は、権限についてNewRelic管理者に確認してください。
 
@@ -328,7 +327,7 @@ New Relicプラットフォームは、推奨されるAPMとブラウザのベ�
 
 <img
   alt="Service levels start from APM"
-  src={serviceLevelsStartFromApm}
+  src={apmSLStartFromApm}
 />
 
 **Add baseline service level objectives** をクリックすると、ほとんど即座にLatency SLIとSuccess SLIの両方とそれぞれの目標が作成されます。
@@ -348,7 +347,7 @@ New Relicプラットフォームは、推奨されるAPMとブラウザのベ�
 
 ### 1.合成チェックを作成します
 
-最も一般的な入力パフォーマンスサービスレベルは、「接続性」または「稼働時間」と呼ばれることがよくあります。これは、ヘルスAPIエンドポイントに対する単純なチェック、または単にURLのロードです。これらは両方とも、当社の合成監視サービスを使用して簡単に実行できます。データのレポートを開始する方法については、[シンプルなブラウザモニター](docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#simple)の[追加とスクリプト化されたAPIテスト](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#complex)の追加を参照してください。
+最も一般的な入力パフォーマンス サービス レベルは、「接続性」または「アップタイム」と呼ばれることがよくあります。これは、Health API エンドポイントに対する単純なチェック、または単に URL をロードすることです。これらは両方とも、合成監視サービスを使用して簡単に実行できます。データのレポートを開始する方法については、[単純なブラウザー モニター](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#simple)の[追加およびスクリプト API テスト](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#complex)の追加を参照してください。
 
 ### 2.サービスレベルインジケーターを作成します
 
@@ -356,7 +355,7 @@ New Relicプラットフォームは、推奨されるAPMとブラウザのベ�
 
 次に、サービスレベル管理サービスを使用して、入力インジケーターと目的を作成します。
 
-New Relic Explorerメニューを使用して**サービスレベル**を選択し、\[ **+サービスレベルインジケーターの追加**]をクリックします。
+[エンティティ エクスプローラー](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find)で、右側の **Service levels** \[サービス レベル] を選択し、 **+ Add a service level indicator** \[+ サービス レベル インジケーターの追加] をクリックします。
 
 **注：** \[**サービスレベルの追加**]ボタンが表示されない場合は、権限についてNewRelic管理者に確認してください。
 
@@ -364,7 +363,7 @@ New Relic Explorerメニューを使用して**サービスレベル**を選択�
 
 <img
   alt="Filter entity types in service levels"
-  src={addInputServiceLevel}
+  src={apmAddInputServiceLevel}
 />
 
 次のステップ
@@ -376,7 +375,7 @@ New Relic Explorerメニューを使用して**サービスレベル**を選択�
 
 <img
   alt="Synthetics input service level guided flow"
-  src={syntheticsSetup20220330}
+  src={apmSyntheticsSetup}
 />
 
 ## ケイパビリティSLIの確立 [#capability-SLI]
@@ -409,10 +408,10 @@ FROM Transaction SELECT count(*), percentile(duration, 95) WHERE appName='Order-
 
 <img
   alt="transaction list query"
-  src={transactionListNrql}
+  src={queriesnrqlTransactionListNrql}
 />
 
-最初のトランザクション(#3)には、"購入に関係することが書かれているのがわかります。" これで、"purchase" capability service level を作成することができます。
+最初のトランザクションには、「購入」と関係があることが示されています。「購入」機能のサービス レベルを作成できるようになりました。
 
 **注：**このトランザクションが購入機能を表しているかどうかわからない場合でも、この演習は、アプリケーションチームとリーダーシップに機能サービスレベルの価値を示す良い例になります。ここでの目標は、可能な限りの芸術を示すことによって、利害関係者との会話を開始することであることを忘れないでください。
 
@@ -430,7 +429,7 @@ FROM Transaction SELECT count(*), percentile(duration, 95) WHERE appName='Order-
 
 <img
   alt="capability query clause"
-  src={capabilityFilterClause}
+  src={apmCapabilityFilterClause}
 />
 
 2番目のクエリの`duration < 1.78`部分を調整して、メモ帳にコピーされた元のベースラインの`DURATION (95%)`結果と一致させるだけです。
@@ -469,22 +468,22 @@ FROM Transaction SELECT count(*), percentile(duration, 95) WHERE appName='Order-
 
 上記の「[望ましい結果](#desired-outcomes)」のセクションで述べたように、口頭での最終的な結果は、ビジネスに影響を与えるインシデントのコストを削減することです。
 
-ただし、サービスレベルは、違反時の推定収益損失と、サブスクリプションベースのビジネスのリスクのある推定収益の両方を定量化するのにも役立ちます。
+ただし、サービス レベルは、インシデント時の推定収益損失と、サブスクリプション ベースのビジネスのリスクにさらされる推定収益の両方を定量化するのにも役立ちます。
 
 **収益の損失**は、オンライン小売などのトランザクションによって生成された収益と、ペナルティが組み込まれたサービスレベル契約契約を結んでいる場合に支払われるペナルティについて簡単に見積もることができます。
 
 **リスクのある収益**は、各顧客が月次または年次のサブスクリプション値を持つサブスクリプションベース（SaaS）のビジネスモデルの場合です。影響を受ける顧客の数と期間ごとのサブスクリプション収益を簡単に見積もり、「リスクのある収益」を計算できます。注：サブスクリプションビジネスは、サービスレベルアグリーメント契約内にペナルティを課すこともできます。これは、以下に示すように含める必要があります。
 
-### サービスレベル契約違反の直接コストの定量化
+### サービスレベル契約違反による直接コストの定量化
 
-以前の違反のコストを決定します。たとえば、オンライン小売企業は、サービス損失（ダウンタイム）中の1分あたりの推定収益損失を知っています。法務部門は、サービスレベルアグリーメント（SLA）契約違反のペナルティコストを教えてくれます。両方の損失は、サービスレベルの違反に関するNew Relicデータを使用して、リアルタイムで簡単に_見積もる_ことができます。
+以前の侵害のコストを決定します。たとえば、オンライン小売企業は、サービス損失 (ダウンタイム) 中の 1 分あたりの推定収益損失を知っています。法務担当者は、サービス レベル アグリーメント (SLA) 契約違反による違約金を教えてくれます。どちらの損失も、サービス レベル違反に関する New Relic データを使用してリアルタイムで簡単に _推定_ できます。
 
-### サービスレベル違反の収益機会費用の定量化
+### サービスレベル違反による収益機会コストの定量化
 
 以下の3つの変数を決定します。
 
-* （A）ペナルティまたは収益の損失を引き起こす違反の数
-* （B）違反の平均期間
+* (A) 罰則または収益損失を引き起こした違反の数
+* (B) 侵害の平均期間
 * （C）1分/時間あたりの平均ペナルティまたは収益損失
 
 これらの3つの変数（A _B_ C）を乗算して、回復する総収益機会を計算します。
@@ -498,11 +497,31 @@ FROM Transaction SELECT count(*), percentile(duration, 95) WHERE appName='Order-
 
 B / Aを除算して、収益リーク率を計算します。
 
+## サービス レベル目標の追跡 [#tracking-slo]
+
+サービス レベルは、テスト、アラート、ゲームデー、およびその他の定期的なプラクティスと同様に、プラクティスです。それらは、システムの「健全性」を測定するのに役立つ科学的手段と考えることができます。しかし、すべてのツールと同様に、サービス レベルにはキャリブレーションが必要です。
+
+チームのプロセスにサービス レベルの実践を含めます。以下の推奨事項は、New Relic のチーム内でサービス レベルを使用した経験から抽出されたものであり、特定のチーム要件に合わせて調整する必要があります。
+
+* サービス レベルを定期的に見直し、次の点に細心の注意を払います。
+
+  * SLI はインシデントとページを反映していますか?
+
+  * 1 週間のエラー バジェットはいくらですか?
+
+    * 値が低すぎる場合は、「分析」機能を使用してドロップの原因を調査し、原因となった悪いイベントを見つけます。
+    * 100% の場合は、インジケーターが正しく、SLO が十分に積極的であることを確認してください。100% であることは、SLO が安全すぎることを示します。
+    * さまざまな期間 (1 日/7 日/28 日) で観察される傾向は何ですか。
+
+* 試合中は SLI に注意してください。SLI は、アラートと同様に影響を反映する必要があります。
+
+* 本番環境でエラー バジェットが低下した場合は、ステージングで発生しなかった理由を評価します。
+
 ## 次のステップ [#next-steps]
 
 可観測性成熟度プラクティスの次のステップは、クライアントブラウザまたはモバイルデバイスで測定されたカスタマーエクスペリエンスサービスレベルを追加することです。繰り返しになりますが、上記の改善プロセスで説明したように、最初に価値を証明することが重要です。覚えておいてください：可観測性は旅であり、成熟には時間、練習、そして忍耐が必要です。
 
 旅を続けるには、以下を参照してください。
 
-* [カスタマーエクスペリエンスに関するガイド：品質の基盤](docs/new-relic-solutions/observability-maturity/customer-experience/quality-foundation-implementation-guide)。
+* [カスタマー エクスペリエンスに関するガイド: 品質基盤](/docs/new-relic-solutions/observability-maturity/customer-experience/quality-foundation-implementation-guide).
 * まだ読んでいない場合は、 [アラート品質管理](/docs/new-relic-solutions/observability-maturity/uptime-performance-reliability/aqm-implementation-guide)に関するガイドを参照してください。

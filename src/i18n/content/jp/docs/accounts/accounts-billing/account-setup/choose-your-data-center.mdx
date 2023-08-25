@@ -4,7 +4,7 @@ tags:
   - Using New Relic
   - Welcome to New Relic
   - Get started
-metaDescription: 'New Relic''s global data hosting structure consists of two regions: the EU region and the US region.'
+metaDescription: 'The New Relic global data hosting structure consists of two regions: the EU region and the US region.'
 translationType: machine
 ---
 
@@ -17,9 +17,8 @@ New Relic EU リージョンにアクセスするには、エージェントの�
 * 新規のお客様の場合： [最新のエージェントバージョンのインストール](/docs/agents/manage-apm-agents/installation/install-agent).
 * 既存のお客様の場合： [最新のエージェントバージョンに更新](/docs/agents/manage-apm-agents/installation/update-new-relic-agent).
 
-最低限必要な APM エージェントのバージョン:
+最小 <InlinePopover type="apm"/>必要なエージェントのバージョン:
 
-* [C SDK 1.0.0](/docs/release-notes/agent-release-notes/c-sdk-release-notes) またはそれ以上
 * [Go 2.0.0](/docs/release-notes/agent-release-notes/go-release-notes) 以上
 * [Java 4.0.0](/docs/release-notes/agent-release-notes/java-release-notes) またはそれ以上
 * [.NET 8.0.0](/docs/release-notes/agent-release-notes/net-release-notes) 以上
@@ -37,10 +36,13 @@ New Relic は、EU 地域において、米国地域とほぼ同じ製品、機�
 **例外：** 以下は、 **EU地域のアカウントでサポートされていない** 。
 
 * APMの [ウィークリーパフォーマンスレポート](/docs/apm/reports/other-performance-analysis/weekly-performance-report) は利用できません。
-* [ログパターン](/docs/logs/log-management/ui-data/find-unusual-logs-log-patterns/#availability)
 * 非推奨の製品や機能は利用できません。
 
 [New Relic のインシデント インテリジェンス](/docs/new-relic-one/use-new-relic-one/new-relic-ai/get-started-incident-intelligence)サービスは、お客様がデータを New Relic の米国地域のデータ センターまたは New Relic の EU 地域のデータ センターに保存するかどうかにかかわらず、米国内でのみ運用されます。New Relic インシデント インテリジェンスを使用することにより、お客様は、New Relic がお客様のデータを米国地域。
+
+## データ費用 [#data-costs]
+
+データ取り込みのコストは、データ センターのリージョンによって異なります。詳しくは、 [定価表](/docs/licenses/license-information/usage-plans/new-relic-one-usage-plan-descriptions/#list-price)をご覧ください。
 
 ## クロスリージョン アカウント [#account-structure]
 
@@ -49,9 +51,9 @@ New Relic にサインアップすると、 [New Relic 組織](/docs/accounts/ac
 * 2022 年 10 月より前は、両方のリージョンにアカウントを持つ組織は、米国リージョン アカウントからの使用に対してのみ請求されていました。2022 年 10 月中旬以降、これらの組織は両方のリージョンでの使用に対して課金されます。使用状況 UI には、複数のデータ センター リージョンからのデータ インジェストは表示されません。現在のアカウントとその[子アカウント](/docs/accounts/original-accounts-billing/original-users-roles/mastersub-account-structure)のインジェストのみが表示されます。
 * パートナーシップ組織全体の最上位アカウントは、1 つの地域に存在します。そのアカウントの使用状況を表示すると、その地域のアカウントからのデータ使用量のみが表示されます。他のデータ センター リージョンの使用状況を表示するには、他のリージョンの任意の[親アカウント](/docs/accounts/original-accounts-billing/original-users-roles/mastersub-account-structure)に切り替えて、それらのアカウントの使用状況 UI を表示します。
 
-## EU地域のアカウントを作成する [#create-eu-account]
+## EU 地域組織を作成する [#create-eu-account]
 
-EU地域でNew Relicアカウントを作成する場合。
+EU 地域で New Relic 組織を作成するには:
 
 1. New Relic [サインアップページ](https://newrelic.com/signup/) にアクセスしてください。
 
@@ -92,7 +94,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        sourcemaps.service.<var>eu</var>.newrelic.com
+        sourcemaps.service.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -104,7 +106,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        infrastructure-alert.service.<var>eu<var>.newrelic.com
+        infrastructure-alert.service.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -116,7 +118,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        rpm.<var>eu</var>.newrelic.com/mobile
+        rpm.eu.newrelic.com/mobile
         ```
       </td>
     </tr>
@@ -128,7 +130,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        api.<var>eu</var>.newrelic.com/graphiql
+        api.eu.newrelic.com/graphiql
         ```
       </td>
     </tr>
@@ -154,7 +156,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        api.<var>eu</var>.newrelic.com
+        api.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -166,7 +168,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        synthetics.<var>eu</var>.newrelic.com/synthetics/api
+        synthetics.eu.newrelic.com/synthetics/api
         ```
       </td>
     </tr>
@@ -178,7 +180,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        trace-api.<var>eu</var>.newrelic.com/trace/v1
+        trace-api.eu.newrelic.com/trace/v1
         ```
       </td>
     </tr>
@@ -190,7 +192,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        metric-api.<var>eu</var>.newrelic.com/metric/v1
+        metric-api.eu.newrelic.com/metric/v1
         ```
       </td>
     </tr>
@@ -202,7 +204,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        log-api.<var>eu</var>.newrelic.com/log/v1
+        log-api.eu.newrelic.com/log/v1
         ```
       </td>
     </tr>
@@ -214,7 +216,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        insights-collector.<var>eu01</var>.nr-data.net
+        insights-collector.eu01.nr-data.net
         ```
       </td>
     </tr>
@@ -226,7 +228,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
       <td>
         ```
-        insights-api.<var>eu</var>.newrelic.com
+        insights-api.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -235,7 +237,7 @@ EU地域のアカウントをお持ちの方は、適切なエンドポイント
 
 ## NewRelicにアクセスする [#access]
 
-アカウントが[EUデータセンター](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center)にデータを報告する場合は、次のリンクを使用してNew Relicにアクセスしてください： **[one.eu.newrelic.com](https://one.eu.newrelic.com)** 。
+New Relic 組織が [EU データ センター](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center)にデータを報告する場合は、次のリンクを使用して New Relic: **[one.eu.newrelic.com](https://one.eu.newrelic.com)**にアクセスします。
 
 ## 課金・価格設定 [#billing-pricing]
 
@@ -254,4 +256,9 @@ New Relic の [アカウントの請求プロセスと価格オプション](/do
 これらのオプションのいずれかを使用して、お客様のアカウントデータがEU地域のデータセンターでホストされているかどうかを確認してください。
 
 * APMで、アプリケーション名の上にマウスを置くと、URLが表示されます。 `rpm.eu.newrelic.com/`で始まる場合は、EUベースのアカウントです。
-* [NewRelicのライセンスキーを](/docs/accounts/install-new-relic/account-setup/license-key)確認してください。 `EU`で始まる場合は、EUベースのアカウントです。
+
+* あなたの
+
+  <InlinePopover type="licenseKey"/>
+
+  . `EU`で始まる場合、それは EU ベースのアカウントです。

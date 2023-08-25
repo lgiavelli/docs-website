@@ -1,5 +1,5 @@
 ---
-title: 'NerdGraph: 과거 데이터 내보내기를 사용하여 더 큰 NRQL 응답 반환'
+title: '기록 데이터 내보내기: 더 큰 NRQL 응답 반환'
 tags:
   - APIs
   - NerdGraph
@@ -12,9 +12,8 @@ translationType: machine
 
 ## 요구 사항 [#requirements]
 
-이 기능을 사용하려면 [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices) 가 필요합니다.
-
-이 기능을 사용하려면 [NerdGraph API](/docs/apis/nerdgraph/get-started/introduction-new-relic-nerdgraph) 를 사용해야 합니다.
+* [데이터 플러스](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices) 필요
+* 데이터를 내보내려면 [핵심 또는 전체 플랫폼 사용자](/docs/accounts/accounts-billing/new-relic-one-user-management/user-type) 여야 합니다.
 
 ## 제한 및 제한 사항 [#limits-restrictions]
 
@@ -32,11 +31,7 @@ translationType: machine
 
 ### 데이터 유형 제한 [#data-type-restrictions]
 
-일부 [데이터 유형](/docs/data-apis/understand-data/new-relic-data-types) 은 내보낼 수 **없습니다** .
-
-* 메트릭 타임슬라이스 데이터
-* 차원 측정항목( `Metric` 데이터 유형)
-* 인프라 이벤트 `SystemSample` , `ProcessSample` , `StorageSample` , `NetworkSample` , `ContainerSample`
+[메트릭 타임슬라이스 데이터는](/docs/data-apis/understand-data/new-relic-data-types/#timeslice-data) 내보낼 수 없습니다.
 
 ### 시간 범위 제한 [#time-range-restrictions]
 
@@ -46,23 +41,28 @@ translationType: machine
 
 이 기능은 특정 속성 이름과 와일드카드( `SELECT *` ) 선택을 지원합니다.예를 들어 다음과 같은 쿼리를 지원합니다.
 
-```
+```sql
 SELECT * FROM MobileRequest SINCE 3 days ago until 2 days ago
 ```
 
-```FROM Transaction SELECT duration, appId
-  WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' 
-  UNTIL '2022-06-11 11:10:00-0600'
+```sql
+SELECT duration, appId FROM Transaction
+WHERE appName = 'interesting-application' 
+SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'
 ```
 
-다음 [NRQL 구성 요소](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions) **는 사용할 수 없습니다** .
+다음 [NRQL 구성 요소는](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions) 쿼리에서 사용할 **수 없습니다** .
 
 * 집계 함수( `sum` , `count` , `average` , `max` )
-* 평가 가능한 함수( `numeric` , `log` , `concat` )
+* 평가 가능한 함수(`numeric`, `log`, `concat`)는 `WHERE` 절 _에서만_ 지원됩니다.
 * `FACET`
 * `TIMESERIES`
 * `COMPARE WITH`
+* `JOIN`
 * 중첩 집계
+* 하위 쿼리
+* 변수 바인딩
+* 교차 계정 쿼리
 
 ## 엔드포인트 세부정보 [#endpoints]
 
@@ -76,15 +76,18 @@ SELECT * FROM MobileRequest SINCE 3 days ago until 2 days ago
 
 ### 내보내기 만들기 [#create-export]
 
-NerdGraph를 사용하는 한 가지 방법은 [NerdGraph 탐색기](/docs/apis/nerdgraph/get-started/nerdgraph-explorer) 를 사용하는 것입니다.이 섹션의 지침은 탐색기 사용에 중점을 둡니다.자신의 스크립트를 실행하는 데 관심이 있는 경우 [스크립트](#scripts) 를 참조하십시오.
+NerdGraph를 사용하는 한 가지 방법은 [NerdGraph 탐색기를](/docs/apis/nerdgraph/get-started/nerdgraph-explorer) 사용하는 것입니다. 이 섹션의 지침은 NerdGraph 탐색기 사용에 중점을 둡니다. 자신의 스크립트를 실행하는 데 관심이 있는 경우 [스크립트 를](#scripts) 참조하십시오.
 
 NerdGraph 스키마에서 `historicalDataExportCreateExport` 엔드포인트는 `mutation > historicalDataExport` 에서 찾을 수 있습니다.내보내기를 실행하려면 아래와 같은 쿼리를 사용하세요.
 
 내보내기에 대한 세부 정보를 가져오고 결과를 검색하는 데 사용되므로 응답 본문에 대한 ID를 선택하는 것이 좋습니다.
 
-```
+```graphql
 mutation {
-  historicalDataExportCreateExport(accountId: <var>YOUR_ACCOUNT_ID</var>, nrql: "<var>FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'</var>") {
+  historicalDataExportCreateExport(
+    accountId: YOUR_ACCOUNT_ID, 
+    nrql: "FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'"
+  ) {
     percentComplete
     nrql
     status
@@ -92,10 +95,13 @@ mutation {
     message
   }
 }
+```
 
-#### Example response [#create-export-response]
+#### 예시 응답 [#create-export-response]
 
-Here's an example response for creating an export: 
+다음은 내보내기 생성에 대한 응답 예시입니다.
+
+```json
 {
   "data": {
     "historicalDataExportCreateExport": {
@@ -111,13 +117,13 @@ Here's an example response for creating an export:
 
 ### 내보내기 취소 [#cancel-export]
 
-NerdGraph 스키마에서 `historicalDataExportCancelExport` 엔드포인트는 `mutation > historicalDataExport` 에서 찾을 수 있습니다.내보내기를 실행하려면 아래와 같은 쿼리를 사용하세요.
+NerdGraph 스키마에서 `historicalDataExportCancelExport` 엔드포인트는 `mutation` > `historicalDataExport`아래에서 찾을 수 있습니다. 내보내기를 실행하려면 아래와 같은 쿼리를 사용하십시오.
 
 내보내기가 성공적으로 취소되었는지 확인하려면 응답 본문에서 상태를 선택하는 것이 좋습니다.
 
-```
+```graphql
 mutation {
-  historicalDataExportCancelExport(accountId: <var>YOUR_ACCOUNT_ID</var>, id: "<var>YOUR_EXPORT_ID</var>") {
+  historicalDataExportCancelExport(accountId: YOUR_ACCOUNT_ID, id: "YOUR_EXPORT_ID") {
     status
     id
   }
@@ -128,11 +134,11 @@ mutation {
 
 다음은 내보내기 취소에 대한 응답의 예입니다.
 
-```
+```json
 {
   "data": {
     "historicalDataExportCancelExport": {
-      "id": "<var>YOUR_EXPORT_ID</var>",
+      "id": "YOUR_EXPORT_ID",
       "status": "CANCELED"
     }
   }
@@ -141,14 +147,14 @@ mutation {
 
 ### 특정 내보내기에 대한 세부정보 가져오기 [#details-for-export]
 
-아래와 같이 엔드포인트 생성의 응답에서 찾은 내보내기 ID를 사용하여 내보내기 세부 정보를 쿼리합니다.이 엔드포인트는 `query > actor > account > historicalDataExport > export` 아래 NerdGraph에서 찾을 수 있습니다.
+아래와 같이 생성 엔드포인트의 응답에 있는 내보내기 ID를 사용하여 내보내기에 대한 세부 정보를 쿼리합니다. 이 엔드포인트는 `query` > `actor` > `account` > `historicalDataExport` > `export`아래의 NerdGraph에서 찾을 수 있습니다.
 
-```
+```graphql
 {
   actor {
-    account(id: <var>YOUR_ACCOUNT_ID</var>) {
+    account(id: YOUR_ACCOUNT_ID) {
       historicalDataExport {
-        export(id: "<var>YOUR_EXPORT_ID</var>") {
+        export(id: "YOUR_EXPORT_ID") {
           availableUntil
           eventCount
           eventTypes
@@ -169,7 +175,7 @@ mutation {
 
 다음은 특정 내보내기에 대한 세부정보를 가져오는 데 대한 응답입니다.
 
-```
+```json
 {
   "data": {
     "actor": {
@@ -200,12 +206,12 @@ mutation {
 
 ### 계정에 대한 수출 세부정보 가져오기 [#get-details-account]
 
-아래와 같이 계정 ID를 사용하여 해당 계정의 모든 내보내기에 대한 세부 정보를 가져올 수 있습니다.엔드포인트는 `query > actor > account > historicalDataExport > exports` 아래의 NerdGraph 스키마에서 찾을 수 있습니다.
+아래와 같이 계정 ID를 사용하여 해당 계정의 모든 내보내기에 대한 세부 정보를 가져올 수 있습니다. 엔드포인트는 `query` > `actor` > `account` > `historicalDataExport` > `exports`아래의 NerdGraph 스키마에서 찾을 수 있습니다.
 
-```
+```graphql
 {
   actor {
-    account(id: <var>YOUR_ACCOUNT_ID</var>) {
+    account(id: YOUR_ACCOUNT_ID) {
       historicalDataExport {
         exports {
           availableUntil
@@ -228,7 +234,7 @@ mutation {
 
 다음은 계정에 대한 내보내기 세부정보를 가져오기 위한 예시 응답입니다.
 
-```
+```json
 {
   "data": {
     "actor": {
@@ -265,38 +271,38 @@ mutation {
 
 ### 내보내기 만들기 [#create-export-script]
 
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var> \
---data-raw '{"query":"mutation {\n  historicalDataExportCreateExport(accountId: <var>YOUR_ACCOUNT_ID</var>, nrql: "<var>FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'</var>") {\n    percentComplete\n    nrql\n    status\n    message\n    id\n }","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"mutation {\n  historicalDataExportCreateExport(accountId: YOUR_ACCOUNT_ID, nrql: "FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'") {\n    percentComplete\n    nrql\n    status\n    message\n    id\n }","variables":{}}'
 ```
 
 ### 내보내기 취소 [#cancel-export-script]
 
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var> \
---data-raw '{"query":"mutation {\n historicalDataExportCancelExport(accountId: <var>YOUR_ACCOUNT_ID</var>, id: "<var>YOUR_EXPORT_ID</var>") {\n status\n id\n }","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"mutation {\n historicalDataExportCancelExport(accountId: YOUR_ACCOUNT_ID, id: "YOUR_EXPORT_ID") {\n status\n id\n }","variables":{}}'
 ```
 
 ### 수출 세부정보 얻기 [#export-details-script]
 
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var>' \
---data-raw '{"query":"{\n  actor {\n    account(id: <var>YOUR_ACCOUNT_ID</var>) {\n      historicalDataExport {\n        export(id: \"<var>YOUR_EXPORT_ID</var>\") {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"{\n  actor {\n    account(id: YOUR_ACCOUNT_ID) {\n      historicalDataExport {\n        export(id: \"YOUR_EXPORT_ID\") {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}","variables":{}}'
 ```
 
 ### 계정 내보내기에 대한 세부정보 가져오기 [#export-details-account-script]
 
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var>' \
---data-raw '{"query":"{\n  actor {\n    account(id: <var>YOUR_ACCOUNT_ID</var>) {\n      historicalDataExport {\n        exports {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}\n","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"{\n  actor {\n    account(id: YOUR_ACCOUNT_ID) {\n      historicalDataExport {\n        exports {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}\n","variables":{}}'
 ```
 
 ## 결과 형식 내보내기 [#export-results-format]
@@ -305,13 +311,13 @@ curl --location --request POST 'https://api.newrelic.com/graphql' \
 
 압축을 푼 결과 파일의 예는 다음과 같습니다.
 
-```
+```json
 [
   {
     "attributes": {
       "duration": 36,
       "eventType": "Transaction",
-      "account": ACCOUNTID,
+      "accountId": YOUR_ACCOUNT_ID,
       "timestamp": 1655174793213
     }
   },
@@ -319,7 +325,7 @@ curl --location --request POST 'https://api.newrelic.com/graphql' \
     "attributes": {
       "duration": 3,
       "eventType": "MobileRequest",
-      "account": ACCOUNTID,
+      "accountId": YOUR_ACCOUNT_ID,
       "timestamp": 1655174793215
     }
   }
@@ -334,11 +340,11 @@ curl --location --request POST 'https://api.newrelic.com/graphql' \
 
 [쿼리 빌더](/docs/query-your-data/explore-query-data/query-builder/introduction-query-builder) 에서 실행하거나 대시보드에 추가할 수 있는 다음 쿼리는 지난 주에 생성된 모든 내보내기와 성공적으로 완료되고 오류가 없는 내보내기 수를 반환합니다.
 
-```
+```sql
 FROM HistoricalDataExport SELECT * WHERE status = 'Created' SINCE 1 WEEK AGO
 ```
 
-```
+```sql
 FROM HistoricalDataExport SELECT count(*) WHERE status != 'Completed' FACET status SINCE 1 WEEK AGO
 ```
 
@@ -358,15 +364,15 @@ Cannot query field \"historicalDataExportCreateExport\" on type \"RootMutationTy
 
 미리 서명된 URL을 사용하여 결과를 다운로드하려고 하면 다음과 같은 오류가 표시될 수 있습니다.
 
-```
+```xml
 <Error>
-<Code>AccessDenied</Code>
-<Message>Request has expired</Message>
-<X-Amz-Expires>120</X-Amz-Expires>
-<Expires>2022-06-24T15:16:45Z</Expires>
-<ServerTime>2022-06-24T17:56:40Z</ServerTime>
-<RequestId>1234567890ABC</RequestId>
-<HostId>ABCD1234HOST-ID098765-XYZ</HostId>
+  <Code>AccessDenied</Code>
+  <Message>Request has expired</Message>
+  <X-Amz-Expires>120</X-Amz-Expires>
+  <Expires>2022-06-24T15:16:45Z</Expires>
+  <ServerTime>2022-06-24T17:56:40Z</ServerTime>
+  <RequestId>1234567890ABC</RequestId>
+  <HostId>ABCD1234HOST-ID098765-XYZ</HostId>
 </Error>
 ```
 

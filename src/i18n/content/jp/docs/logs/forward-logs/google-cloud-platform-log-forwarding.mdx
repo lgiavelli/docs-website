@@ -10,15 +10,13 @@ metaDescription: 'Configure New Relic logging for a Google Cloud Platform Pub/Su
 translationType: machine
 ---
 
-import gcpAddMoreData from 'images/gcp-add-more-data.png'
+import logsGCPLogsCreateTopic from 'images/logs_screenshot-full_GCP-logs-create-topic.webp'
 
-import gcpCreateTopic from 'images/gcp-create-topic.png'
+import logsGCPCreateSubscription from 'images/logs_screenshot-crop_GCP-create-subscription.webp'
 
-import gcpCreateSubscription from 'images/gcp-create-subscription.png'
+import logsGCPCreateSubscriptionType from 'images/logs_screenshot-crop_GCP-create-subscription-type.webp'
 
-import gcpCreateSubscriptionType from 'images/gcp-create-subscription-type.png'
-
-import gcpCreateSink from 'images/gcp-create-sink.png'
+import logsGCPCreateSink from 'images/logs_screenshot-crop_GCP-create-sink.webp'
 
 Google Cloud PlatformのPub/SubトピックからNew Relicにログを転送する方法として、2種類の方法をサポートしています。
 
@@ -75,17 +73,11 @@ GCPのログをヘッダーレスAPIを使ってNew Relicに送信するため�
     id="ingest-url"
     title="1.GCP Pub/SubのインジェストURLを生成します。"
   >
-    まず、GCP Pub/SubトピックのインジェストURLを作成します。
+    まず、GCP Pub/Sub トピックの取り込み URL を作成します。
 
-    <img
-      title="Add more data sources"
-      alt="Add more data sources"
-      src={gcpAddMoreData}
-    />
+    1. [**Add data** UI](https://one.newrelic.com/marketplace)に移動し、 **Logging**をクリックして、 **Google Cloud Platform**をクリックします。
 
-    1. [**Logs** in New Relic](https://one.newrelic.com/launcher/logger.log-launcher)に移動し、 **Add moredatasourcesをクリックします**。
-
-    2. **Google Cloud Platform** をクリックして、ログを転送する New Relic アカウントを選択し、 **Continue** をクリックします。
+    2. ログを転送する New Relic アカウントを選択し、 **Continue**をクリックします。
 
     3. オプションです。次のステップで生成されるインジェストURLに送信されるすべてのログイベントに含まれるメタデータ（属性と値のペア）を設定します。
 
@@ -105,7 +97,7 @@ GCPのログをヘッダーレスAPIを使ってNew Relicに送信するため�
     <img
       title="Create GCP topic"
       alt="Create GCP topic"
-      src={gcpCreateTopic}
+      src={logsGCPLogsCreateTopic}
     />
 
     1. Navigate to [GCP Pub/Sub Console](https://console.cloud.google.com/cloudpubsub/topic/list).
@@ -123,7 +115,7 @@ GCPのログをヘッダーレスAPIを使ってNew Relicに送信するため�
     <img
       title="Create GCP Pub/Sub topic subscription"
       alt="Create GCP Pub/Sub topic subscription"
-      src={gcpCreateSubscription}
+      src={logsGCPCreateSubscription}
     />
 
     1. [GCP Pub/Sub Consoleに戻る](https://console.cloud.google.com/cloudpubsub/topic/list).
@@ -135,7 +127,7 @@ GCPのログをヘッダーレスAPIを使ってNew Relicに送信するため�
        <img
          title="Select GCP Pub/Sub topic subscription type"
          alt="Select GCP Pub/Sub topic subscription type"
-         src={gcpCreateSubscriptionType}
+         src={logsGCPCreateSubscriptionType}
        />
 
     4. **Subscription ID** を入力します。次に、 **Delivery Type** で、 **Push** を選択します。
@@ -154,7 +146,7 @@ GCPのログをヘッダーレスAPIを使ってNew Relicに送信するため�
     <img
       title="Create GCP Pub/Sub logs router sink"
       alt="Create GCP Pub/Sub logs router sink"
-      src={gcpCreateSink}
+      src={logsGCPCreateSink}
     />
 
     1. Navigate to [GCP Logs Router Console](https://console.cloud.google.com/logs/router).
@@ -325,7 +317,12 @@ Dataflow ジョブを使用して GCP ログを New Relic に送信するには�
     このコマンドでは、この2つの値だけが必要です。
 
     * ログメッセージの読み取りに使用される入力PubSubサブスクリプション
-    * ログの送信に使用するNew Relicのライセンスキー
+
+    * ニューレリック
+
+      <InlinePopover type="licenseKey"/>
+
+      ログの送信に使用
 
     <CollapserGroup>
       <Collapser
@@ -374,7 +371,7 @@ Dataflow ジョブを使用して GCP ログを New Relic に送信するには�
           </td>
 
           <td>
-            New Relicのライセンスキーです。
+            ニューレリック <InlinePopover type="licenseKey"/>.
           </td>
         </tr>
 
@@ -494,13 +491,15 @@ Dataflow ジョブを使用して GCP ログを New Relic に送信するには�
   </Collapser>
 </CollapserGroup>
 
-## 次のステップ [#what-next]
+<InstallFeedback/>
 
-[Logs UI](/docs/logs/log-management/ui-data/use-logs-ui/)を使用して、プラットフォーム全体のログデータを調べます。
+## 次は何ですか？ [#what-next]
 
-* [logs in context](/docs/logs/enable-log-management-new-relic/configure-logs-context/configure-logs-context-apm-agents/) の機能を使ってログを転送することで、アプリケーションとプラットフォームの両方のパフォーマンスデータをより深く把握することができます。
-* [アラートの設定](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-alert-conditions/).
-* [データのクエリ](/docs/query-your-data/explore-query-data/get-started/introduction-querying-new-relic-data/) と [ダッシュボードの作成](/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards/).
+[ログ UI](/docs/logs/log-management/ui-data/use-logs-ui/)を使用して、プラットフォーム全体のログ データを調べます。
+
+* [ログインコンテキスト](/docs/logs/enable-log-management-new-relic/configure-logs-context/configure-logs-context-apm-agents/)機能を使用してログを転送することにより、アプリケーションとプラットフォームのパフォーマンスデータの両方をより深く把握できます。
+* [アラートを](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-alert-conditions/)設定します。
+* [データをクエリ](/docs/query-your-data/explore-query-data/get-started/introduction-querying-new-relic-data/)し、[ダッシュボードを作成します](/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards/)。
 
 ## ログ転送を無効にする [#disable]
 

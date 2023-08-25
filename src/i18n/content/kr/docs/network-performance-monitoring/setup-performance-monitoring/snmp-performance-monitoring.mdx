@@ -9,14 +9,14 @@ metaDescription: Set up New Relic's SNMP data monitoring.
 translationType: machine
 ---
 
-import snmpGuidedInstall from 'images/snmp-guided-install.png'
+import networkSnmpGuidedInstall from 'images/network_screenshot-full_snmp-guided-install.webp'
 
 네트워크 장치를 설정하여 네트워크 데이터를 New Relic으로 보내십시오.
 
 <ButtonLink
   data-tessen="stitchedPathLinkClick"
   role="button"
-  to="https://one.newrelic.com/nr1-core?state=d551da8e-595c-b699-4a3f-5ef795a64cc5"
+  to="https://one.newrelic.com/nr1-core?state=c805c263-f7a8-9dad-0e24-54c64f4fa615"
   variant="primary"
 >
   SNMP 데이터 추가
@@ -26,17 +26,40 @@ import snmpGuidedInstall from 'images/snmp-guided-install.png'
 
 ### New Relic 전제 조건 [#prerequisites-NR]
 
-* New Relic 계정. 하나가 없습니까? [무료 가입!](https://newrelic.com/signup) 신용 카드가 필요하지 않습니다.
+* New Relic 계정. 아직 가입하지 않으셨다면 무료로 가입하세요! 신용 카드가 필요하지 않습니다.
 
-* 수동 설치의 경우(가이드 설치는 자동으로 입력):
+<InlineSignup/>
+
+* SNMP를 수동으로 설치하도록 선택한 경우 다음도 필요합니다.
 
   * New Relic [계정 ID](/docs/accounts/accounts-billing/account-setup/account-id) .
-  * New Relic [라이센스 키](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key) .
 
-### Linux 호스트 전제 조건 [#prerequisites-host]
+  * New Relic
 
-* Linux 호스트에 설치된 [Docker](https://docs.docker.com/engine/install) .
-* 새 컨테이너를 시작할 수 있는 기능과 함께 Docker 호스트에 대한 SSH 액세스.
+    <InlinePopover type="licenseKey"/>
+
+    .
+
+### Linux 호스트 전제 조건 [#prerequisites-linux-host]
+
+Linux를 사용하는 경우 다음이 필요합니다.
+
+* 호스트에 대한 SSH 액세스
+* 애플리케이션 및 서비스 설치/제거에 대한 액세스
+* [네트워크 전제 조건](/docs/network-performance-monitoring/setup-performance-monitoring/snmp-performance-monitoring#prerequisites-network) 에 정의된 네트워크 액세스
+
+<Callout variant="important">
+  SNMP 트랩을 수신하려면 KTranslate는 UDP 162에 바인딩해야 합니다. 호스트 기반 설치에서는 설치 프로세스 중에 다음 명령이 포함됩니다. 실행되면 KTranslate는 상승된 권한으로 실행됩니다.
+
+  `sudo setcap cap_net_bind_service=+ep /usr/bin/ktranslate`
+</Callout>
+
+### 도커 전제 조건 [#prerequisites-docker]
+
+Kentik의 ktranslate 도커 컨테이너를 사용하여 SNMP 모니터링을 배포하는 것이 좋습니다. 사용하려면 다음이 필요합니다.
+
+* Linux 호스트에 설치된 [Docker](https://docs.docker.com/engine/install)
+* 명령줄을 통해 새 컨테이너를 시작하는 기능
 
 ### SNMP 장치 전제 조건 [#devices-prerequisites]
 
@@ -57,165 +80,7 @@ import snmpGuidedInstall from 'images/snmp-guided-install.png'
 
 ### 네트워크 보안 전제 조건 [#prerequisites-network]
 
-<table>
-  <thead>
-    <tr>
-      <th style={{ width: '100px' }}>
-        방향
-      </th>
-
-      <th>
-        원천
-      </th>
-
-      <th>
-        목적지
-      </th>
-
-      <th>
-        항구
-      </th>
-
-      <th>
-        규약
-      </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>
-        배 밖으로
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        `ktranslate` [Docker Hub](https://hub.docker.com/r/kentik/ktranslate) 또는 [Quay.io](https://quay.io/repository/kentik/ktranslate) 의 이미지
-      </td>
-
-      <td>
-        443
-      </td>
-
-      <td>
-        TCP
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        배 밖으로
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        [New Relic Metric API](/docs/data-apis/ingest-apis/metric-api/introduction-metric-api/#requirements) 미국 엔드포인트: `https://metric-api.newrelic.com` EU 엔드포인트: `https://metric-api.eu.newrelic.com`
-      </td>
-
-      <td>
-        443
-      </td>
-
-      <td>
-        TCP
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        배 밖으로
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        [New Relic Event API](/docs/data-apis/ingest-apis/event-api/introduction-event-api#requirements) 미국 엔드포인트: `https://insights-collector.newrelic.com` EU 엔드포인트: `https://insights-collector.eu01.nr-data.net`
-      </td>
-
-      <td>
-        443
-      </td>
-
-      <td>
-        TCP
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        배 밖으로
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        [New Relic Log API](/docs/logs/log-management/log-api/introduction-log-api/#endpoint) 미국 엔드포인트: `https://log-api.newrelic.com` EU 엔드포인트: `https://log-api.eu.newrelic.com`
-      </td>
-
-      <td>
-        443
-      </td>
-
-      <td>
-        TCP
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        배 밖으로
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        SNMP 폴링을 위한 대상 장치
-      </td>
-
-      <td>
-        161(기본값)
-      </td>
-
-      <td>
-        UDP
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        인바운드
-      </td>
-
-      <td>
-        SNMP 트랩 데이터용 소스 장치
-      </td>
-
-      <td>
-        도커 호스트
-      </td>
-
-      <td>
-        162(기본값)
-      </td>
-
-      <td>
-        UDP
-      </td>
-    </tr>
-  </tbody>
-</table>
+[SNMP에 대한 네트워크 보안 전제 조건을](/install/npm)확인하십시오.
 
 ### 지원되는 SNMP 버전 [#supported-snmp-versions]
 
@@ -390,30 +255,41 @@ import snmpGuidedInstall from 'images/snmp-guided-install.png'
 
 ## New Relic에서 SNMP 데이터 모니터링 설정 [#setup-snmp-monitoring]
 
-1. **[one.newrelic.com](https://one.newrelic.com)** 으로 이동하여 **데이터 추가** 를 클릭합니다.
+1. **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Add more data** 로 이동합니다.
 
-2. **네트워크 모니터링** 이 표시될 때까지 아래로 스크롤하고 **SNMP** 를 클릭합니다.
+2. **Network** 보일 때까지 아래로 스크롤하고 **SNMP를** 클릭합니다.
 
-3. New Relic의 단계를 따릅니다.
+3. 안내된 설치 프로세스에 설명된 단계를 따릅니다. 도커 또는 리눅스를 사용할 수 있습니다.
 
    <img
      title="SNMP guided setup"
      alt="SNMP guided setup"
-     src={snmpGuidedInstall}
+     src={networkSnmpGuidedInstall}
    />
 
    <figcaption>
-     **[one.newrelic.com](https://one.newrelic.com)** > **Add more data** > **Network monitoring** > **SNMP** 를 클릭하여 SNMP 데이터 모니터링을 설정합니다.
+     **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Add more data > Network > SNMP**를 통해 SNMP 데이터 모니터링을 설정합니다.
    </figcaption>
 
 4. [New Relic에서 네트워크 성능 데이터를 시각화하십시오](/docs/network-performance-monitoring/monitoring-network-data/visualize-network-data) .
 
 <CollapserGroup>
   <Collapser
-    id="manual-setup"
-    title="수동 설정"
+    id="manual-container-setup"
+    title="수동 컨테이너 설정"
   >
-    수동으로 설정하려면 다음 단계를 진행하십시오.
+    SNMP를 수동으로 설치하는 방법을 읽기 전에 안내 설치 프로세스를 사용하여 오류를 방지하는 것이 좋습니다.
+
+    <Button
+      data-tessen="stitchedPathLinkClick"
+      role="button"
+      to="https://one.newrelic.com/nr1-core?state=c805c263-f7a8-9dad-0e24-54c64f4fa615"
+      variant="primary"
+    >
+      SNMP 데이터 추가
+    </Button>
+
+    이 수동 설치 프로세스를 따르는 경우 문제가 발생해도 지원을 받지 못할 수 있습니다. 계속 진행하려면 다음을 수행하십시오.
 
     1. Docker가 설치된 Linux 호스트에서 다음 중 하나를 실행하여 **ktranslate** 이미지를 다운로드합니다.
 
@@ -474,7 +350,7 @@ import snmpGuidedInstall from 'images/snmp-guided-install.png'
        kentik/ktranslate:v2 \
          -snmp /snmp-base.yaml \
          -nr_account_id=$YOUR_NR_ACCOUNT_ID \
-         ## If your account is located in Europe, add the following flag:
+         ## If your organization is located in Europe, add the following flag:
          ## -nr_region=EU \
          ## If you want to use FedRAMP, add the following flag to use the FedRAMP authorized endpoints:
          ## -nr_region=GOV \
@@ -491,6 +367,8 @@ import snmpGuidedInstall from 'images/snmp-guided-install.png'
     8. [New Relic에서 네트워크 성능 데이터를 시각화하십시오](/docs/network-performance-monitoring/monitoring-network-data/visualize-network-data) .
   </Collapser>
 </CollapserGroup>
+
+<InstallFeedback/>
 
 ### SNMP 트랩 모음
 

@@ -18,6 +18,10 @@ REST APIを使用してアラートデータを管理する前に、[アラー�
 
 Infrastructureのアラートについては、[InfrastructureモニタリングアラートのREST API](/docs/infrastructure/new-relic-infrastructure/infrastructure-alert-conditions/rest-api-calls-new-relic-infrastructure-alerts)を参照してください。
 
+また、まだ作成されていない場合は、無料のNew Relicアカウントを以下で作成し、今すぐデータの監視を開始してください。
+
+<InlineSignup/>
+
 ## REST APIで使用可能なデータと機能 [#data]
 
 <table>
@@ -40,7 +44,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       </td>
 
       <td>
-        一般的に、どの[ロール](/docs/accounts-partnerships/accounts/account-setup/users-roles)でも[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)または[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)と**GET > List**機能を使用して、アラートデータを**表示**できます。アカウントの所有者 (オーナー)と管理者は、自身のAPI キーを使用できます。
+        一般的に、どの[ロール](/docs/accounts-partnerships/accounts/account-setup/users-roles)でも<InlinePopover type="userKey"/>または[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)と**GET > List**機能を使用して、アラートデータを**表示**できます。アカウントの所有者 (オーナー)と管理者は、自身のAPI キーを使用できます。
 
         リストの出力には[ページ番号](/docs/apis/rest-api-v2/requirements/pagination-api-output)が付けられることに注意してください。使用可能な機能：
 
@@ -81,7 +85,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 これらのAPI関数には、[ポリシー](/docs/alerts/new-relic-alerts-beta/getting-started/best-practices-alert-policies)を簡単に作成、削除、リストすることができるAPIエクスプローラーへのリンクが含まれます。
 
 <Callout variant="important">
-  お使いのアカウントがEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -125,17 +129,17 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
           </td>
 
           <td>
-            ポリシー`name`は必須です。変更しないままにすると、<var>string</var>（文字列）というポリシーが作成されます。
+            ポリシー`name`は必須です。変更しないままにすると、string（文字列）というポリシーが作成されます。
           </td>
         </tr>
       </tbody>
     </table>
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/create) **Alerts Policies > POST > Create**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/create) > Alerts Policies > POST > Create**
 
     ```
     curl -X POST 'https://api.newrelic.com/v2/alerts_policies.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
          -H 'Content-Type: application/json' \
          -d \
     '{
@@ -200,7 +204,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
           </td>
 
           <td>
-            **必須。**名前を変更しない場合は、<var>string</var>というポリシーにデフォルト設定されます。
+            **必須。**名前を変更しない場合は、stringというポリシーにデフォルト設定されます。
 
             [List policies API](/docs/alerts/rest-api-alerts/new-relic-alerts-rest-api/rest-api-calls-new-relic-alerts#policies-list)を使用して、ポリシーの正確な名前を確認します。
           </td>
@@ -208,11 +212,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       </tbody>
     </table>
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/create) **Alerts Policies > PUT > Update**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/create) > Alerts Policies > PUT > Update**
 
     ```
     curl -X PUT 'https://api.newrelic.com/v2/alerts_policies/{id}.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
          -H 'Content-Type: application/json' \
          -d \
     '{
@@ -228,13 +232,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
     id="policies-delete"
     title="既存のポリシーを削除する"
   >
-    既存のポリシーを削除するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)を使用して、`policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**から入手可能）をAPIコールに含めます。
+    既存のポリシーを削除するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)を使用して、`policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**から入手可能）をAPIコールに含めます。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/delete) **Alerts Policies > DELETE > Delete**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/delete) > Alerts Policies > DELETE > Delete**
 
     ```
-    curl -X DELETE 'https://api.newrelic.com/v2/alerts_policies/<var>$POLICY_ID</var>.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+    curl -X DELETE 'https://api.newrelic.com/v2/alerts_policies/$POLICY_ID.json' \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
     ```
   </Collapser>
 
@@ -248,11 +252,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * オプションの[ページ番号付け](/docs/apis/rest-api-v2/requirements/pagination-api-output)の値
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**
 
       ```
       curl -X GET 'https://api.newrelic.com/v2/alerts_policies.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 </CollapserGroup>
@@ -262,7 +266,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 このAPI関数には、アラートの[通知チャネル](/docs/alerts/new-relic-alerts-beta/managing-notification-channels/notification-channels-controlling-where-send-alerts)を作成、削除、リストアップできるAPIエクスプローラーへのリンクが含まれます。
 
 <Callout variant="important">
-  アカウントがEUデータセンターでデータをホストする場合は、適切な[EUリージョンアカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -280,11 +284,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
       APIエクスプローラーには、通知チャネルのタイプごとに必要な設定値のフォーマットが表示されます。
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/create) **Alerts Channels > POST > Create**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/create) > Alerts Channels > POST > Create**
 
       ```
       curl -X POST 'https://api.newrelic.com/v2/alerts_channels.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -472,13 +476,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
     id="channels-delete"
     title="既存の通知チャネルを削除する"
   >
-    既存の通知チャネルを削除するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)を使用して、`channel_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/list) **Alerts Channels > GET > List**から取得可能）をAPIコールに含めます。
+    既存の通知チャネルを削除するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)を使用して、`channel_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/list) > Alerts Channels > GET > List**から入手可能）をAPIコールに含めます。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/delete) **Alerts Channels > DELETE > Delete**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/delete) > Alerts Channels > DELETE > Delete**
 
     ```
-    curl -X DELETE 'https://api.newrelic.com/v2/alerts_channels/<var>{channel_id}</var>.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+    curl -X DELETE 'https://api.newrelic.com/v2/alerts_channels/{channel_id}.json' \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
     ```
   </Collapser>
 
@@ -488,11 +492,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     アカウントの既存の通知チャネルのリストを表示するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)と、APIコールのオプションの[ページネーション](/docs/apis/rest-api-v2/requirements/pagination-api-output)値を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/list) **Alerts Channels > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/list) > Alerts Channels > GET > List**
 
     ```
     curl -X GET 'https://api.newrelic.com/v2/alerts_channels.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
     ```
   </Collapser>
 
@@ -502,17 +506,17 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     New Relics Alertsでは、[1つ以上の通知チャネルにポリシーを関連付ける](/docs/alerts/new-relic-alerts-beta/managing-notification-channels/add-or-remove-policy-channels)ことができます。また、通知チャネルを1つ以上のポリシーに関連付けることもできます。ポリシーに通知チャネルを追加するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)を使用して以下の値をAPIコールに含めます。
 
-    * `policy_id`値（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policy/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`値（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policy/list) > Alerts Policies > GET > List**から入手可能）
 
-    * カンマまたは改行で区切られた配列内の1つ以上の`channel_id`値（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/list) **Alerts Channels > GET > List**から入手可能）
+    * カンマまたは改行で区切られた配列内の1つ以上の`channel_id`値（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/list) > Alerts Channels > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policy_channels/update) **Alerts Policy Channels > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policy_channels/update) > Alerts Policy Channels > PUT > Update**
 
       ```
       curl -X PUT 'https://api.newrelic.com/v2/alerts_policy_channels.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
-           -G -d 'policy_id=<var>$POLICY_ID</var>&channel_ids=<var>channel_id</var>'
+           -G -d 'policy_id=$POLICY_ID&channel_ids=channel_id'
       ```
   </Collapser>
 
@@ -524,16 +528,16 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     チャネルからポリシーを削除するか、またはポリシーからチャネルを削除するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)、およびAPIコールの以下の値を使用します。
 
-    * `policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policy/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policy/list) > Alerts Policies > GET > List**から入手可能）
 
-    * `channel_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_channels/list) **Alerts Channels > GET > List**から入手可能）
+    * `channel_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_channels/list) > Alerts Channels > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policy_channels/delete) **Alerts Policy Channels > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policy_channels/delete) > Alerts Policy Channels > DELETE > Delete**
 
       ```
       curl -X DELETE 'https://api.newrelic.com/v2/alerts_policy_channels.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-           -d 'channel_id=<var>CHANNEL_ID</var>&policy_id=<var>POLICY_ID</var>'
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+           -d 'channel_id=CHANNEL_ID&policy_id=POLICY_ID'
       ```
   </Collapser>
 </CollapserGroup>
@@ -546,7 +550,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 * Browser：アプリとキートランザクション
 * Mobile：モバイルアプリ
 
-**例外：**次のAPMの条件は、このAPIエンドポイントからは**入手できません**。
+**例外：**次の<InlinePopover type="apm"/>条件は、このAPIエンドポイントからは**入手できません**。
 
 * 条件ターゲティングラベル（ダイナミックターゲティング）
 * ウェブトランザクションのパーセンタイル条件
@@ -563,17 +567,17 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     ポリシーに条件を追加するには、以下の値をAPIコールに含めます：
 
-    * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
+    * ご利用の<InlinePopover type="userKey"/>
 
-    * `policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**から入手可能）
 
     * APIコールで必須とされる`condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/create) **Alerts Conditions > POST > Create**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/create) > Alerts Conditions > POST > Create**
 
       ```
-      curl -X POST 'https://api.newrelic.com/v2/alerts_conditions/policies/<var>$POLICY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X POST 'https://api.newrelic.com/v2/alerts_conditions/policies/$POLICY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -606,7 +610,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       }'
       ```
 
-      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts Conditions > GET > List**から表示することもできます。
+      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts Conditions > GET > List**から表示することもできます。
   </Collapser>
 
   <Collapser
@@ -617,15 +621,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 条件の`id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_condition/list) **Alerts Conditions > GET > List**から入手可能）
+    * 条件の`id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_condition/list) > Alerts Conditions > GET > List**から入手可能）
 
     * APIコールで必須とされる`condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/update) **Alerts Conditions > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/update) > Alerts Conditions > PUT > Update**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -668,13 +672,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts Conditions > GET > List**から入手可能)
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts Conditions > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/update) **Alerts Conditions > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/update) > Alerts Conditions > DELETE > Delete**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -684,11 +688,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     ご利用のポリシーについて既存条件の一覧を表示するには、[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)または[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)、およびAPIコールの関連[`policy_id`](#policies-list)を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts Conditions > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts Conditions > GET > List**
 
     ```
-    curl -X GET 'https://api.newrelic.com/v2/alerts_conditions.json?policy_id=<var>$POLICY_ID</var>' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+    curl -X GET 'https://api.newrelic.com/v2/alerts_conditions.json?policy_id=$POLICY_ID' \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
     ```
   </Collapser>
 </CollapserGroup>
@@ -700,7 +704,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 **例外：**NRQL異常の条件は、このエンドポイントからは**入手できません**。
 
 <Callout variant="important">
-  アカウントがEUデータセンターでデータをホストする場合は、適切な[EUリージョンアカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -710,13 +714,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     **推奨事項：**NRQLデータのストリーミング方法に応じて、`aggregation_method`を`EVENT_FLOW`に設定し、`aggregation_window`には`60`、`aggregation_delay`には`120`のデフォルト設定を使用します。`EVENT_FLOW`はほとんどの使用例で機能しますが、どの使用例が`EVENT_TIMER`でより適切に機能するかについては、[どの集計方法を使用するか](https://discuss.newrelic.com/t/relic-solution-how-can-i-figure-out-which-aggregation-method-to-use/164288)を参照してください。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/create) **Alerts Nrql Conditions > POST > Create**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/create) > Alerts NRQL Conditions > POST > Create**
 
     ポリシーのNRQL条件を作成する：
 
     ```
-    curl -X POST 'https://api.newrelic.com/v2/alerts_nrql_conditions/policies/<var>$POLICY_ID</var>.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+    curl -X POST 'https://api.newrelic.com/v2/alerts_nrql_conditions/policies/$POLICY_ID.json' \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
          -H 'Content-Type: application/json' \
          -d \
     '{
@@ -767,15 +771,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 条件の`id`（[API Explorer：<Icon name="fe-external-link"/>](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list "新しいウィンドウにリンクが開きます。") **Alerts Nrql Conditions > GET > List**から入手可能）
+    * 条件の`id`（[API Explorer <Icon name="fe-external-link"/>](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list) **Alerts NRQL Conditions > GET > List**から入手可能）
 
     * APIコールで必須とされる`condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/update) **Alerts Nrql Conditions > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/update) > Alerts NRQL Conditions > PUT > Update**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_nrql_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_nrql_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -809,13 +813,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 条件の`id`（[API Explorer：<Icon name="fe-external-link"/>](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list "新しいウィンドウにリンクが開きます。") **Alerts Nrql Conditions > GET > List**から入手可能）
+    * 条件の`id`（[API Explorer <Icon name="fe-external-link"/>](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list) **Alerts NRQL Conditions > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/delete) **Alerts Nrql Conditions > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/delete) > Alerts NRQL Conditions > DELETE > Delete**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_nrql_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_nrql_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -825,22 +829,22 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     ご利用のアラートポリシーについて既存条件の一覧を表示するには、[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)、およびAPIコールの関連[`policy_id`](#policies-list)を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list) **Alerts Nrql Conditions > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_nrql_conditions/list) > Alerts NRQL Conditions > GET > List**
 
     ```
     curl -X GET 'https://api.newrelic.com/v2/alerts_nrql_conditions.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-         -d 'policy_id=<var>$POLICY_ID</var>'
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+         -d 'policy_id=$POLICY_ID'
     ```
   </Collapser>
 </CollapserGroup>
 
 ## 外部サービスの条件 [#ext-services-conditions]
 
-このAPI関数には、ポリシーの[条件](/docs/alerts/new-relic-alerts-beta/configuring-alert-policies/define-alert-conditions)を簡単に作成、更新、削除、リストできるAPIエクスプローラーへのリンクが含まれます。以下のコールは外部サービスの条件です。APIコールは、APMやモバイルモニタリングアプリと共に使用できます。
+このAPI関数には、ポリシーの[条件](/docs/alerts/new-relic-alerts-beta/configuring-alert-policies/define-alert-conditions)を簡単に作成、更新、削除、リストできるAPIエクスプローラーへのリンクが含まれます。以下のコールは外部サービスの条件です。APIコールは、<InlinePopover type="apm"/>やモバイルモニタリングアプリと共に使用できます。
 
 <Callout variant="important">
-  アカウントがEUデータセンターでデータをホストする場合は、適切な[EUリージョンアカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -848,19 +852,19 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
     id="ext-conditions-create"
     title="外部サービス：ポリシーの条件を作成する"
   >
-    APMまたはモバイルモニタリングアプリを有するポリシーの外部サービスに条件を追加するには、以下の値をAPIコールに含めます：
+    <InlinePopover type="apm"/>またはモバイルモニタリングアプリを有するポリシーの外部サービスに条件を追加するには、以下の値をAPIコールに含めます。
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**から入手可能）
 
     * APIコールで必須とされる`external_service_condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/create) **Alerts External Service Conditions > POST > Create**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/create) > Alerts External Service Conditions > POST > Create**
 
       ```
-      curl -X POST 'https://api.newrelic.com/v2/alerts_external_service_conditions/policies/<var>$POLICY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X POST 'https://api.newrelic.com/v2/alerts_external_service_conditions/policies/$POLICY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -887,26 +891,26 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       }'
       ```
 
-      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) **Alerts External Service Conditions > GET > List**から表示することもできます。
+      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) > Alerts External Service Conditions > GET > List**から表示することもできます。
   </Collapser>
 
   <Collapser
     id="ext-conditions-update"
     title="外部サービス：ポリシーの条件を更新する"
   >
-    APMまたはモバイルモニタリングアプリを有するポリシーの外部サービスの条件を更新するには、以下の値をAPIコールに含めます：
+    <InlinePopover type="apm"/>またはモバイルモニタリングアプリを有するポリシーの外部サービスの条件を更新するには、以下の値をAPIコールに含めます。
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 外部サービス条件の`id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) **Alerts External Service Conditions > GET > List**から入手可能）
+    * 外部サービス条件の`id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) > Alerts External Service Conditions > GET > List**から入手可能）
 
     * APIコールで必須とされる`external_service_condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/update) **Alerts External Service Conditions > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/update) > Alerts External Service Conditions > PUT > Update**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_external_service_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_external_service_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -938,17 +942,17 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
     id="ext-conditions-delete"
     title="外部サービス：条件をポリシーから削除する"
   >
-    APMまたはモバイルモニタリングアプリを有するポリシーの外部サービスの条件を削除するには、以下の値をAPIコールに含めます：
+    <InlinePopover type="apm"/>またはモバイルモニタリングアプリを有するポリシーの外部サービスの条件を削除するには、以下の値をAPIコールに含めます。
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts External Service Conditions > GET > List**から入手可能）
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts External Service Conditions > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/delete) **Alerts External Service Conditions > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/delete) > Alerts External Service Conditions > DELETE > Delete**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_external_service_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_external_service_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -958,12 +962,12 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     外部サービスアプリ（APMまたはモバイルモニタリング）を持つポリシーの既存条件の一覧を表示するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)または[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)、およびAPIコールの関連[`policy_id`](#policies-list)を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) **Alerts External Service Conditions > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_external_service_conditions/list) > Alerts External Service Conditions > GET > List**
 
     ```
     curl -X GET 'https://api.newrelic.com/v2/alerts_external_service_conditions.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-         -d 'policy_id=<var>$POLICY_ID</var>'
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+         -d 'policy_id=$POLICY_ID'
     ```
   </Collapser>
 </CollapserGroup>
@@ -981,15 +985,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**から入手可能）
 
     * APIコールで必須とされる`synthetics_condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/create) **Alerts Synthetics Conditions > POST > Create**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/create) > Alerts Synthetics Conditions > POST > Create**
 
       ```
-      curl -X POST 'https://api.newrelic.com/v2/alerts_synthetics_conditions/policies/<var>$POLICY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X POST 'https://api.newrelic.com/v2/alerts_synthetics_conditions/policies/$POLICY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -1002,7 +1006,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       }'
       ```
 
-      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) **Alerts Synthetics Conditions > GET > List**から表示することもできます。
+      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) > Alerts Synthetics Conditions > GET > List**から表示することもできます。
   </Collapser>
 
   <Collapser
@@ -1013,15 +1017,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 条件`id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) **Alerts Synthetics Conditions > GET > List**から入手可能）
+    * 条件`id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) > Alerts Synthetics Conditions > GET > List**から入手可能）
 
     * APIコールで必須とされる`synthetics_condition`値（[synthetics用のアラート条件の作成](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/create)のためのAPIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/update) **Alerts Synthetics Conditions > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/update) > Alerts Synthetics Conditions > PUT > Update**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_synthetics_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_synthetics_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -1043,13 +1047,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) **Alerts Synthetics Conditions > GET > List**から入手可能）
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) > Alerts Synthetics Conditions > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/delete) **Alerts Synthetics Conditions > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/delete) > Alerts Synthetics Conditions > DELETE > Delete**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_synthetics_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_synthetics_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -1059,12 +1063,12 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     合成モニタリングの既存のポリシー条件一覧を表示するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)または[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)、およびAPIコールの関連[`policy_id`](#policies-list)を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) **Alerts Synthetics Conditions > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_synthetics_conditions/list) > Alerts Synthetics Conditions > GET > List**
 
     ```
     curl -X GET 'https://api.newrelic.com/v2/alerts_synthetics_conditions.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-         -d 'policy_id=<var>$POLICY_ID</var>'
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+         -d 'policy_id=$POLICY_ID'
     ```
   </Collapser>
 </CollapserGroup>
@@ -1082,15 +1086,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `policy_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_policies/list) **Alerts Policies > GET > List**から入手可能）
+    * `policy_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_policies/list) > Alerts Policies > GET > List**から入手可能）
 
     * APIコールで必須とされる`location_failure_condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/create) **Alerts Location Failure Conditions > POST > Create**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/create) > Alerts Location Failure Conditions > POST > Create**
 
       ```
-      curl -X POST 'https://api.newrelic.com/v2/alerts_location_failure_conditions/policies/<var>$POLICY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X POST 'https://api.newrelic.com/v2/alerts_location_failure_conditions/policies/$POLICY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -1113,7 +1117,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       }'
       ```
 
-      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) **Alerts Location Failure Conditions > GET > List**から表示することもできます。
+      JSONレスポンスは、条件の更新や削除に必要な条件`id`を返します。条件`id`を**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) > Alerts Location Failure Conditions > GET > List**から表示することもできます。
   </Collapser>
 
   <Collapser
@@ -1124,15 +1128,15 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * 条件`id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) **Alerts Location Failure Conditions > GET > List**から入手可能）
+    * 条件`id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) > Alerts Location Failure Conditions > GET > List**から入手可能）
 
     * APIコールで必須とされる`location_failure_condition`値（APIエクスプローラーページと[アラート条件のAPI用語集](/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names)で説明されています）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/update) **Alerts Location Failure Conditions > PUT > Update**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/update) > Alerts Location Failure Conditions > PUT > Update**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_location_failure_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_location_failure_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
            -d \
       '{
@@ -1164,13 +1168,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) **Alerts Location Failure Conditions > GET > List**から入手可能）
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) > Alerts Location Failure Conditions > GET > List**から入手可能）
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/delete) **Alerts Location Failure Conditions > DELETE > Delete**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/delete) > Alerts Location Failure Conditions > DELETE > Delete**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_location_failure_conditions/<var>$CONDITION_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_location_failure_conditions/$CONDITION_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -1180,12 +1184,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
   >
     複数の場所における合成モニタリングの既存のポリシー条件一覧を表示するには、[ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)または[REST APIキー](/docs/apis/rest-api-v2/requirements/rest-api-key)、およびAPIコールの関連[`policy_id`](#policies-list)を使用します。
 
-    [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) **Alerts Location Failure Conditions > GET > List**
+    **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_location_failure_conditions/list) > Alerts Location Failure Conditions > GET > List**
 
     ```
-    curl -X GET 'https://api.newrelic.com/v2/alerts_location_failure_conditions.json' \
-         -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-         -d 'policy_id=<var>$POLICY_ID</var>'
+    curl -X GET 'https://api.newrelic.com/v2/alerts_location_failure_conditions/policies/$POLICY_ID.json' \
+         -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
     ```
   </Collapser>
 </CollapserGroup>
@@ -1195,7 +1198,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 こうしたAPI関数には、アラートポリシーのイベント、違反、インシデントに関する情報を表示できるAPIエクスプローラーへのリンクが含まれます。
 
 <Callout variant="important">
-  アカウントがEUデータセンターでデータをホストする場合は、適切な[EUリージョンアカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -1211,11 +1214,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * オプションの[ページネーション](/docs/apis/rest-api-v2/requirements/pagination-api-output)値
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_events/list) **Alerts Events > GET > List**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_events/list) > Alerts Events > GET > List**
 
       ```
       curl -X GET 'https://api.newrelic.com/v2/alerts_events.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -1231,11 +1234,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * オプションの[ページネーション](/docs/apis/rest-api-v2/requirements/pagination-api-output)値
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_violations/list) **Alerts Violations > GET > List**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_violations/list) > Alerts Violations > GET > List**
 
       ```
       curl -X GET 'https://api.newrelic.com/v2/alerts_violations.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
 
       <Callout variant="tip">
@@ -1257,11 +1260,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * オプションの[ページネーション](/docs/apis/rest-api-v2/requirements/pagination-api-output)値
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_incidents/list) **Alerts Incidents > GET > List**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_incidents/list) > Alerts Incidents > GET > List**
 
       ```
       curl -X GET 'https://api.newrelic.com/v2/alerts_incidents.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -1275,11 +1278,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * インシデントID
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_incidents/show) **Alerts Incidents > GET > Show**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_incidents/show) > Alerts Incidents > GET > Show**
 
       ```
-      curl -X GET 'https://api.newrelic.com/v2/alerts_incidents/<var>{id}</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i
+      curl -X GET 'https://api.newrelic.com/v2/alerts_incidents/{id}.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i
       ```
   </Collapser>
 
@@ -1293,11 +1296,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * インシデントID
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_incidents/acknowledge) **Alerts Incidents > PUT > Acknowledge**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_incidents/acknowledge) > Alerts Incidents > PUT > Acknowledge**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_incidents/<var>{id}</var>/acknowledge.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_incidents/{id}/acknowledge.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json'
       ```
   </Collapser>
@@ -1312,11 +1315,11 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * インシデントID
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_incidents/close) **Alerts Incidents > PUT > Close**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_incidents/close) > Alerts Incidents > PUT > Close**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_incidents/<var>{id}</var>/close.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_incidents/{id}/close.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json'
       ```
   </Collapser>
@@ -1327,7 +1330,7 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 こうしたAPI関数には、アラートポリシーに対する条件のエンティティをリスト、追加、削除できるAPIエクスプローラーへのリンクが含まれます。
 
 <Callout variant="important">
-  アカウントがEUデータセンターでデータをホストする場合は、適切な[EUリージョンアカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
+  お客様の組織がEUデータセンターでデータをホストする場合は、適切な[EU地域アカウント向けAPIエンドポイント](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center#endpoints)を使用していることを確認してください。
 </Callout>
 
 <CollapserGroup>
@@ -1348,12 +1351,12 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       * モバイルアプリケーション
       * キートランザクション
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/list) **Alerts Entity Conditions > GET > list**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/list) > Alerts Entity Conditions > GET > list**
 
       ```
-      curl -X GET 'https://api.newrelic.com/v2/alerts_entity_conditions/<var>$ENTITY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-           -G -d 'entity_type=<var>$ENTITY_TYPE</var>'
+      curl -X GET 'https://api.newrelic.com/v2/alerts_entity_conditions/$ENTITY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+           -G -d 'entity_type=$ENTITY_TYPE'
       ```
   </Collapser>
 
@@ -1365,9 +1368,9 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `entity_id`は監視対象の[エンティティ（アラートターゲット）](/docs/alerts/new-relic-alerts-beta/getting-started/alerts-glossary#alert-entity)です。APMアプリケーション、ブラウザアプリ、キートランザクション、モバイルアプリの数値IDです。
+    * `entity_id`は監視対象の[エンティティ（アラートターゲット）](/docs/alerts/new-relic-alerts-beta/getting-started/alerts-glossary#alert-entity)です。<InlinePopover type="apm"/>アプリケーション、ブラウザアプリ、キートランザクション、モバイルアプリの数値IDです。
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts Conditions > GET > List**から入手可能)
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts Conditions > GET > List**から入手可能）
 
     * `entity_type`は、次のいずれかである必要があります：
 
@@ -1376,13 +1379,13 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       * モバイルアプリケーション
       * キートランザクション
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/add) **Alerts Entity Conditions > PUT > Add**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/add) > Alerts Entity Conditions > PUT > Add**
 
       ```
-      curl -X PUT 'https://api.newrelic.com/v2/alerts_entity_conditions/<var>$ENTITY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
+      curl -X PUT 'https://api.newrelic.com/v2/alerts_entity_conditions/$ENTITY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
            -H 'Content-Type: application/json' \
-           -G -d 'entity_type=<var>$ENTITY_TYPE</var>&condition_id=<var>$CONDITION_ID</var>'
+           -G -d 'entity_type=$ENTITY_TYPE&condition_id=$CONDITION_ID'
       ```
   </Collapser>
 
@@ -1394,9 +1397,9 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
 
     * [ユーザーキー](/docs/apis/get-started/intro-apis/types-new-relic-api-keys#user-api-key)
 
-    * `entity_id`は削除されることになる特定の監視対象[エンティティ（アラートターゲット）](/docs/alerts/new-relic-alerts-beta/getting-started/alerts-glossary#alert-entity)です。APMアプリケーション、ブラウザアプリ、キートランザクション、モバイルアプリの数値IDです。
+    * `entity_id`は削除されることになる特定の監視対象[エンティティ（アラートターゲット）](/docs/alerts/new-relic-alerts-beta/getting-started/alerts-glossary#alert-entity)です。<InlinePopover type="apm"/>アプリケーション、ブラウザアプリ、キートランザクション、モバイルアプリの数値IDです。
 
-    * `condition_id`（[API Explorer：](https://rpm.newrelic.com/api/explore/alerts_conditions/list) **Alerts Conditions > GET > List**から入手可能)
+    * `condition_id`（**[API Explorer](https://rpm.newrelic.com/api/explore/alerts_conditions/list) > Alerts Conditions > GET > List**から入手可能）
 
     * `entity_type`は、次のいずれかである必要があります：
 
@@ -1405,12 +1408,12 @@ Infrastructureのアラートについては、[Infrastructureモニタリング
       * モバイルアプリケーション
       * キートランザクション
 
-      [API Explorer：](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/remove) **Alerts Entity Conditions > DELETE > Remove**
+      **[API Explorer](https://rpm.newrelic.com/api/explore/alerts_entity_conditions/remove) > Alerts Entity Conditions > DELETE > Remove**
 
       ```
-      curl -X DELETE 'https://api.newrelic.com/v2/alerts_entity_conditions/<var>$ENTITY_ID</var>.json' \
-           -H 'X-Api-Key:<a href="/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key"><var>$API_KEY</var></a>' -i \
-           -G -d 'entity_type=<var>$ENTITY_ID</var>&condition_id=<var>$CONDITION_ID</var>'
+      curl -X DELETE 'https://api.newrelic.com/v2/alerts_entity_conditions/$ENTITY_ID.json' \
+           -H "X-Api-Key:<a href='/docs/apis/rest-api-v2/getting-started/introduction-new-relic-rest-api-v2#api_key'>$API_KEY</a>" -i \
+           -G -d 'entity_type=$ENTITY_ID&condition_id=$CONDITION_ID'
       ```
   </Collapser>
 </CollapserGroup>

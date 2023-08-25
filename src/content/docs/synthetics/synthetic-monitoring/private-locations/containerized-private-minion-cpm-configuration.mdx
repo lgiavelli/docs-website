@@ -45,7 +45,7 @@ To set up the modules:
 
 1. Create a directory which contains a `package.json`, following the [npm official guidelines](https://docs.npmjs.com/files/package.json), in the root of the directory. Anything contained in the `dependencies` field will be installed by the CPM at start, and made available when running monitors on that private minion.
 
-   Optionally, you can override the root level `package.json` with a Node version-specific directory. This allows a script to be updated per monitor runtime if a [Node version of a runtime](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-monitor-runtime-environment) is no longer compatible with your dependencies. See an example of this below.
+   Optionally, you can override the root level `package.json` with a Node.js version-specific directory. This allows a script to be updated per monitor runtime if a [Node.js version of a runtime](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-monitor-runtime-environment) is no longer compatible with your dependencies. See an example of this below.
 
    <CollapserGroup id="custom-module-dir">
      <Collapser
@@ -59,7 +59,7 @@ To set up the modules:
              ├── counter
              │   ├── index.js
              │   └── package.json
-             └── package.json            <var>⇦ the only mandatory file</var>
+             └── package.json            ⇦ the only mandatory file
        ```
 
        The `package.json` defines `dependencies` as both a local module (for example, `counter`) and an npm hosted modules (for example, `async` version `^2.6.1`):
@@ -67,11 +67,11 @@ To set up the modules:
        ```
        {
              "name": "custom-modules",
-             "version": "1.0.0",           <var>⇦ optional</var>
-             "description": "example custom modules directory", <var>⇦ optional</var>
+             "version": "1.0.0",           ⇦ optional
+             "description": "example custom modules directory", ⇦ optional
              "dependencies": {
-               "async": "^2.6.1",          <var>⇦ npm hosted module</var>
-               "counter": "file:./counter" <var>⇦ Local module</var>
+               "async": "^2.6.1",          ⇦ npm hosted module
+               "counter": "file:./counter" ⇦ Local module
              }
            }
        ```
@@ -79,22 +79,22 @@ To set up the modules:
 
      <Collapser
        id="example-overrides"
-       title="Node version-specific overrides"
+       title="Node.js version-specific overrides"
      >
-       You can declare a `package.json` per Node version that will override the root level `package.json`. This allows a monitor script to be updated per monitor runtime in the event that the [Node version of a runtime](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-monitor-runtime-environment) is no longer compatible with your dependencies. As shown in the [first example](#example-module-directory), local modules can still be defined within a version specific directory. If a `package.json` is not defined for a specific Node version, then the root level `package.json` will be used to install dependencies.
+       You can declare a `package.json` per Node.js version that will override the root level `package.json`. This allows a monitor script to be updated per monitor runtime in the event that the [Node.js version of a runtime](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-monitor-runtime-environment) is no longer compatible with your dependencies. As shown in the [first example](#example-module-directory), local modules can still be defined within a version specific directory. If a `package.json` is not defined for a specific Node.js version, then the root level `package.json` will be used to install dependencies.
 
        In this example, a custom module directory is used with the following structure:
 
        ```
        /example-custom-modules-dir/
-             ├── 6.11.2            <var>⇦ optional Node specific directory</var>
+             ├── 6.11.2            ⇦ optional Node.js specific directory
              │   └── package.json
-             └── 10.15.0           <var>⇦ optional Node specific directory</var>
+             └── 10.15.0           ⇦ optional Node.js specific directory
              │   └── package.json
              ├── counter
              │   ├── index.js
              │   └── package.json
-             └── package.json      <var>⇦ the only mandatory file</var>
+             └── package.json      ⇦ the only mandatory file
          ​
        ```
      </Collapser>

@@ -1,69 +1,36 @@
 ---
-title: Infrastructureエージェントをインストールする
+title: インフラストラクチャエージェントをインストールします
 tags:
   - Infrastructure
   - Install the infrastructure agent
   - Get started
 metaDescription: An overview of installation methods for New Relic's infrastructure monitoring agent and infrastructure integrations.
+signupBanner:
+  text: Monitor and improve your entire stack. 100GB free. Forever.
 translationType: machine
 ---
 
-import guidedInstallCli from 'images/guided-install-cli.png'
+import osAnsibleRed from 'images/os_icon_ansible-red.webp'
 
-import ansibleRedLogo from 'images/ansible-red-logo.png'
+import osChef from 'images/os_icon_chef.webp'
 
-import chefLogo from 'images/chef-logo.png'
+import osEbs from 'images/os_icon_ebs.webp'
 
-import ebs from 'images/ebs.png'
+import osPuppet from 'images/os_icon_puppet.webp'
 
-import puppetLogo from 'images/puppet-logo.png'
+import infrastructureAngetsandNr from 'images/infrastructure_diagram_angets-and-nr.webp'
 
-import agentsAndNr from 'images/agents-and-nr.png'
+import osDocker from 'images/os_icon_docker.webp'
 
-import amazonlinux from 'images/amazonlinux.png'
-
-import centos from 'images/centos.png'
-
-import dockerLogoCrop from 'images/docker-logo-crop.png'
-
-import debian from 'images/Debian.png'
-
-import redHatNew2 from 'images/red-hat-new2.png'
-
-import suse from 'images/suse.png'
-
-import ubuntu from 'images/ubuntu.png'
-
-import otherlinux from 'images/otherlinux.png'
-
-import windows from 'images/windows.png'
-
-import macOSX from 'images/mac-osx-logo.png'
-
-New Relic のインフラストラクチャモニタリングエージェントは、 [軽量の](/docs/infrastructure/new-relic-infrastructure/getting-started/infrastructure-agent-performance-overhead) 実行ファイルで、 [お客様のホストに関するデータを収集します](/docs/infrastructure/manage-your-data/data-instrumentation/default-infrastructure-events) 。また、 [当社のオンホスト統合](/docs/integrations/infrastructure-integrations/get-started/introduction-infrastructure-integrations) からのデータを New Relic に転送したり、 [ログデータ](/docs/logs/enable-log-monitoring-new-relic/enable-log-monitoring-new-relic/forward-your-logs-using-infrastructure-agent) をログ分析に利用したりします。
+New Relic のインフラストラクチャ監視エージェントは、ホストに関するデータを収集する [軽量の](/docs/infrastructure/new-relic-infrastructure/getting-started/infrastructure-agent-performance-overhead) 実行可能ファイルです。また、 [一部のサードパーティ サービス](/docs/infrastructure/host-integrations/installation/install-infrastructure-host-integrations)からのデータも報告します (有効になっている場合)。また、 [ログ データ](/docs/logs/enable-log-monitoring-new-relic/enable-log-monitoring-new-relic/forward-your-logs-using-infrastructure-agent)も報告します。
 
 インフラストラクチャー・モニタリング・エージェントは、現在、多くのLinuxディストリビューション、Windows、macOS上で動作させることができます。エージェントのインストールとデプロイには、セットアップとニーズに応じて複数の方法があります。このドキュメントでは、インフラストラクチャーモニタリングエージェントの動作とインストール方法について説明します。New Relic のアカウントが必要です。まだお持ちでない方は、 [](https://newrelic.com/signup)を作成し、永久に無料でご利用ください。
 
 ## クイック・スタート：ガイド付きインストールを使用 [#quick]
 
-Infrastructureモニタリングエージェントを最も迅速に使い始めるには、ガイド付きインストールを使用します。当社のガイド付きインストールでは、インフラストラクチャエージェントをインストールするだけでなく、ご使用の環境で実行中のアプリケーションやログソースも検出します。どれをインストゥルメントすべきかが推奨されます。
+インフラストラクチャ監視エージェントの使用を開始する最も簡単な方法は、ガイド付きインストールを使用することです。ガイド付きインストールでは、インフラストラクチャ エージェントをインストールするだけでなく、環境内のサービスとログ ソースの検出も試行し、どれを計測するかを推奨します。
 
-<img
-  title="The guided install CLI."
-  alt="A screenshot of the guided install CLI."
-  src={guidedInstallCli}
-/>
-
-始める準備はできましたか？インストールする前に、New Relic のアカウントが必要です。以下のボタンのいずれかをクリックして、お試しください。
-
-<ButtonLink
-  data-tessen="stitchedPathLinkClick"
-  role="button"
-  to="https://newrelic.com/signup"
-  variant="primary"
->
-  アカウントの取得
-</ButtonLink>
+始める準備はできていますか?[New Relic データセンターのリージョン](/docs/accounts/accounts-billing/account-setup/choose-your-data-center)に基づいてボタンをクリックします。
 
 <ButtonGroup>
   <ButtonLink
@@ -71,7 +38,7 @@ Infrastructureモニタリングエージェントを最も迅速に使い始め
     to="https://one.newrelic.com/launcher/nr1-core.explorer?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5saXN0aW5nIn0=&cards[0]=eyJuZXJkbGV0SWQiOiJucjEtaW5zdGFsbC1uZXdyZWxpYy5ucjEtaW5zdGFsbC1uZXdyZWxpYyIsImFjdGl2ZUNvbXBvbmVudCI6IlZUU09FbnZpcm9ubWVudCIsInBhdGgiOiJndWlkZWQifQ=="
     variant="primary"
   >
-    ガイド付きインストール
+    米国地域向けのガイド付きインストール
   </ButtonLink>
 
   <ButtonLink
@@ -79,13 +46,13 @@ Infrastructureモニタリングエージェントを最も迅速に使い始め
     to="https://one.eu.newrelic.com/launcher/nr1-core.explorer?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5saXN0aW5nIn0=&cards[0]=eyJuZXJkbGV0SWQiOiJucjEtaW5zdGFsbC1uZXdyZWxpYy5ucjEtaW5zdGFsbC1uZXdyZWxpYyIsImFjdGl2ZUNvbXBvbmVudCI6IlZUU09FbnZpcm9ubWVudCIsInBhdGgiOiJndWlkZWQifQ=="
     variant="primary"
   >
-    EUガイド付きインストール
+    EU 地域向けのガイド付きインストール
   </ButtonLink>
 </ButtonGroup>
 
-このガイド付きインストールは、ほとんどのセットアップに対応しています。しかし、ニーズに合わない場合は、 [以下の他の方法を参照してください。](#install) インフラストラクチャの監視を始めましょう。
+ガイド付きインストールはほとんどのセットアップで機能します。ただし、ニーズに合わない場合は、 [以下の他の方法](#install)を見つけることができます。
 
-エージェントを実行できる場所の詳細については、 [互換性と要件](/docs/infrastructure/infrastructure-monitoring/get-started/compatibility-requirements-infrastructure-agent) ページをご確認ください。
+エージェントを実行できる場所の詳細については、 [互換性と要件の](/docs/infrastructure/infrastructure-monitoring/get-started/compatibility-requirements-infrastructure-agent) ページを確認してください。
 
 <Callout variant="important">
   [New Relic UI](https://one.newrelic.com)を使用してエージェントをインストールする場合、[インフラストラクチャステータスAPI](https://github.com/newrelic/infrastructure-agent/blob/master/docs/status_api.md)はデフォルトで有効になっています。
@@ -97,7 +64,7 @@ Infrastructureモニタリングエージェントを最も迅速に使い始め
 
 New Relic のアカウントをまだお持ちでない場合は、ガイド付きインストールは機能しません。手動で手続きを行いたい場合は、 [チュートリアル](/docs/infrastructure/install-infrastructure-agent/linux-installation/install-infrastructure-monitoring-agent-linux/) をご覧ください。
 
-### Windows Serverと10 [#Windows]
+### ウィンドウズ [#Windows]
 
 New Relic のアカウントをお持ちでない場合、ガイド付きインストールは機能しません。MSI インストーラーを使って手動で手順を進めたい場合は、 [チュートリアル](/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer) をご覧ください。
 
@@ -105,27 +72,29 @@ New Relic のアカウントをお持ちでない場合、ガイド付きイン�
 
 インフラストラクチャ・モニタリング・エージェントは、いくつかの設定管理ツールやデプロイツールを使ってプログラム的に導入することができます。
 
-* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Ansible" alt="Ansible" src={ansibleRedLogo}/>
+* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Ansible" alt="Ansible" src={osAnsibleRed}/>
 
   [Ansible](/docs/infrastructure/new-relic-infrastructure/config-management-tools/configure-new-relic-infrastructure-using-ansible)
 
-* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Chef" alt="Chef" src={chefLogo}/>
+* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Chef" alt="Chef" src={osChef}/>
 
   [Chef](/docs/infrastructure/new-relic-infrastructure/config-management-tools/configure-new-relic-infrastructure-using-chef)
 
-* <img style={{ width: '32px', height: '28px', verticalAlign: 'middle'}} class="inline" title="Docker" alt="Docker" src={dockerLogoCrop}/>
+* <img style={{ width: '32px', height: '28px', verticalAlign: 'middle'}} class="inline" title="Docker" alt="Docker" src={osDocker}/>
 
   [Docker ](/docs/infrastructure/install-infrastructure-agent/linux-installation/docker-container-infrastructure-monitoring)（コンテナーとしてインストール）
 
-* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="EBS" alt="EBS" src={ebs}/>
+* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="EBS" alt="EBS" src={osEbs}/>
 
   [Elastic Beanstalk](/docs/infrastructure/install-infrastructure-agent/config-management-tools/install-infrastructure-agent-aws-elastic-beanstalk)
 
-* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Puppet" alt="Puppet" src={puppetLogo}/>
+* <img style={{ width: '32px', height: '32px', verticalAlign: 'middle'}} class="inline" title="Puppet" alt="Puppet" src={osPuppet}/>
 
   [Puppet](/docs/infrastructure/new-relic-infrastructure/config-management-tools/configure-new-relic-infrastructure-puppet)
 
 インフラストラクチャーは、macOS [にも展開することができます](/docs/infrastructure/install-infrastructure-agent/macos-installation/install-infrastructure-monitoring-agent-macos/) 。
+
+<InstallFeedback/>
 
 ## 1つのエージェント、多くの機能 [#overview]
 
@@ -136,7 +105,7 @@ New Relic のアカウントをお持ちでない場合、ガイド付きイン�
 <img
   title="Agents and New Relic"
   alt="Agents and New Relic"
-  src={agentsAndNr}
+  src={infrastructureAngetsandNr}
 />
 
 <figcaption>

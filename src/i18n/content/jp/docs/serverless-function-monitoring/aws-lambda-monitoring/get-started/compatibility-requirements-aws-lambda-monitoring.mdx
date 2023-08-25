@@ -12,8 +12,8 @@ translationType: machine
 
 ## 推奨されるAWS Lambda言語のランタイム [#languages]
 
-* Node.js： `nodejs12.x` 、 `nodejs14.x` 、 `nodejs16.x`
-* Python： `python3.7` 、 `python3.8` 、 `python3.9`
+* Node.js： `nodejs14.x` 、 `nodejs16.x` 、 `nodejs18.x`
+* Python: `python3.7` 、 `python3.8` 、 `python3.9` 、 `python3.10` 、 `python3.11`
 * Go： `provided` 、 `provided.al2`
 * Java： `java8.al2` 、 `java11`
 * .NET Core： `dotnetcore3.1`
@@ -22,11 +22,11 @@ AWSはこれらの言語の古いランタイムも持っていますが、AWS�
 
 [](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)
 
-[PythonとNode.jsは、Lambdaエコシステムで群を抜いて最も人気のある言語です。 NodeおよびPython用の](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)[NewRelicLambdaレイヤー](https://layers.newrelic-external.com/)には、最新のNew Relic Agentバージョンが含まれており、箱から出してすぐに、最小限の構成で豊富なインストルメンテーションを提供します。
+[Python と Node.js は、Lambda エコシステムで群を抜いて最も人気のある言語です。Node.js および Python 用の](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)[New Relic Lambda レイヤー](https://layers.newrelic-external.com/)には、最新の New Relic エージェント バージョンが含まれており、箱から出してすぐに、最小限の構成で豊富なインストルメンテーションを提供します。
 
-同様に、GoはNewRelicGoエージェントを使用します。最新のAWSLambdaAPIはAWS `go1.x`ランタイムでサポートされていないため、セルフホスティングのGoラムダ関数をビルドすることをお勧めします。幸い、これはAWS Lambda SDKforGoによって十分にサポートされています。 New Relicは、エージェントモジュールを最新の状態に保つことをお勧めします。 3.9.0より古いバージョンのエージェントのサポートは制限されています。
+同様に、Go は New Relic Go エージェントを使用します。AWS `go1.x`ランタイムでは最新の AWS Lambda API がサポートされていないため、自己ホスト型の Go ラムダ関数を構築することをお勧めします。幸いなことに、これは AWS Lambda SDK for Go によって十分にサポートされています。New Relic では、エージェント モジュールを最新の状態に保つことを推奨しています。3.9.0 より古いエージェント バージョンのサポートは制限されています。
 
-パフォーマンスへの影響を最小限に抑えるために、Java と .NET Core では異なるアプローチを採用しています。New Relic はこれらのランタイム用に OpenTelemetry SDK を提供しています。このアプローチでは、統合するために少しだけコードが必要になります。
+パフォーマンスへの影響を最小限に抑えるために、Java と .NET Core では異なるアプローチを採用しました。New Relic は、これらのランタイム用の [OpenTracing](https://opentracing.io/) SDK を提供します。このアプローチでは、統合するためにもう少しコードが必要です。
 
 完全なLambdaインスツルメンテーションのために、Lambdaレイヤーに含まれる当社のエージェントの一部は、言語固有の [AWS SDK](https://aws.amazon.com/tools/#sdk) に依存しています。AWS SDKが使用されていない場合、LambdaのデータはUI上で外部サービスの呼び出しとして表示され、最小限の詳細が表示されます。つまり、お客様の機能のインストゥルメンテーションを促進するためにAWS SDKに依存しています。
 

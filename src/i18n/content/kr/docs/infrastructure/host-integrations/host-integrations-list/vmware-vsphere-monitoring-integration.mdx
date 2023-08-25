@@ -9,9 +9,9 @@ dataSource: vmware-vsphere
 translationType: machine
 ---
 
-import infrastructureOhiVmwareVsphere0 from 'images/infrastructure-ohi-vmware-vsphere_0.png'
+import infrastructureVmwareSphereDashboard from 'images/infrastructure_screenshot-crop_vmware-sphere-dashboard.webp'
 
-import image2 from 'images/image2.png'
+import infrastructureVmwareSphereWorkloads from 'images/infrastructure_screenshot-crop_vmware-sphere-workloads.webp'
 
 New Relic의 VMware vSphere 통합은 vSphere 환경의 상태와 성능을 이해하는 데 도움이 됩니다. 다음을 수행할 수 있습니다.
 
@@ -21,7 +21,7 @@ New Relic의 VMware vSphere 통합은 vSphere 환경의 상태와 성능을 이�
 <img
   title="infrastructure-ohi-vmware-vsphere.png"
   alt="Sample dashboard - VMware vSphere Integration"
-  src={infrastructureOhiVmwareVsphere0}
+  src={infrastructureVmwareSphereDashboard}
 />
 
 <figcaption>
@@ -49,7 +49,7 @@ vSphere 통합을 통해 다음을 수행할 수 있습니다.
   <img
     title="vSphere data in New Relic Workloads"
     alt="vSphere data in New Relic Workloads"
-    src={image2}
+    src={infrastructureVmwareSphereWorkloads}
   />
 
   <figcaption>
@@ -89,7 +89,7 @@ vSphere 통합을 설치하려면 설정을 선택하십시오.
     id="linux-install"
     title="리눅스 설치"
   >
-    1. 파일 이름 `nri-vsphere` 을(를) 사용하여 [통합 설치](/docs/install-integrations-package) 지침을 따르십시오.
+    1. [인프라 에이전트를](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install)설치하고 설치 명령을 실행할 때 `INTEGRATION_FILE_NAME` `nri-vsphere` 로 바꿉니다.
 
     2. 디렉토리를 통합 폴더로 변경하십시오.
 
@@ -119,7 +119,7 @@ vSphere 통합을 설치하려면 설정을 선택하십시오.
     2. Windows 명령 프롬프트에서 설치하려면 다음을 실행하십시오.
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-vsphere-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-vsphere-amd64.msi
        ```
 
     3. Integrations 디렉터리 `C:\Program Files\New Relic\newrelic-infra\integrations.d\` 에서 다음을 실행하여 샘플 구성 파일의 복사본을 만듭니다.
@@ -140,6 +140,8 @@ vSphere 통합을 설치하려면 설정을 선택하십시오.
     [tarball 파일에서 통합을 설치할](/docs/integrations/host-integrations/installation/install-host-integrations-built-new-relic#tarball) 수도 있습니다. 이렇게 하면 설치 및 구성 프로세스를 완전히 제어할 수 있습니다.
   </Collapser>
 </CollapserGroup>
+
+<InstallFeedback/>
 
 ## 통합 구성 [#config]
 
@@ -196,7 +198,7 @@ vSphere 통합을 구성하려면 vSphere API 끝점의 URL과 vSphere 사용자
 
     동일한 범주의 두 태그가 리소스에 할당되면 파이프 문자로 구분된 고유한 속성에 추가됩니다. 예: `label.tagCategory:tagName|tagName` 2.
 
-    태그를 사용하여 [NRQL](/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql) 쿼리를 실행하고 [New Relic Explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer-view-performance-across-apps-services-hosts) 에서 엔터티를 필터링하고 [대시보드](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) 및 [경고](/docs/alerts/new-relic-alerts/defining-conditions/create-alert-conditions-nrql-queries) 를 만들 수 있습니다.
+    태그를 사용하여 [NRQL](/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql) 쿼리를 실행하고 [엔터티 탐색기](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer) 에서 엔터티를 필터링하고 [대시보드](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) 및 [경고를](/docs/alerts/new-relic-alerts/defining-conditions/create-alert-conditions-nrql-queries) 생성할 수 있습니다.
   </Collapser>
 
   <Collapser
@@ -230,7 +232,7 @@ vSphere 통합을 구성하려면 vSphere API 끝점의 URL과 vSphere 사용자
   <Collapser
     className="freq-link"
     id="perf-metrics"
-    title="성능 측정항목 활성화 및 구성(베타)"
+    title="성능 메트릭 활성화 및 구성(미리 보기)"
   >
     성능 메트릭은 VMware 리소스의 현재 상태에 대한 더 나은 이해를 제공하며 페이지 하단에 설명된 기본적으로 수집되고 샘플에 포함된 메트릭 **외에** 수집될 수 있습니다.
 
@@ -306,7 +308,7 @@ vSphere 통합을 구성하려면 vSphere API 끝점의 URL과 vSphere 사용자
 
 * [`vsphere-config.yml.sample`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-config.yml.sample) (리눅스)
 * [`vsphere-win-config.yml.sample`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-win-config.yml.sample) (윈도우)
-* `vsphere-performance.metrics` (성능 지표)
+* [`vsphere-performance.metrics`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-performance.metrics) (성능 지표)
 
 자세한 내용 [은 온호스트 통합 구성의 일반 구조에](/docs/integrations/integrations-sdk/file-specifications/host-integration-configuration-overview) 대한 설명서를 참조하십시오.
 

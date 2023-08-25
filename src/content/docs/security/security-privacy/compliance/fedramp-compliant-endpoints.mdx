@@ -11,19 +11,16 @@ redirects:
   - /docs/fedramp-endpoint-logs-metrics
 ---
 
-New Relic is [FedRAMP Authorized Moderate](https://marketplace.fedramp.gov/#!/product/new-relic?sort=productName&productNameSearch=new%20relic) for accounts that meet specific criteria. As a cloud service provider, we are committed to ensuring our compliance with [FedRAMP's requirements](https://www.fedramp.gov/understanding-baselines-and-impact-levels/) for the confidentiality, integrity, and availability of your data. Please ensure that you comply with the requirements for using our FedRAMP environment, then use our FedRAMP-compliant endpoints to get your data into New Relic via your agent configuration or API.
+New Relic is [FedRAMP Authorized Moderate](https://marketplace.fedramp.gov/products/F1607057910) for accounts that meet specific criteria. As a cloud service provider, we are committed to ensuring our compliance with [FedRAMP's requirements](https://www.fedramp.gov/understanding-baselines-and-impact-levels/) for the confidentiality, integrity, and availability of your data. Please ensure that you comply with the requirements for using our FedRAMP environment, then use our FedRAMP-compliant endpoints to get your data into New Relic via your agent configuration or API.
 
 ## Customer FedRAMP obligations [#obligations]
 
 New Relic customers must meet all of the following requirements for our FedRAMP environment:
 
 1. **New Relic-approved customers**: Our FedRAMP-Moderate authorized environment is only available for New Relic-approved customers. For more information, contact your New Relic account representative.
-
 2. **Subscription level**: Customer must have a current and valid subscription for our Enterprise edition with the [Data Plus option](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-plus), or have an alternative New Relic-approved subscription.
-
-3. **Authorized New Relic endpoints**: Customer must send their data only to our [FedRAMP-designated endpoints](#overview).
-
-4. **Authorized services and features**: Customer must use only FedRAMP audited and authorized New Relic [services and features](#overview).
+3. **Authorized New Relic endpoints**: Customer must configure their applicable agents to send their data only to our [FedRAMP-designated endpoints](#overview).
+4. **Authorized services and features**: Customer must use only FedRAMP audited and authorized New Relic [services and features](/docs/security/security-privacy/compliance/certificates-standards-regulations/fedramp-moderate/#not-scope).
 
 ## FedRAMP inheritance [#inheritance]
 
@@ -31,7 +28,7 @@ A customer can have FedRAMP and non-FedRAMP enabled accounts as required by thei
 
 Note: If FedRAMP is enabled on a parent account (the recommended configuration), then all its child accounts are FedRAMP. In this configuration, newly created child accounts are FedRAMP by default. FedRAMP cannot be “removed” from child accounts when the parent is FedRAMP. This option ensures compliance by default.
 
-## FedRAMP-compliant endpoints [#overview]
+## Overview of FedRAMP-compliant endpoints [#overview]
 
 There are multiple ways to get data into New Relic, including:
 
@@ -44,9 +41,200 @@ This document provides information on FedRAMP-compliant endpoints in New Relic. 
   If a service's endpoint is not listed in this document and the service is not found in our list of [services not in scope](/docs/security/security-privacy/compliance/certificates-standards-regulations/fedramp-moderate), then the service's standard endpoint already meets FedRAMP compliance requirements as is, without the need for a distinct FedRAMP endpoint.
 </Callout>
 
-## Agents [#agents]
+## Agent and ingest API endpoints [#agents]
 
-New Relic has several agents for reporting data, including our APM agents, infrastructure monitoring agent, browser monitoring agent, and mobile monitoring agents. To send FedRAMP-compliant data with these agents, adjust their configuration setting to use the relevant FedRAMP endpoint.
+To send FedRAMP-compliant data with our agents, integrations, and APIs, adjust their configuration settings to use the relevant FedRAMP endpoint. Below this table are some more details about implementation for specific New Relic solutions.
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ width: "200px" }}>
+        Endpoint
+      </th>
+
+      <th>
+        FedRAMP endpoint
+      </th>
+
+      <th>
+        Purpose and notes
+      </th>
+    </tr>
+  </thead>
+
+  <tbody> 
+    <tr>
+      <td>
+        aws-api.newrelic.com
+      </td>
+
+      <td>
+        N/A
+      </td>
+
+      <td>
+      [AWS Metric Streams ingest](/docs/infrastructure/amazon-integrations/connect/aws-metric-stream/)
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        bam.nr-data.net
+      </td>
+
+      <td>
+        gov-bam.nr-data.net
+      </td>
+
+      <td>
+      [Browser ingest](/docs/browser/browser-monitoring/getting-started/introduction-browser-monitoring/) Recommended browser endpoint.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        cloud-collector.newrelic.com
+      </td>
+
+      <td>
+        gov-cloud-collector.newrelic.com/
+      </td>
+
+      <td>
+        Ingest for [AWS VPC Flow Logs](/docs/infrastructure/amazon-integrations/aws-integrations-list/aws-vpc-monitoring-integration/) and [RDS Enhanced](/docs/infrastructure/amazon-integrations/aws-integrations-list/aws-rds-enhanced-monitoring-integration/).
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        collector*.newrelic.com
+      </td>
+
+      <td>
+        gov-collector.newrelic.com
+      </td>
+
+      <td>
+        APM agent ingest
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        infra-api.newrelic.com
+      </td>
+
+      <td>
+        gov-infra-api.newrelic.com
+      </td>
+
+      <td>
+        [Infrastructure agent ingest](/docs/infrastructure/infrastructure-monitoring/get-started/get-started-infrastructure-monitoring/)
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        insights-collector.newrelic.com
+      </td>
+
+      <td>
+        gov-insights-collector.newrelic.com
+      </td>
+
+      <td>
+        [Event API ingest](/docs/data-apis/ingest-apis/event-api/introduction-event-api/)
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        log-api.newrelic.com
+      </td>
+
+      <td>
+        gov-log-api.newrelic.com
+      </td>
+
+      <td>
+        Our [Log API](/docs/logs/log-api/introduction-log-api/), used by various agents and integrations.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        metric-api.newrelic.com
+      </td>
+
+      <td>
+        gov-metric-api.newrelic.com
+        gov-metric-api.newrelic.com/prometheus/
+      </td>
+
+      <td>
+        Our [Metric API](/docs/data-apis/ingest-apis/metric-api/introduction-metric-api/) for dimensional metrics, used by various agents and integrations.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        mobile-collector.newrelic.com
+      </td>
+
+      <td>
+        gov-mobile-collector.newrelic.com
+      </td>
+
+      <td>
+        [Mobile agent ingest](/docs/mobile-monitoring/new-relic-mobile/get-started/introduction-mobile-monitoring/)
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        mobile-crash.newrelic.com
+      </td>
+
+      <td>
+        gov-mobile-crash.newrelic.com
+      </td>
+
+      <td>
+        [Mobile agent crash report ingest](/docs/mobile-monitoring/mobile-monitoring-ui/crashes/investigate-mobile-app-crash-report/)
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        otlp.nr-data.net
+      </td>
+
+      <td>
+        gov-otlp.nr-data.net:4318
+        gov-otlp.nr-data.net:4317
+        gov-otlp.nr-data.net:443
+      </td>
+
+      <td>
+        [OpenTelemetry ingest](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/). Configure using the [quick start guide](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/get-started/opentelemetry-get-started-intro/) with your account license key in the `api-key` header.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        trace-api.newrelic.com
+      </td>
+
+      <td>
+        gov-trace-api.newrelic.com
+      </td>
+
+      <td>
+        [Trace API ingest](/docs/distributed-tracing/trace-api/introduction-trace-api)
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### APM agents [#apm-endpoints]
 
@@ -66,22 +254,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
   </thead>
 
   <tbody>
-    <tr>
-      <td>
-        C SDK
-      </td>
-
-      <td>
-        In code:
-
-        ```
-        strcpy(_newrelic_app_config_t->redirect_collector, "gov-collector.newrelic.com");
-        ```
-
-        Environment variable: none
-      </td>
-    </tr>
-
+    
     <tr>
       <td>
         Go
@@ -90,7 +263,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In code:
 
-        ```
+        ```go
         app, err = newrelic.NewApplication(
           newrelic.ConfigAppName("App Name"),
           newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE_KEY")),
@@ -112,7 +285,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `newrelic.yml`:
 
-        ```
+        ```yml
         common: &default_settings
           host: gov-collector.newrelic.com
         ```
@@ -133,11 +306,11 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       </td>
 
       <td>
-        In your XML config next to the license key:
+        In your XML config next to the <InlinePopover type="licenseKey" />:
 
-        ```
+        ```xml
         <service licenseKey="YOUR_LICENSE_KEY"
-        host="gov-collector.newrelic.com"/>
+          host="gov-collector.newrelic.com"/>
         ```
 
         Environment variable: `NEW_RELIC_HOST`
@@ -152,7 +325,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `newrelic.js`:
 
-        ```
+        ```js
         host: 'gov-collector.newrelic.com'
         ```
 
@@ -168,7 +341,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `newrelic.ini`:
 
-        ```
+        ```ini
         newrelic.daemon.collector_host = gov-collector.newrelic.com
         ```
 
@@ -184,7 +357,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `newrelic.ini`:
 
-        ```
+        ```ini
         [newrelic]
         host = gov-collector.newrelic.com
         ```
@@ -201,7 +374,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `newrelic.yml`:
 
-        ```
+        ```yml
         common: &default_settings
           host: gov-collector.newrelic.com
         ```
@@ -218,7 +391,7 @@ To ensure FedRAMP compliance, all [APM agent configurations](/docs/using-new-rel
       <td>
         In `config.exs`:
 
-        ```
+        ```exs
         config :new_relic_agent,
           host: "gov-collector.newrelic.com"
         ```
@@ -382,7 +555,7 @@ Framework-specific configurations:
       <td>
         In code:
 
-        ```
+        ```java
         NewRelic.withApplicationToken({APP_TOKEN})
             .usingCollectorAddress("gov-mobile-collector.newrelic.com")
             .usingCrashCollectorAddress("gov-mobile-crash.newrelic.com")
@@ -401,7 +574,7 @@ Framework-specific configurations:
       <td>
         In code:
 
-        ```
+        ```objc
         [NewRelic startWithApplicationToken:@"{APP_TOKEN}"
             andCollectorAddress:@"gov-mobile-collector.newrelic.com"
             andCrashCollectorAddress:@"gov-mobile-crash.newrelic.com"];
@@ -419,12 +592,82 @@ Follow these instructions as applicable to set the FedRAMP endpoint for a specif
 
 ## OTLP API [#otlp-api]
 
-To ensure FedRAMP compliance when using the [OpenTelemetry API](/docs/integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-quick-start#review-settings):
+To ensure FedRAMP compliance when using the OpenTelemetry API, only send data to the following endpoints based on the data type and protocol:
 
-* Do not send data to the US OTLP API endpoint of `https://otlp.nr-data.net:4317`.
-* Instead, send data to `https://gov-otlp.nr-data.net:4317`. Or, if your client does not support gRPC, you may use port 4318 for OTLP/HTTP.
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Data type
+          </th>
+          <th>
+            Protocol
+          </th>
+          <th>
+            Port
+          </th>
+          <th>
+            URL
+          </th>
+        </tr>
+      </thead>
+        <tbody>
+        <tr>
+          <td>
+            Traces and logs
+          </td>
+          <td>
+            gRPC
+          </td>
+          <td>
+            4317, 443
+          </td>
+          <td>
+            `https://gov-otlp.nr-data.net:4317`
 
-You can also use port 443 for either transport, if necessary.
+            `https://gov-otlp.nr-data.net:443`
+
+            We don't recommend that you use the gRPC protocol at this time because the endpoint only accepts traces and logs. This is due to technical limitations in the OTLP metrics integration. We recommend you send your all your OTLP FedRamp data (metrics, traces, and logs) via the HTTP protocol. If your application doesn't support HTTP, you can still just send traces and logs via gRPC (not metrics).
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Traces and logs
+          </td>
+          <td>
+            HTTP
+          </td>
+          <td>
+            4318
+          </td>
+          <td>
+            `https://gov-otlp.nr-data.net:4318`
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Metrics
+          </td>
+          <td>
+            HTTP
+          </td>
+          <td>
+            4318
+          </td>
+          <td>
+            `https://gov-otlp.nr-data.net:4318`
+
+            You can configure your OTLP exporter to use HTTP by using the [otlphttp exporter](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/otlphttpexporter/README.md#otlphttp-exporter).
+          </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <Callout variant="important">
+      Do NOT send data to the US OTLP API endpoint of `https://otlp.nr-data.net:4317`.
+    </Callout>
+
+See our [OTLP integration support matrix](/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/get-started/opentelemetry-set-up-your-app/#review-settings) for more details on FedRAMP compliance with OTLP.
 
 ## Metric API [#metric-api]
 
@@ -599,7 +842,7 @@ The Event API endpoint is configurable for the following [Telemetry SDKs](/docs/
       <td>
         In code:
 
-        ```
+        ```java
         SenderConfiguration configuration = SenderConfiguration
           .builder(
             "gov-insights-collector.newrelic.com",
@@ -619,7 +862,7 @@ The Event API endpoint is configurable for the following [Telemetry SDKs](/docs/
       <td>
         In code:
 
-        ```
+        ```py
         event_client = EventClient(host="gov-insights-collector.newrelic.com")
         ```
 
@@ -729,4 +972,4 @@ To ensure FedRAMP compliance for data sent via the [Trace API](/docs/distributed
 Notes about FedRAMP compliance for other trace data:
 
 * Trace data is reported by some of our agents for APM, infrastructure monitoring, browser monitoring, and mobile monitoring. To enable FedRAMP compliance for trace data, follow the procedures for the [applicable agent](#agents).
-* To enable FedRAMP compliance for [Infinite Tracing](/docs/distributed-tracing/infinite-tracing/introduction-infinite-tracing/), create a new FedRAMP-compliant trace observer from the [New Relic Edge app](https://one.newrelic.com/launcher/mtb-nerdlets.edge-launcher).
+* To enable FedRAMP compliance for [Infinite Tracing](/docs/distributed-tracing/infinite-tracing/introduction-infinite-tracing/), create a new FedRAMP-compliant trace observer in [Infinite Tracing settings](https://one.newrelic.com/launcher/mtb-nerdlets.edge-launcher).

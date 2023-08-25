@@ -14,10 +14,6 @@ translationType: machine
   너무 많은 메트릭을 수집하면 애플리케이션과 New Relic 에이전트의 성능에 영향을 줄 수 있습니다. 데이터 문제를 방지하려면 고유한 사용자 정의 측정항목의 총 수를 2000개 미만으로 유지하십시오.
 </Callout>
 
-<Callout variant="important">
-  이 절차는 Rails 버전 7 이상에서 테스트되지 않았습니다.
-</Callout>
-
 ## 측정항목 이름 지정 [#metric_names]
 
 메트릭 이름은 New Relic에서 추적한 특정 데이터 값을 식별합니다. New Relic Ruby 에이전트의 API를 사용하여 사용자 지정 메트릭을 추적할 때 메트릭 이름 지정과 값이 집계되는 방식을 고려하는 것이 중요합니다.
@@ -49,7 +45,7 @@ translationType: machine
     * 관습
 
     <Callout variant="tip">
-      맞춤 측정항목 이름의 경우 `Custom/<class>/<method>` 또는 `Custom/<category>>/>name>`
+      맞춤 측정항목 이름의 경우 `Custom/<class>/<method>` 또는 `Custom/<category>/<name>`
     </Callout>
   </Collapser>
 
@@ -59,9 +55,9 @@ translationType: machine
   >
     측정항목 데이터를 수집하는 데 사용되는 두 가지 기본 데이터 구조 `MetricSpec` 및 `Stats` 가 있습니다.
 
-    `A MetricSpec is an identifier for which we have data. The following pseudo Ruby defines a metric:`
+    `MetricSpec` 는 데이터가 있는 식별자입니다. 다음 의사 Ruby는 메트릭을 정의합니다.
 
-    ```
+    ```rb
     class MetricSpec
       attr_accessor :name    # String - metric name
       attr_accessor :scope   # String - current controller action
@@ -72,7 +68,7 @@ translationType: machine
 
     측정항목 값은 `Stats` 에 의해 기록됩니다. `Stats` 은 일반적으로 메서드 실행에 대한 데이터를 수집하지만 흥미로운 데이터를 저장할 수 있습니다. 다음 의사 Ruby는 `Stats` 를 정의합니다.
 
-    ```
+    ```rb
     class Stats
       attr_accessor :call_count           # Integer - method invocation count
       attr_accessor :total_call_time      # Float - total method call time (in seconds)
@@ -127,7 +123,7 @@ translationType: machine
 
 다음은 메트릭을 사용하여 사이트를 통해 흐르는 통화를 추적하는 방법을 보여주는 예입니다.
 
-```
+```rb
 class Cart
 
   def checkout()

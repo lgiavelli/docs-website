@@ -33,6 +33,10 @@ translationType: machine
       </th>
 
       <th>
+        최소 버전
+      </th>
+
+      <th>
         설정
       </th>
     </tr>
@@ -41,17 +45,11 @@ translationType: machine
   <tbody>
     <tr>
       <td>
-        C SDK
-      </td>
-
-      <td>
-        [세그먼트 계측](/docs/apm/agents/c-sdk/instrumentation/instrument-your-app-c-sdk/#external-segments) 에 대한 문서를 참조하십시오.
-      </td>
-    </tr>
-
-    <tr>
-      <td>
         가다
+      </td>
+
+      <td>
+        3.6.0
       </td>
 
       <td>
@@ -65,6 +63,10 @@ translationType: machine
       </td>
 
       <td>
+        5.13.0
+      </td>
+
+      <td>
         [Java 에이전트 API](/docs/apm/agents/java-agent/api-guides/java-agent-api-instrument-external-calls-messaging-datastore-web-frameworks/) 를 사용하여 외부 호출을 계측하는 방법에 대한 설명서를 참조하십시오.
       </td>
     </tr>
@@ -72,6 +74,10 @@ translationType: machine
     <tr>
       <td>
         .그물
+      </td>
+
+      <td>
+        8.29.0
       </td>
 
       <td>
@@ -88,6 +94,10 @@ translationType: machine
       </td>
 
       <td>
+        6.9.0
+      </td>
+
+      <td>
         [Node.js 에이전트 API](/docs/apm/agents/nodejs-agent/api-guides/guide-using-nodejs-agent-api/#external-services) 사용에 대한 문서를 참조하십시오.
       </td>
     </tr>
@@ -95,6 +105,10 @@ translationType: machine
     <tr>
       <td>
         PHP
+      </td>
+
+      <td>
+        9.12.0.268
       </td>
 
       <td>
@@ -108,6 +122,10 @@ translationType: machine
       </td>
 
       <td>
+        5.14.0.142
+      </td>
+
+      <td>
         추가 단계가 필요하지 않습니다. 외부 호출은 자동으로 계측됩니다.
       </td>
     </tr>
@@ -115,6 +133,10 @@ translationType: machine
     <tr>
       <td>
         루비
+      </td>
+
+      <td>
+        6.12.0.367
       </td>
 
       <td>
@@ -170,16 +192,6 @@ UI에 원하는 유형의 세부 정보가 표시되지 않으면 저수지의 �
   </thead>
 
   <tbody>
-    <tr>
-      <td>
-        C SDK
-      </td>
-
-      <td>
-        저수지는 현재 구성할 수 없습니다
-      </td>
-    </tr>
-
     <tr>
       <td>
         가다
@@ -255,7 +267,7 @@ UI에 원하는 유형의 세부 정보가 표시되지 않으면 저수지의 �
 ### OpenTelemetry 샘플링 [#otel-sampling]
 
 <Callout variant="tip">
-  이 섹션은 서비스가 OpenTelemetry 수집기를 통해 New Relic에 데이터를 보내는 경우에만 적용됩니다. 데이터가 OpenTelemetry 수집기에서 샘플링되지 않기 때문입니다.
+  이 섹션은 서비스가 OpenTelemetry Collector를 통해 New Relic에 데이터를 보내는 경우에만 적용됩니다. 데이터가 OpenTelemetry Collector에서 샘플링되지 않기 때문입니다.
 </Callout>
 
 OpenTelemetry의 경우 모든 외부 서비스 보기가 샘플링된 추적으로 채워지므로 유용한 데이터가 충분하지 않을 수 있습니다. 이 문제를 해결하기 위해 수집기에서 샘플링을 변경하여 New Relic에 더 많은 데이터를 허용할 수 있습니다.

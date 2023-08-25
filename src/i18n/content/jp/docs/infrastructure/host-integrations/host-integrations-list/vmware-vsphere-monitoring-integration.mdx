@@ -9,9 +9,9 @@ dataSource: vmware-vsphere
 translationType: machine
 ---
 
-import infrastructureOhiVmwareVsphere0 from 'images/infrastructure-ohi-vmware-vsphere_0.png'
+import infrastructureVmwareSphereDashboard from 'images/infrastructure_screenshot-crop_vmware-sphere-dashboard.webp'
 
-import image2 from 'images/image2.png'
+import infrastructureVmwareSphereWorkloads from 'images/infrastructure_screenshot-crop_vmware-sphere-workloads.webp'
 
 NewRelicのVMwarevSphere統合は、vSphere環境の状態とパフォーマンスを理解するのに役立ちます。あなたはできる：
 
@@ -21,7 +21,7 @@ NewRelicのVMwarevSphere統合は、vSphere環境の状態とパフォーマン�
 <img
   title="infrastructure-ohi-vmware-vsphere.png"
   alt="Sample dashboard - VMware vSphere Integration"
-  src={infrastructureOhiVmwareVsphere0}
+  src={infrastructureVmwareSphereDashboard}
 />
 
 <figcaption>
@@ -49,7 +49,7 @@ vSphereとの統合により、次のことが可能になります。
   <img
     title="vSphere data in New Relic Workloads"
     alt="vSphere data in New Relic Workloads"
-    src={image2}
+    src={infrastructureVmwareSphereWorkloads}
   />
 
   <figcaption>
@@ -89,7 +89,7 @@ vSphere統合をインストールするには、次の設定を選択します�
     id="linux-install"
     title="Linuxのインストール"
   >
-    1. ファイル名`nri-vsphere`を使用して[、統合をインストールする](/docs/install-integrations-package)ための指示に従います。
+    1. [インフラストラクチャ エージェント](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install)をインストールし、インストール コマンドの実行時に`INTEGRATION_FILE_NAME`を`nri-vsphere`に置き換えます。
 
     2. ディレクトリを統合フォルダに変更します。
 
@@ -119,7 +119,7 @@ vSphere統合をインストールするには、次の設定を選択します�
     2. Windowsコマンドプロンプトからインストールするには、次のコマンドを実行します。
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-vsphere-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-vsphere-amd64.msi
        ```
 
     3. Integrationsディレクトリ`C:\Program Files\New Relic\newrelic-infra\integrations.d\`で、次のコマンドを実行してサンプル構成ファイルのコピーを作成します。
@@ -140,6 +140,8 @@ vSphere統合をインストールするには、次の設定を選択します�
     [tarballファイルから統合をインストールする](/docs/integrations/host-integrations/installation/install-host-integrations-built-new-relic#tarball)こともできます。これにより、インストールおよび構成プロセスを完全に制御できます。
   </Collapser>
 </CollapserGroup>
+
+<InstallFeedback/>
 
 ## 統合を構成する [#config]
 
@@ -196,7 +198,7 @@ vSphere統合を構成するには、vSphere APIエンドポイントのURL、�
 
     同じカテゴリの2つのタグがリソースに割り当てられている場合、それらはパイプ文字で区切られた一意の属性に追加されます。例： `label.tagCategory:tagName|tagName` 2。
 
-    タグを使用して、 [NRQL](/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql)クエリを実行したり、 [New Relic Explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer-view-performance-across-apps-services-hosts)でエンティティをフィルタリングしたり、 [ダッシュボード](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards)や[アラート](/docs/alerts/new-relic-alerts/defining-conditions/create-alert-conditions-nrql-queries)を作成したりできます。
+    タグを使用して、 [NRQL](/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql) クエリを実行したり、 [エンティティ エクスプローラー](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer)でエンティティをフィルタリングしたり、 [ダッシュボード](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) や [アラート](/docs/alerts/new-relic-alerts/defining-conditions/create-alert-conditions-nrql-queries)を作成したりできます。
   </Collapser>
 
   <Collapser
@@ -230,7 +232,7 @@ vSphere統合を構成するには、vSphere APIエンドポイントのURL、�
   <Collapser
     className="freq-link"
     id="perf-metrics"
-    title="パフォーマンスメトリクスの有効化と構成（ベータ版）"
+    title="パフォーマンス メトリックを有効にして構成する (プレビュー)"
   >
     パフォーマンスメトリクスは、VMwareリソースの現在のステータスをよりよく理解するためのものであり、デフォルトで収集され、サンプルに含まれているメトリクス**に加え**て、ページの下部で説明されているように収集できます。
 
@@ -306,7 +308,7 @@ vSphere統合を構成するには、vSphere APIエンドポイントのURL、�
 
 * [`vsphere-config.yml.sample`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-config.yml.sample) （Linux）
 * [`vsphere-win-config.yml.sample`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-win-config.yml.sample) （Windows）
-* `vsphere-performance.metrics` （パフォーマンスメトリクス）
+* [`vsphere-performance.metrics`](https://github.com/newrelic/nri-vsphere/blob/master/vsphere-performance.metrics) (パフォーマンス指標)
 
 詳細については、 [オンホスト統合構成の一般的な構造](/docs/integrations/integrations-sdk/file-specifications/host-integration-configuration-overview)に関するドキュメントを参照してください。
 

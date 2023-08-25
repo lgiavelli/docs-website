@@ -23,7 +23,7 @@ redirects:
   - /docs/agents/nodejs-agent/configuration
 ---
 
-import nodejsConfigurationPrecedence from 'images/nodejs-configuration-precedence.png'
+import apmNodejsAgentConfigurationHierarchy from 'images/apm_diagram_nodejs-agent-configuration-hierarchy.webp'
 
 You can tailor the Node.js agent to your app's requirements by editing your `newrelic.js` config file or by setting an environment variable. The config file resides in the root directory of your app. You can also configure a few options from New Relic, or use the [Node.js agent API](/docs/agents/nodejs-agent/api-guides/nodejs-agent-api).
 
@@ -42,7 +42,7 @@ The Node.js agent uses this order of precedence for configuration methods:
 <img
   title="Node.js agent configuration precedence"
   alt="Node.js agent configuration precedence"
-  src={nodejsConfigurationPrecedence}
+  src={apmNodejsAgentConfigurationHierarchy}
 />
 
 <figcaption>
@@ -58,7 +58,7 @@ Here are detailed descriptions of each configuration method:
     title="Agent configuration file"
   >
     The config file (`newrelic.js`) contains every Node.js agent setting. When you [install the Node.js agent](/docs/agents/nodejs-agent/installation-configuration/installing-maintaining-nodejs#installing), you must copy `newrelic.js` into your app's root directory. Most settings are empty by default; they inherit their values from `config/default.js`.
-    
+
     If your application is running on CommonJS, simply change the configuration file type to (`newrelic.cjs`). This filetype is supported as of [v7.5.0](/docs/release-notes/agent-release-notes/nodejs-release-notes/node-agent-7-5-0/) of the Node.js agent.
   </Collapser>
 
@@ -67,9 +67,9 @@ Here are detailed descriptions of each configuration method:
     id="environment"
     title="Environment variables"
   >
-    Most configuration settings in `newrelic.js` have equivalent environment variables. These are useful, for example, if your agent runs in a PaaS environment such as Heroku or Microsoft Azure. Node.js agent environment variables always start with `NEW_RELIC_`.
+    All configuration settings in `newrelic.js` have equivalent environment variables. These are useful, for example, if your agent runs in a PaaS environment such as Heroku or Microsoft Azure. Node.js agent environment variables always start with `NEW_RELIC_`.
 
-    Where available, these environment variables are documented below under individual config options as the **Environ variable**. There are also two rarely used settings that can [only be configured via environment variables](#environment-variable-overrides).
+    These environment variables are documented below under individual config options as the **Environ variable**. There are also two rarely used settings that can [only be configured via environment variables](#environment-variable-overrides). If you are unsure how to specify more complex types as environment variables, [use the reference guide](#environment-variable-type-reference-guide).
 
     If you're using New Relic CodeStream to monitor performance from your IDE, you may also want to [associate repositories with your services](/docs/codestream/how-use-codestream/performance-monitoring#repo-association) and [associate build SHAs or release tags with errors](/docs/codestream/how-use-codestream/performance-monitoring#buildsha).
   </Collapser>
@@ -110,7 +110,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            "My Application"
+            `"My Application"`
           </td>
         </tr>
 
@@ -173,7 +173,7 @@ This section defines the Node.js agent variables in the order they typically app
       </tbody>
     </table>
 
-    This setting is required. Your New Relic [license key](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key). For example, `license_key: '40HexadecimalCharacters'`.
+    This setting is required. Your New Relic <InlinePopover type="licenseKey" />. For example, `license_key: '40HexadecimalCharacters'`.
   </Collapser>
 
   <Collapser
@@ -338,6 +338,15 @@ This section defines the Node.js agent variables in the order they typically app
             `Apdex T`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_APDEX_T`
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -366,7 +375,16 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            (none)
+            `[]`
+          </td>
+        </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_CERTIFICATES`
           </td>
         </tr>
       </tbody>
@@ -377,8 +395,8 @@ This section defines the Node.js agent variables in the order they typically app
     <Callout variant="tip">
       You can also configure the agent to read its certificates from a file:
 
-      ```
-      certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</var>'}) ]
+      ```js
+      certificates: [ fs.readFileSync('myca.crt', {encoding: 'utf8'}) ]
       ```
     </Callout>
   </Collapser>
@@ -968,7 +986,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            Empty array (include all types)
+            `[]` (include all types)
           </td>
         </tr>
 
@@ -1006,6 +1024,52 @@ This section defines the Node.js agent variables in the order they typically app
 ## API configuration [#api_config]
 
 This section allows you to choose which API methods are enabled. Each configuration option allows you to modularly enable API methods that are responsible for sending custom information to New Relic.
+
+<CollapserGroup>
+  <Collapser
+    id="custom-attributes"
+    title="esm.custom_instrumentation_entrypoint"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_API_ESM_CUSTOM_INSTRUMENTATION_ENTRYPOINT`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    This uses the relative filepath to the custom instrumentation definition, which is relative to the application root. It enables you to load custom instrumentation in ES module applications.
+
+    Setting this configuration option will instruct the agent's ES module loader to load any custom instrumentation defined at the path provided.
+    To see a working example of defining custom instrumentation in an ES module application, check out our [example](https://github.com/newrelic/newrelic-node-examples/blob/main/esm-app/custom-instrumentation/index.js) in GitHub.
+  </Collapser>
+</CollapserGroup>
 
 <Callout variant="important">
   All of these are set to `false` when the agent is in high security mode.
@@ -1132,7 +1196,7 @@ This section allows you to choose which API methods are enabled. Each configurat
       </tbody>
     </table>
 
-    This option enables [`newrelic.noticeError`](/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError).
+    This option enables [`newrelic.noticeError`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError).
   </Collapser>
 </CollapserGroup>
 
@@ -1417,12 +1481,12 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Comma-delimited list of HTTP status codes for the error collector to ignore.
 
     <Callout variant="caution">
-      Errors recorded using [newrelic.noticeError](/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError) do not obey this configuration value.
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
   <Collapser
-    id="error_ignore"
+    id="error_ignore_classes"
     title="ignore_classes"
   >
     <table>
@@ -1473,12 +1537,12 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Would ignore all reference errors.
 
     <Callout variant="caution">
-      Errors recorded using [newrelic.noticeError](/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError) do not obey this configuration value.
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
   <Collapser
-    id="error_ignore"
+    id="error_ignore_messages"
     title="ignore_messages"
   >
     <table>
@@ -1502,6 +1566,15 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
             `{}`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_ERROR_COLLECTOR_IGNORE_MESSAGES`
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -1517,12 +1590,12 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Would ignore all errors of type `Error`, with the exact (case-sensitive) message strings of `Undefined` and `Out of time`.
 
     <Callout variant="caution">
-      Errors recorded using `newrelic.noticeError` do not obey this configuration value.
+     Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
   <Collapser
-    id="error_ignore"
+    id="expected_status_codes"
     title="expected_status_codes"
   >
     <table>
@@ -1562,12 +1635,12 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Comma-delimited list of HTTP status codes for the error collector to mark as expected.
 
     <Callout variant="caution">
-      Errors recorded using `newrelic.noticeError` do not obey this configuration value.
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
   <Collapser
-    id="error_ignore"
+    id="expected_classes"
     title="expected_classes"
   >
     <table>
@@ -1616,12 +1689,12 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Would mark all reference errors as expected.
 
     <Callout variant="caution">
-      Errors recorded using `newrelic.noticeError` do not obey this configuration value.
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
   <Collapser
-    id="error_ignore"
+    id="expected_messages"
     title="expected_messages"
   >
     <table>
@@ -1645,6 +1718,15 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
             `{}`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_ERROR_COLLECTOR_EXPECTED_MESSAGES`
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -1660,7 +1742,7 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
     Would mark all errors of type `Error`, with the exact (case-sensitive) message strings of `Undefined` and `Out of time`.
 
     <Callout variant="caution">
-      Errors recorded using `newrelic.noticeError` do not obey this configuration value.
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
     </Callout>
   </Collapser>
 
@@ -1815,7 +1897,7 @@ You can [manage how error are handled](/docs/agents/manage-apm-agents/agent-data
           </th>
 
           <td>
-            100
+            `100`
           </td>
         </tr>
 
@@ -2026,7 +2108,7 @@ This section defines the Node.js agent variables in the order they typically app
 
     Defines the maximum number of requests eligible for [transaction traces](/docs/apm/transactions/transaction-traces/transaction-traces).
 
-    Transactions are named based on the request, and `top_n` refers to the "top <var>n</var> slowest transactions" grouped by these names. The module replaces a recorded trace with a new trace only if the new trace is slower than the previous slowest trace of that name. The default value for this setting is `top_n: 20`, because the [**Transactions** page](/docs/apm/transactions/transaction-traces/transaction-traces) also defaults to the 20 slowest transactions.
+    Transactions are named based on the request, and `top_n` refers to the "top n slowest transactions" grouped by these names. The module replaces a recorded trace with a new trace only if the new trace is slower than the previous slowest trace of that name. The default value for this setting is `top_n: 20`, because the [**Transactions** page](/docs/apm/transactions/transaction-traces/transaction-traces) also defaults to the 20 slowest transactions.
 
     The Node.js agent captures at least five different slow transactions in the first harvest cycle after start up. It will also reset and capture different transactions if no slow transactions have been captured for the last five [harvest cycles](/docs/apm/new-relic-apm/getting-started/glossary#harvest-cycle). This allows you to see more information about more of your app's request paths, at the possible cost of not focusing on the absolutely slowest request for that harvest cycle.
 
@@ -2088,47 +2170,6 @@ This section defines the Node.js agent variables in the order they typically app
     **Example: Threshold set to `apdex_f`**
 
     The default `apdex_t` is 100 milliseconds. If your transaction threshold is set to `apdex_f`, a "slow" transaction is 400 milliseconds.
-  </Collapser>
-
-  <Collapser
-    id="hide-internals"
-    title="hide_internals"
-  >
-    <table>
-      <tbody>
-        <tr>
-          <th>
-            Type
-          </th>
-
-          <td>
-            boolean
-          </td>
-        </tr>
-
-        <tr>
-          <th>
-            Default
-          </th>
-
-          <td>
-            `true`
-          </td>
-        </tr>
-
-        <tr>
-          <th>
-            [Environ variable](#environment)
-          </th>
-
-          <td>
-            `NEW_RELIC_HIDE_INTERNALS`
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    The agent uses a small amount of CPU in order to hide internal properties that are attached to the web application. If you change this configuration to `false`, it may slightly decrease your agent overhead, but it could also have an impact on the performance of the agent.
   </Collapser>
 
   <Collapser
@@ -2286,7 +2327,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            (none)
+            `[]`
           </td>
         </tr>
 
@@ -2317,8 +2358,8 @@ This section defines the Node.js agent variables in the order they typically app
 
     For the `NEW_RELIC_NAMING_RULES` environment variable, pass the rules as comma-delimited JSON object literals:
 
-    ```
-    NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"pattern":"<var>^u</var>","name":"<var>t</var>"}'
+    ```ini
+    NEW_RELIC_NAMING_RULES='{"pattern":"^t","name":"u"},{"pattern":"^u","name":"t"}'
     ```
   </Collapser>
 
@@ -2344,7 +2385,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            Regular expression to match socket.io long-polling requests ("^\\/socket\\.io\\/.\*\\/xhr-polling/").
+            `['^/socket.io/.*/xhr-polling/']`
           </td>
         </tr>
 
@@ -2360,7 +2401,7 @@ This section defines the Node.js agent variables in the order they typically app
       </tbody>
     </table>
 
-    Define a list of request URLs you want the agent to ignore. Specify the list as patterns, which can be strings or regular expressions.
+    Define a list of request URLs you want the agent to ignore. Specify the list as patterns, which can be strings or regular expressions. The default value is a regular expression to match socket.io long-polling requests
   </Collapser>
 
   <Collapser
@@ -2439,10 +2480,19 @@ This section defines the Node.js agent variables in the order they typically app
             `true`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_TRANSACTION_EVENTS_ENABLED`
+          </td>
+        </tr>
       </tbody>
     </table>
 
-    When enabled, the agent sends transaction events to New Relic. This event data includes transaction timing, transaction name, and any custom parameters. If this is disabled, the agent does not collect this data or send it to New Relic.
+    When enabled, the agent sends transaction events to New Relic. This event data includes transaction timing, transaction name, and any custom attributes. If this is disabled, the agent does not collect this data or send it to New Relic.
   </Collapser>
 
   <Collapser
@@ -2467,7 +2517,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            10000
+            `10000`
           </td>
         </tr>
 
@@ -2488,7 +2538,7 @@ This section defines the Node.js agent variables in the order they typically app
     We do not recommend configuring past 10,000. The server will cap data at 10,000 per-minute.
 
     <Callout variant="important">
-      This configuration had different behavior in agent versions lower than 6.0.0. See [max_samples_stored (DEPRECATED)](#tx_events_max_samples_stored_legacy) for agent versions 5.x or lower.
+      This configuration had different behavior in agent versions lower than 6.0.0. See [`max_samples_stored` (DEPRECATED)](#tx_events_max_samples_stored_legacy) for agent versions 5.x or lower.
     </Callout>
   </Collapser>
 
@@ -2514,7 +2564,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            20000
+            `20000`
           </td>
         </tr>
       </tbody>
@@ -2523,7 +2573,7 @@ This section defines the Node.js agent variables in the order they typically app
     Defines the maximum number of events the agent stores if it is unable to communicate with the [New Relic collector](/docs/accounts-partnerships/education/getting-started-new-relic/glossary#collector). The values from the previous [harvest cycle](/docs/accounts-partnerships/education/getting-started-new-relic/glossary#harvest-cycle) will be merged into the next one, with this option limiting the maximum number. Make sure this number is greater than `max_samples_per_minute`; for example, set it to twice as much. Consider your memory overhead before increasing this value.
 
     <Callout variant="caution">
-      This configuration has different behavior starting with agent version 6.0.0 and a new recommended maximum. See [max_samples_stored](#tx_events_max_samples_stored) for agent versions 6.x or higher.
+      This configuration has different behavior starting with agent version 6.0.0 and a new recommended maximum. See [`max_samples_stored`](#tx_events_max_samples_stored) for agent versions 6.x or higher.
     </Callout>
   </Collapser>
 
@@ -2558,7 +2608,7 @@ This section defines the Node.js agent variables in the order they typically app
     Defines the maximum number of events the agent collects per minute. If there are more than this number, the agent collects a statistical sampling.
 
     <Callout variant="caution">
-      This configuration has been replaced with max_samples_stored starting with version 6.0.0 of the agent. See [max_samples_stored](#tx_events_max_samples_stored) for 6.x or later agents.
+      This configuration has been replaced with `max_samples_stored` starting with version 6.0.0 of the agent. See [`max_samples_stored`](#tx_events_max_samples_stored) for 6.x or later agents.
     </Callout>
   </Collapser>
 
@@ -2717,7 +2767,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            `true`
+            `false`
           </td>
         </tr>
 
@@ -2743,7 +2793,8 @@ This section defines the Node.js agent variables in the order they typically app
       </tbody>
     </table>
 
-    Generate JavaScript headers for browser instrumentation. Although this defaults to `true`, the agent doesn't inject the browser JS code unless you have [enabled browser monitoring](/docs/browser/new-relic-browser/installation-configuration/adding-apps-new-relic-browser). Even if you have enabled it and [added the browser timing header](/docs/agents/nodejs-agent/supported-features/page-load-timing-nodejs#procedures), you can [disable browser monitoring for your app](/docs/agents/nodejs-agent/supported-features/page-load-timing-nodejs#disabling) by setting this to `false`.
+    Generate JavaScript headers for browser instrumentation. If set to `true` the agent doesn't inject the browser JS code unless you have [enabled browser monitoring](/docs/browser/new-relic-browser/installation-configuration/adding-apps-new-relic-browser). Even if you have enabled it and [added the browser timing header](/docs/agents/nodejs-agent/supported-features/page-load-timing-nodejs#procedures), you can [disable browser monitoring for your app](/docs/agents/nodejs-agent/supported-features/page-load-timing-nodejs#disabling) by setting this to `false`.
+
   </Collapser>
 
   <Collapser
@@ -2917,7 +2968,7 @@ This section defines the Node.js agent variables in the order they typically app
 
 ## Custom events variables [#custom_events]
 
-This section defines the Node.js agent variables in the order they typically appear in the `custom_insights_events: {` section of your app's `newrelic.js` configuration file. Currently there are no environment variables for custom events.
+This section defines the Node.js agent variables in the order they typically appear in the `custom_insights_events: {` section of your app's `newrelic.js` configuration file.
 
 <CollapserGroup>
   <Collapser
@@ -2943,6 +2994,15 @@ This section defines the Node.js agent variables in the order they typically app
 
           <td>
             `true`
+          </td>
+        </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_CUSTOM_INSIGHTS_EVENTS_ENABLED`
           </td>
         </tr>
       </tbody>
@@ -2973,7 +3033,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            `1000`
+            `3000`
           </td>
         </tr>
 
@@ -2992,7 +3052,7 @@ This section defines the Node.js agent variables in the order they typically app
     Defines the maximum number of custom events the agent collects per minute. If the number of custom events exceeds this limit, the agent collects a statistical sampling.
 
     <Callout variant="important">
-      Increasing this limit increases memory usage.
+      Increasing this limit may increase memory usage.
     </Callout>
   </Collapser>
 </CollapserGroup>
@@ -3065,7 +3125,7 @@ This section defines the Node.js agent variables in the order they typically app
           </th>
 
           <td>
-            10
+            `10`
           </td>
         </tr>
 
@@ -3179,76 +3239,6 @@ This section defines the Node.js agent variables in the order they typically app
   </Collapser>
 </CollapserGroup>
 
-## Environment variable overrides
-
-This section defines two configuration options only available with environment variables. These overrides are not used in most configurations.
-
-<CollapserGroup>
-  <Collapser
-    id="home"
-    title="NEW_RELIC_HOME"
-  >
-    Path to the directory containing `newrelic.js`. This is available only as an environment variable. You cannot set it in your config file.
-
-    <table>
-      <tbody>
-        <tr>
-          <th>
-            Type
-          </th>
-
-          <td>
-            String
-          </td>
-        </tr>
-
-        <tr>
-          <th>
-            Default
-          </th>
-
-          <td>
-            (none)
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </Collapser>
-
-  <Collapser
-    id="no_file"
-    title="NEW_RELIC_NO_CONFIG_FILE"
-  >
-    If used, this prevents the agent from reading configuration settings from `newrelic.js`. Default values and values from environment variables will still be set.
-
-    This is available only as an environment variable. You cannot set it in your config file.
-
-    <table>
-      <tbody>
-        <tr>
-          <th>
-            Type
-          </th>
-
-          <td>
-            Boolean
-          </td>
-        </tr>
-
-        <tr>
-          <th>
-            Default
-          </th>
-
-          <td>
-            `False`
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </Collapser>
-</CollapserGroup>
-
 ## Datastore tracer variables [#datastore-tracer]
 
 This section defines the Node.js agent variables in the order they typically appear in the `datastore_tracer` section of your app's `newrelic.js` configuration file. These options control behavior for collecting datastore instance metrics.
@@ -3277,6 +3267,15 @@ This section defines the Node.js agent variables in the order they typically app
 
           <td>
             `true`
+          </td>
+        </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_DATASTORE_INSTANCE_REPORTING_ENABLED`
           </td>
         </tr>
       </tbody>
@@ -3308,6 +3307,15 @@ This section defines the Node.js agent variables in the order they typically app
 
           <td>
             `true`
+          </td>
+        </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_DATASTORE_DATABASE_NAME_REPORTING_ENABLED`
           </td>
         </tr>
       </tbody>
@@ -3347,6 +3355,15 @@ The Node.js agent variables that control [cross application tracing](/docs/apm/t
             `false`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_CROSS_APPLICATION_TRACER_ENABLED`
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -3360,7 +3377,7 @@ The Node.js agent variables that control [cross application tracing](/docs/apm/t
 
 ## Error message redaction variables [#err-message-redact]
 
-The Node.js agent variables that control error message redaction appear in the `allow_raw_exception_messages` section of your app's `newrelic.js` configuration file:
+The Node.js agent variables that control error message redaction appear in the `strip_exception_messages` section of your app's `newrelic.js` configuration file:
 
 <CollapserGroup>
   <Collapser
@@ -3395,7 +3412,7 @@ The Node.js agent variables that control error message redaction appear in the `
           </th>
 
           <td>
-            `NEW_RELIC_ALLOW_RAW_EXCEPTION_MESSAGES_ENABLED`
+            `NEW_RELIC_STRIP_EXCEPTION_MESSAGES_ENABLED`
           </td>
         </tr>
       </tbody>
@@ -3407,7 +3424,7 @@ The Node.js agent variables that control error message redaction appear in the `
 
 ## Distributed tracing [#dt-main]
 
-[Distributed tracing](/docs/intro-distributed-tracing) lets you see the path that a request takes as it travels through a distributed system. When configuring via the config file, place the following option in the `distributed_tracing` section. It is turned on by default in Node.js agents 7.2.0 and higher.
+[Distributed tracing](/docs/intro-distributed-tracing) lets you see the path that a request takes as it travels through a distributed system. When configuring via the config file, place the following option in the `distributed_tracing` section. It is turned on by default in Node.js agents 8.3.0 and higher.
 
 <Callout variant="important">
   Enabling distributed tracing disables [cross application tracing](#cross-app-tracing), and has effects on other APM features. Before enabling, read the [transition guide](/docs/transition-guide-distributed-tracing). Requires [Node.js agent version 4.7.0 or higher](/docs/agents/nodejs-agent/installation-configuration/upgrade-nodejs-agent).
@@ -3488,6 +3505,15 @@ For more information about setting up distributed tracing, see [Enable distribut
             `false`
           </td>
         </tr>
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_DISTRIBUTED_TRACING_EXCLUDE_NEWRELIC_HEADER`
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -3550,6 +3576,52 @@ The `grpc` section controls the behavior of how the gRPC server is instrumented.
     When enabled, the agent will send all error gRPC status codes to New Relic, that is, nonzero status codes. If disabled, the server instrumentation will not send any nonzero status codes to New Relic.
   </Collapser>
 </CollapserGroup>
+
+  <Collapser
+    id="grpc_error_ignore"
+    title="ignore_status_codes"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Array of Integers
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            `[]`
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_GRPC_IGNORE_STATUS_CODES`
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    Comma-delimited list of gRPC status codes for the error collector to ignore, both on client-side and server-side instrumentation.
+
+    <Callout variant="caution">
+      Errors recorded using [`newrelic.noticeError()`](/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#noticeError) do not obey this configuration value.
+    </Callout>
+  </Collapser>
 
 
 ## Span events
@@ -3744,7 +3816,7 @@ The `grpc` section controls the behavior of how the gRPC server is instrumented.
         </th>
 
         <td>
-          2000
+          `2000`
         </td>
       </tr>
 
@@ -3763,7 +3835,7 @@ The `grpc` section controls the behavior of how the gRPC server is instrumented.
   Defines the maximum number of events the agent collects per minute. If there are more than this number, the agent collects a statistical sampling.
 
   We do not recommend configuring past 10k. The server will cap data at 10k per-minute.
-  
+
   <Callout variant="important">
     `max_samples_stored` configuration settings require [Node.JS agent version 8.3.0 or higher](/docs/apm/agents/nodejs-agent/installation-configuration/update-nodejs-agent/).
   </Callout>
@@ -3772,7 +3844,8 @@ The `grpc` section controls the behavior of how the gRPC server is instrumented.
 
 ## Infinite Tracing
 
-To turn on Infinite Tracing, enable distributed tracing (set `distributed_tracing` to `enabled: true`) and add the additional settings below. For an example, see [Language agents: configure distributed tracing](/docs/understand-dependencies/distributed-tracing/enable-configure/language-agents-enable-distributed-tracing#node-config).
+To turn on Infinite Tracing, add the additional settings below. Infinite Tracing configuration is set in the `infinite_tracing` stanza.
+Additionally, distributed tracing must be [enabled](/docs/apm/agents/nodejs-agent/installation-configuration/distributed-tracing-nodejs-agent). Note that distributed tracing is enabled by default for Node.js APM agent versions 8.3.0 and greater.
 
 <CollapserGroup>
   <Collapser
@@ -3797,7 +3870,7 @@ To turn on Infinite Tracing, enable distributed tracing (set `distributed_tracin
           </th>
 
           <td>
-            `(none)`
+            (none)
           </td>
         </tr>
 
@@ -3815,9 +3888,58 @@ To turn on Infinite Tracing, enable distributed tracing (set `distributed_tracin
 
     For help getting a valid Infinite Tracing trace observer host entry, see [Find or create a trace observer endpoint](/docs/understand-dependencies/distributed-tracing/enable-configure/language-agents-enable-distributed-tracing#provision-trace-observer).
   </Collapser>
+
+  <Collapser
+    id="infinite-tracing-queue-size"
+    title="span_events.queue_size"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Number
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            `10000`
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_INFINITE_TRACING_SPAN_EVENTS_QUEUE_SIZE`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    The amount of infinite tracing spans the agent will hold in memory before dropping them. 
+
+    This setting should rarely need to changed from the default as the queue is not in use the majority of the time. The queue is in use only during reconnections to the infinite tracing endpoint while the agent is unable to stream data. It's possible the agent will drop infinite tracing spans during these periods, in that case increasing this number can help.
+
+  </Collapser>
 </CollapserGroup>
 
-## Application Logging
+
+## Application logging [#app-logging]
+
+The application logging configuration settings require [Node.JS agent version 8.11.0 or higher](/docs/apm/agents/nodejs-agent/installation-configuration/update-nodejs-agent/).
+
+For tips on configuring logs for the Node.js agent, see [Configure Node.js logs in context](/docs/logs/logs-context/configure-logs-context-nodejs).
 
 <CollapserGroup>
   <Collapser
@@ -3859,6 +3981,13 @@ To turn on Infinite Tracing, enable distributed tracing (set `distributed_tracin
     </table>
 
     Enables automatically generating [logs in context](https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-nodejs/).
+    
+    For example, to disable this feature in the config file, you would use:
+    ```js
+    application_logging: {
+        enabled: false
+    }
+    ```
   </Collapser>
 
   <Collapser
@@ -4029,5 +4158,325 @@ To turn on Infinite Tracing, enable distributed tracing (set `distributed_tracin
     </table>
 
     Toggles whether the agent performs Local Log Decoration on standard log output.
+  </Collapser>
+</CollapserGroup>
+
+## Code level metrics [#code-level-metrics]
+
+The code-level metrics configuration settings require [Node.JS agent version 9.7.5 or higher](/docs/apm/agents/nodejs-agent/installation-configuration/update-nodejs-agent/).
+
+For more details, see [our code-level metrics docs](/docs/apm/agents/nodejs-agent/installation-configuration/codestream-integration).
+
+<CollapserGroup>
+  <Collapser
+    id="code-level-metrics-enabled"
+    title="code_level_metrics.enabled"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            `false`
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_CODE_LEVEL_METRICS_ENABLED`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Toggles whether to capture additional attributes on middleware spans for all Node.js web frameworks that help drive [Code level metrics](/docs/codestream/how-use-codestream/performance-monitoring/#code-level). The additional attributes are: `code.filepath`, `code.function`, `code.lineno`, and `code.column`.
+  </Collapser>
+</CollapserGroup>
+
+## Url obfuscation [#url-obfuscation]
+
+The url obfuscation configuration settings require [Node.js agent version 9.9.0 or higher](/docs/apm/agents/nodejs-agent/installation-configuration/update-nodejs-agent/).
+
+For a configuration example, see our documentation for the [node agent url obfuscation](/docs/url-obfuscation/configure-url-obfuscation-nodejs).
+
+<CollapserGroup>
+  <Collapser
+    id="url-obfuscation-enabled"
+    title="url_obfuscation.enabled"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            `false`
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_URL_OBFUSCATION_ENABLED`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Enables regex based [node agent url obfuscation](https://docs.newrelic.com/docs/url-obfuscation/configure-url-obfuscation-nodejs/).
+  </Collapser>
+
+  <Collapser
+    id="url-obfuscation-regex-pattern"
+    title="url_obfuscation.regex.pattern"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String or RegExp
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_URL_OBFUSCATION_REGEX_PATTERN`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Specifies the regex pattern to use for url obfuscation. If this is not set, no url obfuscation will be performed.
+  </Collapser>
+
+  <Collapser
+    id="url-obfuscation-regex-flags"
+    title="url_obfuscation.regex.flags"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_URL_OBFUSCATION_REGEX_FLAGS`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Specifies the regex flags to use for url obfuscation pattern matching e.g. `g` for global matching, `i` for case insensitive matching, etc. Multiple flags can be specified as a string e.g. `gi`. If this is not set, no flags will be used.
+  </Collapser>
+
+  <Collapser
+    id="url-obfuscation-regex-replacement"
+    title="url_obfuscation.regex.replacement"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Environ variable](#environment)
+          </th>
+
+          <td>
+            `NEW_RELIC_URL_OBFUSCATION_REGEX_REPLACEMENT`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Specifies the replacement string to use for url obfuscation. Can contain refferences to capture groups in the pattern e.g. `$1`. If this is not set, everything will be replaced with a single empty string.
+  </Collapser>
+</CollapserGroup>
+
+## Environment variable overrides
+
+This section defines two configuration options only available with environment variables. These overrides are not used in most configurations.
+
+<CollapserGroup>
+  <Collapser
+    id="home"
+    title="NEW_RELIC_HOME"
+  >
+    Path to the directory containing `newrelic.js`. This is available only as an environment variable. You cannot set it in your config file.
+
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+
+  <Collapser
+    id="no_file"
+    title="NEW_RELIC_NO_CONFIG_FILE"
+  >
+    If used, this prevents the agent from reading configuration settings from `newrelic.js`. Default values and values from environment variables will still be set.
+
+    This is available only as an environment variable. You cannot set it in your config file.
+
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            `false`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+</CollapserGroup>
+
+## Environment variable type reference guide
+This section describes how to properly format the complex data types.
+
+<CollapserGroup>
+  <Collapser
+    id="array"
+    title="Array"
+  >
+    Array types are defined as comma-delimited strings.
+
+    ```ini
+    NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES=404,500,429
+    ```
+
+  </Collapser>
+
+  <Collapser
+    id="object"
+    title="Object"
+  >
+
+  Object types are defined as a json string.
+
+  ```ini
+  NEW_RELIC_ERROR_COLLECTOR_EXPECTED_MESSAGES='{"Error":["Undefined", "No soup for you!"]}'
+  ```
   </Collapser>
 </CollapserGroup>

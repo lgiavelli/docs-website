@@ -6,11 +6,11 @@ tags:
 metaDescription: "Part 4 of the New Relic implementation guide, where you think about your alerting strategies, and set up alerting, synthetic monitors, and errors inbox."
 ---
 
-import alertingUI from 'images/alerting-ui.png'
+import alertsAlertingUi from 'images/alerts_screenshot-full_alerting-ui.webp'
 
-import monitorIndex from 'images/monitor-index.png'
+import syntheticMonitorIndex from 'images/synthetic_screenshot-full_monitor-index.webp'
 
-import errorsUi from 'images/errors-ui.png'
+import errorsinboxErrorsUi from 'images/errors-inbox_screenshot-full_errors-ui.webp'
 
 *This is the fourth and final part of [our implementation guide](/docs/new-relic-solutions/get-started/implementation-guide-intro).*
 
@@ -25,7 +25,7 @@ In previous implementation stages, you [instrumented your stack](/docs/new-relic
 <img
   title="Alerts UI"
   alt="Alerts UI"
-  src={alertingUI}
+  src={alertsAlertingUi}
 />
 
 <figcaption>
@@ -36,7 +36,7 @@ Before setting up alerts, we recommend spending some time thinking about your al
 
 When you don't have an alerting strategy, and instead set up alerts quickly and haphazardly to solve one-off problems, that can result in too many alert notifications going out. When that happens, your team will suffer from alert fatigue and start to ignore alerts. Spending some time thinking about your alerting strategy will ensure you set up alerts in a smart way that can scale as your organization grows or as you add more data to New Relic. 
 
-To route alert notification messages to you, we use **workflows** (the rules of how violations create notifications and what data gets sent) and **notification destinations** (where notifications are sent). We recommend you plan out how these will be set up to be consistent and maintainable across your organization. If you're integrating with another service, such as Slack or PagerDuty, then consider how you'll control and maintain these integrations in the long term. 
+To route alert notification messages to you, we use **workflows** (the rules of how incidents create notifications and what data gets sent) and **notification destinations** (where notifications are sent). We recommend you plan out how these will be set up to be consistent and maintainable across your organization. If you're integrating with another service, such as Slack or PagerDuty, then consider how you'll control and maintain these integrations in the long term. 
 
 Avoiding alert fatigue should be a central goal of your alerting strategy. One strategy you could apply is to categorize your alerts by severity of business impact. Those that are more severe or critical should make the loudest noise and be delivered to the stakeholders that are in a position to respond, while those that are less business-impacting should deliver more quietly, with a smaller "blast radius."
 
@@ -152,7 +152,7 @@ To use synthetics well, your team should identify business-critical customer jou
 <img
   title="Synthetic monitoring - Monitors index"
   alt="Synthetic monitoring - Monitors index"
-  src={monitorIndex}
+  src={syntheticMonitorIndex}
 />
 
 <figcaption>
@@ -168,7 +168,7 @@ Our errors inbox feature helps you proactively detect, prioritize, and take acti
 <img
   title="ui-main"
   alt="This is an image of the main errors inbox UI"
-  src={errorsUi}
+  src={errorsinboxErrorsUi}
 />
 <figcaption>
 The errors inbox UI lets you easily review the errors of your workloads. 

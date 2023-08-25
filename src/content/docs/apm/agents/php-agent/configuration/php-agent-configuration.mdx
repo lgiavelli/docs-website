@@ -14,7 +14,7 @@ redirects:
   - /docs/agents/php-agent/troubleshooting/troubleshooting-ssl-certificate-errors
 ---
 
-import phpConfigCascade from 'images/php-config-cascade.png'
+import apmPhpAgentConfigurationHierarchy from 'images/apm_diagram_php-agent-configuration-hierarchy.webp'
 
 Our PHP agent has a number of settings to fine-tune the types and amounts of data reported. For most users, the default values produce the best possible mix of overhead and utility. However, you can change the settings for your specific needs.
 
@@ -29,7 +29,7 @@ Here is a simple illustration of the order of precedence that the PHP agent foll
 <img
   title="php-config-order.png"
   alt="php-config-order.png"
-  src={phpConfigCascade}
+  src={apmPhpAgentConfigurationHierarchy}
 />
 
 <figcaption>
@@ -369,16 +369,14 @@ These settings are available in the `newrelic.ini` file.
     * `"cakephp"`
     * `"codeigniter"`
     * `"drupal"` (for Drupal 6 and 7)
-    * `"drupal8"`
+    * `"drupal8"` (for Drupal 8 and 9)
     * `"joomla"`
-    * `"kohana"`
     * `"laravel"`
     * `"magento"`
     * `"magento2"`
     * `"mediawiki"`
-    * `"silex"`
-    * `"symfony1"`
-    * `"symfony2"` (for Symfony 2 and 3)
+    * `"slim"`
+    * `"symfony2"` (for Symfony 3 - Symfony 2.x is not supported)
     * `"symfony4"` (for Symfony 4 and 5)
     * `"wordpress"`
     * `"yii"`
@@ -387,6 +385,10 @@ These settings are available in the `newrelic.ini` file.
     * `"no_framework"` (to force no framework even if one was detected)
 
       If the framework auto-detection fails, this command will also fail.
+
+    <Callout variant="tip">
+      Check the [PHP compatibility page](/docs/apm/agents/php-agent/getting-started/php-agent-compatibility-requirements/) for the latest information on supported framworks.
+    </Callout>
   </Collapser>
 
   <Collapser
@@ -484,7 +486,7 @@ These settings are available in the `newrelic.ini` file.
       </tbody>
     </table>
 
-    Sets the New Relic [license key](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key) to use. In a multi-tenant system this can be set on a per-directory basis.
+    Sets the New Relic <InlinePopover type="licenseKey" /> to use. In a multi-tenant system this can be set on a per-directory basis.
 
     <Callout variant="tip">
       When you upgrade from an old agent version to 3.0 or higher, the license will be removed from your daemon configuration file (with a comment explaining why) and stored in the file `/etc/newrelic/upgrade_please.key`. Copy the license out of that file and set it in your `newrelic.ini` file. Delete the `upgrade_please.key` file.
@@ -575,7 +577,7 @@ These settings are available in the `newrelic.ini` file.
           </th>
 
           <td>
-            1
+            `1`
           </td>
         </tr>
 
@@ -596,7 +598,7 @@ These settings are available in the `newrelic.ini` file.
     * When set to `1`, all server calls are traced.
     * When set to `0`, traces only include internally instrumented calls by New Relic and those defined by the user using [`newrelic.transaction_tracer.custom`](#inivar-tt-custom).
 
-      The default level of `1` does have a performance impact. If you need to improve performance, try setting the detail level to 0.
+      The default level of `1` does have a performance impact. If you need to improve performance, try setting the detail level to `0`.
 
       When not tracing all server calls, blocks of time in transaction traces will be labeled as **uninstrumented time**, and only certain functions (defined internally by the agent) are instrumented. Even when reporting all calls, there may be [uninstrumented time](/docs/agents/php-agent/troubleshooting/uninstrumented-time-traces) in the traces.
   </Collapser>
@@ -840,11 +842,11 @@ For more information about ways to start the daemon and when to use an external 
       </tbody>
     </table>
 
-    Sets the maximum time the agent should wait for the daemon connecting an application. A value of `0` causes the agent to only make one attempt at connecting to the daemon. Allowed units are `"ns"`, `"us"`, `"ms"`, `"s"`, `"m"`, and `"h"`.
+    Sets the maximum time the agent should wait for the daemon connecting an application. A value of `"0"` causes the agent to only make one attempt at connecting to the daemon. Allowed units are `"ns"`, `"us"`, `"ms"`, `"s"`, `"m"`, and `"h"`.
 
     With this timeout set, the agent will not immediately drop a transaction when the daemon hasn't connected to the backend yet, but rather grant the daemon time to establish the connection.
 
-    **Recommendation**: If setting a timeout, the recommended value is `15s`. Only set this timeout when instrumenting long-lived background tasks, as in case of connection problems the agent will block for the given timeout at every transaction start.
+    **Recommendation**: If setting a timeout, the recommended value is `"15s"`. Only set this timeout when instrumenting long-lived background tasks, as in case of connection problems the agent will block for the given timeout at every transaction start.
   </Collapser>
 
   <Collapser
@@ -932,7 +934,7 @@ For more information about ways to start the daemon and when to use an external 
       </tbody>
     </table>
 
-    Sets the name and optional port of the collector host which the daemon will contact to verify your license key and send agent data.
+    Sets the name and optional port of the collector host which the daemon will contact to verify your <InlinePopover type="licenseKey" /> and send agent data.
 
     This is either just the name of the host or the name and port number in the form `"hostname:port"`. Specifying a port number of `0` will use the default port, which is 80.
 
@@ -1130,9 +1132,10 @@ For more information about ways to start the daemon and when to use an external 
     * `error`
     * `warning`
     * `info`
+    * `healthcheck`
     * `debug`
 
-      The more verbose settings can generate a lot of information very quickly. When necessary, set `debug` for short periods of time to identify problems.
+      The more verbose settings can generate a lot of information very quickly. `healthcheck` logs the exact number of connected applications. When necessary, set `debug` for short periods of time to identify problems.
   </Collapser>
 
   <Collapser
@@ -1210,18 +1213,15 @@ For more information about ways to start the daemon and when to use an external 
           </th>
 
           <td>
-            `"@newrelic" on Linux, "/tmp/.newrelic.sock" otherwise`
+            `"@newrelic"` on Linux, `"/tmp/.newrelic.sock"` otherwise
           </td>
         </tr>
       </tbody>
     </table>
 
     <Callout variant="tip">
-      From [v9.2.0.247](/docs/release-notes/agent-release-notes/php-release-notes/php-agent-920247), the PHP agent supports a new setting, `newrelic.daemon.address,`which serves as an alias to `newrelic.daemon.port`. You can use either to specify the location of the New Relic PHP daemon. If both values are set, `newrelic.daemon.address` takes precedence.
+      From [v9.2.0.247](/docs/release-notes/agent-release-notes/php-release-notes/php-agent-920247), the PHP agent supports a new setting, `newrelic.daemon.address`, which serves as an alias to `newrelic.daemon.port`. You can use either to specify the location of the New Relic PHP daemon. If both values are set, `newrelic.daemon.address` takes precedence.
     </Callout>
-  </Collapser>
-
-  <dd>
     Sets the socket endpoint for agent to daemon communications.
 
     This can be specified in four ways.
@@ -1240,7 +1240,7 @@ For more information about ways to start the daemon and when to use an external 
       <Callout variant="important">
         If you're using the `newrelic.cfg` startup mechanism for the daemon, this setting and the [`address`](/docs/agents/php-agent/configuration/proxy-daemon-newreliccfg-settings#cfgvar-port) setting in that file must match.
       </Callout>
-  </dd>
+  </Collapser>
 
   <Collapser
     id="inivar-daemon-proxy"
@@ -1292,7 +1292,7 @@ For more information about ways to start the daemon and when to use an external 
     * `user:password@hostname:port`
     * `proxytype://user:password@hostname:port`
 
-      A proxy type of HTTP is assumed unless another <var>proxytype</var> is specified. In that case, <var>proxytype</var> can be one of <var>http</var>, <var>socks4</var>, <var>socks4a</var>, or <var>socks5</var>.
+      A proxy type of HTTP is assumed unless another proxytype is specified. In that case, proxytype can be one of http, socks4, socks4a, or socks5.
   </Collapser>
 
   <Collapser
@@ -1465,20 +1465,20 @@ For more information about ways to start the daemon and when to use an external 
         </tr>
       </tbody>
     </table>
-  </Collapser>
 
-  <dd>
-    Sets the maximum time the agent should wait for the daemon to start after a daemon launch was triggered. A value of `0` causes the agent to not wait. Allowed units are `"ns"`, `"us"`, `"ms"`, `"s"`, `"m"` and `"h"`.
+    Sets the maximum time the agent should wait for the daemon to start after a daemon launch was triggered. A value of `"0"` causes the agent to not wait. Allowed units are `"ns"`, `"us"`, `"ms"`, `"s"`, `"m"` and `"h"`.
 
     The specified timeout value will be passed to the daemon via the `--wait-for-port` flag. This causes daemon startup to block until a socket is acquired or until the timeout is elapsed.
 
-    **Recommendation:** If setting a timeout, the recommended value is `2s` to `5s`. It is recommended to only set this timeout when instrumenting long-lived background tasks, as in case of daemon start problems the agent will block for the given timeout at every transaction start.
-  </dd>
+    **Recommendation:** If setting a timeout, the recommended value is `"2s"` to `"5s"`. It is recommended to only set this timeout when instrumenting long-lived background tasks, as in case of daemon start problems the agent will block for the given timeout at every transaction start.
+  </Collapser>
 </CollapserGroup>
 
 ## Logs in context [#logs-in-context]
 
-Starting with the PHP agent 10.1.0 release, support for [logs in context](/docs/apm/new-relic-apm/getting-started/get-started-logs-context]) has been added directly to the agent, making it easy to use for [supported logging frameworks](/docs/logs/logs-context/configure-logs-context-php).
+Starting with PHP agent version 10.1.0, support for [APM logs in context](/docs/apm/new-relic-apm/getting-started/get-started-logs-context) has been added to the agent. As of version 10.3.0, the logging metrics and agent log forwarding features are enabled by default.
+
+For some tips on configuring logs for the PHP agent, see [Configure PHP logs in context](/docs/logs/logs-context/configure-logs-context-php). 
 
 Changing these settings in your local agent configuration file (`newrelic.ini`) requires a restart of the webserver for them to take effect. 
 
@@ -1530,7 +1530,7 @@ The value `newrelic.application_logging.enabled` controls if the logs in context
           </th>
 
           <td>
-            `false`
+            `true`
           </td>
         </tr>
       </tbody>
@@ -1539,15 +1539,15 @@ The value `newrelic.application_logging.enabled` controls if the logs in context
     Set to `true` to enable the core logs in context feature. When enabled, additional logging framework instrumentation is enabled, whether or not logs are sent to New Relic.
 
     <Callout variant="important">
-      Agent release 10.1.0 has this feature enabled in the agent configuration file by default.  However, log forwarding is disabled by default.  As a result the default configuration will only send logging metrics to New Relic.  Log forwarding must be enabled manually for this release.  A future release of the PHP agent will enable log forwarding by default.
+      Agent release 10.1.0 has this feature enabled in the agent configuration file by default.
     </Callout>
 
-    Set to `false` to completely disable this feature, including the collection of log metrics.
+    Set to `false` to completely disable this feature, including the collection of log metrics and log forwarding.
 
   </Collapser>
 </CollapserGroup>
 
-If you're using a [supported logging framework](/docs/logs/logs-context/configure-logs-context-php) and want to use the agent to send your application logs to New Relic, you can control that through settings `newrelic.config.application_logging.forwarding` prefixed INI settings. Options available are:
+If you're using a [supported logging framework](/docs/logs/logs-context/configure-logs-context-php) and want to use the agent to send your application logs to New Relic, you can control that through the `newrelic.config.application_logging.forwarding` prefixed INI settings. Options available are:
 
 <CollapserGroup>
   <Collapser
@@ -1582,7 +1582,7 @@ If you're using a [supported logging framework](/docs/logs/logs-context/configur
           </th>
 
           <td>
-            `false`
+            `true`
           </td>
         </tr>
       </tbody>
@@ -1591,8 +1591,8 @@ If you're using a [supported logging framework](/docs/logs/logs-context/configur
     Enables the sending of application logs to New Relic.
 
     <Callout variant="important">
-      Agent release 10.1.0 has this feature disabled in the agent configuration file by default.
-
+      Agent releases 10.3.0 and later have this feature enabled in the agent configuration file by default.
+      
       Using the log forwarding feature will increase your data ingest, which may affect your billing. For more information, see our documentation about [tracking your data ingest](/docs/apm/new-relic-apm/getting-started/get-started-logs-context#ingest).
 
       If you have an existing log forwarding solution and are updating your agent to use automatic logs in context, be sure to **disable your old log forwarder**. Otherwise, your app will be sending double log lines. Depending on your account, this could result in double billing. For more information, follow the procedures to disable your [specific log forwarder](/docs/logs/forward-logs/enable-log-management-new-relic#log-forwarding).
@@ -1600,7 +1600,15 @@ If you're using a [supported logging framework](/docs/logs/logs-context/configur
 
     Set this to `true` to have your logs sent to New Relic.
 
-    Set this to `false` if you do not want your logs sent to New Relic.
+    Set this to `false` if you don't want your logs sent to New Relic.
+
+    When `enabled` = `true`, logs are forwarded directly from the PHP agent with linking metadata that allows our logs-in-context features to work. The PHP agent doesn't write any metadata into the application log output. When `enabled` = `false`, no log data is sent to New Relic and the application log output is unchanged.
+
+    Example configuration file (`newrelic.ini`):
+
+    ```ini
+    newrelic.application_logging.enabled = true
+    ```
 
   </Collapser>
 
@@ -1668,10 +1676,16 @@ If you're using a [supported logging framework](/docs/logs/logs-context/configur
   Any non-negative integer is valid, but currently the maximum supported value is 20,000.
 </Callout>
 
+Example configuration file (`newrelic.ini`):
+
+```ini
+newrelic.application_logging.forwarding.max_samples_stored = 10000
+```
+
   </Collapser>
 
   <Collapser
-    id="cfg-application_logging_forwarding-max_samples_stored"
+    id="cfg-application_logging_forwarding-log-level"
     title="newrelic.application_logging.forwarding.log_level"
   >
 
@@ -1724,14 +1738,20 @@ When a log level is specifed for the agent then all messages of this log level o
 
 The agent will default to a log level of `WARNING`.  
 
+Example configuration file (`newrelic.ini`):
+
+```ini    
+newrelic.application_logging.forwarding.log_level = "INFO"
+```
+
   </Collapser>
 </CollapserGroup>
 
-The PHP agent can collect metrics related to log events for [supported logging frameworks](/docs/logs/logs-context/configure-logs-context-php).  The creation of these metrics is controlled by the `newrelic.application_logging.metrics.enable` option:
+The PHP agent can collect metrics related to log events for [supported logging frameworks](/docs/logs/logs-context/configure-logs-context-php). The creation of these metrics is controlled by the `newrelic.application_logging.metrics.enable` option:
 
 <CollapserGroup>
   <Collapser
-    id="cfg-application_logging_forwarding-enabled"
+    id="cfg-application_logging_metrics-enabled"
     title="newrelic.application_logging.metrics.enabled"
   >
     <table>
@@ -1768,7 +1788,7 @@ The PHP agent can collect metrics related to log events for [supported logging f
       </tbody>
     </table>
 
-    Enables the capture of metrics information about your logs and log levels, which is displayed in a chart on the NR1 summary page.
+    Enables the capture of metrics information about your logs and log levels, which is displayed in a chart on the APM **Summary** page.
 
     Leave this set to true to allow the agent to capture metric information about your logs.
 
@@ -1785,8 +1805,6 @@ The PHP agent can collect metrics related to log events for [supported logging f
 <Callout variant="important">
   If you have an existing log forwarding solution and are updating your agent to use automatic logs in context, be sure to **disable your manual log forwarder**. Otherwise, your app will be sending double the log data. Depending on your account, this could result in double billing. For more information, follow the procedures to disable your [specific log forwarder](/docs/logs/forward-logs/enable-log-management-new-relic#log-forwarding).
 </Callout>
-
-
 
 ## Transaction tracer .ini settings [#inivar-tt-settings]
 
@@ -1834,7 +1852,7 @@ The values of these settings are used to control transaction traces.
     Set this to a comma-separated list of user defined functions or methods to instrument:
 
     ```
-    "<var>myfunction</var>,<var>myclass</var>::<var>method</var>,<var>otherfunction</var>"
+    "myfunction,myclass::method,otherfunction"
     ```
 
     Internal PHP functions cannot have custom tracing.
@@ -2149,7 +2167,7 @@ The values of these settings are used to control transaction traces.
           </th>
 
           <td>
-            "500"
+            `"500"`
           </td>
         </tr>
       </tbody>
@@ -2216,12 +2234,10 @@ The values of these settings are used to control transaction traces.
       **Example durations**
 
     * `"200ms"`
-
     * `"1s250ms"`
-
     * `"1h30m"`
-
     * `"750us"`
+    
   </Collapser>
 
   <Collapser
@@ -2584,13 +2600,13 @@ The values of these settings are used to control various tracer features.
           </th>
 
           <td>
-            0
+            `0`
           </td>
         </tr>
       </tbody>
     </table>
 
-    Span events are reported for [distributed tracing](#inivar-distributed-enabled). This value sets the maximum number of span events sent to the collector per harvest cycle. A value of 0 will use the agent default of 2000. The maximum setting is 10000.
+    Span events are reported for [distributed tracing](#inivar-distributed-enabled). This value sets the maximum number of span events sent to the collector per harvest cycle. A value of `0` will use the agent default of `2000`. The maximum setting is `10000`.
   </Collapser>
 
   <Collapser
@@ -2713,7 +2729,7 @@ The values of these settings are used to control various tracer features.
       </tbody>
     </table>
 
-    Sets the number of span events that can be queued for transmission to the Infinite Tracing Trace Observer. The agent internally manages span events for Infinite Tracing in span batches. Those span batches can hold a maximum of 1000 spans. Therefore, the span events queue size cannot be lower than 1000, as otherwise not even a single span batch can be queued. If a queue size lower than 1000 is specified, the minimum size of 1000 is used.
+    Sets the number of span events that can be queued for transmission to the Infinite Tracing Trace Observer. The agent internally manages span events for Infinite Tracing in span batches. Those span batches can hold a maximum of 1000 spans. Therefore, the span events queue size cannot be lower than   `1000`, as otherwise not even a single span batch can be queued. If a queue size lower than 1000 is specified, the minimum size of `1000` is used.
   </Collapser>
 
   <Collapser
@@ -2931,15 +2947,21 @@ The values of these settings are used to control various tracer features.
 
     Sets the [error levels](http://php.net/manual/en/errorfunc.constants.php) for the PHP agent to **ignore**. The value for this setting uses similar syntax to [PHP's `error_reporting` option](http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting). For example, to configure the PHP agent to ignore `E_WARNING` and `E_ERROR` level errors, use:
 
-    `newrelic.error_collector.ignore_errors = E_WARNING | E_ERROR`
-
+    ```ini
+    newrelic.error_collector.ignore_errors = E_WARNING | E_ERROR
+    ```
+    
     or
-
-    `newrelic.error_collector.ignore_errors = 3`
+    
+    ```ini
+    newrelic.error_collector.ignore_errors = 3
+    ```
 
     To configure the PHP agent to ignore everything but `E_WARNING`, use:
 
-    `newrelic.error_collector.ignore_errors = E_ALL & ~E_WARNING`
+    ```ini
+    newrelic.error_collector.ignore_errors = E_ALL & ~E_WARNING
+    ```
   </Collapser>
 
   <Collapser
@@ -3121,11 +3143,11 @@ The values of these settings are used to control various tracer features.
 
     If `index.php` dispatches to functions named:
 
-    * login,
-    * logout,
-    * admin,
-    * show, and
-    * edit
+    * `login`,
+    * `logout`,
+    * `admin`,
+    * `show`, and
+    * `edit`
 
       You would set this value to `"login,logout,admin,show,edit"`.
 
@@ -3299,7 +3321,7 @@ This section lists the settings that affect attribute collection and reporting.
       </tbody>
     </table>
 
-    Enable or disable the collection of attributes generated by the PHP agent or generated by the user through [newrelic_add_custom_parameter()](/docs/agents/php-agent/php-agent-api/newrelic_add_custom_parameter). This setting will take precedence over all other attribute configuration settings.
+    Enable or disable the collection of attributes generated by the PHP agent or generated by the user through [`newrelic_add_custom_parameter()`](/docs/agents/php-agent/php-agent-api/newrelic_add_custom_parameter). This setting will take precedence over all other attribute configuration settings.
 
     For more information, see [Enabling and disabling attributes](/docs/php/php-agent-enabling-and-disabling-attributes#cfg-attributes-enabled).
   </Collapser>
@@ -3388,6 +3410,258 @@ This section lists the settings that affect attribute collection and reporting.
     This is a family of configuration options that allow fine control over the destinations of attributes. For more information, see [Enabling and disabling attributes](/docs/php/php-agent-enabling-and-disabling-attributes#cfg-attributes-include).
   </Collapser>
 </CollapserGroup>
+
+## Custom events [#inivar-custom-events]
+
+This section lists the settings that affect custom event reporting.
+
+<CollapserGroup>
+  <Collapser
+    id="inivar-custom-events-enabled"
+    title="newrelic.custom_insights_events.enabled"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Scope:
+          </th>
+
+          <td>
+            PERDIR
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Type:
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default:
+          </th>
+
+          <td>
+            `true`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Enable or disable the collection of events generated by the the user through [`newrelic_record_custom_event()`](/docs/agents/php-agent/php-agent-api/newrelic_record_custom_event). This setting will take precedence over all other attribute configuration settings.
+
+    For more information, see [Report custom events and attributes](/docs/data-apis/custom-data/custom-events/apm-report-custom-events-attributes/#php-att).
+  </Collapser>
+
+  <Collapser
+    id="inivar-custom-events-maxsamples"
+    title="newrelic.custom_events.max_samples_stored"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Scope:
+          </th>
+
+          <td>
+            PERDIR
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Type:
+          </th>
+
+          <td>
+            Integer
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default:
+          </th>
+
+          <td>
+            `30000`
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Max:
+          </th>
+
+          <td>
+            `100000`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    A positive integer specifying the maximum number of custom events per minute to send.
+
+    Setting this to `0` will effectively disable the sending of custom events. Setting [`newrelic.custom_insights_events.enabled`](#inivar-custom-events-enabled) is the preferred way to enable or disable custom event generation.
+
+    Set this to a lower value to reduce the amount of custom events sent (may cause custom event sampling). Set this to a higher value to send more custom events lines.
+
+    <Callout variant="important">
+      The `newrelic.custom_events.max_samples_stored` INI variable was added in the 10.4.0.316 release.
+    </Callout>
+
+  </Collapser>
+</CollapserGroup>
+
+## Code-level metrics [#inivar-code-level-metrics]
+
+This section lists the settings that affect the reporting of code-level metrics.
+
+<CollapserGroup>
+  <Collapser
+    id="inivar-code-level-metrics-enabled"
+    title="newrelic.code_level_metrics.enabled"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Scope:
+          </th>
+
+          <td>
+            PERDIR
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Type:
+          </th>
+
+          <td>
+            Boolean
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default:
+          </th>
+
+          <td>
+            `true`
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Enable or disable the collection of code-level metrics.
+
+    <Callout variant="important">
+      The `newrelic.code_level_metrics.enabled` INI variable was added in the 10.4.0.316 release and was disabled by default. 
+      Code-level metrics are enabled by default starting with version 10.6.0.
+    </Callout>
+
+  </Collapser>
+
+  <Collapser
+    id="NEW_RELIC_METADATA_COMMIT"
+    title="NEW_RELIC_METADATA_COMMIT"
+  >
+    <Callout variant="important">
+      This can only be set through an environment variable.
+    </Callout>
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            Integer
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Set in](#options)
+          </th>
+
+          <td>
+            Environment variable
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    The commit sha. The entire sha can be used or just the first seven characters (e.g., 734713b).
+  </Collapser>
+
+  <Collapser
+    id="NEW_RELIC_METADATA_RELEASE_TAG"
+    title="NEW_RELIC_METADATA_RELEASE_TAG"
+  >
+    <Callout variant="important">
+      This can only be set through an environment variable.
+    </Callout>
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Type
+          </th>
+
+          <td>
+            String
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            Default
+          </th>
+
+          <td>
+            (none)
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            [Set in](#options)
+          </th>
+
+          <td>
+            Environment variable
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    A release tag (such as v0.1.209 or release-209).
+  </Collapser>  
+</CollapserGroup>
+
+
 
 ## Other .ini settings [#inivar-rare-settings]
 

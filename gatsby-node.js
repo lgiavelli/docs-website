@@ -2,9 +2,16 @@ const path = require('path');
 const { prop } = require('./scripts/utils/functional.js');
 const externalRedirects = require('./src/data/external-redirects.json');
 const { createFilePath } = require('gatsby-source-filesystem');
+const createSingleNav = require('./scripts/createSingleNav');
+const generateTOC = require('mdast-util-toc');
+// are needed for our tableOfContents override
+const genMDX = require('gatsby-plugin-mdx/utils/gen-mdx.js');
+const defaultOptions = require('gatsby-plugin-mdx/utils/default-options.js');
+const getTableOfContents = require('gatsby-plugin-mdx/utils/get-table-of-content.js');
 
 const TEMPLATE_DIR = 'src/templates/';
 const TRAILING_SLASH = /\/$/;
+const releaseNotesPerAgent = {};
 
 const hasOwnProperty = (obj, key) =>
   Object.prototype.hasOwnProperty.call(obj, key);
@@ -14,6 +21,10 @@ const hasTrailingSlash = (pathname) =>
 
 const appendTrailingSlash = (pathname) =>
   pathname.endsWith('/') ? pathname : `${pathname}/`;
+
+exports.onPreBootstrap = () => {
+  createSingleNav();
+};
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -88,6 +99,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               type
               subject
               redirects
+              hideNavs
             }
           }
         }
@@ -129,6 +141,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               slug
             }
           }
+          totalCount
         }
       }
 
@@ -154,6 +167,15 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
           isDefault
         }
       }
+
+      allInstallConfig {
+        edges {
+          node {
+            redirects
+            agentName
+          }
+        }
+      }
     }
   `);
 
@@ -169,6 +191,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     releaseNotes,
     landingPagesReleaseNotes,
     allLocale,
+    allInstallConfig,
     whatsNewPosts,
   } = data;
 
@@ -187,14 +210,27 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     });
   });
 
+  allInstallConfig.edges.forEach(({ node: { redirects, agentName } }) => {
+    redirects?.length &&
+      redirects.forEach((redirect) =>
+        createLocalizedRedirect({
+          locales,
+          fromPath: redirect,
+          toPath: `/install/${agentName}/`,
+          createRedirect,
+        })
+      );
+  });
+
   releaseNotes.group.forEach((el) => {
-    const { fieldValue, nodes } = el;
+    const { fieldValue, nodes, totalCount } = el;
 
     const landingPage = landingPagesReleaseNotes.nodes.find(
       (node) => node.frontmatter.subject === fieldValue
     );
 
     if (landingPage) {
+      releaseNotesPerAgent[landingPage.frontmatter.subject] = totalCount;
       const { redirects } = landingPage.frontmatter;
 
       createLocalizedRedirect({
@@ -270,9 +306,30 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       createRedirect,
     });
   });
+
+  // Redirect for VSU page to new Introduction to APM doc
+  createRedirect({
+    fromPath: '/docs/apm/new-relic-apm/getting-started/introduction-apm/',
+    toPath: '/introduction-apm',
+    isPermanent: false,
+    redirectInBrowser: true,
+  });
 };
 
-exports.createSchemaCustomization = ({ actions }) => {
+exports.createSchemaCustomization = (
+  {
+    getNode,
+    getNodes,
+    pathPrefix,
+    reporter,
+    cache,
+    actions,
+    schema,
+    store,
+    ...helpers
+  },
+  pluginOptions
+) => {
   const { createTypes } = actions;
 
   const typeDefs = `
@@ -281,6 +338,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     title: String!
     path: String
     icon: String
+    label: String
     filterable: Boolean!
     pages: [NavYaml!]!
     rootNav: Boolean!
@@ -295,10 +353,80 @@ exports.createSchemaCustomization = ({ actions }) => {
     isFeatured: Boolean
     translationType: String
     dataSource: String
+    hideNavs: Boolean
+    eolDate: String
+    downloadLink: String
+    signupBanner: SignupBanner
+    features: [String]
+    bugs: [String]
+    security: [String]
   }
+  type SignupBanner {
+    cta: String
+    url: String
+    text: String
+  }
+
   `;
 
-  createTypes(typeDefs);
+  // this was taken from gatsby-plugin-mdx/gatsby/create-schema-customization.js
+  const options = defaultOptions(pluginOptions);
+
+  const pendingPromises = new WeakMap();
+  const processMDX = ({ node }) => {
+    let promise = pendingPromises.get(node);
+    if (!promise) {
+      promise = genMDX({
+        node,
+        options,
+        store,
+        pathPrefix,
+        getNode,
+        getNodes,
+        cache,
+        reporter,
+        actions,
+        schema,
+        ...helpers,
+      });
+      pendingPromises.set(node, promise);
+      promise.then(() => {
+        pendingPromises.delete(node);
+      });
+    }
+    return promise;
+  };
+
+  const tocExtension = schema.buildObjectType({
+    name: `Mdx`,
+    fields: {
+      tableOfContents: {
+        type: `JSON`,
+        args: {
+          maxDepth: {
+            type: `Int`,
+            default: 6,
+          },
+        },
+        async resolve(mdxNode, { maxDepth }) {
+          const { mdast } = await processMDX({ node: mdxNode });
+          const toc = generateTOC(mdast, {
+            maxDepth,
+
+            // override gatsby-plugin-mdx tableOfContents options
+            // to allow Step headers to show in PageTools
+            parents: [
+              (node) => node.type === 'mdxBlockElement' && node.name === 'Step',
+              'root',
+            ],
+          });
+
+          return getTableOfContents(toc.map, {});
+        },
+      },
+    },
+  });
+  createTypes([typeDefs, tocExtension]);
 };
 
 exports.createResolvers = ({ createResolvers }) => {
@@ -333,23 +461,84 @@ exports.createResolvers = ({ createResolvers }) => {
         resolve: (source) =>
           hasOwnProperty(source, 'dataSource') ? source.dataSource : null,
       },
+      hideNavs: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'hideNavs') ? source.hideNavs : null,
+      },
+      eolDate: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'eolDate') ? source.eolDate : null,
+      },
+      downloadLink: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'downloadLink') ? source.downloadLink : null,
+      },
+      features: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'features') ? source.features : null,
+      },
+      bugs: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'bugs') ? source.bugs : null,
+      },
+      security: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'security') ? source.security : null,
+      },
+    },
+    SignupBanner: {
+      cta: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'cta') ? source.cta : null,
+      },
+      url: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'url') ? source.url : null,
+      },
+      text: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'text') ? source.text : null,
+      },
     },
   });
 };
 
 exports.onCreatePage = ({ page, actions }) => {
-  const { createPage, deletePage } = actions;
-  const oldPage = { ...page };
+  const { createPage } = actions;
+
+  if (page.path === '/') {
+    page.context.quicklaunchSlug =
+      'docs/new-relic-solutions/get-started/quick-launch-guide';
+    page.context.layout = 'homepage';
+  }
+  if (page.path === '/jp/') {
+    page.context.quicklaunchSlug =
+      'jp/docs/new-relic-solutions/get-started/quick-launch-guide';
+  }
+  if (page.path === '/kr/') {
+    page.context.quicklaunchSlug =
+      'kr/docs/new-relic-solutions/get-started/quick-launch-guide';
+  }
 
   if (page.path.match(/404/)) {
     page.context.layout = 'basic';
+  }
+
+  if (page.path.match(/404/) && page.path.match(/\/docs\//)) {
+    page.context.layout = 'default';
+  }
+
+  if (page.path.includes('/install/')) {
+    const pagePathArray = page.path.split('/');
+    const lastItem = pagePathArray[pagePathArray.length - 1];
+    page.context.agent =
+      lastItem !== '' ? lastItem : pagePathArray[pagePathArray.length - 2];
   }
 
   if (hasTrailingSlash(page.context.slug)) {
     page.context.slug = page.context.slug.replace(TRAILING_SLASH, '');
   }
 
-  deletePage(oldPage);
   createPage(page);
 };
 
@@ -365,7 +554,6 @@ const createLocalizedRedirect = ({
   const pathWithTrailingSlash = hasTrailingSlash(fromPath)
     ? fromPath
     : path.join(fromPath, '/');
-  const pathWithoutTrailingSlash = pathWithTrailingSlash.slice(0, -1);
 
   createRedirect({
     fromPath: pathWithTrailingSlash,
@@ -374,22 +562,9 @@ const createLocalizedRedirect = ({
     redirectInBrowser,
   });
 
-  createRedirect({
-    fromPath: pathWithoutTrailingSlash,
-    toPath: appendTrailingSlash(toPath),
-    isPermanent,
-    redirectInBrowser,
-  });
-
   locales.forEach((locale) => {
     createRedirect({
       fromPath: path.join(`/${locale}`, pathWithTrailingSlash),
-      toPath: appendTrailingSlash(path.join(`/${locale}`, toPath)),
-      isPermanent,
-      redirectInBrowser,
-    });
-    createRedirect({
-      fromPath: path.join(`/${locale}`, pathWithoutTrailingSlash),
       toPath: appendTrailingSlash(path.join(`/${locale}`, toPath)),
       isPermanent,
       redirectInBrowser,
@@ -403,6 +578,7 @@ const createPageFromNode = (
   defer = false
 ) => {
   const {
+    frontmatter: { subject: agentName, hideNavs },
     fields: { fileRelativePath, slug },
   } = node;
 
@@ -418,6 +594,31 @@ const createPageFromNode = (
         layout: 'basic',
       },
     });
+  } else if (template === 'releaseNoteLandingPage') {
+    const releaseNotes = releaseNotesPerAgent[agentName];
+    const releaseNotesPerPage = 10;
+    const numPages = Math.ceil(releaseNotes / releaseNotesPerPage);
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path:
+          i === 0
+            ? path.join(prefix, slug, '/')
+            : path.join(prefix, slug, `/${i + 1}/`),
+        component: path.resolve(path.join(TEMPLATE_DIR, `${template}.js`)),
+        context: {
+          limit: releaseNotesPerPage,
+          skip: i * releaseNotesPerPage,
+          numPages,
+          currentPage: i + 1,
+          ...context,
+          fileRelativePath,
+          slug,
+          slugRegex: `${slug}/.+/`,
+          disableSwiftype,
+        },
+        defer,
+      });
+    });
   } else {
     createPage({
       path: path.join(prefix, slug, '/'),
@@ -425,6 +626,7 @@ const createPageFromNode = (
       context: {
         ...context,
         fileRelativePath,
+        hideNavs,
         slug,
         slugRegex: `${slug}/.+/`,
         disableSwiftype,

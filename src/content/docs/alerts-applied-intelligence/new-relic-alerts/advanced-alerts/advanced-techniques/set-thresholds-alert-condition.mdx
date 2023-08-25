@@ -16,15 +16,15 @@ redirects:
   - /docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/set-thresholds-alert-condition
 ---
 
-import iconAlertCritical from 'images/icon-alert-critical.png'
+import accountsAlertsCritical from 'images/accounts_icon_alerts-critical.webp'
 
-import iconAlertWarning from 'images/icon-alert-warning.png'
+import accountsAlertWarning from 'images/accounts_icon_alert-warning.webp'
 
 When you create a condition, you set personalized **thresholds** that determine what will open an incident. This document explains what thresholds are and how to set them.
 
 ## What is a threshold? [#threshold-definition]
 
-For a [condition](/docs/using-new-relic/welcome-new-relic/get-started/glossary#alert-condition), thresholds are the settings that determine what opens an [incident](/docs/using-new-relic/welcome-new-relic/get-started/glossary#alert-violation). Depending on a policy's [issue creation preference](/docs/alerts/new-relic-alerts/configuring-alert-policies/specify-when-new-relic-creates-incidents), and any [workflows](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/) you may have configured, an incident may result in:
+For a [condition](/docs/using-new-relic/welcome-new-relic/get-started/glossary#alert-condition), thresholds are the settings that determine what opens an [incident](/docs/new-relic-solutions/get-started/glossary/#alert-incident). Depending on a policy's [issue creation preference](/docs/alerts/new-relic-alerts/configuring-alert-policies/specify-when-new-relic-creates-incidents), and any [workflows](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/) you may have configured, an incident may result in:
 
 * The creation of an issue.
 * Notifications being sent.
@@ -41,7 +41,7 @@ For a [condition](/docs/using-new-relic/welcome-new-relic/get-started/glossary#a
 * An application's error rate per minute hits 10% or higher at least once in an hour.
 * An application's AJAX response time deviates a certain amount from its expected behavior.
 
-Besides a mandatory critical threshold level, you can also set thresholds for a less serious [warning level](#threshold-levels).
+Besides a critical threshold level, you can also set thresholds for a less serious [warning level](#threshold-levels).
 
 ## View and set thresholds [#viewing-thresholds]
 
@@ -97,9 +97,9 @@ Details about other functionality and rules:
 
   <Collapser
     id="threshold-levels"
-    title="Set optional warning level"
+    title="Set thresholds"
   >
-    You can set thresholds for two levels: critical (required) and warning (optional).
+    You can set thresholds for two levels: critical and warning. At least one threshold must be set.
 
     <table>
       <thead>
@@ -117,21 +117,21 @@ Details about other functionality and rules:
       <tbody>
         <tr>
           <td>
-            <img title="Alerts v3: Critical alert icon" alt="icon-alert-critical.png" src={iconAlertCritical}/> Critical (red)
+            <img title="Alerts v3: Critical alert icon" alt="icon-alert-critical.png" src={accountsAlertsCritical}/> Critical (red)
           </td>
 
           <td>
-            Required. When an incident occurs, it may send notifications depending on the policy's [issue creation preference setting](/docs/alerts/new-relic-alerts/configuring-alert-policies/specify-when-new-relic-creates-incidents) and any [workflow](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/) you may have configured.
+            Optional. When an incident occurs, it may send notifications depending on the policy's [issue creation preference setting](/docs/alerts/new-relic-alerts/configuring-alert-policies/specify-when-new-relic-creates-incidents) and any [workflow](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/) you may have configured.
           </td>
         </tr>
 
         <tr>
           <td>
-            <img title="Alerts v3: Warning alert icon" alt="icon-alert-warning.png" src={iconAlertWarning}/> Warning (yellow)
+            <img title="Alerts v3: Warning alert icon" alt="icon-alert-warning.png" src={accountsAlertWarning}/> Warning (yellow)
           </td>
 
           <td>
-            Optional. Will open warning-level incident and may roll up into and issue that is already open. Use a warning threshold if you want to monitor when a system behavior is concerning or noteworthy but not important enough to require a critical-level threshold.
+            Optional. Will open warning-level incident and may send notifications depending on the policy's [issue creation preference setting](/docs/alerts/new-relic-alerts/configuring-alert-policies/specify-when-new-relic-creates-incidents) and any [workflow](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/) you may have configured. Use a warning threshold if you want to monitor when a system behavior is concerning or noteworthy but not important enough to require a critical-level threshold.
           </td>
         </tr>
       </tbody>
@@ -151,7 +151,7 @@ Details about other functionality and rules:
     id="time-intervals"
     title="Set time intervals"
   >
-    Different condition types have different minimum time intervals. For example, some condition types have a minimum time interval of 5 minutes (for example, APM metric alert conditions), and others have a minimum time interval of 1 minute (for example, NRQL alert conditions). The same happens with the maximum time interval, where the amount is 120 minutes.
+    Different condition types have different minimum time intervals. For example, some condition types have a minimum time interval of 5 minutes (for example, <InlinePopover type="apm" /> metric alert conditions), and others have a minimum time interval of 1 minute (for example, NRQL alert conditions). The same happens with the maximum time interval, where the amount is 120 minutes.
   </Collapser>
 
   <Collapser

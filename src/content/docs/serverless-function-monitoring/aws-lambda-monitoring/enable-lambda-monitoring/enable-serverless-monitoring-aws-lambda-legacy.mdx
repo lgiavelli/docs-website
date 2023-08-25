@@ -11,7 +11,9 @@ redirects:
   - /docs/understand-dependencies/distributed-tracing/enable-configure/aws-lambda
 ---
 
-On this page, you will learn how to manually instrument your lambda function. It's organized by runtime language.
+On this page, you will learn how to manually instrument your lambda function. It's organized by runtime language. If you haven't already, create your free New Relic account below to start monitoring your data today.
+
+<InlineSignup/>
 
 <CollapserGroup>
   <Collapser
@@ -267,21 +269,21 @@ On this page, you will learn how to manually instrument your lambda function. It
              ```cs
 
              // SQS Client
-             AmazonSQSClient client = new AmazonSQSClient("<var>AWS_SECRET_ACCESS_KEY</var>", <var>AWS_REGION</var>);
+             AmazonSQSClient client = new AmazonSQSClient("AWS_SECRET_ACCESS_KEY", AWS_REGION);
 
              // SendMessageRequest
-             SendMessageRequest sendRequest = new SendMessageRequest("<var>QUEUE_URI_STRING</var>", "An SQS Message");
+             SendMessageRequest sendRequest = new SendMessageRequest("QUEUE_URI_STRING", "An SQS Message");
              Task<SendMessageResponse> responseOne = SQSWrapper.WrapRequest(client.SendMessageAsync, sendRequest);
 
              // String-based
-             Task<SendMessageResponse> responseTwo = SQSWrapper.WrapRequest(client.SendMessageAsync, "<var>QUEUE_URI_STRING</var>", "Another SQS Message");
+             Task<SendMessageResponse> responseTwo = SQSWrapper.WrapRequest(client.SendMessageAsync, "QUEUE_URI_STRING", "Another SQS Message");
 
              // SendMessageBatchRequest
              List<SendMessageBatchRequestEntry> batchEntries = new List<SendMessageBatchRequestEntry>();
              batchEntries.Add(new SendMessageBatchRequestEntry("id1", "First SQS Message"));
              batchEntries.Add(new SendMessageBatchRequestEntry("id2", "Second SQS Message"));
              batchEntries.Add(new SendMessageBatchRequestEntry("id3", "Third SQS Message"));
-             SendMessageBatchRequest sendBatchRequest = new SendMessageBatchRequest(<var>QUEUE_URI</var>, batchEntries);
+             SendMessageBatchRequest sendBatchRequest = new SendMessageBatchRequest(QUEUE_URI, batchEntries);
              Task<SendMessageBatchResponse> response = SQSWrapper.WrapRequest(client.SendMessageBatchAsync, sendBatchRequest);
 
              // SendMessageBatchRequestEntry List
@@ -307,7 +309,7 @@ On this page, you will learn how to manually instrument your lambda function. It
              ```cs
 
              // SNS Client
-             AmazonSimpleNotificationServiceClient client = new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient("<var>AWS_SECRET_ACCESS_KEY</var>", <var>AWS_REGION</var>);
+             AmazonSimpleNotificationServiceClient client = new Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient("AWS_SECRET_ACCESS_KEY", AWS_REGION);
 
              // PublishRequest - Phone Number
              PublishRequest phonePublishRequest = new PublishRequest();
@@ -316,14 +318,14 @@ On this page, you will learn how to manually instrument your lambda function. It
              Task<PublishResponse> phoneResponse = SNSWrapper.WrapRequest(client.PublishAsync, phonePublishRequest);
 
              // PublishRequest - ARN
-             PublishRequest publishRequest = new PublishRequest("<var>TOPIC_ARN</var>", "An SNS Message");
+             PublishRequest publishRequest = new PublishRequest("TOPIC_ARN", "An SNS Message");
              Task<PublishResponse> publishResponse = SNSWrapper.WrapRequest(client.PublishAsync, publishRequest);
 
              // String-based without subject
-             Task<PublishResponse> responseOne = SNSWrapper.WrapRequest(client.PublishAsync, "<var>TOPIC_ARN</var>", "Another SNS Message");
+             Task<PublishResponse> responseOne = SNSWrapper.WrapRequest(client.PublishAsync, "TOPIC_ARN", "Another SNS Message");
 
              // String-based with subject
-             Task<PublishResponse> responseTwo = SNSWrapper.WrapRequest(client.PublishAsync, "<var>TOPIC_ARN</var>", "Yet Another SNS Message", "A Subject");
+             Task<PublishResponse> responseTwo = SNSWrapper.WrapRequest(client.PublishAsync, "TOPIC_ARN", "Yet Another SNS Message", "A Subject");
 
              ```
          </Collapser>
@@ -402,7 +404,9 @@ On this page, you will learn how to manually instrument your lambda function. It
        * Set `NEW_RELIC_LOG` to `stdout` for output to CloudWatch, or set to any writeable file location.
        * `NEW_RELIC_LOG_LEVEL` is set to `info` by default, and it's only used when sending function logs in your Lamba. See [other log levels](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration#logging_config).
 
-    9. Invoke the Lambda at least once. This creates a CloudWatch log group, which must be present for the next step to work.
+    9. Optional: If your Lambda function is using ES Modules, set the environment variable `NEW_RELIC_USE_ESM` to `true`. Note that if using ES Modules, you must use async/await or promises for your function. Callback-based functions are not supported.
+
+    10. Invoke the Lambda at least once. This creates a CloudWatch log group, which must be present for the next step to work.
 
         Our wrapper gathers data about the Lambda execution, generates a JSON message, and logs it to CloudWatch Logs. Next you'll [configure CloudWatch to send those logs to New Relic](/docs/serverless-function-monitoring/aws-lambda-monitoring/enable-lambda-monitoring/instrument-your-own/#manual-stream-logs).
 
@@ -465,7 +469,7 @@ On this page, you will learn how to manually instrument your lambda function. It
     7. The following environment variables are not required for Lambda monitoring to function but they are required if you want your Lambda functions to be included in distributed traces. To enable [distributed tracing](/docs/apm/distributed-tracing/getting-started/introduction-distributed-tracing), set these [environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html) in the AWS console:
        * `NEW_RELIC_DISTRIBUTED_TRACING_ENABLED`. Set to true.
        * `NEW_RELIC_ACCOUNT_ID`. Your [account ID](/docs/accounts/install-new-relic/account-setup/account-id).
-       * `NEW_RELIC_TRUSTED_ACCOUNT_KEY.` This is also your [account ID](/docs/accounts/install-new-relic/account-setup/account-id). If your account is a child account, this needs to be the account ID for the root/parent account.
+       * `NEW_RELIC_TRUSTED_ACCOUNT_KEY`. This is also your [account ID](/docs/accounts/install-new-relic/account-setup/account-id). If your account is a child account, this needs to be the account ID for the root/parent account.
 
     8. Optional: To configure logging, use the [`NEW_RELIC_LOG` and `NEW_RELIC_LOG_LEVEL` environment variables](/docs/agents/python-agent/configuration/python-agent-configuration#environment-variables) in the AWS Console.
 
@@ -474,3 +478,5 @@ On this page, you will learn how to manually instrument your lambda function. It
        The New Relic decorator gathers data about the Lambda execution, generates a JSON message, and logs it to CloudWatch Logs. Next, [configure CloudWatch to send those logs to New Relic](/docs/serverless-function-monitoring/aws-lambda-monitoring/enable-lambda-monitoring/instrument-your-own/#manual-stream-logs).
   </Collapser>
 </CollapserGroup>
+
+<InstallFeedback />

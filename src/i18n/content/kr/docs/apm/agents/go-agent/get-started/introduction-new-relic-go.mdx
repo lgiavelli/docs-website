@@ -12,6 +12,8 @@ New Relic for Go는 Go 언어 애플리케이션과 마이크로서비스를 모
 
 Go는 컴파일된 언어이며 가상 머신을 사용하지 않습니다. Go 애플리케이션을 모니터링하는 가장 좋은 방법은 [Go API](/docs/agents/go-agent/api-guides/guide-using-go-agent-api) 를 사용하는 것입니다. 당사의 API는 계측 대상에 대한 탁월한 유연성과 제어 기능을 제공합니다.
 
+New Relic Go 에이전트를 사용하여 [My app is slow 튜토리얼](/docs/journey-app-slow/root-causes/)에서 앱의 성능 문제를 해결하십시오.
+
 ## Go 애플리케이션 모니터링 시작 [#install-new-relic]
 
 Go용 New Relic을 사용하려면:
@@ -40,7 +42,7 @@ Go용 New Relic을 사용하려면:
 New Relic Go 에이전트의 이점을 최대한 활용하려면 [Go 코드를 계측하는](/docs/apm/agents/go-agent/instrumentation/instrument-go-transactions) 것이 좋습니다. 그러나 다음과 같은 두 가지 방법으로 훌륭한 데이터를 쉽게 얻을 수 있습니다.
 
 * 에이전트를 가져오고 애플리케이션을 생성하여 고루틴 수, 가비지 수집 통계, 메모리 및 CPU 사용량에 대한 유용한 런타임 정보를 얻으십시오.
-* 많은 인기 있는 Go 웹 프레임워크 및 라이브러리에 대한 즉시 지원을 위해 당사의 많은 [통합 패키지](/docs/agents/go-agent/get-started/go-agent-compatibility-requirements#frameworks) 를 사용하십시오. 귀하의 피드백을 기반으로 통합 패키지를 계속 추가합니다. [Explorers Hub](https://discuss.newrelic.com/tags/goagent) 및 [New Relic Go 에이전트 GitHub](https://github.com/newrelic/go-agent/issues) 프로젝트에서 잠재적인 통합에 대해 평가할 수 있습니다.
+* 널리 사용되는 많은 Go 웹 프레임워크 및 라이브러리에 대한 기본 지원을 위해 다양한 [통합 패키지](/docs/agents/go-agent/get-started/go-agent-compatibility-requirements#frameworks) 를 사용하세요. 귀하의 피드백을 기반으로 통합 패키지를 계속 추가하고 있습니다. [지원 포럼](https://discuss.newrelic.com/tags/goagent) 과 [New Relic Go 에이전트 GitHub](https://github.com/newrelic/go-agent/issues) 프로젝트에서 잠재적인 통합에 대해 평가할 수 있습니다.
 
 ## 애플리케이션 및 마이크로서비스 성능 모니터링 [#monitor-performance]
 
@@ -59,9 +61,16 @@ New Relic for Go를 사용하면 Golang 애플리케이션에 대한 새로운 �
 **오류 식별 및 수정:**
 
 * 데이터베이스 호출, 외부 시스템 호출 및 주요 코드 블록에 소요된 시간을 확인하여 병목 현상을 찾으십시오.
+
 * 고루틴 카운트를 보고 가능한 고루틴 누출을 식별합니다.
+
 * 문제나 오류가 사용자에게 영향을 미치기 전에 [경고](/docs/alerts/alert-policies/understanding-alert-policies/alerting-new-relic) 를 받습니다.
-* 중요한 메트릭에 대한 사용자 지정 대시보드를 만듭니다.
+
+* 맞춤 만들기
+
+  <InlinePopover type="dashboards"/>
+
+  중요한 지표에 대해.
 
 **APM 및 인프라 데이터에 대한 로그 보기:**
 

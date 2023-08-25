@@ -5,43 +5,44 @@ tags:
   - Pixie integration
   - Kubernetes
   - eBPF
-metaDescription: Explore Pixie data in New Relic's UI
+metaDescription: Explore Pixie data in the UI of New Relic
 translationType: machine
 ---
 
-import pixieServicesOtel from 'images/pixie-services-otel.png'
+import pixieServicesOtel from 'images/pixie_screenshot-full_services-otel.webp'
 
-import pixieServiceOtelDetails from 'images/pixie-services-otel-details.png'
+import pixieServicesOtelDetails from 'images/pixie_screenshot-full_services-otel-details.webp'
 
-import pixieServiceOtelMap from 'images/pixie-service-otel-map.png'
+import pixieServiceOtelMap from 'images/pixie_screenshot-full_service-otel-map.webp'
 
-import pixieServiceOtelTransactions from 'images/pixie-services-otel-transactions.png'
+import pixieServicesOtelTransactions from 'images/pixie_screenshot-full_services-otel-transactions.webp'
 
-import pixieServiceOtelDBs from 'images/pixie-services-otel-databases.png'
+import pixieServicesOtelDatabases from 'images/pixie_screenshot-full_services-otel-databases.webp'
 
-import pixieKCE from 'images/pixie-kce.png'
+import pixieKce from 'images/pixie_screenshot-full_kce.webp'
 
-import pixieKCEPodDetails from 'images/pixie-kce-pod-details.png'
+import pixieKcePodDetails from 'images/pixie_screenshot-full_kce-pod-details.webp'
 
-import pixiePodDetailsMap from 'images/pixie-kce-pod-details-map.png'
+import pixieKcePodDetailsMap from 'images/pixie_screenshot-full_kce-pod-details-map.webp'
 
-import pixiePodDetails from 'images/pixie-kce-pod.png'
+import pixieKcePod from 'images/pixie_screenshot-full_kce-pod.webp'
 
-import pixieCPUProfile from 'images/pixie-cpu-profile.png'
+import pixieCpuProfile from 'images/pixie_screenshot-crop_cpu-profile.webp'
 
-import pixieNetworkMonitoring from 'images/pixie-network-monitoring.png'
+import pixieNetworkMonitoring from 'images/pixie_screenshot-full_network-monitoring.webp'
 
-import pixieDNSFlowGraph from 'images/pixie-dns-flow-graph.png'
+import pixieDnsFlowGraph from 'images/pixie_screenshot-full_dns-flow-graph.webp'
 
-import pixieTCPDrops from 'images/pixie-tcp-drops.png'
+import pixieTcpDrops from 'images/pixie_screenshot-full_tcp-drops.webp'
 
 Pixieによって収集された自動テレメトリは、NewRelicのUI全体にあります。Pixieテレメトリデータを使用して、次のことを行います。
 
 * [サービスの状態を監視する](#service-health)
 * [ポッドアプリケーションのCPUプロファイルを参照してください](#cpu-profiles)
 * [ネットワークの問題を監視する](#network-health)
+* [フルボディのリクエストを検査する](/docs/kubernetes-pixie/auto-telemetry-pixie/understand-use-data/pixie-entities)
 
-New RelicのUIは、短期ストレージと長期ストレージの両方からPixieテレメトリデータを取得します。New Relic Pixie統合のハイブリッドストレージモデルの詳細については、[こちら](/docs/kubernetes-pixie/auto-telemetry-pixie/understand-use-data/overview)をご覧ください。
+New Relic の UI は、短期ストレージと長期ストレージの両方から Pixie テレメトリ データを取得します。New Relic Pixie 統合のハイブリッド ストレージ モデルの詳細については、[こちら](/docs/kubernetes-pixie/auto-telemetry-pixie/understand-use-data/overview)をご覧ください。
 
 ## サービスの状態を監視する [#service-health]
 
@@ -64,14 +65,14 @@ New Relic Pixie統合は、OpenTelemetryプロトコルを使用して、HTTPス
 <img
   title="The **Services - OpenTelemetry** service Summary view shows graphs of response time, throughput and error rate over time."
   alt="The **Services - OpenTelemetry** service Summary view shows graphs of response time, throughput and error rate over time."
-  src={pixieServiceOtelDetails}
+  src={pixieServicesOtelDetails}
 />
 
 <figcaption>
   OpenTelemetryサービスの**概要**ビューには、時間の経過に伴う応答時間、スループット、およびエラー率のグラフが表示されます。
 </figcaption>
 
-OpenTelemetryサービスビューから、左側のサイドバーの\[**サービスマップ**]タブを選択します。このサービスマップビューは、サービスが通信するすべてのエンティティのグラフを表示することにより、アプリケーションの依存関係を視覚化するのに役立ちます。
+OpenTelemetry サービス ビューから、左側のサイドバーにある \[**サービス マップ**] タブを選択します。このサービス マップ ビューは、サービスが通信するすべてのエンティティのグラフを表示することで、アプリケーションの依存関係を視覚化するのに役立ちます。
 
 <img
   title="The OpenTelemetry **Service map** view shows helps visualize your application's dependencies."
@@ -88,7 +89,7 @@ OpenTelemetryサービスの\[**トランザクション**]タブには、サー
 <img
   title="Pixie data seen in the OpenTelemetry **Transactions** tab. "
   alt="Pixie data seen in the OpenTelemetry **Transactions** tab. "
-  src={pixieServiceOtelTransactions}
+  src={pixieServicesOtelTransactions}
 />
 
 <figcaption>
@@ -100,7 +101,7 @@ OpenTelemetryサービスの\[**トランザクション**]タブには、サー
 <img
   title="Pixie data seen in the OpenTelemetry **Databases** tab."
   alt="Pixie data seen in the OpenTelemetry **Databases** tab."
-  src={pixieServiceOtelDBs}
+  src={pixieServicesOtelDatabases}
 />
 
 <figcaption>
@@ -112,7 +113,7 @@ Pixieを利用したサービスヘルス情報は、Kubernetesクラスター�
 <img
   title="The Kubernetes cluster explorer shows the services identified by Pixie."
   alt="The Kubernetes cluster explorer shows the services identified by Pixie."
-  src={pixieKCE}
+  src={pixieKce}
 />
 
 <figcaption>
@@ -124,7 +125,7 @@ Pixieを利用したサービスヘルス情報は、Kubernetesクラスター�
 <img
   title="The pod details page in the Kubernetes cluster explorer shows application metrics collected by Pixie."
   alt="The pod details page in the Kubernetes cluster explorer shows application metrics collected by Pixie."
-  src={pixieKCEPodDetails}
+  src={pixieKcePodDetails}
 />
 
 <figcaption>
@@ -133,12 +134,12 @@ Pixieを利用したサービスヘルス情報は、Kubernetesクラスター�
 
 サービス詳細ビューの下部にある\[**関連エンティティ**]セクションの\[**マップビュー**]ボタンを選択します。
 
-このマップビューは、サービスが通信するすべてのエンティティのグラフを表示することにより、アプリケーションの依存関係を視覚化するのに役立ちます。
+このマップ ビューは、サービスが通信するすべてのエンティティのグラフを表示することで、アプリケーションの依存関係を視覚化するのに役立ちます。
 
 <img
   title="The service map shown in the pod details view is constructed using HTTP traces collected by Pixie."
   alt="The service map shown in the pod details view is constructed using HTTP traces collected by Pixie."
-  src={pixiePodDetailsMap}
+  src={pixieKcePodDetailsMap}
 />
 
 <figcaption>
@@ -156,7 +157,7 @@ Kubernetesクラスターエクスプローラービューにリストされて�
 <img
   title="The pod detail view contains an option to see a pod cpu flamegraph."
   alt="The pod detail view contains an option to see a pod cpu flamegraph."
-  src={pixiePodDetails}
+  src={pixieKcePod}
 />
 
 <figcaption>
@@ -168,7 +169,7 @@ Kubernetesクラスターエクスプローラービューにリストされて�
 <img
   title="Check a pod's CPU profile using Pixie"
   alt="Check a pod's CPU profile using Pixie"
-  src={pixieCPUProfile}
+  src={pixieCpuProfile}
 />
 
 <figcaption>
@@ -200,19 +201,19 @@ Kubernetesクラスタエクスプローラの\[**概要**]タブには、 **Pix
 <img
   title="Spot DNS issues with Pixie's DNS flow graph"
   alt="Spot DNS issues with Pixie's DNS flow graph"
-  src={pixieDNSFlowGraph}
+  src={pixieDnsFlowGraph}
 />
 
 <figcaption>
   PixieのDNSフローグラフを使用して、クラスター内のDNSの問題を特定します。
 </figcaption>
 
-\[ **TCP再送信**を**参照]および\[ドロップされたパケット**を参照]リンクには、クラスター内のTCP再送信とTCPドロップのグラフが表示されます。これらのビューの結果を表示するには、 `RUN`ボタンを押す必要があることに注意してください。TCPドロップ出力を以下に示します。
+\[ **TCP 再送信**を**参照] および \[ドロップされたパケット**を参照] リンクには、クラスター内の TCP 再送信と TCP ドロップのグラフが表示されます。これらのビューの結果を表示するには、 `RUN`ボタンを押す必要があることに注意してください。TCP ドロップの出力は次のとおりです。
 
 <img
   title="See TCP drops and TCP retransmissions using Pixie"
   alt="See TCP drops and TCP retransmissions using Pixie"
-  src={pixieTCPDrops}
+  src={pixieTcpDrops}
 />
 
 <figcaption>

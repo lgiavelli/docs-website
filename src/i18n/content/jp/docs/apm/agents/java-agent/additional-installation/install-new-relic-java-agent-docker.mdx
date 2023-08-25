@@ -8,7 +8,7 @@ metaDescription: How to install New Relic's Java agent for APM on a Docker conta
 translationType: machine
 ---
 
-このドキュメントでは、Javaアプリケーション用のAPMエージェントをDockerコンテナにインストールする基本的な方法を説明します。必要な構成について説明するとともに、以下のようなオプションの構成についても検討しています。
+このドキュメントでは、 の基本的なインストールについて説明します。 <InlinePopover type="apm"/>Docker コンテナー内の Java アプリケーションのエージェント。 必要な構成について説明し、次のようなオプションの構成についても説明します。
 
 * コンテナが使用される環境に関わらず、各コンテナに同一のNew Relic設定ファイルを使用する方法
 * すべての環境のすべてのエージェントが微妙に異なる設定データを必要とする場合に、Dockerレイヤーをどのように使用するか
@@ -59,7 +59,7 @@ translationType: machine
     4. `newrelic-java.zip`を解凍します。
 
        ```
-       Expand-Archive -Path newrelic-java.zip -DestinationPath <var>DESTINATION_PATH</var>
+       Expand-Archive -Path newrelic-java.zip -DestinationPath DESTINATION_PATH
        ```
   </Collapser>
 
@@ -67,7 +67,7 @@ translationType: machine
     id="download-from-UI"
     title="New Relic UIからダウンロード"
   >
-    1. [one.newrelic.comから](https://one.newrelic.com), クリック **Add more data** and then search for"Java".
+    1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities)**から、\[**さらにデータを追加**] をクリックし、「Java」を検索します。
     2. Javaアプリの監視オプションを選択し、プロセスを完了します。
   </Collapser>
 </CollapserGroup>
@@ -114,7 +114,7 @@ ADD ./newrelic/newrelic.yml /usr/local/tomcat/newrelic/newrelic.yml
   同じ役割を果たす複数のアプリにアプリケーション名を再利用することで、それらのアプリからのすべてのデータがNew Relicの同じ論理的なアプリケーションにロールアップされます。追加のグループ化オプションの詳細については、 [Use multiple names for an app](/docs/agents/manage-apm-agents/app-naming/use-multiple-names-app) を参照してください。
 </Callout>
 
-次のいずれかの`Dockerfile`コマンドで、 <var>MY_APP_NAME</var>をアプリケーション名に置き換えます。
+次の`Dockerfile`コマンドのいずれかで、MY_APP_NAME をアプリケーション名に置き換えます。
 
 <table>
   <thead>
@@ -166,9 +166,9 @@ ADD ./newrelic/newrelic.yml /usr/local/tomcat/newrelic/newrelic.yml
 
 ライセンスキーをコピーするには
 
-1. [API keys UI](/docs/apis/intro-apis/new-relic-api-keys) にアクセスし、ライセンスキーを取得してください。
+1. API キー UI に移動して、 <InlinePopover type="licenseKey"/>.
 
-2. これらの`Dockerfile`コマンドの1つで、 <var>MY_LICENSE_KEY</var>をライセンスキーに置き換えます。
+2. 次の`Dockerfile`コマンドのいずれかで、MY_LICENSE_KEY をライセンス キーに置き換えます。
 
    <table>
      <thead>
@@ -351,4 +351,4 @@ Javaプロパティまたは環境変数のいずれかを渡して、エージ�
 これで、Dockerでの基本的なエージェントのインストールが完了しましたが、ここでは追加の手順をご紹介します。
 
 * 他の [設定を確認する](/docs/agents/java-agent/configuration/java-agent-configuration-config-file) エージェントのために。
-* DockerとNew Relicに関する詳細な [Explorers Hubのポスト](https://discuss.newrelic.com/t/relic-solution-what-you-need-to-know-about-new-relic-when-deploying-with-docker/52492) をお読みください。
+* Docker と New Relic に関する詳細な[サポート フォーラムの投稿](https://discuss.newrelic.com/t/relic-solution-what-you-need-to-know-about-new-relic-when-deploying-with-docker/52492)をお読みください。

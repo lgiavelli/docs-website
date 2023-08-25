@@ -9,25 +9,23 @@ tags:
   - Implementation guide
 redirects:
 ---
-import etoAddServiceLevel from 'images/oma-eto-add-service-level.png'
+import omaetoAddServiceLevel from 'images/oma-eto_screenshot-full_add-service-level.webp'
 
-import etoSetServiceLevelTypeApm from 'images/oma-eto-sl-type-apm.png'
+import omaetoSlTypeApm from 'images/oma-eto_screenshot-full_sl-type-apm.webp'
 
-import etoSetServiceLevelTagApm from 'images/oma-eto-sl-tag-apm.png'
+import omaetoSlTagApm from 'images/oma-eto_screenshot-crop_sl-tag-apm.webp'
 
-import etoSetServiceLevelTypeBrowser from 'images/oma-eto-sl-type-browser.png'
+import omaetoSlTypeBrowser from 'images/oma-eto_screenshot-crop_sl-type-browser.webp'
 
-import etoSetServiceLevelTagBrowser from 'images/oma-eto-sl-tag-browser.png'
+import omaetoSlTagBrowser from 'images/oma-eto_screenshot-crop_sl-tag-browser.webp'
 
-import etoSetServiceLevelTypeMobileCrash from 'images/oma-eto-sl-type-mobile-crash.png'
+import omaetoSlTypeMobileCrash from 'images/oma-eto_screenshot-full_sl-type-mobile-crash.webp'
 
-import etoSetServiceLevelTypeMobileRequestError from 'images/oma-eto-sl-type-mobile-request-error.png'
+import omaetoSlTypeMobileRequestError from 'images/oma-eto_screenshot-full_sl-type-mobile-request-error.webp'
 
-import etoSetServiceLevelTypeServerless from 'images/oma-eto-sl-type-serverless.png'
+import omaetoSlTypeServerless from 'images/oma-eto_screenshot-full_sl-type-serverless.webp'
 
-import etoSetServiceLevelTagServerless from 'images/oma-eto-sl-tag-serverless.png'
-
-import etoFilterServiceLevels from 'images/oma-eto-sl-filter.png'
+import omaetoSlFilter from 'images/oma-eto_screenshot-full_sl-filter.webp'
 
 This guide shows you how to optimize your errors so you can improve error rates, error detection, and customer experience. It's part of [our series on observability maturity](/docs/new-relic-solutions/observability-maturity/introduction).
 
@@ -59,7 +57,7 @@ Conversion rate is often used to indicate rate of purchases or ad clickthroughs.
 **Goal:** Increase the ratio of user journey completions to user sessions. 
 
 **Best practices** 
-Errors occur in both front-end and back-end applications but are typically measured on the front end. [Funnel queries](/docs/query-your-data/nrql-new-relic-query-language/nrql-query-tutorials/funnels-evaluate-data-series-related-events) are popular for measuring conversions, but you can do it even more simply by counting the number of conversions over the total number of sessions for a given time period. 
+Errors occur in both frontend and backend applications but are typically measured on the frontend. [Funnel queries](/docs/query-your-data/nrql-new-relic-query-language/nrql-query-tutorials/funnels-evaluate-data-series-related-events) are popular for measuring conversions, but you can do it even more simply by counting the number of conversions over the total number of sessions for a given time period. 
 
 If you provide an API service and conversion rates apply to your business, you can measure them by comparing the number of calls to the final service that gets call to the number of calls to the first service. For example:   
 ```
@@ -80,7 +78,7 @@ Measure increased or decreased engagement by counting page views.
 **Goal:** Increase page views
 
 **Best practices** 
-Errors occur in both front-end and back-end applications but are typically measured on the front end. Measure the impact of improving errors on user engagement by tracking page views for the front-end applications related to where you're making improvements. 
+Errors occur in both frontend and backend applications but are typically measured on the frontend. Measure the impact of improving errors on user engagement by tracking page views for the frontend applications related to where you're making improvements. 
 
 Your NRQL query will look something like the following: 
 ```
@@ -102,7 +100,7 @@ Measure increased or decreased engagement by counting page views.
 **Goal:** Increase the number of users accessing your site
 
 **Best practices** 
-Errors occur in both front-end and back-end applications but are typically measured on the front end. Measure the impact of improving errors on user engagement by tracking the number of users accessing your site over a given time period.  If you have not added custom instrumentation to track users you can track sessions instead.
+Errors occur in both frontend and backend applications but are typically measured on the frontend. Measure the impact of improving errors on user engagement by tracking the number of users accessing your site over a given time period.  If you have not added custom instrumentation to track users you can track sessions instead.
 
 Your NRQL query will look something like the following: 
 ```
@@ -121,7 +119,7 @@ FROM Transaction uniqueCount(customerId) WHERE appName = 'apiService'
   </Collapser>
 </CollapserGroup>
 
-The business KPIs above work on the assumption that you support your users by providing a front-end application. If you support your customers via API, it may be possible to fit the above KPIs to the Transaction entity type. Some organizations that provide APIs as a service use operational KPIs like the ones below to promote the quality of their offering.
+The business KPIs above work on the assumption that you support your users by providing a frontend application. If you support your customers via API, it may be possible to fit the above KPIs to the Transaction entity type. Some organizations that provide APIs as a service use operational KPIs like the ones below to promote the quality of their offering.
 
 ### Operational KPIs
 
@@ -188,8 +186,8 @@ From your workload, navigate to the **Service levels** tab. Create a service lev
 
 <img
   title="Add a service level to your workload"
-  alt="Add a service level"
-  src={etoAddServiceLevel}
+  alt="Add a service level to your workload"
+  src={omaetoAddServiceLevel}
 />
 <br/>
 <br/>     
@@ -204,16 +202,16 @@ For step 2 of service creation, choose the **Success** SLI.
 
 <img
   title="Set the service level type"
-  alt="Set type"
-  src={etoSetServiceLevelTypeApm}
+  alt="Set the service level type"
+  src={omaetoSlTypeApm}
 />
 
 Add a tag to the service level so you can see all the error rates in one view. You can use the default tag `category:success`
 
 <img
   title="Create a service level tag"
-  alt="Create tag"
-  src={etoSetServiceLevelTagApm}
+  alt="Create a service level tag"
+  src={omaetoSlTagApm}
 />
   </Collapser>
 
@@ -226,16 +224,16 @@ Add a tag to the service level so you can see all the error rates in one view. Y
 
 <img
   title="Set the service level type"
-  alt="Set type"
-  src={etoSetServiceLevelTypeBrowser}
+  alt="Set the service level type"
+  src={omaetoSlTypeBrowser}
 />
 
 * For Step 4, add a tag to the service level. You can use the default tag `category:success`
 
 <img
   title="Create a service level tag"
-  alt="Create tag"
-  src={etoSetServiceLevelTagBrowser}
+  alt="Create a service level tag"
+  src={omaetoSlTagBrowser}
 />
 
   </Collapser>
@@ -249,8 +247,8 @@ Create a service level for mobile crashes
 * For Step 2, choose `MobileSession` as the source of valid events. Choose `MobileCrash` as the source of bad responses.
 <img
   title="Set the service level type"
-  alt="Set type"
-  src={etoSetServiceLevelTypeMobileCrash}
+  alt="Set the service level type"
+  src={omaetoSlTypeMobileCrash}
 />
 * For Step 4, add a tag to the service level. You can use the default tag `category:success`.
 
@@ -258,8 +256,8 @@ Create a service level for mobile request errors
 * For Step 2, choose `MobileRequest` as the source of valid events. Choose `MobileRequestError` as the source of bad responses.
 <img
   title="Set the service level type"
-  alt="Set type"
-  src={etoSetServiceLevelTypeMobileRequestError}
+  alt="Set the service level type"
+  src={omaetoSlTypeMobileRequestError}
 />
 * For Step 4, add a tag to the service level. You can use the default tag `category:success`.
   </Collapser>
@@ -274,16 +272,16 @@ Create an error rate service level for AWS Lambda function integrated with our [
 
 <img
   title="Set the service level type"
-  alt="Set type"
-  src={etoSetServiceLevelTypeServerless}
+  alt="Set the service level type"
+  src={omaetoSlTypeServerless}
 />
 
 * For Step 4, add a tag to the service level. You can use the default tag `category:success`
 
 <img
   title="Create a service level tag"
-  alt="Create tag"
-  src={etoSetServiceLevelTagBrowser}
+  alt="Create a service level tag"
+  src={omaetoSlTagBrowser}
 />
 
 Currently, service levels only support error rates for AWS Lambda functions using [New Relic serverless monitoring for AWS Lambda](/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/monitoring-aws-lambda-serverless-monitoring). You can capture the error rate outside of service levels using the following query:
@@ -316,9 +314,9 @@ Using the process documented above, you've created Service levels based on your 
 * You can update error rate targets as improvements are made.
 
 <img
-  title="Create a service level tag"
-  alt="Create tag"
-  src={etoFilterServiceLevels}
+  title="Group service levels by category"
+  alt="Group service levels by category"
+  src={omaetoSlFilter}
 />
 
 ## Improvement process [#improvement-process]

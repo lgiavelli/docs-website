@@ -32,7 +32,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -134,7 +134,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -188,7 +188,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels(cursor: "Wh4LK9JYzfACVlNkyvf7Rg==:I5VbSEpgx3UWNA5AOVsUPv4=") {
               channels {
@@ -217,9 +217,9 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
-            notificationChannel(id: <var>YOUR_CHANNEL_ID</var>) {
+            notificationChannel(id: YOUR_CHANNEL_ID) {
               id
               name
               type
@@ -246,7 +246,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -274,7 +274,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
 ## 通知チャンネルの作成 [#create-channel]
 
-アラート通知チャネルを作成するためには、作成したい通知チャネルの具体的なタイプ（例えば、電子メール、Slackなど）と、その設定に必要な詳細（チャネルのタイプによって異なります）を知っておく必要があります。通知チャネルが作成されると、1つ以上の [警告ポリシー](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "アラートと適用されたインテリジェンス| NewRelicのドキュメント") に関連付けることができます。関連づけられたチャンネルは、条件に違反したときにそれらのポリシーからの通知を受け取ります。
+アラート通知チャネルを作成するには、作成する通知チャネルの特定の種類 (電子メール、Slack など) と、その構成に必要な詳細 (チャネルによって異なります) を把握する必要があります。タイプ）。通知チャネルを作成したら、1 つ以上の [アラート ポリシー](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "アラートと適用されたインテリジェンス| NewRelicのドキュメント")に関連付けることができます。関連付けられると、条件が違反されたときに、これらのチャネルはポリシーから通知を受け取ります。
 
 <Callout variant="caution">
   既存の通知チャネルタイプを照会することはできますが、作成できるのはそのサブセットのみです。具体的には、 **user** チャンネルタイプには編集可能なフィールドがなく、 **Campfire** と **HipChat** チャンネルタイプはどちらも非推奨です。
@@ -289,7 +289,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         email: {
           emails: ["email@example.com"],
           includeJson: true,
@@ -324,7 +324,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         opsGenie: {
           apiKey: "api-key-from-opsgenie",
           dataCenterRegion: US,
@@ -365,7 +365,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         pagerDuty: {
           name: "PagerDuty notification channel name",
           apiKey: "api-key-from-pagerduty"
@@ -398,7 +398,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         slack: {
           name: "Slack notification channel name",
           teamChannel: "#team-channel",
@@ -433,7 +433,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         victorOps: {
           key: "example-api-key-from-victorops",
           name: "VictorOps notification channel name",
@@ -468,7 +468,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         webhook: {
           baseUrl: "https://example.com/webhook",
           basicAuth: {
@@ -521,7 +521,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         xMatters: {
           integrationUrl: "https://company.instance.xmatters.com/api/xm/v<version>/...",
           name: "xMatters notification channel name"
@@ -564,7 +564,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         email: {
           name: "Updated Name <email@example.com>"
         }
@@ -594,7 +594,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         opsGenie: {
           name: "OpsGenie updated channel name"
         }
@@ -624,7 +624,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         pagerDuty: {
           name: "PagerDuty updated channel name"
         }
@@ -654,7 +654,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         slack: {
           name: "Slack updated channel name"
         }
@@ -684,7 +684,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         victorOps: {
           name: "VictorOps updated channel name"
         }
@@ -714,7 +714,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         webhook: {
           name: "Webhook updated channel name"
         }
@@ -744,7 +744,7 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         xMatters: {
           name: "xMatters updated channel name"
         }
@@ -773,8 +773,8 @@ New Relicアラートの場合、NerdGraphAPIを使用して[アラート通知�
 
 ```
 mutation {
-  alertsNotificationChannelDelete(accountId: <var>YOUR_ACCOUNT_ID</var>,
-  id: <var>YOUR_CHANNEL_ID</var>) {
+  alertsNotificationChannelDelete(accountId: YOUR_ACCOUNT_ID,
+  id: YOUR_CHANNEL_ID) {
     id
     error {
       description
@@ -787,15 +787,15 @@ mutation {
 
 ## チャンネルをポリシーに関連付ける [#associate-channel]
 
-アラート通知チャネルを作成するだけでは十分ではありません。チャンネルが作成されたら、それを1つ以上の [ポリシーに関連付ける必要があります](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "アラートと適用されたインテリジェンス| NewRelicのドキュメント") 。ポリシーに関連付けられると、そのポリシーの条件が違反したときに、チャネルはアラート通知を受け取ることができます。
+アラート通知チャネルを作成するだけでは十分ではありません。チャネルを作成したら、それを 1 つ以上の [ポリシー](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "アラートと適用されたインテリジェンス| NewRelicのドキュメント")に関連付ける必要があります。ポリシーに関連付けられると、チャネルは、そのポリシーの条件がしきい値を超えたときにアラート通知を受信できるようになります。
 
 この例では、2つのチャンネルと1つのポリシーを関連付けます。
 
 ```
 mutation {
-  alertsNotificationChannelsAddToPolicy(accountId: <var>YOUR_ACCOUNT_ID</var>,
-    notificationChannelIds: [<var>FIRST_CHANNEL_ID</var>, <var>SECOND_CHANNEL_ID</var>],
-    policyId: <var>YOUR_POLICY_ID</var>
+  alertsNotificationChannelsAddToPolicy(accountId: YOUR_ACCOUNT_ID,
+    notificationChannelIds: [FIRST_CHANNEL_ID, SECOND_CHANNEL_ID],
+    policyId: YOUR_POLICY_ID
   ) {
     notificationChannels {
       id
@@ -818,9 +818,9 @@ mutation {
 
 ```
 mutation {
-  alertsNotificationChannelsRemoveFromPolicy(accountId: <var>YOUR_ACCOUNT_ID</var>,
-    notificationChannelIds: [<var>FIRST_CHANNEL_ID</var>, <var>SECOND_CHANNEL_ID</var>],
-    policyId: <var>YOUR_POLICY_ID</var>
+  alertsNotificationChannelsRemoveFromPolicy(accountId: YOUR_ACCOUNT_ID,
+    notificationChannelIds: [FIRST_CHANNEL_ID, SECOND_CHANNEL_ID],
+    policyId: YOUR_POLICY_ID
   ) {
     notificationChannels {
       id

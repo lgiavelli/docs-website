@@ -1,5 +1,5 @@
 ---
-title: "Service level management: successfully influence reliability decisions"
+title: "Service level management: Successfully influence reliability decisions"
 tags:
   - Observability maturity
   - Uptime, performance, and reliability
@@ -16,23 +16,23 @@ redirects:
   - /docs/new-relic-solutions/observability-maturity/uptime-performance-reliability/slm-implementation-guide
 ---
 
-import theWholeIsGreater from 'images/theWholeIsGreater.png'
+import omSlTheWholeIsGreater from 'images/om-sl_diagram_theWholeIsGreater.webp'
 
-import apmOverviewScreen from 'images/apm-overview-screen.png'
+import apmOverviewScreen from 'images/apm_screenshot-full_overview-screen.webp'
 
-import serviceBoundary from 'images/service-boundary.png'
+import apmServiceBoundary from 'images/apm_screenshot-crop_service-boundary.webp'
 
-import latencyBaseline from 'images/latency-baseline.png'
+import apmLatencyBaseline from 'images/apm_screenshot-full_latency-baseline.webp'
 
-import serviceLevelsStartFromApm from 'images/service-levels-start-from-apm.png'
+import apmSLStartFromApm from 'images/apm_screenshot-full_sl-start-from-apm.webp'
 
-import addInputServiceLevel from 'images/add-input-service-level.png'
+import apmAddInputServiceLevel from 'images/apm_screenshot-crop_add-input-service-level.webp'
 
-import syntheticsSetup20220330 from 'images/synthetics-setup-2022-03-30.png'
+import apmSyntheticsSetup from 'images/apm_screenshot-crop_synthetics-setup.webp'
 
-import transactionListNrql from 'images/transaction-list-nrql.png'
+import queriesnrqlTransactionListNrql from 'images/queries-nrql_screenshot-full_transaction-list-nrql.webp'
 
-import capabilityFilterClause from 'images/capability-filter-clause.png'
+import apmCapabilityFilterClause from 'images/apm_screenshot-crop_capability-filter-clause.webp'
 
 
 This guide walks you through how to improve and optimize the quality of your service level management. It's part of our [series on observability maturity](/docs/new-relic-solutions/observability-maturity/introduction).
@@ -52,7 +52,7 @@ This implementation guide will teach you the practice of service level managemen
 The required business outcome in the practice of reliability is to reduce the number of business-impacting incidents, their duration, and the number of people involved in those incidents.
 
 1. Reduce the number of business-disrupting incidents
-2. Reduce mean-time-to-resolve (MTTR)
+2. Reduce mean time to resolution (MTTR)
 3. Reduce average people engaged (FTEs) per severe incident
 
 ### Operational outcome [#operational-outcomes]
@@ -186,12 +186,12 @@ It's strongly recommended that you first accomplish the **Output performance** a
     <img
       title="The whole is greater than the sum of its parts. - Aristotle"
       alt="The whole is greater than the sum of its parts. - Aristotle"
-      src={theWholeIsGreater}
+      src={omSlTheWholeIsGreater}
     />
 
-Output performance refers specifically to how well your back-end technology can respond to requests.
+Output performance refers specifically to how well your backend technology can respond to requests.
 
-One of the core capabilities of New Relic is the ability to consume and query vast quantities of data very quickly. You can imagine this requires extraordinary architecture with mind-boggling levels of parallel asynchronous distributed transactions. New Relic measures query output health the same as you'll measure most client-facing capabilities: by the standard of how fast and error-free HTTP query requests receive responses. For every NRQL query there's one request to the back-end and one response to the client. For the great majority of applications and digital products this is the simple fact.
+One of the core capabilities of New Relic is the ability to consume and query vast quantities of data very quickly. You can imagine this requires extraordinary architecture with mind-boggling levels of parallel asynchronous distributed transactions. New Relic measures query output health the same as you'll measure most client-facing capabilities: by the standard of how fast and error-free HTTP query requests receive responses. For every NRQL query there's one request to the backend and one response to the client. For the great majority of applications and digital products this is the simple fact.
 
 Output Performance is measured by:
 
@@ -203,7 +203,7 @@ Output Performance is measured by:
     id="slm-health-input"
     title="Input performance"
   >
-Input performance is measured simply by the ability to connect to your application. This is traditionally known as "uptime." We'll use the same example abov: NRQL queries.
+Input performance is measured simply by the ability to connect to your application. This is traditionally known as "uptime." We'll use the same example above: NRQL queries.
 
 Output performance measures responses after the fact a connection has been made. What if the connection between the client and the backend fails? That connection failure will not be reflected in output performance because a connection is required before we can measure the output.
 
@@ -259,10 +259,10 @@ We'll now describe these steps in more detail.
 
 The following is assumed:
 * Your primary applications are instrumented with [New Relic APM agents](/docs/apm/new-relic-apm/getting-started/introduction-apm).
-2. Your application names follow a familiar naming convention, as outlined in our [Service characterization guide](/docs/new-relic-solutions/observability-maturity/operational-efficiency/sc-implementation-guide/#improvement-process).
-3. You're familiar with how to [find your application in the New Relic Explorer](/docs/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/#find).
+* Your application names follow a familiar naming convention, as outlined in our [Service characterization guide](/docs/new-relic-solutions/observability-maturity/operational-efficiency/sc-implementation-guide/#improvement-process).
+* You can find your application in our [entity explorer](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find).
 
-In the New Relic Explorer, find your application (entity type of "Services - APM") and select it. You should see the overview screen below. **Don't click "Service levels" yet.**
+In the entity explorer, find your application (entity type of `Services - APM`) and select it. You should see the overview screen below. **Don't click `Service levels` yet.**
 
 <img
   alt="APM Overview screenshot"
@@ -285,7 +285,7 @@ Your team may only be accountable for the dependency, Order-Composer. If that's 
 
 <img
   alt="Service map example"
-  src={serviceBoundary}
+  src={apmServiceBoundary}
 />
 
 ### 3. Establishing your baseline
@@ -310,7 +310,7 @@ FROM Transaction SELECT percentile(duration, 95) AS 'Latency Baseline SLI' WHERE
 
 <img
   alt="Latency Baseline"
-  src={latencyBaseline}
+  src={apmLatencyBaseline}
 />
 
 For a success (error-free) baseline, try the following query. Be sure to substitute `Order-Processing` for your own application name.
@@ -321,7 +321,7 @@ FROM Transaction SELECT percentage(count(*), WHERE error is false) AS 'Success B
 
 ### 4. Create your service level
 
-The New Relic platform will automatically calculate recommended APM and browser baselines for you.
+The New Relic platform will automatically calculate recommended <InlinePopover type="apm" /> and browser baselines for you.
 
 **Note:** If you don't see the **Add a service level** button, check with your New Relic administrator about your permissions.
 
@@ -329,7 +329,7 @@ The "[Identifying your service](#1-identifying-your-service)" section above show
 
 <img
   alt="Service levels start from APM"
-  src={serviceLevelsStartFromApm}
+  src={apmSLStartFromApm}
 />
 
 Click **Add baseline service level objectives** and almost instantly you will have both your Latency SLI and Success SLI and their respective objectives created for you.
@@ -348,7 +348,7 @@ Below are more details on these steps.
 
 ### 1. Create your synthetic check
 
-The most common input performance service level is often referred to as "connectivity" or "uptime." This is a simple check against a health API endpoint or simply loading a URL. Both of these can be done easily by using our synthetic monitoring service. Please refer to [Add simple browser monitor](docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#simple)  and [Add scripted API test](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#complex) to learn how to begin reporting data.
+The most common input performance service level is often referred to as "connectivity" or "uptime." This is a simple check against a health API endpoint or simply loading a URL. Both of these can be done easily by using our synthetic monitoring service. Please refer to [Add simple browser monitor](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#simple)  and [Add scripted API test](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors#complex) to learn how to begin reporting data.
 
 ### 2. Create your service level indicator
 
@@ -356,7 +356,7 @@ After completing that first step, you should now have data.
 
 Now you will use the service level management service to create an input indicator and objective.
 
-Use the New Relic Explorer menu to select **Service levels**, and then click **+ Add a service level indicator**.
+From the [entity explorer](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find), select **Service levels** on the right, and then click **+ Add a service level indicator**.
 
 **Note:** If you don't see the **Add a service level** button, check with your New Relic administrator about your permissions.
 
@@ -364,7 +364,7 @@ Next filter your entity types to `Synthetic monitors`. See screenshot below.
 
 <img
   alt="Filter entity types in service levels"
-  src={addInputServiceLevel}
+  src={apmAddInputServiceLevel}
 />
 
 Next steps:
@@ -376,7 +376,7 @@ Next steps:
 
 <img
   alt="Synthetics input service level guided flow"
-  src={syntheticsSetup20220330}
+  src={apmSyntheticsSetup}
 />
 
 ## Establishing a capability SLI [#capability-SLI]
@@ -408,10 +408,10 @@ You should see something similar to the screenshot below.
 
 <img
   alt="transaction list query"
-  src={transactionListNrql}
+  src={queriesnrqlTransactionListNrql}
 />
 
-You'll see the first transaction (#3) states it has something to do with "purchase." You can now create a "purchase" capability service level.
+You'll see the first transaction states it has something to do with "purchase." You can now create a "purchase" capability service level.
 
 **Note:** Even if you're not sure that this transaction represents the purchase capability, this exercise makes a great example to show the application team and your leadership the value of capability service levels. Remember, your goal here is to start a conversation with the stakeholders by showing the art-of-the-possible.
 
@@ -429,7 +429,7 @@ Add this condition to both queries in service levels, **preceded with an `AND `*
 
 <img
   alt="capability query clause"
-  src={capabilityFilterClause}
+  src={apmCapabilityFilterClause}
 />
 
 
@@ -469,22 +469,22 @@ Once you have established what works (and what doesn't) for your stakeholders, y
 
 As stated in the "[Desired outcomes](#desired-outcomes)" section above; the preverbial bottom-line result is to reduce the cost of business impacting incidents.
 
-However, service levels can also help quantify both estimated revenue loss during violations as well as estimated revenue at risk for subscription-based businesses.
+However, service levels can also help quantify both estimated revenue loss during incidents as well as estimated revenue at risk for subscription-based businesses.
 
 **Revenue loss** can be easily estimated for revenue generated by transaction, such as online retail, as well as penalties paid if your business has service level agreement contracts with penalties built-in.
 
 **Revenue at risk** is for subscription-based (SaaS) business models where each customer has a monthly or annual subscription value. You can easily estimate the number of customers impacted and their subscription revenue by period to calculate "revenue at risk." Note: subscription businesses can also have penalties within a service level agreement contract, which should be included as stated below.
 
-### Quantifying the direct cost of service level agreement violations
+### Quantifying the direct cost of service level agreement breaches
 
-Determine the cost of previous violations. For example, online retail businesses know the estimated revenue loss per minute during service loss (downtime). Legal can tell you the penalty costs of service level agreement (SLA) contract breaches. Both losses can be easily *estimated* in real-time using New Relic data on service level breaches.
+Determine the cost of previous breaches. For example, online retail businesses know the estimated revenue loss per minute during service loss (downtime). Legal can tell you the penalty costs of service level agreement (SLA) contract breaches. Both losses can be easily *estimated* in real-time using New Relic data on service level breaches.
 
-### Quantifying the revenue opportunity costs of service level violations
+### Quantifying the revenue opportunity costs of service level breaches
 
 Determine the three variables below.
 
-* (A) number of violations that trigger penalties or revenue loss
-* (B) average duration of violations
+* (A) number of breaches that trigger penalties or revenue loss
+* (B) average duration of breaches
 * (C) average penalty or revenue loss per minute/hour
 
 Multiply those three variables (A * B * C) to calculate total revenue opportunity to recover.
@@ -498,10 +498,25 @@ Determine the two variables below.
 
 Divide B / A to calculate revenue leakage % rate.
 
+## Tracking your service level objectives [#tracking-slo]
+
+Service levels are a practice, just like testing, alerting, game days, and other recurring practices. You could think of them as a scientific instrument that helps you to measure the "health" of your systems. But like all tools, service levels require calibration.
+
+Include the service level practice in your team's process. The following recommendations were distilled from the experience using service levels within teams at New Relic, and you should adjust them for your specific team requirements:
+
+- Do a periodic review of the service levels, and pay close attention to:
+    + Do the SLIs reflect incidents and pages?
+    + What's your error budget for a week?
+        * If it's too low, investigate what caused a drop, using the "Analyze" feature to find bad events that caused it,
+        * If it's 100%, make sure your indicator is correct and the SLO is aggressive enough. Being at 100% indicates the SLO is too safe.
+        * What is the trend that you observe in various time periods (1d/7d/28d).
+- Keep an eye on SLIs during game days. SLIs should reflect the impact, just like your alerts do.
+- When you have a drop of error budget on production, evaluate why it didn't happen on staging.
+
 ## Next steps [#next-steps]
 
 The next step in our observability maturity practice is to add in customer experience service levels measured at the client browser or mobile device. Again, it's important you first prove value as described in the improvement process above. Remember: observability is a journey, and maturity takes time, practice, and patience.
 
 To proceed on your journey, see:
-* Our guide on [Customer experience: Quality foundation](docs/new-relic-solutions/observability-maturity/customer-experience/quality-foundation-implementation-guide).
+* Our guide on [Customer experience: Quality foundation](/docs/new-relic-solutions/observability-maturity/customer-experience/quality-foundation-implementation-guide).
 * If you haven't already, see our guide on [Alert quality management](/docs/new-relic-solutions/observability-maturity/uptime-performance-reliability/aqm-implementation-guide).

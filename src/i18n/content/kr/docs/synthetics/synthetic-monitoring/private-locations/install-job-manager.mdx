@@ -8,11 +8,11 @@ metaDescription: Install New Relic's container based job manager that accepts an
 translationType: machine
 ---
 
-import dockerLogoCrop from 'images/docker-logo-crop.png';
+import syntheticDocker from 'images/synthetic_logo_docker.webp'
 
-import integrationK8 from 'images/img-integration-k8.png';
+import synthetick8s from 'images/synthetic_logo_k8logo.webp'
 
-당사의 합성 모니터링 작업 관리자는 [개인 위치](/docs/synthetics/new-relic-synthetics/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations) 에 할당된 [합성 모니터](/docs/synthetics/new-relic-synthetics/getting-started/types-synthetics-monitors) 를 수락하고 실행하는 [Docker 컨테이너](https://www.docker.com/resources/what-container) 기반 리소스입니다.
+당사의 합성 모니터링 작업 관리자는 [개인 위치](/docs/synthetics/synthetic-monitoring/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations) 에 할당된 [합성 모니터](/docs/synthetics/synthetic-monitoring/getting-started/types-synthetics-monitors) 를 수락하고 실행하는 [Docker 컨테이너](https://www.docker.com/resources/what-container) 기반 리소스입니다.
 
 작업 관리자는 Docker 컨테이너 시스템 환경 또는 Kubernetes 컨테이너 오케스트레이션 시스템 환경에서 작동할 수 있습니다. 작업 관리자는 환경을 자동 감지하여 적절한 작동 모드를 선택합니다.
 
@@ -47,7 +47,7 @@ import integrationK8 from 'images/img-integration-k8.png';
 <CollapserGroup>
   <Collapser
     id="docker-requirements"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>Docker 컨테이너 시스템 환경 요구 사항</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>Docker 컨테이너 시스템 환경 요구 사항</>}
   >
     <table>
       <thead>
@@ -81,7 +81,7 @@ import integrationK8 from 'images/img-integration-k8.png';
           </td>
 
           <td>
-            최신 멀티코어 CPU
+            최신 멀티코어 AMD64 / x86_64 CPU
           </td>
         </tr>
 
@@ -144,7 +144,7 @@ import integrationK8 from 'images/img-integration-k8.png';
 
   <Collapser
     id="kubernetes-requirements"
-    title={<><img src={integrationK8} title="Kubernetes icon" alt="Kubernetes icon" style={{ height: '35px', width: '40px' }}/>Kubernetes 컨테이너 오케스트레이션 시스템 환경 요구 사항</>}
+    title={<><img src={synthetick8s} title="Kubernetes icon" alt="Kubernetes icon" style={{ height: '35px', width: '40px' }}/>Kubernetes 컨테이너 오케스트레이션 시스템 환경 요구 사항</>}
   >
     <table>
       <thead>
@@ -209,7 +209,7 @@ import integrationK8 from 'images/img-integration-k8.png';
 
         <tr>
           <td>
-            노드 API 런타임 포드
+            Node.js API 런타임 포드
           </td>
 
           <td>
@@ -217,14 +217,14 @@ import integrationK8 from 'images/img-integration-k8.png';
 
             추가 고려 사항:
 
-            * Node API 런타임 포드에 할당된 리소스는 사용자가 구성할 수 있습니다.
+            * Node.js API 런타임 포드에 할당된 리소스는 사용자가 구성할 수 있습니다.
             * CPU와 메모리 모두에 대한 최대 제한 요청 리소스 비율은 2입니다.
           </td>
         </tr>
 
         <tr>
           <td>
-            노드 브라우저 런타임 포드
+            Node.js 브라우저 런타임 포드
           </td>
 
           <td>
@@ -232,7 +232,7 @@ import integrationK8 from 'images/img-integration-k8.png';
 
             추가 고려 사항:
 
-            * 노드 브라우저 런타임 포드에 할당된 리소스는 사용자가 구성할 수 있습니다.
+            * Node.js 브라우저 런타임 포드에 할당된 리소스는 사용자가 구성할 수 있습니다.
             * CPU와 메모리 모두에 대한 최대 제한 요청 리소스 비율은 2입니다.
           </td>
         </tr>
@@ -305,11 +305,11 @@ import integrationK8 from 'images/img-integration-k8.png';
 
 ## 개인 위치 키
 
-합성 작업 관리자를 시작하기 전에 [개인 위치 키](/docs/synthetics/new-relic-synthetics/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations#create-location) 가 있어야 합니다. 합성 작업 관리자는 키를 사용하여 New Relic에 대해 인증하고 해당 개인 위치와 연결된 모니터를 실행합니다.
+합성 작업 관리자를 시작하기 전에 [개인 위치 키](/docs/synthetics/synthetic-monitoring/private-locations/private-locations-overview-monitor-internal-sites-add-new-locations#create-location) 가 있어야 합니다. 합성 작업 관리자는 키를 사용하여 New Relic에 대해 인증하고 해당 개인 위치와 연결된 모니터를 실행합니다.
 
 기존 개인 위치에 대한 키를 찾으려면:
 
-1. [**one.newrelic.com**](http://one.newrelic.com/) **> Synthetics > Private locations** 로 이동합니다.
+1. **[one.newrelic.com > Synthetic monitoring > Private locations](https://one.newrelic.com/synthetics-nerdlets/private-location-list)**로 이동합니다.
 
 2. **개인 위치** 색인에서 합성 작업 관리자를 할당할 개인 위치를 찾으십시오.
 
@@ -321,11 +321,17 @@ import integrationK8 from 'images/img-integration-k8.png';
 
 ## 합성 작업 관리자 설치, 업데이트 및 구성 [#install]
 
+동일한 호스트에서 둘 이상의 Docker 개인 위치 컨테이너를 실행하는 경우 포트 충돌이 발생합니다. 이 포트 경합을 피하려면 작업 관리자 설정을 시작할 때 다음을 수행해야 합니다.
+
+* 다른 호스트에서 작업 관리자 및 CPM을 실행하십시오.
+* 별도의 호스트에서 각 작업 관리자를 실행하십시오.
+* 다른 호스트에서 각 CPM을 실행하십시오.
+
 Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) 에서 호스팅됩니다. [hub.docker.com/r/newrelic/synthetics-job-manager/tags](https://hub.docker.com/r/newrelic/synthetics-job-manager/tags) 로 이동합니다. 모든 릴리스 목록을 보려면
 
 로컬 이미지 저장소에서 이미지를 호스팅하지 않는 한 Docker가 합성 작업 관리자 및 합성 런타임 이미지를 가져올 수 있도록 방화벽을 통해 `docker.io` 에 대한 연결을 허용해야 합니다. 합성 작업 관리자가 시작되면 런타임 이미지가 자동으로 가져옵니다. 로컬 리포지토리 및 러너 레지스트리 끝점을 설정하는 방법에 대한 자세한 내용은 [Docker 환경 구성](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#docker-env-config) 및 [Kubernetes 환경 구성](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#kubernetes-env-config) 을 참조하세요.
 
-고급 구성 설정에 대한 자세한 내용은 [합성 작업 관리자 구성](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration) 을 참조하십시오.
+고급 구성 설정에 대한 자세한 내용은 [합성 작업 관리자 구성](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration) 을 참조하십시오.
 
 ## 합성 작업 관리자 시작 [#start]
 
@@ -334,7 +340,7 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
 <CollapserGroup>
   <Collapser
     id="docker-update"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 시작 절차</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 시작 절차</>}
   >
     1. [개인 위치 키](#private-location-key) 를 찾습니다.
 
@@ -346,8 +352,8 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
 
          ```
          docker run \
-             --name <var>YOUR_CONTAINER_NAME</var> \
-             -e "PRIVATE_LOCATION_KEY=<var>YOUR_PRIVATE_LOCATION_KEY</var>" \
+             --name YOUR_CONTAINER_NAME \
+             -e "PRIVATE_LOCATION_KEY=YOUR_PRIVATE_LOCATION_KEY" \
              -v /var/run/docker.sock:/var/run/docker.sock:rw \
              -d \
              --restart unless-stopped \
@@ -358,8 +364,8 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
 
          ```
          docker run ^
-             --name <var>YOUR_CONTAINER_NAME</var> ^
-             -e "PRIVATE_LOCATION_KEY=<var>YOUR_PRIVATE_LOCATION_KEY</var>" ^
+             --name YOUR_CONTAINER_NAME ^
+             -e "PRIVATE_LOCATION_KEY=YOUR_PRIVATE_LOCATION_KEY" ^
              -v /var/run/docker.sock:/var/run/docker.sock:rw ^
              -d ^
              --restart unless-stopped ^
@@ -369,20 +375,20 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
        미니언 컨테이너에 대한 로그 보기:
 
        ```
-       docker logs --follow <var>YOUR_CONTAINER_NAME</var>
+       docker logs --follow YOUR_CONTAINER_NAME
        ```
   </Collapser>
 
   <Collapser
     id="kubernetes-install"
-    title={<><img src={integrationK8} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>Kubernetes 시작 절차</>}
+    title={<><img src={synthetick8s} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>Kubernetes 시작 절차</>}
   >
     1. [개인 위치 키](#private-location-key) 를 찾습니다.
 
     2. Kubernetes 클러스터에서 합성 작업 관리자의 네임스페이스를 설정합니다.
 
        ```
-       kubectl create namespace <var>YOUR_NAMESPACE</var>
+       kubectl create namespace YOUR_NAMESPACE
        ```
 
     3. New Relic Helm 저장소에서 Helm 차트를 복사합니다.
@@ -390,7 +396,7 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
        * 차트를 처음 복사하는 경우:
 
          ```
-         helm repo add <var>YOUR_REPO_NAME</var> https://helm-charts.newrelic.com
+         helm repo add YOUR_REPO_NAME https://helm-charts.newrelic.com
          ```
 
        * 이전에 New Relic Helm 리포지토리에서 Helm 차트를 복사한 경우 최신 정보를 가져옵니다.
@@ -404,19 +410,19 @@ Synthetics 작업 관리자 이미지는 [Docker Hub](https://hub.docker.com/) �
        * 합성 작업 관리자를 새로 설치하는 경우:
 
          ```
-         helm install <var>YOUR_JOB_MANAGER_NAME</var> <var>YOUR_REPO_NAME</var>/synthetics-job-manager -n <var>YOUR_NAMESPACE</var> --set synthetics.privateLocationKey=<var>YOUR_PRIVATE_LOCATION_KEY</var>
+         helm install YOUR_JOB_MANAGER_NAME YOUR_REPO_NAME/synthetics-job-manager -n YOUR_NAMESPACE --set synthetics.privateLocationKey=YOUR_PRIVATE_LOCATION_KEY
          ```
 
        * 기존 합성 작업 관리자 설치를 업데이트하려면:
 
          ```
-         helm upgrade <var>YOUR_JOB_MANAGER_NAME</var> <var>YOUR_REPO_NAME</var>/synthetics-job-manager -n <var>YOUR_NAMESPACE</var> --set synthetics.privateLocationKey=<var>YOUR_PRIVATE_LOCATION_KEY</var>
+         helm upgrade YOUR_JOB_MANAGER_NAME YOUR_REPO_NAME/synthetics-job-manager -n YOUR_NAMESPACE --set synthetics.privateLocationKey=YOUR_PRIVATE_LOCATION_KEY
          ```
 
     5. 합성 작업 관리자 포드가 실행 중인지 확인합니다.
 
        ```
-       kubectl get -n <var>YOUR_NAMESPACE</var> pods
+       kubectl get -n YOUR_NAMESPACE pods
        ```
 
        각 포드의 `status` 속성이 `running` 로 표시되면 합성 작업 관리자가 작동되어 개인 위치에 할당된 모니터를 실행할 준비가 된 것입니다.
@@ -430,15 +436,15 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 <CollapserGroup>
   <Collapser
     id="docker-stop"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 중지 절차</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 중지 절차</>}
   >
     컨테이너 이름 또는 컨테이너 ID [로 Docker 컨테이너를 중지](https://docs.docker.com/engine/reference/commandline/stop/) 할 수 있습니다.
 
     * Linux, macOS 및 Windows용 컨테이너 이름 중지:
 
       ```
-      docker stop <var>YOUR_CONTAINER_NAME</var>
-        docker rm <var>YOUR_CONTAINER_NAME</var>
+      docker stop YOUR_CONTAINER_NAME
+        docker rm YOUR_CONTAINER_NAME
       ```
 
     * Linux/macOS용 컨테이너 ID 중지:
@@ -446,7 +452,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
       예제에서 컨테이너가 중지되고 제거됩니다. 컨테이너만 중지하려면 `docker rm $CONTAINER_ID` 을 생략합니다.
 
       ```
-      CONTAINER_ID=$(docker ps -aqf name=<var>YOUR_CONTAINER_NAME</var>)
+      CONTAINER_ID=$(docker ps -aqf name=YOUR_CONTAINER_NAME)
         docker stop $CONTAINER_ID
         docker rm $CONTAINER_ID
       ```
@@ -456,7 +462,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
       예제에서 컨테이너가 중지되고 제거됩니다. 컨테이너만 중지하려면 `docker rm $CONTAINER_ID` 을 생략합니다.
 
       ```
-      FOR /F "tokens=*" %%CID IN ('docker ps -aqf name=<var>YOUR_CONTAINER_NAME</var>') do (SET CONTAINER_ID=%%CID)
+      FOR /F "tokens=*" %%CID IN ('docker ps -aqf name=YOUR_CONTAINER_NAME') do (SET CONTAINER_ID=%%CID)
         docker stop %CONTAINER_ID%
         docker rm %CONTAINER_ID%
       ```
@@ -464,24 +470,24 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 
   <Collapser
     id="kubernetes-delete"
-    title={<><img src={integrationK8} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>Kubernetes 삭제 절차</>}
+    title={<><img src={synthetick8s} title="img-integration-k8s@2x.png" alt="img-integration-k8s@2x.png" style={{ height: '35px', width: '40px' }}/>Kubernetes 삭제 절차</>}
   >
-    1. 삭제하려는 합성 작업 관리자 포드의 <var>JOB_MANAGER_POD_INSTALLATION_NAME</var> 을 가져옵니다.
+    1. 삭제할 합성 작업 관리자 포드의 JOB_MANAGER_POD_INSTALLATION_NAME을 가져옵니다.
 
        ```
-       helm list -n <var>YOUR_NAMESPACE</var>
+       helm list -n YOUR_NAMESPACE
        ```
 
     2. 미니언 포드를 삭제합니다.
 
        ```
-       helm uninstall -n <var>YOUR_NAMESPACE</var> <var>JOB_MANAGER_POD_INSTALLATION_NAME</var>
+       helm uninstall -n YOUR_NAMESPACE JOB_MANAGER_POD_INSTALLATION_NAME
        ```
 
     3. Kubernetes 클러스터에서 합성 작업 관리자에 대해 설정된 네임스페이스를 삭제합니다.
 
        ```
-       kubectl delete namespace <var>YOUR_NAMESPACE</var>
+       kubectl delete namespace YOUR_NAMESPACE
        ```
   </Collapser>
 </CollapserGroup>
@@ -493,7 +499,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 <CollapserGroup>
   <Collapser
     id="docker-dependencies"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 종속성</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>도커 종속성</>}
   >
     합성 작업 관리자는 Docker에서 실행되며 Docker를 샌드박싱 기술로 활용할 수 있습니다. 이렇게 하면 모니터 실행이 완전히 격리되어 보안, 안정성 및 반복성이 향상됩니다. 스크립트 또는 브라우저 모니터가 실행될 때마다 합성 작업 관리자는 일치하는 런타임을 사용하여 실행할 새로운 Docker 컨테이너를 만듭니다.
 
@@ -501,7 +507,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 
     시작 시 결정적인 종속성이 있습니다. 샌드박싱을 활성화하려면 다음을 확인하세요.
 
-    * 쓰기 가능한 Docker UNIX 소켓은 `/var/run/docker.sock` 또는 `DOCKER_HOST` [환경 변수](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration/#environment-variables) 에 마운트됩니다. 자세한 내용은 Docker의 [데몬 소켓 옵션](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option) 을 참조하십시오.
+    * 쓰기 가능한 Docker UNIX 소켓은 `/var/run/docker.sock` 또는 `DOCKER_HOST` [환경 변수](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration/#environment-variables) 에 마운트됩니다. 자세한 내용은 Docker의 [데몬 소켓 옵션](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option) 을 참조하십시오.
 
       <Callout variant="caution">
         호스트의 코어 수는 합성 작업 관리자가 호스트에서 동시에 실행할 수 있는 런타임 컨테이너 수를 결정합니다. 메모리 요구 사항은 예상되는 런타임 컨테이너 수로 조정되므로 리소스 경합을 방지하기 위해 **동일한 호스트에서 여러 합성 작업 관리자를 실행하지 않는** 것이 좋습니다.
@@ -520,7 +526,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 <CollapserGroup>
   <Collapser
     id="run-non-root"
-    title={<><img src={dockerLogoCrop} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>Docker에 대해 루트가 아닌 사용자로 실행</>}
+    title={<><img src={syntheticDocker} title="Docker icon" alt="Docker icon" style={{ height: '35px', width: '40px' }}/>Docker에 대해 루트가 아닌 사용자로 실행</>}
   >
     자세한 내용은 [보안](https://docs.docker.com/engine/security/security/) 및 [AppArmor 보안 프로필](https://docs.docker.com/engine/security/apparmor/) 에 대한 Docker의 공식 문서를 참조하십시오.
 
@@ -528,7 +534,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
 
     1. `my_user` 이 호스트에서 Docker 엔진을 사용할 수 있는지 확인합니다.
 
-       `my_user` [이(가) `"docker"` 시스템 그룹에 속](https://docs.docker.com/engine/install/linux-postinstall/) 하는지 확인합니다.
+       `my_user` [이(가) `"docker"` 시스템 그룹에 속](https://docs.docker.com/engine/install/linux-postinstall/) 하는지 확인하십시오. 브리지 네트워크를 생성하려면 `docker.sock` 에 대한 범위가 지정된 루트 액세스가 여전히 필요합니다.
 
        또는
 
@@ -541,13 +547,13 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
        이러한 조건이 충족되면 합성 작업 관리자를 시작할 때 `"-u <uid>:<gid>"` 옵션을 사용합니다.
 
        ```
-       docker run ... -u <var>1002</var> ...
+       docker run ... -u 1002 ...
        ```
 
        또는
 
        ```
-       docker run ... -u <var>1002</var> -e DOCKER_HOST=http://localhost:2375 ...
+       docker run ... -u 1002 -e DOCKER_HOST=http://localhost:2375 ...
        ```
   </Collapser>
 </CollapserGroup>
@@ -563,16 +569,16 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
   >
     해당하는 경우 다음 옵션을 사용하십시오.
 
-    * Docker 로그를 추적하고 모니터의 상태를 확인하려면 [합성 작업 관리자 유지 관리 및 모니터링](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-maintenance-monitoring) 을 참조하세요.
+    * Docker 로그를 추적하고 모니터의 상태를 확인하려면 [합성 작업 관리자 유지 관리 및 모니터링](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-maintenance-monitoring) 을 참조하세요.
 
     * Kubernetes 컨테이너 조정 시스템 환경의 합성 작업 관리자의 경우 다음 Helm `show` 명령을 사용하여 각각 `chart.yaml` 및 `values.yaml` 를 볼 수 있습니다.
 
       ```
-      helm show chart <var>YOUR_REPO_NAME</var>/synthetics-job-manager
+      helm show chart YOUR_REPO_NAME/synthetics-job-manager
       ```
 
       ```
-      helm show values <var>YOUR_REPO_NAME</var>/synthetics-job-manager
+      helm show values YOUR_REPO_NAME/synthetics-job-manager
       ```
   </Collapser>
 
@@ -634,7 +640,7 @@ Docker 컨테이너 시스템 환경에서 Docker `stop` 프로시저를 사용�
       </td>
 
       <td>
-        프록시로 New Relic과 통신을 설정하려면 다음과 같은 [환경 변수](/docs/synthetics/new-relic-synthetics/private-locations/job-manager-configuration#environment-variables) 를 사용하십시오. `HORDE_API_PROXY*.`
+        프록시로 New Relic과 통신을 설정하려면 다음과 같은 [환경 변수](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration#environment-variables) 를 사용하십시오. `HORDE_API_PROXY*.`
       </td>
     </tr>
 

@@ -8,9 +8,9 @@ metaDescription: 'An explanation of HTTP error profile feature, which gives you 
 translationType: machine
 ---
 
-import mobileErrorProfileDevicetype from 'images/mobile-error-profile-devicetype.png'
+import mobileHttpErrorProfiles from 'images/mobile_screenshot-full_http-error-profiles.webp'
 
-import mobileErrorProfileExample0 from 'images/mobile-error-profile-example_0.png'
+import mobileDeviceExample from 'images/mobile_screenshot-full_device-example.webp'
 
 [HTTPエラーのUIページ](/docs/mobile-monitoring/mobile-monitoring-ui/network-pages/http-errors-network-failure-analysis), **HTTPエラーのプロファイル** では、HTTPエラーの潜在的な原因について知ることができます。
 
@@ -18,7 +18,7 @@ import mobileErrorProfileExample0 from 'images/mobile-error-profile-example_0.pn
 
 モバイルモニタリングのエラープロファイルを表示するには、次のようにします。
 
-1. Go to **[one.newrelic.com](https://one.newrelic.com) > モバイル> （アプリを選択）> ネットワーク> HTTPエラー**.
+1. **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Mobile >** (アプリを選択) **> More views > HTTP errors**に移動します。
 2. HTTPエラープロファイルの詳細を見るには。HTTP errors UIページの下部で、テーブルの上にある **HTTP error profiles** タブを選択し、HTTP error profileを選択して展開します。
 
 ## HTTPエラープロファイルとは何ですか？ [#about]
@@ -30,11 +30,11 @@ import mobileErrorProfileExample0 from 'images/mobile-error-profile-example_0.pn
 <img
   title="Mobile error profile"
   alt="Mobile error profile"
-  src={mobileErrorProfileDevicetype}
+  src={mobileHttpErrorProfiles}
 />
 
 <figcaption>
-  このHTTPエラープロファイルを見ると、発生しているHTTPエラーの25％というかなりの数が、たった5つの **デバイスタイプ** によって引き起こされていることがわかります。さらに詳しく調べるには、 [フィルター](#filter) を使って特定のデバイスタイプを表示し、特定の **OS バージョン** や **キャリア** など、他の相関関係があるかどうかを調べることができます。
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Mobile >** (アプリを選択) **> More views > HTTP errors >** ( **HTTP エラー プロファイル**まで下にスクロールします)
 </figcaption>
 
 また、 [HTTPエラープロファイルの生成に使用されたデータをフィルタリングすることで、潜在的な原因を絞り込むことができます。](#filter)
@@ -45,23 +45,23 @@ import mobileErrorProfileExample0 from 'images/mobile-error-profile-example_0.pn
 
 ## フィルタリングされたHTTPエラープロファイルデータ [#filter]
 
-HTTPエラープロファイルとその比較ページビューの生成に使用されるデータをさらにフィルタリングするには、以下の [HTTPエラーページ](docs/mobile-monitoring/mobile-monitoring-ui/network-pages/http-errors-network-failure-analysis#group-sort-filters) 機能を使用します。
+HTTP エラー プロファイルとその比較ページ ビューの生成に使用されるデータをさらにフィルタリングするには、次の[HTTP エラー ページ](/docs/mobile-monitoring/mobile-monitoring-ui/network-pages/http-errors-network-failure-analysis#group-sort-filters)機能を使用します。
 
 * **Time picker**: データを生成する際に使用する時間範囲を選択します。
 * **フィルター**: フィルターを使用して、選択した属性値を持つHTTPエラープロファイルとページビューのみを表示します。複数の属性値を選択できます。
 
 ## HTTPエラープロファイルの説明例 [#example-profile]
 
-お客様のHTTPエラープロファイルデータの理解を深めるために、HTTPエラープロファイルのデータの例について説明します。このHTTPエラープロファイルの例では、 [フィルター](#filter) の `deviceType = Galaxy Device` が適用されているため、GalaxyデバイスからのHTTPエラーデータのみが表示されています。
+独自の HTTP エラー プロファイル データをよりよく理解するのに役立つように、これは HTTP エラー プロファイルのデータの例の説明です。この HTTP エラー プロファイルの例には、 `deviceType = iPhone 12` の [フィルタ](#filter) が適用されているため、iPhone 12 デバイスからの HTTP エラー データのみが表示されています。
 
 <img
   title="Mobile error profile example"
   alt="Mobile error profile example"
-  src={mobileErrorProfileExample0}
+  src={mobileDeviceExample}
 />
 
 <figcaption>
-  このプロファイル例では、 [フィルター](#filter) を適用して、Galaxy デバイスからの HTTP エラーデータのみを表示しています。
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Mobile >** (アプリを選択) **> More views > HTTP errors** > (iOS 12 デバイスでフィルター): このサンプル プロファイルには、iPhone からの HTTP エラー データのみが表示されるように [フィルター](#filter) が適用されています。 12台のデバイス。
 </figcaption>
 
 コラムの説明です。

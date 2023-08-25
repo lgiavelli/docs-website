@@ -7,9 +7,9 @@ metaDescription: 'Part 1 of the New Relic implementation guide, where you set up
 translationType: machine
 ---
 
-import usageUI from 'images/nr-usage-ui.png'
+import alertsUsageUi from 'images/alerts_screenshot-crop_usage-ui.webp'
 
-import distributedTracingTraceDetailsPage from 'images/distributed-tracing-trace-details-page.png'
+import alertsDistributedTracingTraceDetailsPage from 'images/alerts_screenshot-full_distributed-tracing-trace-details-page.webp'
 
 _これは[実装ガイド](/docs/new-relic-solutions/get-started/implementation-guide-intro)の最初の部分です。_
 
@@ -64,7 +64,7 @@ New Relic は、デフォルトで高レベルのセキュリティを提供し�
 <img
   title="New Relic usage UI"
   alt="New Relic usage UI"
-  src={usageUI}
+  src={alertsUsageUi}
 />
 
 <figcaption>
@@ -80,7 +80,7 @@ New Relic を最大限に活用するには、オブザーバビリティの目�
 <img
   title="Trace details page"
   alt="New Relic distributed tracing UI - trace details page"
-  src={distributedTracingTraceDetailsPage}
+  src={alertsDistributedTracingTraceDetailsPage}
 />
 
 <figcaption>
@@ -118,22 +118,25 @@ New Relic データが整理されているほど、次のことが簡単にな�
 
 New Relic にサインアップすると、単一のアカウントを持つ New Relic 組織が作成されます。Pro または Enterprise エディションでは、複数のアカウントを持つことができます。それ以外の場合は、1 つしか持つことができません。
 
-所有するアカウントの数を最小限に抑えるようにしてください。これにより、アカウントとユーザー構造がシンプルになり、ユーザーは関連データに簡単にアクセスできるようになります。アカウントを追加する理由:
+[アカウントを追加する理由について詳しくは、こちらをご覧ください](/docs/accounts/accounts-billing/account-structure/new-relic-account-structure#add-accounts)。
 
-* 本番環境とステージング/テスト環境を分離するため (ただし、これはタグを使用して行うこともできます)。
-* 部門ごとに請求を分けやすくするため。
-* 厳密な境界を必要とするプロジェクトへのユーザー アクセスを制御するため。たとえば、チームが特定のアプリのデータにのみアクセスできるようにする場合は、そのアプリのアカウントを作成できます。
-
-データが New Relic に報告されると、そのアカウントのアカウント ID で表される特定のアカウントに報告されます。スプレッドシートを使用して、必要なアカウントを計画し、アカウント ID を追跡することをお勧めします。これは、ユーザー アクセスをマップするために使用するスプレッドシートと同じにすることができます。
-
-[アカウントの追加については、こちらをご覧ください。](/docs/accounts/accounts-billing/account-structure/new-relic-account-structure)
+必要なアカウントを計画し、アカウント ID を追跡するには、スプレッドシートを使用することをお勧めします。これは、ユーザー アクセスの計画に使用するのと同じスプレッドシートを使用できます。
 
 ## 利用可能な API を理解する [#apis]
 
 API に関するいくつかの基本を理解しておくと、後でインストルメンテーションと構成を行う際に役立ちます。当社の API には以下が含まれます。
 
-* 当社の**データ取り込み API** : これらは、メトリクス、イベント、ログ、およびトレースの 4 つのコア データ タイプの API です。我々 のデータ レポート ツールはこれらの API を介してデータを送信し、API を直接使用することもできます。主なデータ取り込みキーはライセンス キーです。ライセンス キーは、特定のアカウント ID に関連付けられています。より自動化されたインストール オプションには、正しいライセンス キーが含まれています。
-* NerdGraph と呼ばれる**GraphQL****形式の API** 。これは、データのクエリから New Relic 機能の構成まで、データの取り込み以外のすべてに使用されます。NerdGraph には、各ユーザーに固有の個人キーであるユーザー キーが必要です。
+* 当社の **データ取り込み API**: これらは、メトリクス、イベント、ログ、およびトレースの 4 つのコア データ タイプの API です。 我々 のデータ レポート ツールはこれらの API を介してデータを送信し、API を直接使用することもできます。私たちの主なデータ取り込みキーは、
+
+  <InlinePopover type="licenseKey"/>
+
+  . ライセンス キーは、特定のアカウント ID に関連付けられています。より自動化されたインストール オプションには、正しいライセンス キーが含まれています。
+
+* **NerdGraph**と呼ばれる **GraphQL 形式の API**。これは、データのクエリから New Relic 機能の構成まで、データの取り込み以外のすべてに使用されます。NerdGraph には
+
+  <InlinePopover type="userKey"/>
+
+  、各ユーザーに固有の個人キーです。
 
 [API の詳細をご覧ください。](/docs/apis/intro-apis/introduction-new-relic-apis/)
 

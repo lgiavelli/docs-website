@@ -14,7 +14,7 @@ PHP 에이전트가 코드를 자동 계측하므로 애플리케이션 모니�
 
 New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하지만 패키지는 [지원되는 모든 PHP 버전](/docs/agents/php-agent/getting-started/php-agent-compatibility-requirements#php-release) 에서 작동합니다.
 
-1. [New Relic 라이센스 키](/docs/agents/php-agent/getting-started/php-agent-compatibility-requirements#license_key) 에 액세스할 수 있는지 확인하십시오.
+1. 당신이 가지고 있는지 확인 <InlinePopover type="licenseKey"/>얻기 쉬운.
 
 2. 다음 방법 중 하나를 사용하여 설치 패키지를 가져옵니다.
 
@@ -25,13 +25,13 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
      >
        **32비트** 시스템의 경우 다음을 실행합니다.
 
-       ```
+       ```bash
        sudo rpm -Uvh http://yum.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
        ```
 
        **64비트** 시스템의 경우 다음을 실행합니다.
 
-       ```
+       ```bash
        sudo rpm -Uvh http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
        ```
      </Collapser>
@@ -43,29 +43,29 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
        **32비트** 시스템의 경우 [32비트 패키지](https://download.newrelic.com/pub/newrelic/el5/i386/) 에서 다음 세 파일을 다운로드합니다( `X.X.X.X` 를 최신 [PHP 에이전트 버전 번호](/docs/release-notes/agent-release-notes/php-release-notes) 로 바꿉니다).
 
        * ```
-         newrelic-php5-common-<var>X.X.X.X</var>-1.noarch.rpm
+         newrelic-php5-common-X.X.X.X-1.noarch.rpm
          ```
 
        * ```
-         newrelic-daemon-<var>X.X.X.X</var>-1.i386.rpm
+         newrelic-daemon-X.X.X.X-1.i386.rpm
          ```
 
        * ```
-           newrelic-php5-<var>X.X.X.X</var>-1.i386.rpm
+           newrelic-php5-X.X.X.X-1.i386.rpm
          ```
 
          **64비트** 시스템의 경우 [64비트 패키지](https://download.newrelic.com/pub/newrelic/el5/x86_64/) 에서 다음 세 파일을 다운로드합니다( `X.X.X.X` 를 최신 [PHP 에이전트 버전 번호](/docs/release-notes/agent-release-notes/php-release-notes) 로 바꿉니다).
 
        * ```
-         newrelic-php5-common-<var>X.X.X.X</var>-1.noarch.rpm
+         newrelic-php5-common-X.X.X.X-1.noarch.rpm
          ```
 
        * ```
-         newrelic-daemon-<var>X.X.X.X</var>-1.x86_64.rpm
+         newrelic-daemon-X.X.X.X-1.x86_64.rpm
          ```
 
        * ```
-         newrelic-php5-<var>X.X.X.X</var>-1.x86_64.rpm
+         newrelic-php5-X.X.X.X-1.x86_64.rpm
          ```
      </Collapser>
    </CollapserGroup>
@@ -77,7 +77,7 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
        id="manager-yum"
        title="냠"
      >
-       ```
+       ```bash
        sudo yum install newrelic-php5
        ```
 
@@ -90,8 +90,8 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
      >
        다음 명령을 실행할 때 `X.X.X.X` 을 최신 [PHP 에이전트 버전 번호](/docs/release-notes/agent-release-notes/php-release-notes) 로 바꿉니다.
 
-       ```
-       rpm -i newrelic-php5-common-<var>X.X.X.X</var>-1.noarch.rpm newrelic-daemon-<var>X.X.X.X</var>-1.i386.rpm newrelic-php5-<var>X.X.X.X</var>-1.i386.rpm
+       ```bash
+       rpm -i newrelic-php5-common-X.X.X.X-1.noarch.rpm newrelic-daemon-X.X.X.X-1.i386.rpm newrelic-php5-X.X.X.X-1.i386.rpm
        ```
      </Collapser>
 
@@ -101,8 +101,8 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
      >
        다음 명령을 실행할 때 `X.X.X.X` 을 최신 [PHP 에이전트 버전 번호](/docs/release-notes/agent-release-notes/php-release-notes) 로 바꿉니다.
 
-       ```
-       rpm -i newrelic-php5-common-<var>X.X.X.X</var>-1.noarch.rpm newrelic-daemon-<var>X.X.X.X</var>-1.x86_64.rpm newrelic-php5-<var>X.X.X.X</var>-1.x86_64.rpm
+       ```bash
+       rpm -i newrelic-php5-common-X.X.X.X-1.noarch.rpm newrelic-daemon-X.X.X.X-1.x86_64.rpm newrelic-php5-X.X.X.X-1.x86_64.rpm
        ```
      </Collapser>
 
@@ -116,10 +116,12 @@ New Relic의 PHP 에이전트에 대한 패키지 이름은 PHP 5를 참조하�
 
 4. `newrelic-install` 스크립트를 실행하고 지침을 따릅니다.
 
-   ```
+   ```bash
    sudo newrelic-install install
    ```
 
 5. 웹 서버(Apache, NGINX, PHP-FPM 등)를 다시 시작합니다.
 
 6. 애플리케이션에 대한 트래픽을 생성하고 New Relic에 데이터를 보낼 때까지 몇 분 정도 기다립니다. 그런 다음 [UI에서 앱의 성능을 확인합니다](/docs/apm/applications-menu/monitoring/apm-overview-page) .
+
+<InstallFeedback/>

@@ -8,9 +8,11 @@ metaDescription: 'New Relic''s HashiCorp integration: what data it reports and h
 translationType: machine
 ---
 
-import guidedInstallCli from 'images/guided-install-cli.png'
+HashiCorp Consul [온호스트 통합은](/docs/integrations/host-integrations/getting-started/introduction-host-integrations) Consul 데이터 센터 환경에서 인벤토리 및 지표를 수집하여 환경의 상태를 볼 수 있는 New Relic으로 보냅니다. 데이터 센터와 에이전트/노드 수준 모두에서 데이터를 수집합니다.
 
-HashiCorp Consul [온-호스트 통합](/docs/integrations/host-integrations/getting-started/introduction-host-integrations) 은 Consul 환경의 인벤토리 및 메트릭을 수집하여 Consul 데이터 센터 환경의 상태를 볼 수 있는 New Relic으로 보냅니다. 데이터 센터와 에이전트/노드 수준 모두에서 데이터를 수집합니다.
+<Callout variant="tip">
+  [Hashicorp Cloud Platform Consul 통합](/docs/infrastructure/host-integrations/host-integrations-list/hashicorp-consul-monitoring-integration)도 있습니다.
+</Callout>
 
 통합을 설치하고 수집하는 데이터를 보려면 계속 읽으십시오.
 
@@ -30,12 +32,6 @@ HashiCorp Consul [온-호스트 통합](/docs/integrations/host-integrations/get
 ## 빠른 시작 [#quick]
 
 Consul 환경을 신속하게 계측하고 안내 설치를 통해 원격 측정 데이터를 보내십시오. 가이드 설치는 New Relic CLI 및 인프라 에이전트를 다운로드하고 설치하는 사용자 환경에 대한 사용자 정의 CLI 명령을 생성합니다.
-
-<img
-  title="The guided install CLI."
-  alt="A screenshot of the guided install CLI."
-  src={guidedInstallCli}
-/>
 
 시작할 준비가 되셨습니까? 이 버튼 중 하나를 클릭하여 사용해 보십시오.
 
@@ -86,7 +82,7 @@ HashiCorp Consul 통합을 설치하려면 환경에 대한 지침을 따르세�
     id="linux-install"
     title="Linux"
   >
-    1. 파일 이름 `nri-consul` 을(를) 사용하여 [통합 설치](/docs/install-integrations-package) 지침을 따르십시오.
+    1. [인프라 에이전트를 설치하고](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install) `INTEGRATION_FILE_NAME` 변수를 `nri-consul` 로 바꿉니다.
 
     2. 디렉토리를 통합 폴더로 변경하십시오.
 
@@ -111,12 +107,12 @@ HashiCorp Consul 통합을 설치하려면 환경에 대한 지침을 따르세�
   >
     1. 다음에서 `nri-consul` .MSI 설치 프로그램 이미지를 다운로드합니다.
 
-       [http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
+       [https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
 
     2. Windows 명령 프롬프트에서 설치하려면 다음을 실행하십시오.
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-consul-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-consul-amd64.msi
        ```
 
     3. Integrations 디렉터리 `C:\Program Files\New Relic\newrelic-infra\integrations.d\` 에서 다음을 실행하여 샘플 구성 파일의 복사본을 만듭니다.
@@ -135,6 +131,8 @@ HashiCorp Consul 통합을 설치하려면 환경에 대한 지침을 따르세�
 
 * **고급:** 통합은 패키지 관리자 외부에 설치할 수 있도록 [tarball 형식](/docs/integrations/host-integrations/installation/install-host-integrations-built-new-relic#tarball) 으로도 제공됩니다.
 * **호스트 내 통합은 자동으로 업데이트되지 않습니다.** 최상의 결과를 얻으 [려면 통합 패키지](/docs/integrations/host-integrations/installation/update-infrastructure-host-integration-package) 및 [인프라 에이전트](/docs/infrastructure/new-relic-infrastructure/installation/update-infrastructure-agent) 를 정기적으로 업데이트하십시오.
+
+<InstallFeedback/>
 
 ## 구성 [#configuration]
 
@@ -1149,4 +1147,4 @@ HashiCorp Consul 통합은 Consul Agent 노드의 구성 매개변수 및 현재
 
 ## 소스 코드 확인 [#source-code]
 
-이 통합은 오픈 소스 소프트웨어입니다. 즉 [, 소스 코드를 탐색하고](https://github.com/newrelic/nri-consul "링크가 새 창에서 열립니다.") 개선 사항을 보내거나 고유한 포크를 만들어 빌드할 수 있습니다.
+이 통합은 오픈 소스 소프트웨어입니다. 즉 [, 소스 코드를 탐색하고](https://github.com/newrelic/nri-consul) 개선 사항을 보내거나 자신만의 포크를 만들어 빌드할 수 있습니다.

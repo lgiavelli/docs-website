@@ -15,7 +15,7 @@ If you don't have one already, [create a New Relic account](https://newrelic.com
 
 ## Golang versions [#golang-release]
 
-New Relic supports Golang 1.17 or higher.
+New Relic supports Golang 1.18 or higher.
 
 ## Operating environments [#operating-systems]
 
@@ -341,6 +341,20 @@ The following integration packages must be imported along with the [newrelic](ht
 
     <tr>
       <td>
+        [jackc/pgx/v5](https://github.com/jackc/pgx/v5)
+      </td>
+
+      <td>
+        [v3/integrations/nrpgx5](https://godoc.org/github.com/newrelic/go-agent/v3/integrations/nrpgx5)
+      </td>
+
+      <td>
+        Instrument database calls to Postgres using the database/sql library and jackc/pgx/v5
+      </td>
+    </tr>
+
+    <tr>
+      <td>
         [snowflakedb/gosnowflake](https://github.com/snowflakedb/gosnowflake)
       </td>
 
@@ -497,7 +511,7 @@ The following integration packages must be imported along with the [newrelic](ht
 
 ## Database and instance-level performance
 
-New Relic collects [instance details for a variety of databases and database drivers](/docs/apm/applications-menu/features/analyze-database-instance-level-performance-issues). The ability to view specific instances and the types of database information in APM depends on your agent version.
+New Relic collects [instance details for a variety of databases and database drivers](/docs/apm/applications-menu/features/analyze-database-instance-level-performance-issues). The ability to view specific instances and the types of database information in <InlinePopover type="apm" /> depends on your agent version.
 
 The New Relic Go agent [version 1.4 or higher](/docs/release-notes/agent-release-notes/go-release-notes/go-agent-14) supports instance details for all database drivers.
 
@@ -525,7 +539,7 @@ The Go agent integrates with other features to give you observability across you
       </td>
 
       <td>
-        When you install the infrastructure and APM agents on the same host, they automatically detect one another. You can then view a list of hosts in the APM UI, and filter your Infrastructure hosts by APM app in the Infrastructure UI. For more information, see [APM data in infrastructure monitoring](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure).
+        When you install the infrastructure and APM agents on the same host, they automatically detect one another. You can then view a list of hosts in the APM UI, and filter your hosts by APM app in our infrastructure UI. For more information, see [APM data in infrastructure monitoring](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure).
       </td>
     </tr>
 

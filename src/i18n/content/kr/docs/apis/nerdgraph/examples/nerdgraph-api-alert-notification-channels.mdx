@@ -32,7 +32,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -134,7 +134,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -188,7 +188,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels(cursor: "Wh4LK9JYzfACVlNkyvf7Rg==:I5VbSEpgx3UWNA5AOVsUPv4=") {
               channels {
@@ -217,9 +217,9 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
-            notificationChannel(id: <var>YOUR_CHANNEL_ID</var>) {
+            notificationChannel(id: YOUR_CHANNEL_ID) {
               id
               name
               type
@@ -246,7 +246,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
     ```
     {
       actor {
-        account(id: <var>YOUR_ACCOUNT_ID</var>) {
+        account(id: YOUR_ACCOUNT_ID) {
           alerts {
             notificationChannels {
               channels {
@@ -274,7 +274,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
 ## 알림 채널 만들기 [#create-channel]
 
-경고 알림 채널을 생성하려면 생성하려는 특정 유형의 알림 채널(예: 이메일, Slack 등)과 이를 구성하는 데 필요한 세부정보(채널에 따라 다름)를 알아야 합니다. 유형). 알림 채널이 생성되면 하나 이상의 [경고 정책](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "경고 및 응용 인텔리전스 | New Relic 문서") 과 연결할 수 있습니다. 연결되면 해당 채널은 조건을 위반할 때 해당 정책의 알림을 받습니다.
+경보 알림 채널을 생성하려면 생성하려는 특정 유형의 알림 채널(예: 이메일, Slack 등)과 이를 구성하는 데 필요한 세부 정보(채널에 따라 다름)를 알아야 합니다. 유형). 알림 채널이 생성되면 하나 이상의 [알림 정책](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "경고 및 응용 인텔리전스 | New Relic 문서") 과 연결할 수 있습니다. 일단 연결되면 해당 채널은 조건이 위반될 때 해당 정책으로부터 알림을 받습니다.
 
 <Callout variant="caution">
   기존 알림 채널 유형에 대해 쿼리할 수 있지만 해당 유형의 하위 집합만 생성할 수 있습니다. 특히 **사용자** 채널 유형에는 편집 가능한 필드가 없으며 **Campfire** 및 **HipChat** 채널 유형은 모두 더 이상 사용되지 않습니다.
@@ -289,7 +289,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         email: {
           emails: ["email@example.com"],
           includeJson: true,
@@ -324,7 +324,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         opsGenie: {
           apiKey: "api-key-from-opsgenie",
           dataCenterRegion: US,
@@ -365,7 +365,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         pagerDuty: {
           name: "PagerDuty notification channel name",
           apiKey: "api-key-from-pagerduty"
@@ -398,7 +398,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         slack: {
           name: "Slack notification channel name",
           teamChannel: "#team-channel",
@@ -433,7 +433,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         victorOps: {
           key: "example-api-key-from-victorops",
           name: "VictorOps notification channel name",
@@ -468,7 +468,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         webhook: {
           baseUrl: "https://example.com/webhook",
           basicAuth: {
@@ -521,7 +521,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelCreate(accountId: <var>YOUR_ACCOUNT_ID</var>, notificationChannel: {
+      alertsNotificationChannelCreate(accountId: YOUR_ACCOUNT_ID, notificationChannel: {
         xMatters: {
           integrationUrl: "https://company.instance.xmatters.com/api/xm/v<version>/...",
           name: "xMatters notification channel name"
@@ -564,7 +564,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         email: {
           name: "Updated Name <email@example.com>"
         }
@@ -594,7 +594,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         opsGenie: {
           name: "OpsGenie updated channel name"
         }
@@ -624,7 +624,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         pagerDuty: {
           name: "PagerDuty updated channel name"
         }
@@ -654,7 +654,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         slack: {
           name: "Slack updated channel name"
         }
@@ -684,7 +684,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         victorOps: {
           name: "VictorOps updated channel name"
         }
@@ -714,7 +714,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         webhook: {
           name: "Webhook updated channel name"
         }
@@ -744,7 +744,7 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
     ```
     mutation {
-      alertsNotificationChannelUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: <var>YOUR_CHANNEL_ID</var>, notificationChannel: {
+      alertsNotificationChannelUpdate(accountId: YOUR_ACCOUNT_ID, id: YOUR_CHANNEL_ID, notificationChannel: {
         xMatters: {
           name: "xMatters updated channel name"
         }
@@ -773,8 +773,8 @@ New Relic 경고의 경우 NerdGraph API를 사용하여 [경고 알림 채널](
 
 ```
 mutation {
-  alertsNotificationChannelDelete(accountId: <var>YOUR_ACCOUNT_ID</var>,
-  id: <var>YOUR_CHANNEL_ID</var>) {
+  alertsNotificationChannelDelete(accountId: YOUR_ACCOUNT_ID,
+  id: YOUR_CHANNEL_ID) {
     id
     error {
       description
@@ -787,15 +787,15 @@ mutation {
 
 ## 채널을 정책에 연결 [#associate-channel]
 
-경고 알림 채널을 만드는 것만으로는 충분하지 않습니다. 채널을 만든 후에는 하나 이상의 [정책](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "경고 및 응용 인텔리전스 | New Relic 문서") 에 연결해야 합니다. 정책에 연결되면 해당 정책의 조건이 위반될 때 채널에서 경고 알림을 받을 수 있습니다.
+경보 알림 채널을 만드는 것만으로는 충분하지 않습니다. 채널이 생성되면 하나 이상의 [정책](/docs/alerts-applied-intelligence/new-relic-alerts/alert-policies/ "경고 및 응용 인텔리전스 | New Relic 문서") 에 연결해야 합니다. 정책에 연결되면 채널은 해당 정책의 조건이 임계값을 초과할 때 경고 알림을 받을 수 있습니다.
 
 이 예에서는 두 개의 채널을 정책과 연결합니다.
 
 ```
 mutation {
-  alertsNotificationChannelsAddToPolicy(accountId: <var>YOUR_ACCOUNT_ID</var>,
-    notificationChannelIds: [<var>FIRST_CHANNEL_ID</var>, <var>SECOND_CHANNEL_ID</var>],
-    policyId: <var>YOUR_POLICY_ID</var>
+  alertsNotificationChannelsAddToPolicy(accountId: YOUR_ACCOUNT_ID,
+    notificationChannelIds: [FIRST_CHANNEL_ID, SECOND_CHANNEL_ID],
+    policyId: YOUR_POLICY_ID
   ) {
     notificationChannels {
       id
@@ -818,9 +818,9 @@ mutation {
 
 ```
 mutation {
-  alertsNotificationChannelsRemoveFromPolicy(accountId: <var>YOUR_ACCOUNT_ID</var>,
-    notificationChannelIds: [<var>FIRST_CHANNEL_ID</var>, <var>SECOND_CHANNEL_ID</var>],
-    policyId: <var>YOUR_POLICY_ID</var>
+  alertsNotificationChannelsRemoveFromPolicy(accountId: YOUR_ACCOUNT_ID,
+    notificationChannelIds: [FIRST_CHANNEL_ID, SECOND_CHANNEL_ID],
+    policyId: YOUR_POLICY_ID
   ) {
     notificationChannels {
       id

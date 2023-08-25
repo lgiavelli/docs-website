@@ -22,7 +22,7 @@ New Relic API의 트랜잭션별 메서드에 대한 액세스를 제공합니�
 
 New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스를 제공합니다. `ITransaction` 에 대한 참조를 얻으려면 &#x7B; [`IAgent`](/docs/agents/net-agent/net-agent-api/iagent) }에서 사용 가능한 현재 트랜잭션 메소드를 사용하십시오.
 
-이 섹션에는 세 가지 ITransaction 메서드에 대한 설명과 매개 변수가 포함되어 있습니다.
+다음 방법은 `ITransaction`에서 사용할 수 있습니다.
 
 <table>
   <thead>
@@ -40,7 +40,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
   <tbody>
     <tr>
       <td>
-        [AcceptDistributedTraceHeaders](#acceptdistributedtraceheaders)
+        [`AcceptDistributedTraceHeaders`](#acceptdistributedtraceheaders)
       </td>
 
       <td>
@@ -50,7 +50,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 
     <tr>
       <td>
-        [InsertDistributedTraceHeaders](#insertdistributedtraceheaders)
+        [`InsertDistributedTraceHeaders`](#insertdistributedtraceheaders)
       </td>
 
       <td>
@@ -60,7 +60,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 
     <tr>
       <td>
-        [AcceptDistributedTracePayload(구식)](#acceptdistributedtracepayload)
+        [`AcceptDistributedTracePayload` (구식)](#acceptdistributedtracepayload)
       </td>
 
       <td>
@@ -70,7 +70,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 
     <tr>
       <td>
-        [CreateDistributedTracePayload(구식)](#createdistributedtracepayload)
+        [`CreateDistributedTracePayload` (구식)](#createdistributedtracepayload)
       </td>
 
       <td>
@@ -80,7 +80,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 
     <tr>
       <td>
-        [사용자 정의 속성 추가](#addcustomattribute)
+        [`AddCustomAttribute`](#addcustomattribute)
       </td>
 
       <td>
@@ -90,11 +90,21 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 
     <tr>
       <td>
-        [현재 범위](#currentspan)
+        [`CurrentSpan`](#currentspan)
       </td>
 
       <td>
         현재 실행 중인 [범위](/docs/agents/net-agent/net-agent-api/ispan) 에 대한 액세스를 제공합니다. 이는 New Relic API의 범위별 메서드에 대한 액세스를 제공합니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        [`SetUserId`](#setuserid)
+      </td>
+
+      <td>
+        사용자 ID를 현재 트랜잭션에 연결합니다.
       </td>
     </tr>
   </tbody>
@@ -107,7 +117,7 @@ New Relic .NET 에이전트 API의 트랜잭션별 메서드에 대한 액세스
 ### 통사론
 
 ```cs
-void AcceptDistributedHeaders(carrier, getter, transportType)
+void AcceptDistributedTraceHeaders(carrier, getter, transportType)
 ```
 
 ### 매개변수
@@ -410,6 +420,100 @@ ITransaction AddCustomAttribute(string key, object value)
 
       <td>
         보고되는 값입니다.
+
+        **참고**: `null` 값은 기록되지 않습니다.
+
+        <table>
+          <thead>
+            <tr>
+              <th>
+                .NET 유형
+              </th>
+
+              <th>
+                가치가 표현되는 방식
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                `byte`, `Int16` , `Int32` , `Int64`
+
+                `sbyte`, `UInt16` , `UInt32` , `UInt64`
+              </td>
+
+              <td>
+                적분 값으로.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                `float`, `double` , `decimal`
+              </td>
+
+              <td>
+                10진수 기반 숫자입니다.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                `string`
+              </td>
+
+              <td>
+                255바이트 이후에 잘린 문자열입니다.
+
+                빈 문자열이 지원됩니다.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                `bool`
+              </td>
+
+              <td>
+                참 또는 거짓.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                `DateTime`
+              </td>
+
+              <td>
+                표준 시간대 정보를 포함하여 ISO-8601 형식을 따르는 문자열 표현:
+
+                예시: `2020-02-13T11:31:19.5767650-08:00`
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                `TimeSpan`
+              </td>
+
+              <td>
+                초 수를 나타내는 10진수 기반 숫자입니다.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                다른 모든 것
+              </td>
+
+              <td>
+                `ToString()` 메서드가 적용됩니다. 사용자 정의 유형에는 `Object.ToString()` 구현이 있어야 하며 그렇지 않으면 예외가 발생합니다.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </td>
     </tr>
   </tbody>
@@ -446,6 +550,54 @@ ITransaction transaction = agent.CurrentTransaction;
 ISpan currentSpan = transaction.CurrentSpan;
 ```
 
-## 예
+## SetUserId
 
-[매개변수 섹션](#parameters) 을 참조하십시오.
+사용자 ID를 현재 트랜잭션과 연결합니다.
+
+이 방법에는 .NET 에이전트 및 .NET 에이전트 API [버전 10.9.0](/docs/release-notes/agent-release-notes/net-release-notes/net-agent-1090) 이상이 필요합니다.
+
+### 통사론
+
+```cs
+ITransaction SetUserId(string userId)
+```
+
+### 매개변수
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        매개변수
+      </th>
+
+      <th>
+        설명
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        `userId`
+
+        _끈_
+      </td>
+
+      <td>
+        이 거래와 관련된 사용자 ID입니다.
+
+        * `null`, 공백 및 공백 값은 무시됩니다.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 예시
+
+```cs
+IAgent agent = NewRelic.Api.Agent.NewRelic.GetAgent(); 
+ITransaction transaction = agent.CurrentTransaction; 
+transaction.SetUserId("BobSmith123");
+```

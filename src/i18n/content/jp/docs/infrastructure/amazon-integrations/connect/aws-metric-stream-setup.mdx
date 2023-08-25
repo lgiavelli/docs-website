@@ -4,6 +4,7 @@ tags:
   - Integrations
   - Amazon integrations
   - AWS integrations list
+metaDescription: Learn how to gather all AWS metrics and custom namespaces to send them to New Relic.
 translationType: machine
 ---
 
@@ -45,7 +46,7 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
 
 まず、各AWSアカウントをNewRelicアカウントにリンクする必要があります。これを行うには、次のいずれかのオプションを使用します。
 
-* **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure> AWS** をクリックし、 **Add an AWS account** をクリックし、 **Use metric streams** をクリックし、手順に従ってください。
+* **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**に移動し、 **AWS アカウントの追加**をクリックし、次に **メトリクス ストリームの使用 を**クリックして、手順に従います。
 * [このステップを NerdGraph で自動化します](/docs/apis/nerdgraph/examples/nerdgraph-cloud-integrations-api-tutorial/#link-aws-cloudwatch)。
 
 次に、UIの最後のステップで提供する[CloudFormationテンプレート](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?templateURL=https://nr-downloads-main.s3.amazonaws.com/cloud_integrations/aws/cloudformation/MetricStreams_CloudFormation.yml&stackName=NewRelic-Metric-Stream&param_NewRelicDatacenter=US)を使用してメトリックストリームを設定します。このテンプレートは、単一のリージョンで統合を設定するためのベースとして提供されています。要件に合わせてカスタマイズおよび拡張できます。
@@ -78,7 +79,7 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
       </td>
 
       <td>
-        メトリクスをエクスポートするアカウントに関連付けられた[ライセンス キー](https://one.newrelic.com/launcher/api-keys-ui.api-keys-launcher)。
+        の <InlinePopover type="licenseKey"/>メトリクスをエクスポートするアカウントに関連付けられています。
       </td>
 
       <td>
@@ -144,11 +145,11 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
 
     <tr>
       <td>
-        AWS Config のリソース メタデータでメトリクスを強化しますか?
+        AWS Config のリソース メタデータでメトリクスを強化する
       </td>
 
       <td>
-        リソースの変更を追跡するために AWS Config を有効にして設定する
+        リソースの変更を追跡するために AWS Config を有効にして設定します。これにより、New Relic エクスペリエンスを完全に監視できます。
       </td>
 
       <td>
@@ -173,7 +174,7 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
 </table>
 
 <Callout variant="tip">
-  提供されているCloudFormationテンプレートには、CloudWatchメトリックスストリームに包含または除外名前空間フィルターが含まれていません。ビジネス要件に基づいて基本テンプレートを適合させることを検討してください。
+  提供された CloudFormation テンプレートには、CloudWatch メトリクス ストリームに包含または除外名前空間フィルターが含まれていません。ビジネス要件に基づいて基本テンプレートを調整することを検討してください。
 </Callout>
 
 ## AWSコンソール、API、またはコールを使用した手動設定 [#manual-setup]
@@ -193,9 +194,15 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
   * New Relicの設定（Destination Settings）
 
     * HTTPエンドポイントURL-米国のデータセンター： `https://aws-api.newrelic.com/cloudwatch-metrics/v1`
+
     * HTTPエンドポイントURL-EUデータセンター： `https://aws-api.eu01.nr-data.net/cloudwatch-metrics/v1`
-    * APIキーを入力します。 [ライセンスキーを入力してください。](/docs/accounts/accounts-billing/account-setup/new-relic-license-key/)
+
+    * API キー: 入力してください
+
+      <InlinePopover type="licenseKey"/>
+
     * コンテンツエンコーディング： `GZIP`
+
     * 再試行期間： `60`
 
   * S3バックアップモード。失敗したデータのみ
@@ -227,52 +234,50 @@ New Relic UIは現在、これらの個々のアイテムに対して`ReadOnlyAc
 
 * メトリクスストリームの作成を確認します。
 
-  また、CloudFormationテンプレート、API、またはCLIを使用してCloudWatchメトリック・ストリームを作成するための手順が、AWSのドキュメントに記載されています。
+  または、AWS ドキュメントで、CloudFormation テンプレート、API、または CLI を使用して CloudWatch メトリクス ストリームを作成する手順を見つけることができます。
 
-3. **新しい AWS アカウント** を New Relic UI の **Metric streams** モードで追加します。 **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure> AWS** をクリックし、 **Add an AWS account** をクリックし、 **Use metric streams** をクリックし、手順に従います。
+3. New Relic UI の**メトリック ストリーム** モードで **新しい AWS アカウントを追加します** 。**[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**に移動し、 **AWS アカウントの追加**をクリックし、次に **メトリクス ストリームの使用 を**クリックして、手順に従います。
 
 ## データが正しく受信されているかどうかの確認 [#validate-data]
 
-メトリックストリームからデータを受信していることを確認するには、次の手順に従います。
+メトリック ストリームからデータを受信していることを確認するには、次の手順に従います。
 
-1. **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure> AWS** にアクセスし、 **Stream** のアカウントを検索してください。
+1. **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**に移動し、 **ストリーム** アカウントを検索します。
 2. 次の点をチェックします。
 
-* アカウントステータスのダッシュボード。メトリクスデータが受信されていることを確認するのに便利です（エラー、取り込まれたネームスペース/メトリクスの数、など）。
-* データを調べます。データエクスプローラーを使用して、特定のメトリックセットを検索したり、特定のメトリックで使用可能なすべてのディメンションにアクセスしたりできます。
+* アカウント ステータス ダッシュボード。New Relic がメトリクス データ (エラー、取り込まれた名前空間/メトリクスの数など) を受信していることを確認するのに役立ちます。
+* データを探索します。メトリックとイベントを使用して、特定のメトリック セットを見つけたり、特定のメトリックで使用可能なすべてのディメンションにアクセスしたりします。
 
 新しいリソースが検出され、エンティティとして合成されるまで、数分かかる場合があります。詳細については、[クラウド統合システムの制限](/docs/data-apis/manage-data/view-system-limits)を参照してください。
 
 <Callout variant="tip">
-  AWS S3やAWS BillingなどのグローバルサービスのAWS CloudWatchメトリクスは、 **us-east-1** リージョンでのみ利用可能です。そのリージョンにアクティブなCloudWatchメトリックストリームが設定されていることを確認してください。
+  AWS 請求などのグローバル サービスの AWS CloudWatch メトリクスは、 **us-east-1** リージョンでのみ利用できます。 そのリージョンで構成されたアクティブな CloudWatch メトリクス ストリームがあることを確認します。
 </Callout>
 
 ## クエリ、メトリックの保存、マッピング [#query-experience]
 
 AWS CloudWatchからのメトリクスは、タイプ`summary`のディメンションメトリクスとして保存されます。[NRQL](/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language/)を使用して[クエリ](/docs/telemetry-data-platform/get-data/apis/query-metric-data-type/)を実行できます。
 
-我々は、現在のクラウド統合から、AWS Metric Streamsから来る新しいマッピングにメトリックをマッピングしました。現在のメトリックの名前を使い続けることができ、クエリは引き続き動作し、AWS Metric Streamsと現在のクラウド統合からデータを選択することができます。
+現在のクラウド統合からのメトリクスを、AWS Metric Streams から来る新しいマッピングにマッピングしました。現在のメトリクスの命名を引き続き使用できます。クエリは引き続き機能し、AWS Metric Streams と現在のクラウド統合からデータを選択します。
 
 [現在のクラウド統合のメトリクスと新しいメトリクスの名称](/docs/integrations/amazon-integrations/get-started/aws-integrations-metrics/) への対応については、ドキュメントをご確認ください。
 
-メトリクスストリームから送られてくるすべてのメトリクスは、これらの属性を持ちます。
+メトリック ストリームからのすべてのメトリックには、次の属性があります。
 
 * `aws.MetricStreamArn`
 * `collector.name = 'cloudwatch-metric-streams'`。
 
-## NewRelicエクスプローラーのAWS名前空間のエンティティ [#aws-entities]
+## エンティティ リスト内の AWS 名前空間のエンティティ [#aws-entities]
 
-New Relic [エンティティ](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic/) を、最も使用されている AWS の名前空間に合わせて生成しており、今後もより多くの名前空間に対応していく予定です。
+多くの AWS 名前空間に対して New Relic [エンティティ](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic) を生成します。名前空間の New Relic エンティティを生成すると、次のことが期待できます。
 
-名前空間のNew Relicエンティティを生成すると、次のようなことが期待できます。
-
-* [NewRelicエクスプローラー](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/)でこれらのエンティティを参照します。
+* [エンティティ エクスプローラー](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer)でこれらのエンティティを参照します。
 * それらのエンティティ用に自動的に作成されたエンティティダッシュボードにアクセスします。
 * AWSタグで装飾された名前空間からメトリックとエンティティを取得します。AWSタグを収集するには、UIのセットアッププロセスの一部である`tag:GetResources`権限をNewRelicに付与している必要があります。AWSタグは、メトリックに`tag.AWSTagName`として表示されます。たとえば、リソースに`Team` AWSタグを設定した場合、 `tag.Team`と表示されます。
-* エクスプローラーの一部であるすべての組み込み機能を活用します。
+* エンティティ エクスプローラーに含まれるすべての機能を活用します。
 
 <Callout variant="important">
-  [Lookout view](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-lookout-monitor-your-estate-glance/) in **Entity Explorer** は、現時点ではAWS Metric Streamsの統合から作成されたエンティティとの互換性はありません。
+  [New Relic Lookout は、](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-lookout-monitor-your-estate-glance) AWS Metric Streams 統合と互換性がありません。
 </Callout>
 
 ## アラート条件の設定 [#set-alerts]
@@ -287,7 +292,7 @@ SELECT sum(aws.s3.5xxErrors) FROM Metric WHERE collector.name = 'cloudwatch-metr
 
 信号設定を行うには、 **Condition Settings** で、 **Advanced Signal Settings** をクリックし、以下の値を入力します。
 
-1. **アグリゲーションウィンドウ**.1分に設定することをお勧めします。アラートのフラッピングやアラートがトリガーされないなどの問題がある場合は、2分に設定することを検討してください。
+1. **集計ウィンドウ**。1 分に設定することをお勧めします。アラートがフラッピングする、またはアラートがトリガーされないという問題がある場合は、2 分に延長することを検討してください。
 2. **によるオフセット評価**。サービスによっては、CloudWatchが一定の遅延でメトリクスを送信する場合があります。値はウィンドウで設定されます。 1分の集計ウィンドウで、オフセットを8に設定すると、メトリックの大部分が正しく評価されます。 AWSとFirehoseによって導入された遅延が少ない場合は、より低いオフセットを使用できる可能性があります。
 3. **データのギャップを。で埋めます**。これを無効のままにするか、AWSからのデータのギャップが誤検知または誤検知につながる場合は、最後の既知の値を使用します。
 
@@ -295,7 +300,7 @@ SELECT sum(aws.s3.5xxErrors) FROM Metric WHERE collector.name = 'cloudwatch-metr
 
 ## [タグコレクション [#tags-collection]](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-nrql-alert-conditions/)
 
-[New Relic は、AWS CloudWatch メトリックストリームから送られてくるメトリクスのディメンションを強化します。リソースタグとカスタムタグは、ほとんどのサービスから自動的に引き出され、追加のディメンションでメトリクスを装飾するために使用されます。 ](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-nrql-alert-conditions/)[データエクスプローラー](/docs/query-your-data/explore-query-data/explore-data/introduction-data-explorer/) を使用して、各 AWS メトリックでどのタグが利用できるかを確認できます。
+[New Relic は、AWS CloudWatch メトリクス ストリームからのメトリクスから拡張ディメンションを提供します。リソース タグとカスタム タグは、ほとんどのサービスから自動的に取得され、追加のディメンションでメトリックを装飾するために使用されます。](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-nrql-alert-conditions/)[メトリクスとイベントを](/docs/query-your-data/explore-query-data/explore-data/introduction-data-explorer/)使用して、各 AWS メトリクスで使用できるタグを確認します。
 
 次のクエリは、タグを収集し、メトリクスのディメンションとしてクエリを実行する例を示しています。
 
@@ -303,11 +308,15 @@ SELECT sum(aws.s3.5xxErrors) FROM Metric WHERE collector.name = 'cloudwatch-metr
 SELECT average(`aws.rds.CPUUtilization`) FROM Metric FACET `tags.mycustomtag` SINCE 30 MINUTES AGO TIMESERIES
 ```
 
-すべての指標にカスタムタグがディメンションとして含まれているわけではないことに注意してください。現在、 [NewRelicエクスプローラー](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/)のエンティティにリンクされているメトリックのみにカスタムタグが関連付けられています。AWS CloudWatchメトリクスストリームには、ストリームメッセージの一部としてタグが含まれていません。したがって、NewRelic側では追加の処理が必要です。
+すべての指標にディメンションとしてカスタム タグがあるわけではありません。[エンティティ エクスプローラー](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer) にリストされているエンティティにリンクされているメトリクスのみに、カスタム タグが関連付けられています。AWS CloudWatch メトリクス ストリームには、ストリーム メッセージの一部としてタグが含まれません。したがって、New Relic 側で追加の処理が必要になります。
 
 ## メタデータの収集 [#metadata-collection]
 
-カスタムタグと同様に、New RelicはAWS CloudWatchのメトリクスをAWS Services APIから収集したエンリッチドメタデータで装飾するために、関連するAWSサービスからメタデータ情報を引き出します。このメタデータは、AWS CloudWatchが提供するメトリクスの追加ディメンションとしてNew Relicでアクセスできる。これは、CloudWatch Metric Streamsの統合を補完するオプションの機能です。
+カスタムタグと同様に、New Relic は関連する AWS サービスからメタデータ情報をプルして、AWS サービス API から収集された強化されたメタデータで AWS CloudWatch メトリクスを装飾します。このメタデータは、AWS CloudWatch によって提供されるメトリクスの追加のディメンションとして、New Relic でアクセスできます。
+
+<Callout variant="important">
+  このオプションの機能は、CloudWatch Metric Streams 統合を補完するものです。このオプション機能を有効にしないと、サービスの検出と監視が不完全になります。
+</Callout>
 
 このソリューションは、 [AWS Config](https://docs.aws.amazon.com/config/index.html) に依存しており、お客様のAWSアカウントに追加コストが発生する可能性があります。 AWS Config は、どのサービスやリソースを記録するかを決定するために、 [粒度の高いコントロールを提供します。New Relic は、お客様の AWS アカウントで利用可能なリソースからのみメタデータを取り込みます。](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html)
 
@@ -369,7 +378,7 @@ AWSは、パーセンタイルを超えるストリーム内の他の統計を�
 
 New Relic UIは、アカウントに取り込まれているデータを追跡するための[一連のツール](/docs/telemetry-data-platform/ingest-manage-data/manage-data/manage-your-data/)を提供します。すべての詳細を表示するには、設定メニューの**\[データの管理]に移動します**。AWS Metric Streams統合から取り込まれたメトリクスは、**メトリクス**バケットで考慮されます。
 
-データをより詳細に表示する必要がある場合は、取り込み中のデータを見積もるために、 `Metric`で`bytecountestimate()`関数を使用してください。たとえば、次のクエリは、過去30日間にAWS Metric Streams統合を介して処理されたすべてのメトリクスから取り込まれたデータを表します（バイト単位）。
+データをより詳細に表示する必要がある場合は、 `Metric` で [`bytecountestimate()` 関数](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/usage-queries-alerts/#byte-count-estimate) を使用して、取り込まれるデータを推定します。たとえば、次のクエリは、過去 30 日間に AWS Metric Streams 統合を介して処理されたすべてのメトリクスから取り込まれたデータを表します (バイト単位)。
 
 ```
 FROM Metric SELECT bytecountestimate()/10e8 as 'GB Estimate' WHERE collector.name='cloudwatch-metric-streams' SINCE 30 day ago

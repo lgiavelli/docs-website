@@ -16,13 +16,13 @@ New Relic は、Node.js アプリケーションに関する有用なメトリ�
 
 New Relic が追跡する名前の数は、ユーザー・エクスペリエンスが堅牢であるように十分小さくする必要があります。また、アプリケーションの問題点をより簡単に特定できるように、（データに圧倒されることなく）適切な量の情報を提供するのに十分な規模である必要があります。
 
-詳しくは、Github [Node.jsエージェントの設定](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration) ドキュメントと、Github [Node.jsエージェントのAPIドキュメント](https://newrelic.github.io/node-newrelic/docs) をご覧ください。
+詳細については、Github の[Node.js エージェント構成](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration)ドキュメントと[Node.js エージェント API ドキュメントを](https://newrelic.github.io/node-newrelic/)参照してください。
 
 ## リクエスト名
 
 Node.js エージェントは、潜在的にパラメーター化されたパス ( `/user/:id`など) または正規表現 ( `/^/user/([-0-9a-f]+)$/`など) とともに HTTP メソッドをキャプチャします。これらの情報は、リクエスト名の一部になります。
 
-低速トランザクション トレースをサポートしていて、構成ファイルで[`capture_params`](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration#params)を有効にしている場合、トランザクション トレースにもリクエストのパラメータとその値が添付されます。Node.js エージェントが使用する要求名に満足できない場合は、API 呼び出しを使用して、よりわかりやすい名前を作成できます。
+低速トランザクション トレースをサポートしていて、構成ファイルの[`attributes.include`](/docs/agents/nodejs-agent/attributes/nodejs-agent-attributes#cfg-attributes-include)に`'request.parameters.*'`を追加している場合、トランザクション トレースにもリクエストのパラメータとその値が添付されます。Node.js エージェントが使用する要求名が気に入らない場合は、API 呼び出しを使用して、よりわかりやすい名前を作成できます。
 
 <Callout variant="tip">
   汎用名でリクエストをグループ化する場合は、 `/*`で十分であり、構成ファイルや API 呼び出しをカスタマイズする必要はありません。
@@ -94,7 +94,7 @@ New Relic では、多くのチャートやテーブルでリクエストをグ�
 アプリケーションの他の部分がロードされる前に、New Relic モジュールがブートストラップする必要があるため、New Relic モジュールのロードがアプリケーションの最初に行われるようにしてください。
 
 ```js
-var newrelic = require('newrelic');
+const newrelic = require('newrelic');
 ```
 
 これは、リクエストネーミングAPIを返します。このモジュールは一度だけ初期化されるので、アプリケーション内の複数のモジュールから安全に要求することができます。
@@ -154,7 +154,7 @@ New Relic の Node.js エージェントの Request API コールをまとめま
     * 自分のコードをインストゥルメント化する。
     * Node.jsエージェントに内蔵されているインスツルメンテーションを独自のものに置き換えます。
 
-    詳しくは、New Relic の [Node.js instrumentation tutorial on Github](https://newrelic.github.io/node-newrelic/docs/tutorial-Instrumentation-Basics.html) をご覧ください。
+    詳細については[、Github の New Relic の Node.js インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/tutorial-Instrumentation-Basics.html)参照してください。
   </Collapser>
 
   <Collapser
@@ -167,13 +167,17 @@ New Relic の Node.js エージェントの Request API コールをまとめま
 
     データストア・モジュールのインストルメンテーション・コールバックを設定します。
 
-    このメソッドは[`newrelic.instrument()`](#instrument)と同じですが、[データストアに特化した shim](https://newrelic.github.io/node-newrelic/docs/DatastoreShim.html)を提供する点が異なります。詳細については[、Github の New Relic の Node.js データストア インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/docs/tutorial-Datastore-Simple.html)参照してください。
+    このメソッドは[`newrelic.instrument()`](#instrument)と同じですが、[データストアに特化した shim](https://newrelic.github.io/node-newrelic/DatastoreShim.html)を提供する点が異なります。詳細については[、Github の New Relic の Node.js データストア インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/tutorial-Datastore-Simple.html)参照してください。
   </Collapser>
 
   <Collapser
     id="instrumentLoadedModule"
     title={<InlineCode>newrelic.instrumentLoadedModule(moduleName, moduleInstance)</InlineCode>}
   >
+    <Callout variant="important">
+      ES モジュール アプリケーションでのエージェントのブートストラップは CommonJS アプリケーションとは異なるため、このメソッドは ES モジュール アプリケーションではサポートされていないか、または必要ありません。ES モジュール アプリケーションでは、このメソッドが CommonJS アプリケーションで解決する問題をエージェントが補うことができます。
+    </Callout>
+
     ```js
     newrelic.instrumentLoadedModule(moduleName, moduleInstance)
     ```
@@ -184,7 +188,7 @@ New Relic の Node.js エージェントの Request API コールをまとめま
     // load the agent
     const newrelic = require('newrelic');
 
-    // module loaded before newrelic 
+    // module loaded before newrelic
     const expressModule = require('express');
 
     // instrument express after the agent has been loaded
@@ -209,7 +213,7 @@ New Relic の Node.js エージェントの Request API コールをまとめま
 
     メッセージサービスクライアントモジュールのインスツルメンテーションコールバックを設定します。
 
-    このメソッドは、[メッセージ サービスに特化した shim を](https://newrelic.github.io/node-newrelic/docs/MessageShim.html)提供することを除いて、 [`newrelic.instrument()`](#instrument)と同じです。詳細については[、Github の New Relic の Node.js メッセージ サービス インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/docs/tutorial-Messaging-Simple.html)参照してください。
+    このメソッドは、[メッセージ サービスに特化した shim を](https://newrelic.github.io/node-newrelic/MessageShim.html)提供することを除いて、 [`newrelic.instrument()`](#instrument)と同じです。詳細については[、Github の New Relic の Node.js メッセージ サービス インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/tutorial-Messaging-Simple.html)参照してください。
   </Collapser>
 
   <Collapser
@@ -222,7 +226,7 @@ New Relic の Node.js エージェントの Request API コールをまとめま
 
     Webフレームワークモジュールのインスツルメンテーションコールバックを設定します。
 
-    このメソッドは、[ウェブ フレームワークに特化した shim を](https://newrelic.github.io/node-newrelic/docs/WebFrameworkShim.html)提供することを除いて、 [`newrelic.instrument()`](#instrument)と同じです。詳細については[、Github の New Relic の Node.js Web フレームワーク インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/docs/tutorial-Webframework-Simple.html)参照してください。
+    このメソッドは、[ウェブ フレームワークに特化した shim を](https://newrelic.github.io/node-newrelic/WebFrameworkShim.html)提供することを除いて、 [`newrelic.instrument()`](#instrument)と同じです。詳細については[、Github の New Relic の Node.js Web フレームワーク インストルメンテーション チュートリアルを](https://newrelic.github.io/node-newrelic/tutorial-Webframework-Simple.html)参照してください。
   </Collapser>
 
   <Collapser
@@ -372,6 +376,35 @@ New Relic の Node.js エージェントの Request API コールをまとめま
         };
 
         newrelic.recordCustomEvent('MessagingEvent', attributes);
+        ```
+      </Collapser>
+    </CollapserGroup>
+  </Collapser>
+</CollapserGroup>
+
+<CollapserGroup>
+  <Collapser
+    id="record_log_event"
+    title={<InlineCode>newrelic.recordLogEvent(logEvent)</InlineCode>}
+  >
+    ```js
+    newrelic.recordLogEvent({message, level})
+    ```
+
+    ロギング フレームワークに対して自動ロギング インストルメンテーションが不十分な場合は、 `recordLogEvent`を使用してログ イベントを記録します。受け入れられるパラメータ タイプの詳細については[、自動生成されたドキュメント](https://newrelic.github.io/node-newrelic/API.html#recordLogEvent)を参照してください。
+
+    <CollapserGroup>
+      <Collapser
+        id="example-link-bg-txn"
+        title="エラー オブジェクトを使用したログ イベントの記録"
+      >
+        次の例は、エラーに関連付けられたログ イベントの記録を示しています。
+
+        ```js
+        const error = new SystemError('invalid state');
+        const timestamp = Date.now();
+
+        newrelic.recordLogEvent({message: 'an error happened', level: 'error', timestamp, error});
         ```
       </Collapser>
     </CollapserGroup>
@@ -734,30 +767,11 @@ New Relic の Node.js エージェントには、追加の API コールがあ�
   </Collapser>
 
   <Collapser
-    id="ignore"
-    title={<InlineCode>newrelic.setIgnoreTransaction(ignored)</InlineCode>}
-  >
-    ```js
-    newrelic.setIgnoreTransaction(ignored)
-    ```
-
-    与えられたリクエストを無視するかどうかをモジュールに伝えます。これにより、長いポーリングのある無関係なルートや、時間のかかることがわかっているリクエストを明示的にフィルタリングすることができます。また、他の方法では無視されてしまうリクエストのメトリクスを収集することもできます。
-
-    * トランザクションを無視するには、パラメーターを`true`に設定すると、トランザクションが無視されます。
-    * この関数でトランザクションが無視されないようにするには、パラメーター`false`を渡します。
-    * `null`または`undefined`を渡しても、トランザクションが無視されるかどうかは変わりません。
-
-    <Callout variant="caution">
-      このメソッドは、バージョン7.0.0で削除された非推奨のメソッドです。 [transactionHandle.ignore()をご利用ください。](#transaction-handle-ignore)
-    </Callout>
-  </Collapser>
-
-  <Collapser
     id="noticeError"
-    title={<InlineCode>newrelic.noticeError(error, \[customAttributes])</InlineCode>}
+    title={<InlineCode>newrelic.noticeError(エラー、\[customAttributes]、\[期待される])</InlineCode>}
   >
     ```js
-    newrelic.noticeError(error, [customAttributes])
+    newrelic.noticeError(error, [customAttributes], [expected])
     ```
 
     アプリがドメインやtry/catch句を使って独自のエラー処理を行っているが、アプリから出たエラーの数に関するすべての情報を一元管理したい場合に、このコールを使用します。他のNode.jsのコールとは異なり、このコールはルート・ハンドラの外で使用することができますが、トランザクション・スコープ内からコールされた場合は、追加のコンテキストを持つことになります。
@@ -766,8 +780,94 @@ New Relic の Node.js エージェントには、追加の API コールがあ�
 
     `customAttributes` New Relic UI に表示される任意のカスタム属性のオプション オブジェクトです。
 
+    `expected` エラーを予想されるエラーとして分類するためのオプションのブール値です。`noticeError`で収集されたエラーが`expected`である場合、それは収集されて報告されますが、 `Apdex`またはエラー率メトリックには影響しません。デフォルトでは、 `expected`は`false`です。
+
+    <Callout variant="important">
+      `expected` パラメータには、 [Node.js エージェント バージョン 9.12.1](/docs/release-notes/agent-release-notes/nodejs-release-notes/node-agent-9-12-1) 以降が必要です。
+    </Callout>
+
+    **例：**
+
+    ```js
+    try {
+      performSomeTask();
+    } catch(err) {
+      newrelic.noticeError(
+        err,
+        { extraInformation: "error already handled in the application" },
+        true
+      );
+    }
+    ```
+
     <Callout variant="caution">
       このメソッドを使用して記録されたエラーは、 [`ignore_status_codes`](/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration#error_ignore)構成値に従いません。
+    </Callout>
+  </Collapser>
+
+  <Collapser
+    id="setErrorGroupCallback"
+    title={<InlineCode>newrelic.setErrorGroupCallback(コールバック)</InlineCode>}
+  >
+    ```js
+    newrelic.setErrorGroupCallback(callback)
+    ```
+
+    このメソッドを使用すると、カスタム コールバックを定義してエラー グループ名を生成できます。この名前は、 `error.group.name` エージェント属性を介して同様のエラーをグループ化するためにエラー インボックスで使用されます。
+
+    指定された関数は文字列を返し、オブジェクトを引数として受け取る必要があります。オブジェクトには、発生したエラーに関連する情報が含まれており、次の形式になっています。
+
+    <Callout variant="important">
+      `setErrorGroupCallback` を使用するには、 [Node.js エージェントのバージョン 9.14.0](/docs/release-notes/agent-release-notes/nodejs-release-notes/node-agent-9-14-0/) 以降が必要です。
+    </Callout>
+
+    ```js
+    {
+      "customAttributes": object,
+      "request.uri": string,
+      "http.statusCode": string,
+      "http.method": string,
+      "error": Error,
+      "error.expected": boolean
+    }
+    ```
+
+    この関数を複数回呼び出すと、このコールバック関数の以前に定義されたバージョンが置き換えられます。
+
+    この機能の詳細については、 [サンプル アプリ](https://github.com/newrelic/newrelic-node-examples/tree/main/error-fingerprinting)を参照してください。
+  </Collapser>
+
+  <Collapser
+    id="ignore"
+    title={<InlineCode>newrelic.setIgnoreTransaction(ignored)</InlineCode>}
+  >
+    <Callout variant="caution">
+      このメソッドは、バージョン7.0.0で削除された非推奨のメソッドです。 [transactionHandle.ignore()をご利用ください。](#transaction-handle-ignore)
+    </Callout>
+
+    ```js
+    newrelic.setIgnoreTransaction(ignored)
+    ```
+
+    与えられたリクエストを無視するかどうかをモジュールに伝えます。これにより、長いポーリングのある無関係なルートや、時間のかかることがわかっているリクエストを明示的にフィルタリングすることができます。また、他の方法では無視されてしまうリクエストのメトリクスを収集することもできます。
+
+    * トランザクションを無視するには、パラメーターを `true`に設定します。これにより、トランザクションが無視されます。
+    * この関数でトランザクションが無視されないようにするには、パラメーター`false`を渡します。
+    * `null`または`undefined`を渡しても、トランザクションが無視されるかどうかは変わりません。
+  </Collapser>
+
+  <Collapser
+    id="setUserID"
+    title={<InlineCode>newrelic.setUserID(文字列)</InlineCode>}
+  >
+    ```js
+    newrelic.setUserID(string)
+    ```
+
+    このメソッドを使用すると、一意の識別子をトランザクション イベント、トランザクション追跡、およびトランザクション内のエラーに関連付けることができます。新しいプロパティ `enduser.id`がエラーに追加され、エラー インボックスに報告されます。
+
+    <Callout variant="important">
+      `setUserID` API には、 [Node.js エージェント バージョン 9.13.0](/docs/release-notes/agent-release-notes/nodejs-release-notes/node-agent-9-13-0/) 以降が必要です。
     </Callout>
   </Collapser>
 
@@ -776,10 +876,68 @@ New Relic の Node.js エージェントには、追加の API コールがあ�
     title={<InlineCode>newrelic.shutdown(\[オプション], コールバック)</InlineCode>}
   >
     ```js
-    newrelic.shutdown([options], callback)
+    newrelic.shutdown(options, callback)
     ```
 
-    エージェントを優雅にシャットダウンするには、この方法を使用します。
+    このメソッドを使用して、エージェントを正常にシャットダウンします。両方のパラメーターはオプションです。パラメータを示す概要表を次に示します。
+
+    <table>
+      <tr>
+        <th style={{ width: "180px" }}>
+          パラメータ
+        </th>
+
+        <th style={{ width: "100px" }}>
+          タイプ
+        </th>
+
+        <th style={{ width: "100px" }}>
+          属性
+        </th>
+
+        <th style={{ width: "200px" }}>
+          説明
+        </th>
+      </tr>
+
+      <tr>
+        <td>
+          `options`
+        </td>
+
+        <td>
+          `object`
+        </td>
+
+        <td>
+          オプション
+        </td>
+
+        <td>
+          シャットダウン オプションを持つオブジェクト
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          `callback`
+        </td>
+
+        <td>
+          `function`
+        </td>
+
+        <td>
+          オプション
+        </td>
+
+        <td>
+          エージェント停止時に実行されるコールバック関数
+        </td>
+      </tr>
+    </table>
+
+    以下は、オブジェクトのシャットダウン オプションを示す詳細表です。
 
     <table>
       <tr>
@@ -1140,13 +1298,13 @@ New Relic モジュールへの呼び出しをアプリケーションコード�
     id="addnamingrule"
     title={<InlineCode>newrelic.addNamingRule(pattern, name)</InlineCode>}
   >
-    **rules.name** のプログラム版です。一度追加された命名規則は、Nodeプロセスが再起動されるまで削除できません。また、Node.jsエージェントの設定で追加することもできます。両方のパラメータが必要です。
+    **rules.name**のプログラム バージョン。命名規則が追加されると、Node.js プロセスが再起動されるまで削除できません。また、Node.js エージェントの構成を介して追加することもできます。両方のパラメータが必要です。
   </Collapser>
 
   <Collapser
     id="addignoringrule"
     title={<InlineCode>newrelic.addIgnoringRule(pattern)</InlineCode>}
   >
-    **rules.ignore** のプログラム版です。一度無視ルールを追加すると、Nodeプロセスが再起動されるまで削除できません。これらのルールは、Node.jsエージェントの設定で追加することもできます。このパラメータは必須です。
+    **rules.ignore**のプログラム版。無視ルールが追加されると、Node.js プロセスが再起動されるまで削除できません。また、Node.js エージェントの構成を介して追加することもできます。このパラメーターは必須です。
   </Collapser>
 </CollapserGroup>

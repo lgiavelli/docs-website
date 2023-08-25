@@ -2,6 +2,9 @@
 subject: Node.js agent 
 releaseDate: '2022-08-03'
 version: 9.0.0
+features: ["Drop Node 12.x support.","Remove certificate bundle from agent.","The agent now excludes port when making external HTTPS requests to port 443.","Remove ability to disable async hooks based promise context tracking via the `await_support` feature flag.","Remove instrumentation for the obsolete.","Update the minimum version of `pg` to be 8.2.x.","Update the minimum supported version of hapi to be >= v20.0.0.", "Add official parity support for Node 18."]
+bugs: []
+security: []
 downloadLink: 'https://www.npmjs.com/package/newrelic'
 ---
 
@@ -35,7 +38,7 @@ downloadLink: 'https://www.npmjs.com/package/newrelic'
 
 * **BREAKING**: Updated the minimum version of `pg` to be 8.2.x.  This is the earliest support version that runs on Node 14+.
 
-* **BREAKING**: Updated the minimum supported version of hapi to be &gt;= v20.0.0. All versions &lt; v20.0.0 are deprecated by hapi for security reasons, see [their support policy](https://hapi.dev/policies/support).
+* **BREAKING**: Updated the minimum supported version of hapi to be >= v20.0.0. All versions &lt; v20.0.0 are deprecated by hapi for security reasons, see [their support policy](https://hapi.dev/policies/support).
   * Dropped tests for hapi &lt; v20.0.0.
 
 * Bumped `@newrelic/test-utilities` to ^7.0.0.

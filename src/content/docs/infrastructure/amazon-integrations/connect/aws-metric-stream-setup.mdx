@@ -4,6 +4,7 @@ tags:
   - Integrations
   - Amazon integrations
   - AWS integrations list
+metaDescription: Learn how to gather all AWS metrics and custom namespaces to send them to New Relic.
 ---
 
 With the AWS Metric Streams integration, you only need a **single service**, [AWS CloudWatch](https://aws.amazon.com/cloudwatch/), to gather all AWS metrics and custom namespaces and send them to New Relic.
@@ -44,7 +45,7 @@ The New Relic UI currently recommends the `ReadOnlyAccess` policy over these ind
 
 First, you need to link each of your AWS accounts with your New Relic account. To do so, use either of these options:
 
-* Go to **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure > AWS**, click on **Add an AWS account**, then on **Use metric streams**, and follow the steps.
+* Go to **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**, click on **Add an AWS account**, then on **Use metric streams**, and follow the steps.
 * [Automate this step with NerdGraph](/docs/apis/nerdgraph/examples/nerdgraph-cloud-integrations-api-tutorial/#link-aws-cloudwatch).
 
 Next, set up the metric stream using the [CloudFormation template](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?templateURL=https://nr-downloads-main.s3.amazonaws.com/cloud_integrations/aws/cloudformation/MetricStreams_CloudFormation.yml&stackName=NewRelic-Metric-Stream&param_NewRelicDatacenter=US) we provide in the last step of our UI. This template is provided as a base to set up the integration on a single region. You can customize and extend it to meet your requirements.
@@ -63,7 +64,7 @@ This table outlines the various parameters required for the CloudFormation templ
       <th>
         Description
       </th>
-      
+
       <th>
         Constraints
       </th>
@@ -77,7 +78,7 @@ This table outlines the various parameters required for the CloudFormation templ
       </td>
 
       <td>
-        The [license key](https://one.newrelic.com/launcher/api-keys-ui.api-keys-launcher) associated with the account you wish to export metrics to.
+        The <InlinePopover type="licenseKey" /> associated with the account you wish to export metrics to.
       </td>
 
       <td>
@@ -143,11 +144,11 @@ This table outlines the various parameters required for the CloudFormation templ
 
     <tr>
       <td>
-        Enrich metrics with resource metadata from AWS Config?
+        Enrich metrics with resource metadata from AWS Config
       </td>
 
       <td>
-        Enable and configure AWS Config to track resource changes
+        Enable and configure AWS Config to track resource changes. This allows you a complete monitoring New Relic experience.
       </td>
 
       <td>
@@ -172,7 +173,7 @@ This table outlines the various parameters required for the CloudFormation templ
 </table>
 
 <Callout variant="tip">
-  The provided CloudFormation template does not include any inclusion nor exclusion namespace filter in CloudWatch metric streams. Consider adapting the base template based on your business requirements.
+  The provided CloudFormation template doesn't include any inclusion nor exclusion namespace filter in CloudWatch metric streams. Consider adapting the base template based on your business requirements.
 </Callout>
 
 ## Manual setup using AWS Console, API, or calls [#manual-setup]
@@ -187,7 +188,7 @@ This table outlines the various parameters required for the CloudFormation templ
   * New Relic configuration (Destination Settings)
     * HTTP endpoint URL - US Datacenter: `https://aws-api.newrelic.com/cloudwatch-metrics/v1`
     * HTTP endpoint URL - EU Datacenter: `https://aws-api.eu01.nr-data.net/cloudwatch-metrics/v1`
-    * API key: Enter your [license key](/docs/accounts/accounts-billing/account-setup/new-relic-license-key/)
+    * API key: Enter your <InlinePopover type="licenseKey" />
     * Content encoding: `GZIP`
     * Retry duration: `60`
   * S3 backup mode: Failed data only
@@ -209,53 +210,51 @@ This table outlines the various parameters required for the CloudFormation templ
 * Change default output format to `Open Telemetry 0.7`. (JSON is not supported.)
 * Confirm the creation of the metric stream.
 
-  Alternatively, you can find instructions on the AWS documentation in order to create the CloudWatch metric stream using a CloudFormation template, API, or the CLI.
+  Alternatively, you can find instructions on the AWS documentation to create the CloudWatch metric stream using a CloudFormation template, API, or the CLI.
 
 3. **Add the new AWS account** in the **Metric streams** mode in the New Relic UI.
-   Go to **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure > AWS**, click on **Add an AWS account**, then on **Use metric streams**, and follow the steps.
+   Go to **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**, click on **Add an AWS account**, then on **Use metric streams**, and follow the steps.
 
 ## Validate your data is received correctly [#validate-data]
 
-To confirm you are receiving data from the Metric Streams, follow these steps:
+To confirm you're receiving data from the Metric Streams, follow these steps:
 
-1. Go to **[one.newrelic.com](https://one.newrelic.com/) > Infrastructure > AWS**, and search for the **Stream** accounts.
+1. Go to **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**, and search for the **Stream** accounts.
 2. Check the following:
 
-* Account status dashboard. Useful to confirm that metric data is being received (errors, number of namespaces/metrics ingested, etc.)
-* Explore your data. Use the data explorer to find a specific set of metrics, access all dimensions available for a given metric, and more.
+* Account status dashboard. Useful to confirm that New Relic receives the metric data (errors, number of namespaces/metrics ingested, etc.)
+* Explore your data. Use metrics and events to find a specific set of metrics, access all dimensions available for a given metric, and more.
 
 It may take few minutes until new resources are detected and synthesized as entities. See [cloud integrationssystem limits](/docs/data-apis/manage-data/view-system-limits) for more information.
 
 <Callout variant="tip">
-  AWS CloudWatch metrics for global services such as AWS S3 or AWS Billing are only availble in the **us-east-1** region. Make sure there's an active CloudWatch metric stream configured in that region.
+  AWS CloudWatch metrics for global services, such AWS Billing, are only availble in the **us-east-1** region. Make sure there's an active CloudWatch metric stream configured in that region.
 </Callout>
 
 ## Queries, metric storage, and mapping [#query-experience]
 
 Metrics coming from AWS CloudWatch are stored as dimensional metrics of type `summary`. You can [query](/docs/telemetry-data-platform/get-data/apis/query-metric-data-type/) using [NRQL](/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language/).
 
-We've mapped metrics from the current cloud integrations to the new mappings that will come from AWS Metric Streams. You can continue to use the current metric naming, and queries will continue to work and pick data from AWS Metric Streams and the current cloud integrations.
+We've mapped metrics from the current cloud integrations to the new mappings that will come from AWS Metric Streams. You can continue to use the current metric naming, and queries will continue to work and pick data from AWS Metric Streams, and the current cloud integrations.
 
 Check our documentation on how [current cloud integrations metrics map to the new metric naming](/docs/integrations/amazon-integrations/get-started/aws-integrations-metrics/).
 
-All metrics coming from the metric stream will have these attributes:
+All metrics coming from the metric stream have these attributes:
 
 * `aws.MetricStreamArn`
 * `collector.name = 'cloudwatch-metric-streams'`.
 
-## AWS namespaces' entities in the New Relic explorer [#aws-entities]
+## AWS namespaces' entities in the entity list [#aws-entities]
 
-We generate New Relic [entities](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic/) for most used AWS namespaces and will continue adding support for more namespaces.
+We generate New Relic [entities](/docs/new-relic-one/use-new-relic-one/core-concepts/what-entity-new-relic) for many AWS namespaces. When we generate New Relic entities for a namespace you can expect to:
 
-When we generate New Relic entities for a namespace you can expect to:
-
-* Browse those entities in the [New Relic explorer](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/).
+* Browse those entities in our [entity explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer).
 * Access an entity dashboard automatically created for those entities.
 * Get metrics and entities from that namespace decorated with AWS tags. Collecting AWS tags requires that you have given New Relic the `tag:GetResources` permission, which is part of the setup process in the UI. AWS tags show in metrics as `tag.AWSTagName`; for example, if you have set a `Team` AWS tag on the resource, it will show as `tag.Team`.
-* Leverage all the built-in features that are part of the explorer.
+* Leverage all the features included in the entity explorer.
 
 <Callout variant="important">
-  [Lookout view](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-lookout-monitor-your-estate-glance/) in **Entity Explorer** is not compatible with entities created from the AWS Metric Streams integration at this time.
+  [New Relic Lookout](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-lookout-monitor-your-estate-glance) is not compatible with the AWS Metric Streams integration.
 </Callout>
 
 ## Set alert conditions [#set-alerts]
@@ -270,7 +269,7 @@ Then, to make sure that alerts processes the data correctly, configure the advan
 
 To configure the signal settings, under **Condition Settings**, click on **Advanced Signal Settings** and enter the following values:
 
-1. **Aggregation window**. We recommend setting it to 1 minute. If you are having issues with flapping alerts or alerts not triggering, consider increasing it to 2 minutes.
+1. **Aggregation window**. We recommend setting it to 1 minute. If you're having issues with flapping alerts or alerts not triggering, consider increasing it to 2 minutes.
 2. **Offset evaluation by**. Depending on the service, CloudWatch may send metrics with a certain delay. The value is set in windows. With a 1-minute aggregation window, setting the offset to 8 ensures the majority of the metrics are evaluated correctly. You may be able to use a lower offset if the delay introduced by AWS and Firehose is less.
 3. **Fill data gaps with**. Leave this void, or use Last known value if gaps in the data coming from AWS lead to false positives or negatives.
 
@@ -278,7 +277,7 @@ See our documentation on [how to create NRQL alerts](/docs/alerts-applied-intell
 
 ## Tags collection [#tags-collection]
 
-New Relic provides enhanced dimensions from metrics coming from AWS CloudWatch metric streams. Resource and custom tags are automatically pulled from most services and are used to decorate metrics with additional dimensions. Use the [data explorer](/docs/query-your-data/explore-query-data/explore-data/introduction-data-explorer/) to see which tags are available on each AWS metric.
+New Relic provides enhanced dimensions from metrics coming from AWS CloudWatch metric streams. Resource and custom tags are automatically pulled from most services and are used to decorate metrics with additional dimensions. Use [metrics and events](/docs/query-your-data/explore-query-data/explore-data/introduction-data-explorer/) to see which tags are available on each AWS metric.
 
 The following query shows an example of tags being collected and queried as dimensions in metrics:
 
@@ -286,11 +285,15 @@ The following query shows an example of tags being collected and queried as dime
 SELECT average(`aws.rds.CPUUtilization`) FROM Metric FACET `tags.mycustomtag` SINCE 30 MINUTES AGO TIMESERIES
 ```
 
-Note that not all metrics have their custom tags as dimensions. Currently, only metrics linked to entities in the [New Relic explorer](/docs/new-relic-one/use-new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/) have their custom tags associated. The AWS CloudWatch metric stream doesn't include tags as part of the stream message; hence, additional processing is required on the New Relic side.
+Not all metrics have their custom tags as dimensions. Only metrics linked to entities listed in the [entity explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer) have their custom tags associated. The AWS CloudWatch metric stream doesn't include tags as part of the stream message; hence, additional processing is required on the New Relic side.
 
 ## Metadata collection [#metadata-collection]
 
-Like with custom tags, New Relic also pulls metadata information from relevant AWS services in order to decorate AWS CloudWatch metrics with enriched metadata collected from AWS Services APIs. This metadata is accessible in New Relic as additional dimensions on the metrics provided by AWS CloudWatch. This is an optional capability that's complementary to the CloudWatch Metric Streams integration.
+Like with custom tags, New Relic also pulls metadata information from relevant AWS services in order to decorate AWS CloudWatch metrics with enriched metadata collected from AWS Services APIs. This metadata is accessible in New Relic as additional dimensions on the metrics provided by AWS CloudWatch.
+
+  <Callout variant="important">
+This optional capability is complementary to the CloudWatch Metric Streams integration. Your service discovery and monitoring will be incomplete if you don't enable this optional capability.
+  </Callout>
 
 The solution relies on [AWS Config](https://docs.aws.amazon.com/config/index.html), which might incur in additional costs in your AWS account. AWS Config provides [granular controls](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html) to determine which services and resources are recorded. New Relic will only ingest metadata from the available resources in your AWS account.
 
@@ -319,11 +322,11 @@ The CloudWatch metric stream integration automatically ingests new metrics confi
 
 ### Custom metrics [#custom-metrics]
 
-To ingest CloudWatch custom metrics, make sure your custom namespace is visible in the CloudWatch metric stream configuration and it's not being filtered by inclusion or exclusion rules.  
+To ingest CloudWatch custom metrics, make sure your custom namespace is visible in the CloudWatch metric stream configuration and it's not being filtered by inclusion or exclusion rules.
 
 ### Percentiles [#percentiles]
 
-AWS CloudWatch allows you to [define additional statistics](https://aws.amazon.com/about-aws/whats-new/2022/04/amazon-cloudwatch-metric-streams-additional-statistics/), including percentiles. 
+AWS CloudWatch allows you to [define additional statistics](https://aws.amazon.com/about-aws/whats-new/2022/04/amazon-cloudwatch-metric-streams-additional-statistics/), including percentiles.
 
 Follow these steps to add percentiles to any metric available in the CloudWatch stream:
 
@@ -342,7 +345,7 @@ Learn more about pricing, limitations, and advance configurations from the [AWS 
 
 The New Relic UI provides a [set of tools](/docs/telemetry-data-platform/ingest-manage-data/manage-data/manage-your-data/) to keep track of the data being ingested in your account. Go to **Manage your data** in the settings menu to see all details. Metrics ingested from AWS Metric Streams integrations are considered in the **Metric** bucket.
 
-If you need a more granular view of the data, use the `bytecountestimate()` function on `Metric` in order to estimate the data being ingested. For example, the following query represents data ingested from all metrics processed via AWS Metric Streams integration in the last 30 days (in bytes):
+If you need a more granular view of the data, use the [`bytecountestimate()` function](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/usage-queries-alerts/#byte-count-estimate) on `Metric` to estimate the data being ingested. For example, the following query represents data ingested from all metrics processed via AWS Metric Streams integration in the last 30 days (in bytes):
 
 ```
 FROM Metric SELECT bytecountestimate()/10e8 as 'GB Estimate' WHERE collector.name='cloudwatch-metric-streams' SINCE 30 day ago

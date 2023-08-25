@@ -9,16 +9,16 @@ dataSource: vmware-tanzu
 translationType: machine
 ---
 
-import newreliconeDashboardsVmwareTanzu0 from 'images/newrelicone-dashboards-vmware-tanzu_0.png'
+import infrastructureVmwareTanzuDashboard from 'images/infrastructure_screenshot-crop_vmware-tanzu-dashboard.webp'
 
-import tanzuAlertChart from 'images/tanzu-alert-chart.png'
+import infrastructureVmwareTanzuAlertChart from 'images/infrastructure_screenshot-crop_vmware-tanzu-alert-chart.webp'
 
 VMware Tanzuインテグレーション [は、Tanzu環境の健全性とパフォーマンスの把握に役立ちます。異なるTanzuインスタンスやクラウドプロバイダーのデータを照会し、ハイレベルな表示から、ガベージコレクタの休止時間などの最も細かいデータまで確認できます。](https://github.com/newrelic/newrelic-pcf-nozzle-tile)
 
 <img
   title="newrelicone-dashboards-vmware-tanzu.png"
   alt="newrelicone-dashboards-vmware-tanzu.png"
-  src={newreliconeDashboardsVmwareTanzu0}
+  src={infrastructureVmwareTanzuDashboard}
 >
   [](https://github.com/newrelic/newrelic-pcf-nozzle-tile)
 </img>
@@ -33,7 +33,7 @@ VMware Tanzuインテグレーション [は、Tanzu環境の健全性とパフ�
   VMware PKSからデータを収集するには、 [New Relic Cluster Monitoring](https://docs.pivotal.io/partners/new-relic-cluster-monitoring/index.html) の統合を使用します。
 </Callout>
 
-## 機能
+## 特徴
 
 New Relic VMware Tanzuとの統合により、以下のことが可能になります。
 
@@ -45,11 +45,11 @@ New Relic VMware Tanzuとの統合により、以下のことが可能になり�
 * [* 異なるデータ量に対応するために、ノズルのインスタンス数を拡張します。](https://docs.pivotal.io/partners/new-relic-nozzle/index.html#filters)
 * [取得したデータを使って、 ](https://docs.pivotal.io/partners/new-relic-nozzle/index.html#filters)[Key Performance](https://docs.pivotal.io/platform/2-8/monitoring/kpi.html) と [Key Capacity Scaling](https://docs.pivotal.io/platform/2-8/monitoring/key-cap-scaling.html) の指標をモニターする。
 * 同じアカウントで複数のVMware Tanzuインスタンスをインスツルメントして監視することができます。
-* オプションで、LogMessageエンベロープとHttpStartStopエンベロープをNewRelicの[LogsUI](/docs/logs/log-management/get-started/get-started-log-management)に送信します。これには、LogMessageエンベロープ[のコンテキストサポートのログが](/docs/logs/enable-log-management-new-relic/configure-logs-context/configure-logs-context-apm-agents)含まれます。
+* オプションで、LogMessage エンベロープのコンテキスト [サポートのログを](/docs/logs/enable-log-management-new-relic/configure-logs-context/configure-logs-context-apm-agents)含む、LogMessage エンベロープと HttpStartStop エンベロープを [ログ UI に送信します。](/docs/logs/log-management/get-started/get-started-log-management)
 
 ## 互換性と要件 [#requirements]
 
-当社の統合は、VMware Tanzu Application Serviceバージョン2.7〜2.12、およびOps Managerバージョン2.5〜2.10と互換性があります。 BOSH幹細胞はUbuntuXenialに基づいている必要があります。
+この統合は、VMware Tanzu Application Service バージョン 2.10 ～ 3.0、および Ops Manager バージョン 2.8 ～ 3.0 と互換性があります。BOSH 幹細胞は、Ubuntu Xenial に基づいている必要があります。
 
 統合機能をインストールする前に、VMware Tanzuのアカウントが必要であることを確認してください。
 
@@ -63,9 +63,11 @@ VMware Tanzuの統合をインストールする最も早い方法は、 [nr-fir
 
 ノズルを標準アプリケーションとしてデプロイし、マニフェストを編集して、コマンドラインから`cf push`を実行することもできます。 [GitHubリポジトリで](https://github.com/newrelic/newrelic-pcf-nozzle-tile)統合を構築してデプロイする方法をご覧ください。
 
+<InstallFeedback/>
+
 ## データを見つけて使用する [#find-use-data]
 
-VMware Tanzuインテグレーションをインストールしてアクティベートすると、 [**one.newrelic.com**](http://one.newrelic.com) **> インフラストラクチャ> サードパーティサービス> VMware Tanzu ダッシュボード** 。このデータを照会してカスタムチャートやダッシュボードを作成し、アカウントに追加することができます。
+VMware Tanzu 統合をインストールしてアクティブ化すると、 **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Infrastructure > Third-party services > VMware Tanzu dashboard**でデータと事前定義されたグラフを見つけることができます。データをクエリしてカスタム グラフやダッシュボードを作成し、アカウントに追加できます。
 
 複数のTanzu環境からデータを収集する場合は、 `pcf.domain`および`pcf.IP`属性と`WHERE`または`FACET`を使用して、異なるTanzuデプロイメントからのイベントを区別します。
 
@@ -92,7 +94,7 @@ SELECT average(app.memory.used) FROM PCFContainerMetric WHERE metric.name = 'app
 <img
   title="tanzu-alert-chart.png"
   alt="VMWare Tanzu NRQL alert chart"
-  src={tanzuAlertChart}
+  src={infrastructureVmwareTanzuAlertChart}
 />
 
 NRQL クエリの詳細およびアラートの異なる通知チャネルの設定方法については、 [NRQL クエリのアラート条件の作成](/docs/alerts/new-relic-alerts/defining-conditions/create-alert-conditions-nrql-queries) を参照してください。
@@ -224,7 +226,7 @@ PCFContainerMetric
 
 ### PCFHttpStartStop
 
-HTTPリクエストのライフサイクル全体。すべての共有[装飾](#decoration)フィールドが含まれます。これらのイベントは、オプションでNew Relicに送信して、 [LogsUI](/docs/logs/new-relic-logs/ui-data/explore-your-data-new-relic-logs-ui)で視覚化できます。
+HTTP リクエストのライフサイクル全体。すべての共有 [装飾](#decoration) フィールドが含まれます。これらのイベントは、 [ログ UI](/docs/logs/new-relic-logs/ui-data/explore-your-data-new-relic-logs-ui)で視覚化するために、オプションで New Relic に送信できます。
 
 <table>
   <thead>
@@ -354,7 +356,7 @@ HTTPリクエストのライフサイクル全体。すべての共有[装飾](#
 
 ### PCFLogMessage
 
-ログラインと関連するメタデータ。共有されているすべての[Aggregation](#aggregation) 、 [App](#app) 、 [Decoration](#decoration)フィールドが含まれています。これらのイベントは、オプションでNew Relicに送信して、 [LogsUI](/docs/logs/new-relic-logs/ui-data/explore-your-data-new-relic-logs-ui)で視覚化できます。
+ログ行と関連するメタデータ。すべての共有 [フィールド Aggregation](#aggregation)、 [App](#app)、および [Decoration](#decoration) フィールドが含まれます。これらのイベントは、 [ログ UI](/docs/logs/new-relic-logs/ui-data/explore-your-data-new-relic-logs-ui)で視覚化するために、オプションで New Relic に送信できます。
 
 <table>
   <thead>

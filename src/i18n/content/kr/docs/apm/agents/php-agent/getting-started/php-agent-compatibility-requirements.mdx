@@ -5,6 +5,8 @@ tags:
   - PHP agent
   - Getting started
 metaDescription: A summary of the New Relic PHP agent's system requirements and the supported PHP frameworks and libraries.
+signupBanner:
+  text: Monitor and improve your entire stack. 100GB free. Forever.
 translationType: machine
 ---
 
@@ -14,16 +16,26 @@ New Relic for PHP를 [설치](/docs/apm/agents/php-agent/installation) 하기 �
 
 ## PHP 릴리스 [#php-release]
 
-New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합니다.
+New Relic 은 PHP 버전 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2를 지원합니다.
 
 <Callout variant="important">
-  호환성 참고: PHP 8.0 또는 8.1이 New Relic 에이전트와 같은 관찰 가능성 확장을 감지하면 PHP는 Just-In-Time 컴파일을 비활성화합니다.
+  호환성 참고: PHP 8.0, 8.1 또는 8.2가 New Relic 에이전트와 같은 관찰 확장을 감지하면 PHP는 Just-In-Time 컴파일을 비활성화합니다.
 
-  PHP 8.1 지원에는 Fiber가 포함되지 않습니다.
+  PHP 8.1+에 대한 지원에는 파이버가 포함되지 않습니다.
+
+  PHP 버전 7.0 및 7.1에 대한 지원은 2023년 12월에 종료됩니다.
 </Callout>
 
-* [지원되는 PHP 릴리스](http://php.net/supported-versions.php) , 특히 7.4, 8.0 및 8.1을 사용하는 것이 좋습니다.
+* [지원되는 PHP 릴리스를](http://php.net/supported-versions.php) 사용하는 것이 좋습니다.
 * 릴리스 [9.19](/docs/release-notes/agent-release-notes/php-release-notes/php-agent-9190309) 는 ZTS 빌드를 지원하는 마지막 릴리스였습니다.
+
+<Callout variant="important">
+  **지원되지 않는 PHP 버전 또는 플랫폼(예: 32비트 OS, FreeBSD, ZTS)을 사용하여 설치하는 경우 PHP 에이전트 패키지의 자동 업데이트 메커니즘을 비활성화하는 것이 좋습니다.** 패키지 업그레이드를 위한 제외 목록에 PHP 에이전트 패키지를 추가하면 됩니다. 또는 지원되지 않는 이전 기능을 지원하는 에이전트 버전에 PHP 에이전트 패키지를 버전 고정할 수 있습니다. 업그레이드를 방지하지 못하면 최신 에이전트 릴리스가 설치되고 지원되지 않는 필수 기능에 대한 지원이 제거될 수 있습니다. 이렇게 하면 APM 데이터 수집이 중단됩니다. 영향을 받는 PHP 에이전트 패키지는 다음과 같습니다.
+
+  * newrelic-php5
+  * newrelic-php5-common
+  * newrelic 데몬
+</Callout>
 
 ## 권한 [#permissions]
 
@@ -32,7 +44,7 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
 ## 라이센스 키 [#license_key]
 
-모든 설치에는 New Relic [라이센스 키](/docs/subscriptions/license-key) 가 필요합니다. 이것은 New Relic이 귀하의 계정에 [가입할](https://newrelic.com/signup) 때 제공하는 40자의 16진수 문자열입니다. 자세한 내용은 PHP INI 파일의 PHP [설치 스크립트](/docs/php/the-newrelic-install-script) 및 [라이선스 키 설정](/docs/php/php-agent-phpini-settings#inivar-license) 을 참조하십시오.
+모든 설치에는 New Relic이 필요합니다. <InlinePopover type="licenseKey"/>. 계정 [가입](https://newrelic.com/signup) 시 New Relic에서 제공하는 40자의 16진수 문자열입니다. 자세한 내용은 PHP INI 파일의 PHP [설치 스크립트](/docs/php/the-newrelic-install-script) 및 [라이선스 키 설정을](/docs/php/php-agent-phpini-settings#inivar-license) 참조하십시오.
 
 ## 프로세서 유형 [#processor]
 
@@ -40,6 +52,8 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 * ARM64
 
 ## 운영체제 [#operating-systems]
+
+New Relic PHP 에이전트는 Ubuntu, Debian, Amazon Linux, Alpine, RHEL 및 CentOS 운영 체제(OS)에서 지원됩니다. 공급업체가 수명 종료(예: Ubuntu에 대한 표준 지원, Debian에 대한 EOL LTS, RHEL에 대한 유지 관리 지원 및 CentOS에 대한 유지 관리 업데이트)를 발표하면 New Relic은 1년 동안 이러한 최신 버전을 계속 지원할 것입니다. 1년이 지나면 New Relic은 해당 버전에 대한 지원을 종료합니다. 사용 중인 PHP 버전이 더 이상 OS에서 공식적으로 사용할 수 없는 경우 지원이 1년보다 빨리 종료될 수 있습니다. 제조사에서 공식적으로 지원하는 최신 버전의 OS 사용을 적극 권장합니다. 당사 에이전트의 최신 버전은 수명 종료가 지난 OS 버전에서 작동할 수 있지만 더 이상 New Relic PHP 에이전트에서 테스트하거나 공식적으로 지원하지 않습니다.
 
 <table>
   <thead>
@@ -61,28 +75,22 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
       </td>
 
       <td>
+        * 알파인 3.12 이상
+
         * 아마존 리눅스 2
 
-        * RHEL(Red Hat Enterprise Linux) 6 이상
+        * Red Hat Enterprise Linux(RHEL) 7 이상
 
-          <Callout variant="important">
-            2022년 3월부터 RHEL(Red Hat Enterprise Linux) 6에 대한 지원이 중단되었습니다. 자세한 내용은 [PHP 에이전트 릴리스 정보 v9.20.0](/docs/release-notes/agent-release-notes/php-release-notes/php-agent-9200310) 을 참조하십시오. 2022년 6월부터 더 이상 지원되지 않습니다.
-          </Callout>
+        * CentOS 7 이상
 
-        * CentOS 6 이상
+        * 데비안 9.0("스트레치") 이상
 
-          <Callout variant="important">
-            2022년 3월부터 Centos 6에 대한 지원이 중단되었습니다. 자세한 내용은 [PHP 에이전트 릴리스 정보 v9.20.0](/docs/release-notes/agent-release-notes/php-release-notes/php-agent-9200310) 을 참조하세요. 2022년 6월부터 더 이상 지원되지 않습니다.
-          </Callout>
-
-        * 데비안 7.0("wheezy") 이상
-
-        * Ubuntu LTS 14.04("Trusty Tahr") 이상 또는 Ubuntu 비 LTS 19.04("Disco Dingo") 이상.
+        * Ubuntu LTS 18.04("Bionic Beaver") 이상 또는 Ubuntu 비LTS 21.04("Hirsute Hippo") 이상.
 
         * 다음이 포함된 기타 모든 Linux 배포:
 
-          * 커널 버전 2.6.13 이상(2.6.26 이상 권장)
-          * [NPTL](https://en.wikipedia.org/wiki/Native_POSIX_Thread_Library) 을 지원하는 glibc 2.5 이상 또는 musl libc 버전 1.1 이상
+          * 커널 버전 4.9(장기) 이상
+          * [NPTL을](https://en.wikipedia.org/wiki/Native_POSIX_Thread_Library) 지원하는 glibc 2.17 이상 또는 musl libc 버전 1.1.24 또는 더 높게
       </td>
     </tr>
 
@@ -93,17 +101,23 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
       <td>
         * Amazon Linux 2(AWS Graviton 2 포함)
-
         * 센트OS 8
+        * 알파인 3.16 이상
+        * 데비안 11 이상
 
-          <Callout variant="important">
-            ARM64는 다음에서만 지원됩니다.
+        <Callout variant="important">
+          ARM64 지원은 PHP 8.0, 8.1 및 8.2에만 제공됩니다.
+        </Callout>
 
-            * PHP 8.0 및 New Relic PHP Agent 9.18.1 이상 포함.
-            * PHP 8.1 및 New Relic PHP Agent 9.19.0 이상 포함.
-          </Callout>
+        <Callout variant="important">
+          New Relic PHP 에이전트 10.10.0 이상은 tarball 배포에 바이너리를 포함하여 ARM64를 지원합니다.
+        </Callout>
 
-          ARM64 지원에 대한 자세한 내용 [은 ARM64 설치 정보](/docs/apm/agents/php-agent/installation/php-agent-installation-arm64) 를 참조하십시오.
+        <Callout variant="important">
+          New Relic PHP 에이전트 9.18.1 - 10.9.0 소스 배포판은 Amazon Linux 2(AWS Graviton 2 포함) 및 Centos 8에서만 ARM64 지원을 제공합니다.
+        </Callout>
+
+        ARM64 지원 및 설치에 대한 자세한 내용은 [ARM64 설치 정보를](/docs/apm/agents/php-agent/installation/php-agent-installation-arm64)참조하십시오.
       </td>
     </tr>
   </tbody>
@@ -153,7 +167,7 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
     <tr>
       <td>
-        [드루팔 6.x, 7.x, 8.x, 9.x](/docs/agents/php-agent/frameworks-libraries/drupal-specific-functionality)
+        [드루팔 6.x, 7.x, 8.x, 9.1-9.5](/docs/agents/php-agent/frameworks-libraries/drupal-specific-functionality)
       </td>
 
       <td>
@@ -173,7 +187,7 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
     <tr>
       <td>
-        코하나 3.2 및 3.3
+        라미나스 3.x
       </td>
 
       <td>
@@ -183,7 +197,7 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
     <tr>
       <td>
-        라미나스 3.x
+        라라벨 루멘 6.x, 7.x, 8.x
       </td>
 
       <td>
@@ -193,31 +207,21 @@ New Relic은 PHP 버전 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1을 지원합
 
     <tr>
       <td>
-        라라벨 4.x, 5.x, 6.x, 7.x
-      </td>
-
-      <td>
         Zend 프레임워크 1.x, 2.x 및 3.x
       </td>
-    </tr>
 
-    <tr>
-      <td>
-        라라벨 루멘 6.x, 7.x, 8.x
-      </td>
+      <td/>
     </tr>
   </tbody>
 </table>
 
 <Callout variant="important">
-  PHP 에이전트 버전 9.17부터 다음 프레임워크 또는 프레임워크 버전은 더 이상 지원되지 않습니다. Cake PHP 1.x; 줌라 1.5, 1.6, 2.x; 사일렉스 1.x 및 2.x; 심포니 1.x 및 2.x.
-
   Joomla 3.x는 PHP 8.x에서 지원되지 않습니다.
 </Callout>
 
 PHP 에이전트의 프레임워크 목록은 계속해서 증가하고 있습니다. 사용 중인 프레임워크가 여기에 나열되지 않더라도 PHP 에이전트는 앱에 대한 유용한 정보를 제공할 수 있습니다.
 
-자세한 내용은 [PHP 프레임워크: New Relic에 대한 지원 통합](/docs/php/framework-developers-integrated-support-for-new-relic) 을 참조하세요. 다른 인기 있는 PHP 프레임워크에 대한 지원을 제안하려면 [Explorers Hub](https://discuss.newrelic.com/tags/phpagent) 를 방문하여 `Feature Idea` !
+자세한 정보는 [PHP 프레임워크: New Relic 지원 통합](/docs/php/framework-developers-integrated-support-for-new-relic) 을 참조하십시오. 다른 인기 있는 PHP 프레임워크에 대한 지원을 제안하려면 [지원 포럼](https://discuss.newrelic.com/tags/phpagent) 을 방문하여 `Feature Idea` !
 
 ## 데이터베이스 및 라이브러리 [#databases]
 
@@ -238,7 +242,7 @@ PHP 에이전트의 프레임워크 목록은 계속해서 증가하고 있습�
   <tbody>
     <tr>
       <td>
-        불새
+        Firebird(PDO 드라이버 전용)
       </td>
 
       <td>
@@ -262,7 +266,7 @@ PHP 에이전트의 프레임워크 목록은 계속해서 증가하고 있습�
       </td>
 
       <td>
-        PDO
+        PDO 드라이버
       </td>
     </tr>
 
@@ -288,7 +292,7 @@ PHP 에이전트의 프레임워크 목록은 계속해서 증가하고 있습�
 
     <tr>
       <td>
-        마이크로소프트 SQL 서버
+        Microsoft SQL Server(PDO 드라이버 전용)
       </td>
 
       <td>
@@ -308,11 +312,11 @@ PHP 에이전트의 프레임워크 목록은 계속해서 증가하고 있습�
 
     <tr>
       <td>
-        ODBC
+        ODBC(PDO 드라이버만 해당)
       </td>
 
       <td>
-        사이베이스
+        Sybase(PDO 드라이버 전용)
       </td>
     </tr>
   </tbody>
@@ -429,6 +433,16 @@ New Relic은 [다양한 데이터베이스 및 데이터베이스 드라이버�
 
 현재 New Relic 에이전트에 대해 나열되지 않은 데이터 저장소에서 인스턴스 수준 정보를 요청하려면 [support.newrelic.com](https://support.newrelic.com) 에서 지원을 받으십시오.
 
+## Codesteam/코드 수준 지표
+
+PHP 에이전트는 PHP 릴리스 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1 및 8.2에 대한 코드 수준 메트릭을 지원합니다.
+
+## 로그인 컨텍스트 [#logging]
+
+PHP 에이전트는 다음 라이브러리에 대한 [컨텍스트에서 APM 로그를](/docs/logs/logs-context/configure-logs-context-php/) 지원합니다.
+
+* 독백 2와 3
+
 ## 메시지 큐잉 [#queuing]
 
 * HTTP
@@ -468,11 +482,21 @@ PHP 에이전트는 다른 New Relic 기능과 통합되어 엔드 투 엔드 �
 
     <tr>
       <td>
+        [Codestream/코드 수준 지표](/docs/codestream/how-use-codestream/performance-monitoring/)
+      </td>
+
+      <td>
+        New Relic CodeStream을 사용하면 관찰 기능을 IDE에 도입하고 이를 일상의 일부로 만들어 개발자가 자신이 담당하는 코드가 생산 환경에서 어떻게 수행되는지 확인할 수 있습니다. PHP 에이전트는 애플리케이션에서 코드 수준 지표(릴리스 10.4.0부터)를 보고하여 메서드 수준에서 코드가 어떻게 수행되고 있는지 자세히 파악할 수 있습니다.
+      </td>
+    </tr>
+
+    <tr>
+      <td>
         [인프라 모니터링](/docs/infrastructure/new-relic-infrastructure/getting-started/introduction-new-relic-infrastructure)
       </td>
 
       <td>
-        동일한 호스트에 인프라 및 APM 에이전트를 설치하면 자동으로 서로를 감지합니다. 그런 다음 APM UI에서 호스트 목록을 보고 인프라 UI에서 APM 앱별로 인프라 호스트를 필터링할 수 있습니다. 자세한 내용 [은 인프라 모니터링의 APM 데이터를](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure) 참조하세요.
+        인프라와 APM 에이전트를 동일한 호스트에 설치하면 자동으로 서로를 감지합니다. 그런 다음 APM UI에서 호스트 목록을 보고 인프라 UI에서 APM 앱별로 호스트를 필터링할 수 있습니다. 자세한 정보는 [인프라 모니터링의 APM 데이터를](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure) 참조하십시오.
       </td>
     </tr>
 

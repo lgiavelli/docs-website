@@ -12,6 +12,10 @@ New Relic 솔루션에서 기본적으로 보고하지 않는 사용자 지정 �
 
 일부 New Relic 솔루션의 경우 [사용자 지정 데이터를 New Relic에 보고](/docs/telemetry-data-platform/custom-data/intro-custom-data) 하는 한 가지 방법은 사용자 지정 [속성](/docs/agents/manage-apm-agents/agent-data/agent-attributes) 을 사용하는 것입니다. 데이터에 사용자 정의 속성을 추가하면 비즈니스에 대한 보다 심층적이고 사용자 정의된 분석을 수행할 수 있습니다. 예를 들어 New Relic 브라우저 모니터링의 경우 느리거나 실패한 요청과 관련된 사용자 이름을 추적하기 위해 사용자 정의 속성을 생성할 수 있습니다.
 
+<Callout variant="important">
+  사용자 지정 속성은 수집된 GB에 포함되며 청구 가능한 데이터입니다.
+</Callout>
+
 ## 요구 사항 [#requirements]
 
 사용자 정의 속성은 다음과 같은 New Relic 솔루션에 사용할 수 있습니다.
@@ -47,7 +51,7 @@ New Relic에서 [속성](/docs/new-relic-solutions/get-started/glossary/#attribu
 
 사용자 정의 속성을 추가하면 New Relic에서 이를 쿼리하고 해당 데이터에서 사용자 정의 차트를 생성할 수 있습니다. 예를 들어 [Java 에이전트 API](#java-att) 를 사용하여 `Transaction` 및 `TransactionError` 이벤트에 `userId` 속성을 추가한 경우 다음과 같이 해당 속성을 사용하여 NRQL 쿼리를 만들 수 있습니다.
 
-```
+```sql
 SELECT count(*) FROM TransactionError 
   WHERE userId = '1401961100' FACET dateOf(timestamp), `error.message` 
   SINCE 1 week ago
@@ -59,16 +63,9 @@ SELECT count(*) FROM TransactionError
   [NRQL에서 사용하는 예약어](/docs/insights/insights-data-sources/custom-data/insights-custom-data-requirements-limits#reserved-words) 목록을 검토하십시오. 예약 용어를 사용하면 문제가 발생할 수 있습니다.
 </Callout>
 
-APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에이전트에 대한 절차를 따르십시오.
+APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 해당 절차를 따르십시오. <InlinePopover type="apm"/>대리인:
 
 <CollapserGroup>
-  <Collapser
-    id="c-sdk-att"
-    title="C SDK"
-  >
-    C SDK에서 모니터링하는 애플리케이션에 사용자 정의 속성을 추가하려면 [속성 함수](https://newrelic.github.io/c-sdk/libnewrelic_8h.html#abfe6f64a8eec7d60d8588f8969781d34) 중 하나를 호출하십시오. 예: `newrelic_add_attribute_double()` . 사용자 정의 속성의 키 이름은 함수를 호출할 때 지정하는 항목에 따라 다릅니다.
-  </Collapser>
-
   <Collapser
     id="go-att"
     title="가다"
@@ -129,7 +126,7 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
                예를 들어, `userId` 이라는 변수를 기록하려면 상위 메서드에 다음 코드를 포함합니다.
 
-               ```
+               ```java
                NewRelic.addCustomParameter("userId", userId);
                ```
 
@@ -143,7 +140,7 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
                예를 들어 현재 범위에 `userId` 이라는 변수를 기록하려면 연결된 메서드에 다음 코드를 포함합니다.
 
-               ```
+               ```java
                NewRelic.getAgent().getTracedMethod().addCustomAttribute("userId", userId);
                ```
           </td>
@@ -174,7 +171,7 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
        예를 들어 쿠폰 코드(문자열) 및 항목 ID 코드(숫자)에 대한 속성을 기록하려면 다음 코드를 상위 메서드에 포함할 수 있습니다.
 
-       ```
+       ```cs
        IAgent agent = NewRelic.Api.Agent.NewRelic.GetAgent();
        ITransaction transaction = agent.CurrentTransaction;
 
@@ -196,7 +193,7 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
       예를 들어 쿠폰 코드 및 항목 ID 코드에 대한 속성을 기록하려면 다음을 상위 메서드에 포함할 수 있습니다.
 
-      ```
+      ```js
       newrelic.addCustomAttributes({
         "Discount Code": "Summer Super Sale",
         "Item Code": 31456
@@ -216,7 +213,7 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
       예를 들어, `$userId` 이라는 변수를 기록하려면 상위 메서드에 다음 코드를 포함합니다.
 
-      ```
+      ```php
       newrelic_add_custom_parameter ('userID', $userId)
       ```
   </Collapser>
@@ -225,12 +222,12 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
     id="python-att"
     title="파이썬"
   >
-    사용자 지정 속성 컬렉션은 Python에서 기본적으로 활성화되어 있습니다. 맞춤 속성을 수집하려면 속성을 기록할 각 메서드에 대해 [`add_custom_parameter`](/docs/agents/python-agent/python-agent-api/add_custom_parameter) 를 호출합니다.
+    사용자 지정 속성 컬렉션은 Python에서 기본적으로 활성화되어 있습니다. 맞춤 속성을 수집하려면 속성을 기록할 각 메서드에 대해 [`add_custom_attribute`](/docs/agents/python-agent/python-agent-api/add_custom_attribute) 를 호출합니다.
 
     예를 들어, `user_id` 이라는 변수를 기록하려면 상위 메서드에 다음 코드를 포함합니다.
 
-    ```
-    newrelic.agent.add_custom_parameter('user_id', user_id)
+    ```python
+    newrelic.agent.add_custom_attribute('user_id', user_id)
     ```
   </Collapser>
 
@@ -242,13 +239,13 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
     * Ruby 에이전트 버전 3.12.0 이상에서는 [`add_custom_attributes`](http://www.rubydoc.info/github/newrelic/newrelic-ruby-agent/NewRelic/Agent#add_custom_attributes-instance_method) 메서드를 사용합니다. 예를 들어, `@user_id` 이라는 변수를 기록하려면 상위 메서드에 다음 코드를 포함합니다.
 
-      ```
+      ```ruby
       ::NewRelic::Agent.add_custom_attributes({ user_id: @user.id })
       ```
 
     * Ruby 에이전트 버전 3.11.2 이하의 경우 `add_custom_parameters` 메서드를 사용합니다. 예를 들어, `@user_id` 이라는 변수를 기록하려면 상위 메서드에 다음 코드를 포함합니다.
 
-      ```
+      ```ruby
       ::NewRelic::Agent.add_custom_parameters({ user_id: @user.id })
       ```
   </Collapser>
@@ -260,15 +257,15 @@ APM에 대한 사용자 정의 속성을 활성화하고 사용하려면 APM 에
 
 ## 인프라 모니터링: 사용자 정의 속성 기록 [#collecting_browser]
 
-[인프라 모니터링](/docs/infrastructure/new-relic-infrastructure/getting-started/welcome-new-relic-infrastructure) 을 통해 인프라 에이전트의 데이터에 주석을 추가하는 데 사용되는 [사용자 지정 속성](/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes) 을 생성할 수 있습니다. 이 메타데이터를 사용하여 필터 세트를 만들고 결과를 그룹화하고 데이터에 주석을 추가할 수 있습니다.
+당사의 [인프라 모니터링을 통해](/docs/infrastructure/new-relic-infrastructure/getting-started/welcome-new-relic-infrastructure) 인프라 에이전트의 데이터에 주석을 추가하는 데 사용되는 [사용자 정의 속성을](/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#attributes) 생성할 수 있습니다. 이 메타데이터를 사용하여 엔터티를 필터링하고 결과를 그룹화하고 데이터에 주석을 달 수 있습니다.
 
 ## 모바일 모니터링: 사용자 정의 속성 기록 [#collecting_mobile]
 
 모바일 에이전트에는 사용자 정의 속성을 기록하기 위한 API 호출이 포함됩니다.
 
 * 모바일 모니터링 사용자 지정 데이터에 대한 개요는 [사용자 지정 이벤트 및 속성 삽입](/docs/insights/insights-data-sources/custom-events/insert-custom-events-attributes-mobile-data) 을 참조하세요.
-* Android 방법: [`setAttribute`](/docs/mobile-monitoring/new-relic-mobile-android/android-sdk-api/set-attribute)
-* iOS 방법: [`setAttribute`](/docs/mobile-monitoring/new-relic-mobile-ios/ios-sdk-api/set-attribute)
+* Android 방법: [`setAttribute`](/docs/mobile-monitoring/new-relic-mobile/mobile-sdk/create-attribute/)
+* iOS 방법: [`setAttribute`](/docs/mobile-monitoring/new-relic-mobile/mobile-sdk/create-attribute/)
 
 ## 합성 모니터: 사용자 정의 속성 기록 [#synthetics]
 

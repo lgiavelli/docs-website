@@ -8,6 +8,13 @@ metaDescription: Examples of webhook values we can send to the defined callback 
 translationType: human
 ---
 
+<Callout
+  variant="important"
+  title="有効期限（EOL）の通知"
+>
+  通知チャネルをより強力なワークフローに置き換えています。既存の通知を、より多くのオプション、柔軟性、制御を提供するワークフローに自動移行し、通知に追加のデータを含めて強制できます。[ワークフローの詳細](/docs/alerts-applied-intelligence/applied-intelligence/incident-workflows/incident-workflows/)。
+</Callout>
+
 Webhookを[アラート通知チャネル](/docs/alerts/new-relic-alerts-beta/managing-notification-channels/notification-channels-controlling-where-send-alerts#webhook)として使用する場合は、デフォルト値を使用できます。POSTメッセージのペイロードをカスタマイズして、システムインテグレーションをさらに高めることもできます。
 
 ## Webhookを定義する [#ssl]
@@ -28,7 +35,7 @@ Webhookに自己署名したカスタムのSSL証明書は含めないでくだ�
 
 ## Webhookの値 [#variables]
 
-当社は、以下のデフォルトの動的webhook値に対応しています。利便性を考慮して、値はアルファベット順に表示されていますが、Webhookの値は順不同で定義できます。独自のキーと値のペアを使用して、カスタム変数を追加することもできます。
+当社は、以下のデフォルトの動的webhook値に対応しています。利便性を考慮して、値はアルファベット順に表示されていますが、Webhookの値は順不同で定義できます。`"Error Type": "My Error"`などの独自のキーと値のペアを使用して、カスタム変数を追加することもできます。
 
 <table>
   <thead>
@@ -162,7 +169,7 @@ Webhookに自己署名したカスタムのSSL証明書は含めないでくだ�
       <td>
         `$EVENT_TYPE`
 
-        **設定可能な値: \[**`INCIDENT]`
+        **設定可能な値: **`[INCIDENT]`
       </td>
     </tr>
 
@@ -527,60 +534,60 @@ Webhookに自己署名したカスタムのSSL証明書は含めないでくだ�
       "@type": "MessageCard",
       "@context": "http://schema.org/extensions",
       "themeColor": "0076D7",
-      "summary": "$CONDITION_NAME",
+      "summary": {{ json annotations.title.[0] }},
       "sections": [{
-          "activityTitle": "$CONDITION_NAME",
-          "activitySubtitle": "$POLICY_NAME",
-          "activityImage": "https://newrelic.com/themes/custom/curio/assets/mediakit/NR_logo_Horizontal_Rev.png",
-          "facts": [{
-              "name": "Timestamp",
-              "value": "$TIMESTAMP_UTC_STRING"
-            }, {
-              "name": "Account ID",
-              "value": "$ACCOUNT_ID"
-            }, {
-              "name": "Account Name",
-              "value": "$ACCOUNT_NAME"
-            }, {
-              "name": "Severity",
-              "value": "$SEVERITY"
-            }, {
-              "name": "State",
-              "value": "$EVENT_STATE"
-            }, {
-              "name": "Duration",
-              "value": "$DURATION"
-            }, {
-              "name": "Details",
-              "value": "$EVENT_DETAILS"
+        "activityTitle": "{{eq state 'CLOSED' yes='🟩' no='🟥'}} {{ annotations.title.[0] }}",
+        "activitySubtitle": "{{#each accumulations.policyName}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}",
+        "activityImage": "https://one.newrelic.com/apple-touch-icon.png?v=2.1",
+        "facts": [{
+          "name": "Timestamp",
+          "value": {{ json issueActivatedAtUtc }}
+          }, {
+          "name": "Account",
+          "value": "{{ accumulations.tag.account.[0] }} ({{ nrAccountId }})"
+          }, {
+          "name": "Severity",
+          "value": {{ json priority}}
+          }, {
+          "name": "State",
+          "value": {{ json state}}
+          }, {
+          "name": "Duration",
+          "value": {{ json issueDurationText }}
+          }, {
+          "name": "Impacted entities",
+          "value": "{{#each entitiesData.names}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}"
+          }, {
+          "name": "Details",
+          "value": "{{#each accumulations.conditionName}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}"
           }],
-          "markdown": true
-      }, {
-        "text": "$METADATA<p><img src=\"$VIOLATION_CHART_URL\" alt=\"Incident Chart\"></img></p>"
-      }],
-      "potentialAction": [{
+        "markdown": true
+        }, {
+          "text": "{{#if violationChartUrl}} <img src=\"{{ violationChartUrl }}\" alt=\"Incident Chart\"> {{else}} N/A {{/if}}"
+        }],
+        "potentialAction": [{
           "@type": "OpenUri",
           "name": "View Incident",
           "targets": [{
-            "os": "default",
-            "uri": "$INCIDENT_URL"
+          "os": "default",
+          "uri": {{ json issuePageUrl }}
           }]
         }, {
           "@type": "OpenUri",
           "name": "Acknowledge Incident",
           "targets": [{
-            "os": "default",
-            "uri": "$INCIDENT_ACKNOWLEDGE_URL"
+          "os": "default",
+          "uri": {{ json issueAckUrl }}
           }]
         }, {
           "@type": "OpenUri",
           "name": "Open Runbook",
           "targets": [{
-            "os": "default",
-            "uri": "$RUNBOOK_URL"
+          "os": "default",
+          "uri": {{ json accumulations.runbookUrl.[0] }}
           }]
-      }]
-    }
+        }]  
+      }
     ```
   </Collapser>
 </CollapserGroup>

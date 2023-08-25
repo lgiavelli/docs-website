@@ -8,7 +8,9 @@ metaDescription: 'How to create scripted browsers, which send Selenium browsers 
 translationType: human
 ---
 
-Syntheticsモニタリングの[スクリプト化されたブラウザ](/docs/synthetics/new-relic-synthetics/getting-started/types-synthetics-monitors)を使用して、ウェブサイトをナビゲートするブラウザのスクリプト化、特定のアクションの実行、特定の要素があることの確認により、カスタムのユーザー体験を模倣、監視できます。使用可能な関数のリストについては、[スクリプト化ブラウザの参照](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100/)をご覧ください。
+スクリプト化されたブラウザは、ウェブサイト内の移動や特定のアクションの実行、特定の要素があることの確認を行うブラウザのスクリプト化により、カスタムのユーザー体験を模倣します。スクリプト化ブラウザを作成するには、**[one.newrelic.com > Synthetic monitoring > Create a monitor](https://one.newrelic.com/synthetics-nerdlets/monitor-create)**の順に移動し、**User flow / functionality**タイルを選択します。
+
+使用可能な関数のリストについては、[スクリプト化ブラウザの参照](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100/)をご覧ください。
 
 スクリプト化モニターは、[Selenium WebDriverJS](https://seleniumhq.github.io/selenium/docs/api/javascript/index.html)で駆動されます。スクリプトを実行するたびに、New Relicはウェブサイト内を移動し、スクリプトの各ステップを実行する、完全に仮想化されたSelenium駆動のGoogle Chromeブラウザを作成します。Syntheticsモニタリングには、スクリプトの作成を単純化する関数、ロケーター、その他の要素を入力補完するIDE形式のスクリプトエディタが搭載されています。
 
@@ -24,7 +26,7 @@ Selenium IDEを使用してワークフローを記録し、New Relicで必要�
 すべてのスクリプトは、モニターがナビゲートする必要があるURLを指定することで開始します。URLを指定するには、`$browser.get("url")`を呼び出します。
 
 ```
-$browser.get("<var>https://mywebsite.com</var>");
+$browser.get("https://mywebsite.com");
 ```
 
 ## 連続操作を行う [#sequence]
@@ -32,7 +34,7 @@ $browser.get("<var>https://mywebsite.com</var>");
 WebDriverJSは非同期であるため、スクリプトのアクションが順不同に実行される場合があります。順序通りに実行されるようにスクリプトアクションを強制するには、各アクションを`then(function(){})`コールにラップします。
 
 ```
-$browser.get("<var>https://my-website.com</var>").then(function(){
+$browser.get("https://my-website.com").then(function(){
     return $browser.findElement($driver.By.linkText("Configuration Panel"));
 });
 ```
@@ -40,7 +42,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
 複数のアクションを順に接続するには、各アクションを`then(function(){})`コールにラップし、コールをチェーンします。
 
 ```
-$browser.get("<var>https://my-website.com</var>").then(function(){
+$browser.get("https://my-website.com").then(function(){
     return $browser.findElement($driver.By.linkText("Configuration Panel"));
 }).then(function(){
     return $browser.findElement($driver.By.partialLinkText("Configuration Pa"));
@@ -51,7 +53,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
 
 モニター対象のURLを指定した後、通常はページ上の特定の要素を検索します。要素を検索してページ上にその要素が存在することを確認し、[ページ要素を操作](#interacting-elements)できます。
 
-要素は、`class`、`id`、`link text`、`name`またはXPathでも検索できます。これらの属性を検索するには、ブラウザの開発者ツールを使用、またはウェブサイトのソースコードを確認してください。ロケーター関数のリストについては、[ロケーター: ページ要素の検索](/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050#locators)をご覧ください。
+要素は、`class`、`id`、`link text`、`name`またはXPathでも検索できます。これらの属性を検索するには、ブラウザの開発者ツールを使用、またはウェブサイトのソースコードを確認してください。ロケーター関数のリストについては、[ロケーター: ページ要素の検索](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050/#locators)をご覧ください。
 
 <CollapserGroup>
   <Collapser
@@ -75,7 +77,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.id("edit-submit"));
     ```
 
-    要素の`id`で要素を検索する例については、[ページ要素を待機する](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#wait-for-element)を参照してください。
+    要素の`id`で要素を検索する例については、[ページ要素を待機する](/docs/synthetics/synthetic-monitoring/scripting-monitors/introduction-scripted-browser-monitors/#wait-page-element)を参照してください。
   </Collapser>
 
   <Collapser
@@ -92,7 +94,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.partialLinkText("Configuration Pa"));
     ```
 
-    リンクテキストを使用してリンクを特定する事例については、[リンクへのアクセス](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#advanced-navigate)をご覧ください。
+    リンクテキストを使用してリンクを特定する事例については、[リンクへのアクセス](#locate-by-link-text)をご覧ください。
   </Collapser>
 
   <Collapser
@@ -105,7 +107,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.name("search-query-field"));
     ```
 
-    `name`で要素を検索する例については、[ウェブサイトにログインする](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#advanced-login)を参照してください。
+    `name`で要素を検索する例については、[ウェブサイトにログインする](/docs/synthetics/synthetic-monitoring/getting-started/get-started-synthetic-monitoring/)を参照してください。
   </Collapser>
 
   <Collapser
@@ -118,7 +120,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.xpath("//input[@placeholder = 'search-query-field']"));
     ```
 
-    ウェブサイトの構造が変更されると、XPathセレクタが破損する場合があります。適切なXPathセレクターの作成のヒントについては、[XPathセレクターの最適化](https://blog.newrelic.com/engineering/optimize-xpath-selectors/)を参照してください。xpathで要素を検索する例については、[ウェブサイトを検索する](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#advanced-search)を参照してください。
+    ウェブサイトの構造が変更されると、XPathセレクタが破損する場合があります。適切なXPathセレクターの作成のヒントについては、[XPathセレクターの最適化](https://blog.newrelic.com/engineering/optimize-xpath-selectors/)を参照してください。xpathで要素を検索する例については、[ウェブサイトを検索する](/docs/synthetics/synthetic-monitoring/getting-started/get-started-synthetic-monitoring/)を参照してください。
 
     <Callout variant="tip">
       特定要素のXpathを素早く検索するには、ブラウザの開発者ツールを使用してください。たとえば、Chromeでは：
@@ -133,7 +135,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
 
 ## 要素を操作する [#interacting-elements]
 
-スクリプト化モニターはSeleniumを使用して実際にGoogle Chromeブラウザを操作するため、スクリプト化モニターはユーザーと同じようにページ要素を操作できます。たとえば、モニターはリンクのクリック、検索ボックスへのテ キストの入力などができます。使用可能なアクションのリストについては、[ActionSequence: 複数アクションのリンク](/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050#actionsequence)をご覧ください。
+スクリプト化モニターはSeleniumを使用して実際にGoogle Chromeブラウザを操作するため、スクリプト化モニターはユーザーと同じようにページ要素を操作できます。たとえば、モニターはリンクのクリック、検索ボックスへのテ キストの入力などができます。使用可能なアクションのリストについては、[ActionSequence: 複数アクションのリンク](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050/#actionsequence)をご覧ください。
 
 まず、[ページ要素を特定](#locating-elements)してからインタラクション関数をコールしてください。
 
@@ -152,7 +154,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.className("config-panel-02")).click();
     ```
 
-    特定した要素をクリックする事例については、[リンクに移動する](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#advanced-navigate)をご覧ください。
+    特定した要素をクリックする事例については、[リンクに移動する](#locate-by-link-text)をご覧ください。
 
     <Callout variant="tip">
       `doubleClick()`、`dragAndDrop()`、`mouseDown`、`mouseUp`および`mouseMove`関数を使用して、他の方法でマウスを制御できます。
@@ -173,7 +175,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.id("search-q-box")).sendKeys("EXAMPLE USER NAME");
     ```
 
-    一部のフィールドには、デフォルトのテキストが含まれている場合があります。テキストを送信する前に、これらのフィールドを[クリア](/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050#webElement-clear)してください。
+    一部のフィールドには、デフォルトのテキストが含まれている場合があります。テキストを送信する前に、これらのフィールドを[クリア](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetics-scripted-browser-reference-monitor-versions-050/#webelement)してください。
 
     ```
     $browser.findElement($driver.By.name("search-query-field")).clear();
@@ -183,7 +185,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.findElement($driver.By.id("search-q-box")).clear();
     ```
 
-    フィールドにテキストを入力する事例については、[ウェブサイトを検索する](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#advanced-search)をご覧ください。
+    フィールドにテキストを入力する事例については、[ウェブサイトを検索する](/docs/synthetics/synthetic-monitoring/scripting-monitors/introduction-scripted-browser-monitors/#locate-by-link-text)をご覧ください。
 
     <Callout variant="tip">
       `keyDown()`および`keyUp()`関数を使用して、修飾キー（`ALT`および`SHIFT`など）を追加できます。
@@ -220,7 +222,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     }, 1000);
     ```
 
-    ページタイトルを待つ事例については、[ページの読み込みを待つ](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#wait-for-title)をご覧ください。
+    ページタイトルを待つ事例については、[ページの読み込みを待つ](/docs/synthetics/synthetic-monitoring/scripting-monitors/introduction-scripted-browser-monitors/#wait-page-title)をご覧ください。
   </Collapser>
 
   <Collapser
@@ -236,7 +238,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     $browser.waitForAndFindElement($driver.By.linkText("Your Link Text Here"), 7500);
     ```
 
-    特定のページ要素を待つ事例については、[ページ要素を待つ](/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples#wait-for-element)をご覧ください。
+    特定のページ要素を待つ事例については、[ページ要素を待つ](/docs/synthetics/synthetic-monitoring/scripting-monitors/introduction-scripted-browser-monitors/#wait-page-element)をご覧ください。
 
     <Callout variant="important">
       `waitForAndFindElement()` 別の要素の背後にある、またはサイズが0の場合、は要素の検索に失敗します。不透明度が0の要素は引き続き検索されます。
@@ -246,7 +248,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
 
 ## スクリプトの結果をログに記録する [#logging]
 
-モニター結果を手動で[スクリプトログ](/docs/synthetics/new-relic-synthetics/using-monitors/viewing-monitor-results#viewing-logs)に記録することもできます。ログ記録を使用してスクリプトのトラブルシューティングを行う：スクリプトのどのステップが失敗しているかを知るには、スクリプトに各キーステップとともにログ関数を含めます。
+モニター結果を手動で[スクリプトログ](/docs/synthetics/synthetic-monitoring/using-monitors/view-simple-scripted-monitor-results/#viewing-logs)に記録することもできます。ログ記録を使用してスクリプトのトラブルシューティングを行う：スクリプトのどのステップが失敗しているかを知るには、スクリプトに各キーステップとともにログ関数を含めます。
 
 <Callout variant="important">
   最大ログ長は50,000バイトです。50,000バイトを超えるスクリプトログは切り捨てられます。
@@ -264,7 +266,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     console.log('Hello world.');
     ```
 
-    この結果は、次のように[出力](/docs/synthetics/new-relic-synthetics/using-monitors/viewing-monitor-results#viewing-logs)されます。
+    この結果は、次のように[出力](/docs/synthetics/synthetic-monitoring/using-monitors/view-simple-scripted-monitor-results/#viewing-logs)されます。
 
     ```
     // ----------------------------------- Console log
@@ -290,7 +292,7 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
     console.log('Success for', WEBSITE_URL);
     ```
 
-    [この結果を探す](/docs/synthetics/new-relic-synthetics/using-monitors/viewing-monitor-results#viewing-logs)：
+    [この結果を探す](/docs/synthetics/synthetic-monitoring/using-monitors/view-simple-scripted-monitor-results/#viewing-logs)：
 
     ```
     // ----------------------------------- Console log
@@ -302,14 +304,14 @@ $browser.get("<var>https://my-website.com</var>").then(function(){
 
 ## 解析サービスのブロックを解除する [#unblock-service]
 
-Syntheticsはデフォルトで[一般的な解析サービスの](http://nr-synthetics-assets.s3.amazonaws.com/blacklists/blacklist.hosts)スクリプトをブロックします。指定サービスのスクリプトの実行を許可できます。これによって該当サービスのスクリプトを実行し、実際のユーザーがアクセスした場合と同様のデータを収集することができます。
+Syntheticsはデフォルトで[一般的な解析サービスの](https://nr-synthetics-assets.s3.amazonaws.com/blacklists/blacklist.hosts)スクリプトをブロックします。指定サービスのスクリプトの実行を許可できます。これによって該当サービスのスクリプトを実行し、実際のユーザーがアクセスした場合と同様のデータを収集することができます。
 
 ```
 //Allow Google Analytics scripts to run
 $browser.addHostnameToWhitelist(hostnameArr: ['google-analytics.com']);
 
 //Visit https://my-website.com
-$browser.get('<var>https://my-website.com</var>');
+$browser.get('https://my-website.com');
 ```
 
 ## ユーザーエージェントのカスタマイズ [#customize-user-agent]

@@ -5,37 +5,120 @@ tags:
   - Use New Relic
   - Core concepts
 metaDescription: How to use tags to improve organization and findability of your observability data.
-translationType: 'human'
+translationType: human
 ---
 
-import newRelicTagsWorkloads0 from 'images/new-relic-tags-workloads_0.png'
+import workloadsNewRelicTags from 'images/workloads_screenshot-full_new-relic-tags.webp'
 
-import newRelicAdvancedTagFilterQuery from 'images/new-relic-advanced-tag-filter-query.png'
+import solutionsTagFilterQuery from 'images/solutions_screenshot-full_tag-filter-query.webp'
 
-import tagManagement from 'images/tags-management.png'
+import solutionsTagManagement from 'images/solutions_screenshot-full_tag-management.webp'
 
-タグは、モニターするアプリとホスト、エージェント、ダッシュボード、および[ワークロード](/docs/new-relic-one/use-new-relic-one/workloads/workloads-isolate-resolve-incidents-faster)など、様々なデータセットに追加される、`team: operations`などの、キーの値のペアです。いくつかの重要な[属性](/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute)はタグとして利用可能です（アプリ名や言語などのアプリのメタデータ、およびホスト名やAWSリージョンなどのホストのメタデータなど）。ユーザー独自のタグを追加することもできます。
+タグは、監視対象のエンティティ、ダッシュボードやワークロードに追加されるキーの値のペア（`team: operations`など）です。いくつかの重要な[属性](/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute)はタグとして利用可能です。これには、アプリ名や言語などのアプリのメタデータ、およびホスト名やクラウドプロバイダーのリージョンなどのホストのメタデータが含まれます。ユーザー独自のタグを追加することもできます。
 
-UIでタグを使用して関連データを絞り込むことができます。次の例を見てみましょう。
+UIでタグを使用して関連エンティティを絞り込むことができます。次の例を見てみましょう。
 
 <img
   title="New Relic filtering workloads using tags"
   alt="New Relic filtering workloads using tags"
-  src={newRelicTagsWorkloads0}
+  src={workloadsNewRelicTags}
 />
 
 <figcaption>
   ここでは、`accountId`タグを使用して特定のアカウントの[ワークロード](/docs/new-relic-one/use-new-relic-one/workloads/workloads-isolate-resolve-incidents-faster)をフィルターしています。
 </figcaption>
 
+## タグの利点 [#benefits]
+
 タグは、次の作業に役立ちます。
 
 * 大量のソースおよび大量のNew Relicアカウントからのデータを整理する。
+
 * チーム、ロール、環境、またはリージョンを特定して、誰が何に対して責任があるかを把握します。[いくつかの例](#org-examples)を参照してください。
-* ダッシュボードと[ワークロード](/docs/new-relic-one/use-new-relic-one/workloads/workloads-isolate-resolve-incidents-faster)の編成と検索を改善する。
+
+* <InlinePopover type="dashboards"/>
+
+  と[ワークロード](/docs/new-relic-one/use-new-relic-one/workloads/workloads-isolate-resolve-incidents-faster)の編成と検索を改善します。
+
 * [APMデータのクエリおよびチャート作成](#query-apm-tags)。
 
-タグは、高レベルでデータを整理するのに役立ちます。ユーザー名やその他の高カーディナリティの値の取得など、よりきめ細かい詳細を追加する場合、[カスタムアトリビュート](/docs/using-new-relic/data/customize-data/collect-custom-attributes)や[カスタムイベント](/docs/insights/insights-data-sources/custom-data/report-custom-event-data)がより適切な解決策です。
+タグは、高レベルでデータを整理するのに役立ちます。ユーザー名やその他の高カーディナリティの値の取得など、よりきめ細かい詳細を追加する場合、[カスタムアトリビュート](/docs/using-new-relic/data/customize-data/collect-custom-attributes)や[カスタムイベント](/docs/insights/insights-data-sources/custom-data/report-custom-event-data)を使用することをお勧めします。
+
+## 自動的に報告されるタグ [#automated-tags]
+
+場合によっては、次のソースから監視対象エンティティにタグが自動適用されます。
+
+* New Relicアカウントのメタデータ
+* エージェントの設定
+* ホスト/環境
+* OpenTelemetryリソース属性
+
+これらのソースからのタグは、UIやAPIではなく、タグのソースを変更することによってのみ削除や変更が行えます。
+
+また、当社の[API](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial/)または[New Relic CLI](https://developer.newrelic.com/automate-workflows/5-mins-tag-resources)を使用して、プログラムでタグを自動化することもできます。
+
+<CollapserGroup>
+  <Collapser
+    id="tags-from-account-metadata"
+    title="アカウント関連のタグ"
+  >
+    アカウント情報を含むエンティティに特定のタグを自動適用します。これらのタグには以下のようなものがあります。
+
+    * `account`
+    * `accountId`
+  </Collapser>
+
+  <Collapser
+    id="tags-from-agent-config"
+    title="エージェント設定タグ"
+  >
+    New Relicエージェントを設定して、データから作成されたエンティティにタグを適用することができます。[設定オプション](/docs/new-relic-solutions/new-relic-one/install-configure/configure-new-relic-agents)はエージェントに固有ですが、通常は`labels`キーを使用します。いくつかの例：
+
+    * [Javaエージェントのタグ設定](/docs/apm/agents/java-agent/configuration/java-agent-configuration-config-file/#labels)
+
+    * [.NETエージェントのタグ設定](/docs/apm/agents/net-agent/configuration/net-agent-configuration/#labels-tags)
+
+      <InlinePopover type="apm"/>エージェント設定から適用されるタグにより、特定のエンティティ上の特定のタグキーで複数の値が生じる場合があります。これは、エージェントのデプロイされた各インスタンスが異なる値を送信するように設定できるためです。
+  </Collapser>
+
+  <Collapser
+    id="tags-from-agent-env"
+    title="ホスト/環境タグ"
+  >
+    New Relicエージェントは、環境に応じてサービスエンティティに特定のタグを自動適用します。以下が含まれます（ただし、これらに限定されません）。
+
+    * サービス/アプリケーションのエンティティの場合
+
+      * `language`：（例えば、`java`または`python`）
+
+    * ホストエンティティの場合
+
+      * `awsRegion`該当する場合
+
+      [クラウドプロバイダーインテグレーション](/docs/infrastructure/infrastructure-integrations/get-started/introduction-infrastructure-integrations/#cloud)（AWS、Azure、Google Cloud Platform）を使用している場合は、ホストにInfrastructureエージェントをインストールすることをお勧めします。これにより、New Relicで監視対象のホストエンティティにクラウド環境タグが追加されます。
+  </Collapser>
+
+  <Collapser
+    id="tags-from-agent-host"
+    title="OpenTelemetryリソース属性のタグ"
+  >
+    特定の[OpenTelemetryリソース属性](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md)は、エンティティタグとして自動適用されます。サービスエンティティに関連付けられたスパンデータで、次の属性が存在する場合、それらの属性はそのエンティティに添付されます。
+
+    * `k8s.cluster.name`
+
+    * `k8s.deployment.name`
+
+    * `k8s.namespace.name`
+
+    * `telemetry.sdk.language`：という名前のタグとして保存されます `language`
+
+    * `telemetry.sdk.version`
+
+    * `service.namespace`
+
+      この自動タグ付けは、[GitHubで文書化されている](https://github.com/newrelic/entity-definitions#entity-definitions)New Relicエンティティ合成を使用して実行されます。OpenTelemetryサービスの場合、[タグ付けの定義](https://github.com/newrelic/entity-definitions/blob/main/definitions/ext-service/definition.yml#L58)は`ext-service`エンティティ上に存在します。
+  </Collapser>
+</CollapserGroup>
 
 ## タグの管理 [#tag-management]
 
@@ -45,14 +128,14 @@ UIまたはAPIを通してタグを追加する場合、これはエンティテ
 
 ### タグを追加 [#add-tags]
 
-1. [one.newrelic.com](https://one.newrelic.com)にアクセスして、モニターするエンティティ（アプリまたはホストなど）を選択します。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities)**にアクセスして、モニターするエンティティ（アプリまたはホストなど）を選択します。
 2. ページの先頭のエンティティ名の近くで、**メタデータを表示しタグを管理**メニューを選択します。
-3. ポップアップメニューの**新しいタグを追加...**フィールドで、次の形式のタグを追加します：`accountId: 123456789`.<img title="Add tags in New Relic" alt="Add tags in New Relic" src={tagManagement}/>
+3. ポップアップメニューの**Add a new tag...**フィールドに、この形式`accountId: 123456789`のタグを追加します。<img title="Add tags in New Relic" alt="Add tags in New Relic" src={solutionsTagManagement}/>
 4. APMエージェントの場合、NRQLクエリでこれらのタグを使用するには、サービスを再起動します。
 
 ### タグの削除 [#remove-tags]
 
-1. [one.newrelic.com](https://one.newrelic.com)にアクセスして、モニターするエンティティ（アプリまたはホストなど）を選択します。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities)**にアクセスして、モニターするエンティティ（アプリまたはホストなど）を選択します。
 
 2. ページの先頭のエンティティ名の近くで、**メタデータを表示しタグを管理**メニューを選択します。
 
@@ -69,7 +152,7 @@ UIまたはAPIを通してタグを追加する場合、これはエンティテ
 <CollapserGroup>
   <Collapser
     id="add-via-ui-api"
-    title="GraphQL経由でのタグの管理"
+    title="アラート条件タグの管理"
   >
     1. 条件に移動します。
 
@@ -77,7 +160,9 @@ UIまたはAPIを通してタグを追加する場合、これはエンティテ
 
     3. ポップアップ表示されるメニューで、タグを追加または削除します。
 
-       [NerdGraph API経由でのデータのタグ付け](/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial)の詳細については、チュートリアルを参照してください。
+       また、NerdGraph APIを介してエンティティとしてアラート条件にタグを追加することもできます（「manage tags」画面から条件のエンティティGUIDを使用）。
+
+    [NerdGraph API経由でのデータのタグ付け](/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial)の詳細については、チュートリアルを参照してください。
   </Collapser>
 
   <Collapser
@@ -100,18 +185,18 @@ APMタグのクエリに関するこの短いビデオ（3分20秒）もご覧�
 <img
   title="New Relic advanced tag filter query"
   alt="New Relic advanced tag filter query"
-  src={newRelicAdvancedTagFilterQuery}
+  src={solutionsTagFilterQuery}
 />
 
 <figcaption>
-  [New Relicエクスプローラー](/docs/new-relic-one/use-new-relic-one/ui-data/entity-explorer-view-performance-across-apps-services-hosts)の上部にあるフィルターフィールドを使用して、目的のエンティティを絞り込みます。複数のフィルター条件を使用できます。
+  [entity explorer UI](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find)のフィルターバーを使用して、特定のエンティティに絞り込みます。
 </figcaption>
 
 単一または複数の要素でフィルターしたり、詳細検索オプションを使用したりすることができます。
 
 タグを使用して特定のエンティティを絞り込むには：
 
-1. [one.newrelic.com](https://one.newrelic.com)に移動します。
+1. **[one.newrelic.com](https://one.newrelic.com/all-capabilities)**に移動します。
 2. **フィルター**フィールドをクリックして、利用可能な属性とタグのドロップダウンを表示するか、フィルターするタグ（`accountId: 123456789`など）を入力します。
 
 ## ベストプラクティス [#best-practices]
@@ -143,10 +228,17 @@ APMタグのクエリに関するこの短いビデオ（3分20秒）もご覧�
     id="simple-tags"
     title="タグをシンプルに"
   >
+    タグをシンプルに保つためのヒント：
+
     * 最初は、確実に使用することが分かっているタグのみを追加します。未使用のタグによってノイズが生じ、混乱が生まれる可能性があります。
+
     * 短いタグを使用するように努めます。短いタグは解析が簡単です。また、UIでは長いタグが切り詰められる場合もあります。（「[文字制限](#formatting)」を参照してください。)
+
     * 可能な場合は、人間が読めるキーと値を使用します（たとえば、`region: EMEA`が`Param8323 : 1229072`よりも推奨されます）。
+
     * `regions: EMEA | US | LATAM`などの複数の値を単一のタグに含めることは避けてください。このような場合は、`region: emea`、`region: us`、および`region: latam`などの、3種類のタグを使用することをお勧めします。複数のタグを一致させる場合は、フィルターUIで高度なオプションを使用して行うことができます。
+
+      * [アラートインシデント](/docs/alerts-applied-intelligence/applied-intelligence/incident-intelligence/basic-alerting-concepts)に関する注意事項：これらは1つのキー名インスタンスのみをサポートします。複数のキー名を使用する場合は、1つがランダムに選択されてそのインシデントに追加されます。
   </Collapser>
 
   <Collapser
@@ -236,15 +328,35 @@ APMタグのクエリに関するこの短いビデオ（3分20秒）もご覧�
 
 ### APMタグのクエリおよびアラート [#query-apm-tags]
 
-NRQLを使用してAPMタグをクエリできます。サポートされている [APM エージェント](/docs/using-new-relic/cross-product-functions/install-configure/update-new-relic-agent)は次のとおりです：
+NRQLを使用して<InlinePopover type="apm"/>タグをクエリできます。サポートされている [APM エージェント](/docs/using-new-relic/cross-product-functions/install-configure/update-new-relic-agent)は次のとおりです：
 
 * Go v2.3.0以降
 * Java v4.9.0以降
 * .NET v8.17以降
-* Node v4.13.0以降
+* Node.js v4.13.0以降
 * PHP v10.0.0.312以降
 * Python v4.10.0.112以降
 * Ruby v6.1.0.352以降
+
+### Infrastructureタグでのクエリとアラート [#query-infra-tags]
+
+Infrastructureタグが作成されている場合は、タグ伝播とも呼ばれるNRQLを使用してクエリを実行できます。
+
+* カスタムアトリビュートとして：次のようなセクションを`newrelic-infra.yml`設定ファイルに追加します。
+
+  ```yml
+  custom_attributes:
+    internalOwningTeam: devops-sf
+    service: api-platform
+  ```
+
+  <Callout variant="tip">
+    詳細については、[カスタムアトリビュート](/docs/data-apis/custom-data/custom-events/collect-custom-attributes)についてお読みください。
+  </Callout>
+
+* New Relic UIで：エンティティのInfrastructureページで、タグを作成して値を割り当てます。これらのタグをクエリするには、NRQLでクエリの実行時に、タグの名前に`tags.`プレフィックスを追加する必要があります。
+
+Infrastructureタグ伝播をオフにしたい場合（これによりNRQLでクエリを実行できなくなります）、[Nerdgraphでオフにする方法](#propagation-off)を参照してください。
 
 ### クエリの例 [#query-examples]
 
@@ -291,6 +403,66 @@ NRQLを使用してAPMタグをクエリできます。サポートされてい�
     ```sql
     From Metric SELECT count(apm.service.error.count) / count(apm.service.transaction.duration)
       WHERE tags.Project = 'MyProject' FACET tags.Environment
+    ```
+  </Collapser>
+
+  <Collapser
+    id="infra-teams"
+    title="Infrastructureモニタリングの特定のエンティティを所有する内部チームを検索する"
+  >
+    `SensitiveEntity`などの名前のエンティティを所有する内部チームを検索するには、以下を実行します。
+
+    ```sql
+    FROM SystemSample SELECT internalOwningTeam WHERE entityName = 'SensitiveEntity'
+    ```
+  </Collapser>
+
+  <Collapser
+    id="infra-experiment"
+    title="CPU負荷テスト実験のグループの比較"
+  >
+    CPUを使用してさまざまなInfrastructureエンティティで、負荷テストを実行するとします。`A`というグループのエンティティに1つの処理を適用し、`B`というグループのエンティティに別の処理を適用し、`control group`という処理を行わないエンティティの1つのグループを保持できます。
+
+    New Relic UIで`experimentGroup`というタグを作成し、各エンティティが属する実験グループにマッピングできます。これらはNew Relic UIで作成されたタグであるため、`newrelic-infra.yml`設定ファイルで作成されたカスタム属性とは異なり、タグ名に`tags.`プレフィックスを追加する必要があります。
+
+    以下は`cpuPercent`を選択するNRQLクエリで、`FACET CASES (...)`句を使用してさまざまな実験グループに分類されています。
+
+    ```sql
+    FROM SystemSample SELECT cpuPercent FACET CASES (WHERE tags.experimentGroup = 'control' AS 'control group', WHERE tags.experimentGroup = 'A' AS 'given treatment A', WHERE tags.experimentGroup = 'B' AS 'given treatment B') SINCE 1 DAY AGO
+    ```
+  </Collapser>
+
+  <Collapser
+    id="propagation-off"
+    title="Infrastructureタグのタグ伝播をオフにする"
+  >
+    Infrastructureタグのタグ伝播をオフにするには、[NerdGraph](/docs/apis/nerdgraph/get-started/introduction-new-relic-nerdgraph)で以下を実行します。
+
+    ```graphql
+    mutation {
+      dataManagementUpdateFeatureSettings(accountId: YOUR_ACCOUNT_ID, setting: {enabled: false, featureSetting: {key: "infra_tag_propagation"}, locked: false})
+        {
+          enabled
+          key
+          locked
+          name
+        }
+    }
+    ```
+
+    その呼び出しは、次の回答を返す必要があります。
+
+    ```graphql
+    {
+      "data": {
+        "dataManagementUpdateFeatureSettings": {
+          "enabled": false,
+          "key": "infra_tag_propagation",
+          "locked": false,
+          "name": "Infra tag propagation"
+        }
+      }
+    }
     ```
   </Collapser>
 </CollapserGroup>

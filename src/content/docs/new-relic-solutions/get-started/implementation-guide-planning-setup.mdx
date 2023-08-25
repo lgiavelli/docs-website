@@ -6,9 +6,9 @@ tags:
 metaDescription: "Part 1 of the New Relic implementation guide, where you set up your New Relic account and users, and plan out your instrumentation."
 ---
 
-import usageUI from 'images/nr-usage-ui.png'
+import alertsUsageUi from 'images/alerts_screenshot-crop_usage-ui.webp'
 
-import distributedTracingTraceDetailsPage from 'images/distributed-tracing-trace-details-page.png'
+import alertsDistributedTracingTraceDetailsPage from 'images/alerts_screenshot-full_distributed-tracing-trace-details-page.webp'
 
 *This is the first part of [our implementation guide](/docs/new-relic-solutions/get-started/implementation-guide-intro).*
 
@@ -63,7 +63,7 @@ Your team should have an understanding of what the billing factors are and what 
 <img
   title="New Relic usage UI"
   alt="New Relic usage UI"
-  src={usageUI}
+  src={alertsUsageUi}
 />
 <figcaption>
 The usage UI shows you your ingest data. 
@@ -78,7 +78,7 @@ To get the most out of New Relic, you'll want to spend some time thinking about 
 <img
   title="Trace details page"
   alt="New Relic distributed tracing UI - trace details page"
-  src={distributedTracingTraceDetailsPage}
+  src={alertsDistributedTracingTraceDetailsPage}
 />
 
 <figcaption>
@@ -116,22 +116,16 @@ Using multiple accounts is another potential way to organize your data.
 
 When you sign up for New Relic, it creates a New Relic organization that has a single account. Pro or Enterprise edition allow you to have multiple accounts: otherwise, you can only have one.
 
-You should try to minimize the number of accounts you have. This keeps your account and user structure simple, and gives users easier access to relevant data. Some reasons to add an account: 
+[Learn more about why you'd add accounts](/docs/accounts/accounts-billing/account-structure/new-relic-account-structure#add-accounts).
 
-* To separate production and staging/testing environments (although this can be also done with tags). 
-* To make it easier to separate billing for different departments. 
-* To control user access to projects that require firm boundaries. For example, if you want a team to only have access to a specific app's data, you can create an account for that app.
-
-When data is reported to New Relic, it reports to a specific account, as represented by that account's account ID. We recommend using a spreadsheet to plan out the accounts you'll need and track the account IDs: this can be the same spreadsheet you use to map out user access.
-
-[Learn more about adding accounts.](/docs/accounts/accounts-billing/account-structure/new-relic-account-structure)
+We recommend using a spreadsheet to plan out the accounts you'll need and track the account IDs: this can be the same spreadsheet you use to map out user access.
 
 ## Understand the available APIs [#apis]
 
 Understanding some basics about our APIs will come in handy later during instrumentation and configuration. Our APIs include: 
 
-* Our **data ingest APIs**: these are our APIs for our four core data types: metrics, events, logs, and traces. Our data-reporting tools send data via these APIs, and the APIs can also be used directly. Our main data ingest key is the license key. The license key is tied to a specific account ID. Our more automated install options include the correct license key for you. 
-* Our **GraphQL-format API**, which we call **NerdGraph**. This is used for everything except data ingest, from querying your data to configuring New Relic features. NerdGraph requires a user key, which is a personal key unique to each user. 
+* Our **data ingest APIs**: these are our APIs for our four core data types: metrics, events, logs, and traces. Our data-reporting tools send data via these APIs, and the APIs can also be used directly. Our main data ingest key is the <InlinePopover type="licenseKey" />. The license key is tied to a specific account ID. Our more automated install options include the correct license key for you. 
+* Our **GraphQL-format API**, which we call **NerdGraph**. This is used for everything except data ingest, from querying your data to configuring New Relic features. NerdGraph requires a <InlinePopover type="userKey" />, which is a personal key unique to each user. 
 
 [Learn more about our APIs.](/docs/apis/intro-apis/introduction-new-relic-apis/)
 

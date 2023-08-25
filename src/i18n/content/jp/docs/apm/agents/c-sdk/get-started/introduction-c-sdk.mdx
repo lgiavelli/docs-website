@@ -5,18 +5,16 @@ tags:
   - C SDK
   - Get started
 metaDescription: Learn how you can use New Relic C SDK's library and daemon to monitor your app's performance in Linux environments.
-translationType: 'human'
+translationType: human
 ---
 
-import cApmSummary from 'images/c-apm-summary.png'
-
-import cSdkDaemonArchitecture0430 from 'images/c-sdk-daemon-architecture0430.png'
+import apmCSDKArchitecture from 'images/apm_diagram_C-SDK-architecture.webp'
 
 <Callout
   variant="important"
   title="有効期限（EOL）の通知"
 >
-  2022年4月現在、C SDKを含む一部の機能のサポートを終了しています。 C++テレメトリーデータをNew Relicに送信する代わりに[OpenTelemetryを使用するオプション](/docs/apm/agents/c-sdk/get-started/otel_cpp_example)を検討してください。EOLの詳細については、[エクスプローラーハブの投稿](https://discuss.newrelic.com/t/q1-bulk-eol-announcement-fy23/181744)をご覧ください。
+  2022年4月以降、C SDK機能はサポートしていません。C++テレメトリデータをNew Relicに送信する代替手段として[OpenTelemetryを使用するオプション](/docs/apm/agents/c-sdk/get-started/otel_cpp_example)を検討してください。EOLの詳細については、[サポートフォーラムの投稿](https://discuss.newrelic.com/t/q1-bulk-eol-announcement-fy23/181744)をご覧ください。
 </Callout>
 
 C SDKは、しばしば複雑で、複数スレッドに基づくC/C++アプリケーションに対応するよう設計されています。新しいレベルの可視性が得られ、パフォーマンス上の問題を特定し解決しやすくなります。さらにデータを収集して分析し、顧客体験の向上およびビジネスにおけるデータ主導型の意思決定を支援することもできます。
@@ -51,16 +49,6 @@ C SDKエージェントを使用するには:
 
 ## アプリのパフォーマンスの監視 [#features]
 
-<img
-  title="Summary page - APM"
-  alt="Summary page - APM"
-  src={cApmSummary}
-/>
-
-<figcaption>
-  [**one.newrelic.com**](http://one.newrelic.com/) **> APM >（アプリを選択）：**以下は、C SDKをアプリにデプロイした後にNew Relicで表示できるデータの例をいくつか示したものです。
-</figcaption>
-
 使用アプリケーションがLinux環境でC SDKの[互換性と要件](/docs/c-agent-compatibility-requirements)を満たす場合は、ジェネリックライブラリをNew Relicと通信できるようにカスタマイズしてから、[APM](/docs/apm/new-relic-apm/getting-started/introduction-new-relic-apm)を使用してアプリのパフォーマンスのモニターを開始できます。
 
 <table>
@@ -84,8 +72,14 @@ C SDKエージェントを使用するには:
 
       <td>
         * アプリケーションとサービスのスループット、レスポンスタイム、エラー、メモリ、CPU使用トランザクションのモニターをするには、[APM**概要**ページ](/docs/apm/applications-menu/monitoring/apm-overview-page)から始め、その後に追加[APMダッシュボード](/docs/apm)でその他の詳細を調べます。
+
         * [デプロイメントマーカー](/docs/apm/new-relic-apm/maintenance/record-deployments)を使い、コードの変更がアプリケーションのパフォーマンスと健全性にどう影響するかを確認します。
-        * [Infrastructureモニタリング](/docs/infrastructure/new-relic-infrastructure/getting-started/introduction-new-relic-infrastructure)を使用し、ホストとサーバーの詳細データを表示します。[Infrastructureエージェント](/docs/infrastructure/install-infrastructure-agent/get-started/install-infrastructure-agent-new-relic)とAPMを同じホストにインストールすると、それぞれを自動的に検出します。その後[APM UIでホストのリストを見て](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure)、Infrastructure UIでアプリによりInfrastructureホストをフィルタリングできます。
+
+        * [Infrastructureモニタリング](/docs/infrastructure/new-relic-infrastructure/getting-started/introduction-new-relic-infrastructure)を使用し、ホストとサーバーの詳細データを表示します。[Infrastructureエージェント](/docs/infrastructure/install-infrastructure-agent/get-started/install-infrastructure-agent-new-relic)と
+
+          <InlinePopover type="apm"/>
+
+          を同じホストにインストールすると、それらは自動的にお互いを検出します。その後、[APM UIでホストのリストを表示し](/docs/infrastructure/new-relic-infrastructure/data-instrumentation/new-relic-apm-data-infrastructure)、InfrastructureモニタリングUIでアプリ別にホストをフィルタリングできます。
       </td>
     </tr>
 
@@ -151,7 +145,7 @@ C SDKは、以下の2つのコンポーネントに依拠して、使用アプ�
 <img
   title="C SDK architecture"
   alt="C SDK architecture"
-  src={cSdkDaemonArchitecture0430}
+  src={apmCSDKArchitecture}
 />
 
 <figcaption>

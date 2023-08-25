@@ -11,9 +11,11 @@ redirects:
   - /docs/integrations/host-integrations/host-integrations-list/consul-monitoring-integration
 ---
 
-import guidedInstallCli from 'images/guided-install-cli.png'
+Our HashiCorp Consul [on-host integration](/docs/integrations/host-integrations/getting-started/introduction-host-integrations) collects and sends inventory and metrics from your Consul datacenter environment to New Relic, where you can see the health of your environment. We collect data on both the datacenter and agent/node levels.
 
-The HashiCorp Consul [on-host integration](/docs/integrations/host-integrations/getting-started/introduction-host-integrations) collects and sends inventory and metrics from your Consul environment to New Relic, where you can see the health of your Consul datacenter environment. We collect data on both the datacenter and agent/node levels.
+<Callout variant="tip">
+Note that we also have a [Hashicorp Cloud Platform Consul integration](/docs/infrastructure/host-integrations/host-integrations-list/hashicorp-consul-monitoring-integration).
+</Callout>
 
 Read on to install the integration, and to see what data we collect.
 
@@ -31,12 +33,6 @@ Before installing the integration, make sure that you meet the following require
 ## Quick start [#quick]
 
 Instrument your Consul environment quickly and send your telemetry data with guided install. Our guided install creates a customized CLI command for your environment that downloads and installs the New Relic CLI and the infrastructure agent.
-
-<img
-  title="The guided install CLI."
-  alt="A screenshot of the guided install CLI."
-  src={guidedInstallCli}
-/>
 
 Ready to get started? Click one of these button to try it out.
 
@@ -90,7 +86,7 @@ To install the HashiCorp Consul integration, follow the instructions for your en
     id="linux-install"
     title="Linux"
   >
-    1. Follow the instructions for [installing an integration](/docs/install-integrations-package), using the file name `nri-consul`.
+    1. Install [the infrastructure agent](/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#install), and replace the `INTEGRATION_FILE_NAME` variable with `nri-consul`.
     2. Change directory to the integrations folder:
 
        ```
@@ -111,11 +107,11 @@ To install the HashiCorp Consul integration, follow the instructions for your en
   >
     1. Download the `nri-consul` .MSI installer image from:
 
-       [http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](http://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
+       [https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi](https://download.newrelic.com/infrastructure_agent/windows/integrations/nri-consul/nri-consul-amd64.msi)
     2. To install from the Windows command prompt, run:
 
        ```
-       msiexec.exe /qn /i <var>PATH\TO\</var>nri-consul-amd64.msi
+       msiexec.exe /qn /i PATH\TO\nri-consul-amd64.msi
        ```
     3. In the Integrations directory, `C:\Program Files\New Relic\newrelic-infra\integrations.d\`, create a copy of the sample configuration file by running:
 
@@ -131,6 +127,8 @@ Additional notes:
 
 * **Advanced:** Integrations are also available in [tarball format](/docs/integrations/host-integrations/installation/install-host-integrations-built-new-relic#tarball) to allow for install outside of a package manager.
 * **On-host integrations do not automatically update.** For best results, regularly [update the integration package](/docs/integrations/host-integrations/installation/update-infrastructure-host-integration-package) and [the infrastructure agent](/docs/infrastructure/new-relic-infrastructure/installation/update-infrastructure-agent).
+
+<InstallFeedback />
 
 ## Configuration [#configuration]
 
@@ -1193,4 +1191,4 @@ The data is available on the [Inventory page](/docs/infrastructure/new-relic-inf
 
 ## Check the source code [#source-code]
 
-This integration is open source software. That means you can [browse its source code](https://github.com/newrelic/nri-consul "Link opens in a new window.") and send improvements, or create your own fork and build it.
+This integration is open source software. That means you can [browse its source code](https://github.com/newrelic/nri-consul) and send improvements, or create your own fork and build it.

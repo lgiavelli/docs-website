@@ -7,7 +7,7 @@ tags:
 metaDescription: How to enable distributed tracing or Infinite Tracing for the APM Java agent.
 ---
 
-import javalogo from 'images/javalogo.png'
+import apmJava from 'images/apm_logo_java.webp'
 
 Distributed tracing allows you to see the entire journey of your requests throughout a [distributed system](/docs/distributed-tracing/concepts/introduction-distributed-tracing). For the Java agent, we offer two types of distributed tracing (for more details, see [How span sampling works](/docs/understand-dependencies/distributed-tracing/get-started/how-new-relic-distributed-tracing-works#sampling)):
 
@@ -23,7 +23,7 @@ All the steps you need to get started with distributed tracing are right here:
 
 ## New Java agents [#new-agents]
 
-Whether you just want to try out standard distributed tracing (head-based sampling) or also want to set up Infinite Tracing (tail-based sampling), you need to start by setting up standard tracing. We'll get you through the APM agent installation to get head-based sampling going. After that, you can set up Infinite Tracing, which is optional but recommended.
+Whether you just want to try out standard distributed tracing (head-based sampling) or also want to set up Infinite Tracing (tail-based sampling), you need to start by setting up standard tracing. We'll get you through the <InlinePopover type="apm" /> agent installation to get head-based sampling going. After that, you can set up Infinite Tracing, which is optional but recommended.
 
 ### Install an agent to get standard distributed tracing [#quick-start-apm]
 
@@ -50,13 +50,13 @@ To start the installation routine, click the tile below. When you are finished i
     name="Start installation"
     variant="TechTile"
     to="https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJ0dWNzb24ucGxnLWluc3RydW1lbnQtZXZlcnl0aGluZyJ9&cards[0]=eyJuZXJkbGV0SWQiOiJzZXR1cC1uZXJkbGV0cy5zZXR1cC1qYXZhLWludGVncmF0aW9uIiwiYWNjb3VudElkIjoyNjQwNDA5fQ==&platform[accountId]=2498654&platform[timeRange][duration]=1800000&platform[$isFallbackTimeRange]=true"
-    icon={<img src={javalogo} alt="Java"/>}
+    icon={<img src={apmJava} alt="Java"/>}
   />
 </TechTileGrid>
 
 #### Step 3. View traces [#view-traces]
 
-After you instrument each of your services with APM agents, generate some traffic in your application so we can capture some traces. Here are some ways to view your traces in the UI:
+After you instrument each of your services with <InlinePopover type="apm" /> agents, generate some traffic in your application so we can capture some traces. Here are some ways to view your traces in the UI:
 
 <CollapserGroup>
   <Collapser
@@ -65,12 +65,11 @@ After you instrument each of your services with APM agents, generate some traffi
   >
     Here's one way you can see traces for a particular service:
 
-    1. Go to **[one.newrelic.com](https://one.newrelic.com/)**.
-    2. In the left pane, click **APM &amp; services**.
-    3. Click your entity (service).
-    4. In the left pane's **Monitor** section, click **Distributed tracing**.
-    5. For details, click on an individual trace. If ** Group similar traces** is on in the top menu, click on a trace group, and then click on an individual trace.
-    6. If you don't see the traces you want, you can filter by the `trace.id`.
+    1. Go to **[one.newrelic.com](https://one.newrelic.com/all-capabilities)> APM & services**.
+    2. Click your entity (service).
+    3. In the left pane's **Monitor** section, click **Distributed tracing**.
+    4. For details, click on an individual trace. If **Group similar traces** is on in the top menu, click on a trace group, and then click on an individual trace.
+    5. If you don't see the traces you want, you can filter by the `trace.id`.
   </Collapser>
   <Collapser
     id="cross-acct-traces"
@@ -78,11 +77,10 @@ After you instrument each of your services with APM agents, generate some traffi
   >
     To see traces that cross accounts:
 
-    1. Go to **[one.newrelic.com](https://one.newrelic.com/)**.
-    2. Click **More** in the top menu bar, and then click **Traces**.
-    3. Select your entity (service) in the left pane.
-    4. For details, click on an individual trace. If ** Group similar traces** is on in the top menu, click on a trace group, and then click on an individual trace.
-    5. If you don't see the traces you want, you can filter by the `trace.id`.
+    1. Go to **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Traces**.
+    2. Select your entity (service) in the left pane.
+    3. For details, click on an individual trace. If **Group similar traces** is on in the top menu, click on a trace group, and then click on an individual trace.
+    4. If you don't see the traces you want, you can filter by the `trace.id`.
   </Collapser>
   <Collapser
     id="logs-context"
@@ -102,7 +100,7 @@ For more help finding your traces in the UI:
 * [Understand and use the distributed tracing UI](/docs/distributed-tracing/ui-data/understand-use-distributed-tracing-ui)
 * [Query distributed trace data](/docs/understand-dependencies/distributed-tracing/ui-data/query-distributed-trace-data)
 
-### Set up Infinite Tracing (recommended) [#infinite-tracing]
+### Set up Infinite Tracing [#infinite-tracing]
 
 Standard distributed tracing for APM agents ([above](#quick-start-apm)) captures up to 10% of your traces, but if you want us to analyze all your data and find the most relevant traces, you can set up Infinite Tracing.
 
@@ -160,20 +158,20 @@ Infinite Tracing configuration settings include the standard distributed tracing
                 enabled: true
               infinite_tracing:
                 trace_observer:
-                  host: <a href="/docs/understand-dependencies/distributed-tracing/infinite-tracing/set-trace-observer#ui-endpoints"><var>"YOUR_TRACE_OBSERVER_HOST"</var></a>
+                  host: <a href="/docs/understand-dependencies/distributed-tracing/infinite-tracing/set-trace-observer#ui-endpoints">"YOUR_TRACE_OBSERVER_HOST"</a>
               ```
             * Java system property:
 
               ```
               -Dnewrelic.config.distributed_tracing.enabled=true
-              -Dnewrelic.config.infinite_tracing.trace_observer.host=<var>"YOUR_TRACE_OBSERVER_HOST"</var>
+              -Dnewrelic.config.infinite_tracing.trace_observer.host="YOUR_TRACE_OBSERVER_HOST"
               ```
 
             * Environment variables:
 
               ```
               NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
-              NEW_RELIC_INFINITE_TRACING_TRACE_OBSERVER_HOST=<a href="/docs/understand-dependencies/distributed-tracing/infinite-tracing/set-trace-observer#ui-endpoints"><var>"YOUR_TRACE_OBSERVER_HOST"</var></a>
+              NEW_RELIC_INFINITE_TRACING_TRACE_OBSERVER_HOST=<a href="/docs/understand-dependencies/distributed-tracing/infinite-tracing/set-trace-observer#ui-endpoints">"YOUR_TRACE_OBSERVER_HOST"</a>
               ```
           </td>
         </tr>

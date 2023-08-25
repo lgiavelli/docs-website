@@ -6,11 +6,11 @@ redirects:
   - /docs/insights/use-insights-ui/manage-account-data/rate-limits-insights
 ---
 
-import eventCountModal from 'images/event-count-modal.png'
+import queriesnrqlEventCountinQueryBuilder from 'images/queries-nrql_screenshot-crop_event-count-in-query-builder.webp'
 
 Our New Relic query language, NRQL, has rate limits in place to ensure a high level of availability and reliability for all users. 
 
-## Understand query limit violations [#limit-violations]
+## Understand query limit breaches [#limit-breaches]
 
 To see if you're hitting query-related limits, use the [Limits UI](/docs/data-apis/manage-data/view-system-limits/). 
 
@@ -42,7 +42,7 @@ When you run a NRQL query, it displays the number of data points inspected, as s
 <img
   title="New Relic inspected event count"
   alt="New Relic inspected event count"
-  src={eventCountModal}
+  src={queriesnrqlEventCountinQueryBuilder}
 />
 
 In this context, the "events" term is used in a general sense to refer to all [NRQL-available data points](/docs/query-data/nrql-new-relic-query-language/getting-started/introduction-nrql#what-you-can-query) that are inspected in a query.
@@ -55,10 +55,11 @@ Every New Relic account has limits on the total number of data points that can b
     title="Data Plus"
   >
 
-The [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices) option includes these query limits: 
+The [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices) option includes these limits on inspected data points: 
 
-* Inspected data points per minute: 100 billion
-* Inspected data points per 30 minutes: one trillion
+* 34B per minute
+* 500B per 15 minutes
+* 1T per 30 minutes
 
 </Collapser>
 
@@ -67,53 +68,23 @@ The [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/da
     title="Original data option"
   >
 
-For our [original data option](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices), limits on inspected data points are: 
+Limits on inspected data points for our [original data option](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices):
 
-<table>
-  <thead>
-    <tr>
-      <th style={{ width: "200px" }}>
-        **Time period**
-      </th>
-
-      <th>
-        **Limit**
-      </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>
-        Rolling 30 minutes
-      </td>
-
-      <td>
-        300 billion data points inspected (equivalent to a sustained rate of 10 billion data points inspected per minute)
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        24 hours
-      </td>
-
-      <td>
-        7.2 trillion data points inspected
-      </td>
-    </tr>
-  </tbody>
-</table>
+* 10B per minutes
+* 150B per 15 minutes
+* 300B per 30 minutes
     
 </Collapser>
 </CollapserGroup>
 
+### What counts towards the inspected event limit? [#define-inspected-count]
+
 The following are features and actions that count towards the inspected count limit and that are impacted when the limit is reached. When the count drops below the limit in the next time period, restrictions are removed.
 
-* Custom queries run by a New Relic user
-* Widgets on custom dashboards that run queries
-* Curated views that load due to an action initiated by a user (for example, when a user loads the APM **Summary**, APM **Transactions**, **Distributed tracing**, browser **Summary**, and other pages that return [NRDB](/docs/data-apis/get-started/nrdb-horsepower-under-hood) data)
-* Alert condition evaluation and notifications do **not** count towards the limit but the links to New Relic that are included in an alert notification do
+* Loads of curated views initiated by a user (for example, when you load an <InlinePopover type="apm" /> UI page, the distributed tracing UI, a browser monitoring UI page, or any UI that returns data about your organization).
+* Custom queries run by a New Relic user (NRQL or NerdGraph).
+* Widgets on custom dashboards that run queries.
+* Alert condition evaluation and notifications do **not** count towards the limit but the links to New Relic that are included in an alert notification do.
 
 ### Query duration limit [#query-duration]
 

@@ -4,18 +4,18 @@ tags:
   - Alerts and applied intelligence
   - Alerts
   - Alert conditions
-metaDescription: 'Some alert conditions allow you to write a Description, which adds context to your violations and notifications.'
+metaDescription: 'Some alert conditions allow you to write a Description, which adds context to your incidents and notifications.'
 redirects:
   - /docs/alerts/new-relic-alerts/defining-conditions/alert-condition-descriptions
   - /docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/alert-descriptions
   - /docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/alert-custom-violation-descriptions
 ---
 
-import alertsConditionDescriptionField from 'images/alerts_condition_description_field.png'
+import accountsAlertsConditionDescription from 'images/accounts_screenshot-full_alerts-condition-description.webp'
 
-import newRelicAlertViolationDescriptionScreenshot from 'images/new-relic-alert-violation-description-screenshot.png'
+import accountsAlertViolationDescription from 'images/accounts_screenshot-full_alert-violation-description.webp'
 
-For some types of conditions, you can define a custom incident description that passes useful information downstream for better incident responses or for use by other systems. You can create a custom incident description in the UI or with NRQL.
+For some types of conditions, you can define a custom incident description that passes useful information downstream for better incident responses or for use by other systems. You can create a custom incident description in the UI or with GraphQL.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ The custom incident description field has a maximum character size of 4000.
 
 ## What is a custom incident description? [#description]
 
-For some [types of conditions](#requirements), you can create a custom incident description that passes information about a condition and its incidens downstream. Using a description, you can:
+For some [types of conditions](#requirements), you can create a custom incident description that passes information about a condition and its incidents downstream. Using a description, you can:
 
 * Capture the reason for the condition
 * Define the signal being monitored
@@ -54,11 +54,11 @@ The hostname is : ip-123-45-67-89.us-west-1.compute.internal
 <img
   title="The alerts condition description field with some example content."
   alt="Screen capture of the alerts condition description field used to pass useful, custom information along."
-  src={alertsConditionDescriptionField}
+  src={accountsAlertsConditionDescription}
 />
 
 <figcaption>
-  In the **[one.newrelic.com](https://one.newrelic.com)** top nav, click **Alerts & AI**, click **Alert conditions (Policies)**, **(select a policy)**, then **(select a condition)**: Click **+ Add custom incident description** to open the field.
+  **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Alerts & AI > Alert conditions (Policies) > (select a policy) > (select a condition)**: Click **+ Add custom incident description** to open the field.
 </figcaption>
 
 You can create a custom incident description using [the dedicated field for NRQL alerts](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-nrql-alert-conditions/), or the [Describe this condition section for infrastructure alerts](/docs/infrastructure/new-relic-infrastructure/infrastructure-alert-conditions/infrastructure-alerts-add-edit-or-view-host-alert-information/).
@@ -91,7 +91,7 @@ Here's how that data might appear in a notification:
 <img
   title="new-relic-alert-violation-description-screenshot.png"
   alt="New Relic alert violation description "
-  src={newRelicAlertViolationDescriptionScreenshot}
+  src={accountsAlertViolationDescription}
 />
 
 ## How to use attributes [#attributes-tags]
@@ -105,7 +105,7 @@ The attributes you can use in a custom incident description are a subset of attr
   ```
 * Tag attributes: For tags, you would use the format `{{tags.TAG_NAME}}`. There are two types of tags:
 
-  * Entity-related tags: **For Infrastructure conditions only.** You can find available [entity-related tags](/docs/new-relic-one/use-new-relic-one/core-concepts/tagging-use-tags-organize-group-what-you-monitor#) by going to the [New Relic Explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer-view-performance-across-apps-services-hosts) and looking under a service's **Metadata and tags**, or by viewing incident details. Here's an example of using tags in a custom incident description:
+  * Entity-related tags: **For infrastructure conditions only.** You can find available [entity-related tags](/docs/new-relic-one/use-new-relic-one/core-concepts/tagging-use-tags-organize-group-what-you-monitor#) by going to the [entity explorer](/docs/new-relic-one/use-new-relic-one/ui-data/new-relic-one-entity-explorer-view-performance-across-apps-services-hosts) and looking under a service's **Metadata and tags**, or by viewing incident details. Here's an example of using tags in a custom incident description:
 
     ```
     The AWS region is : {{tags.aws.awsRegion}}
@@ -120,16 +120,16 @@ The attributes you can use in a custom incident description are a subset of attr
 
 Please note that tag names cannot include whitespace. The expanded values can include whitespace, but not the names of the tags themselves.
 
-## Create a custom incident description with NRQL [#create-description-nrql]
+## Create a custom incident description with GraphQL [#create-description-graphql]
 
-You can create a custom incident description using a NRQL alert condition by creating a mutation with a description.
+You can create a custom incident description on a NRQL alert condition through a GraphQL mutation with that description.
 
 Here's an empty mutation template:
 
 ```
 mutation {
-  alertsNrqlConditionStaticUpdate(accountId: <var>YOUR_ACCOUNT_ID</var>, id: "<var>YOUR_CONDITION_ID</var>", condition: {description: ""}) {
-    <var>YOUR_CUSTOM_INCIDENT_DESCRIPTION</var>
+  alertsNrqlConditionStaticUpdate(accountId: YOUR_ACCOUNT_ID, id: "YOUR_CONDITION_ID", condition: {description: ""}) {
+    YOUR_CUSTOM_INCIDENT_DESCRIPTION
   }
 }
 ```
@@ -145,7 +145,7 @@ mutation {
 ```
 
 * For more information on NRQL conditions and using the NerdGraph API, go to [NerdGraph API: NRQL condition alerts](/docs/alerts/alerts-nerdgraph/nerdgraph-examples/nerdgraph-api-alerts-nrql-conditions).
-* For Infrastructure monitoring conditions, you can create the custom incident description when [creating an Infrastructure monitoring alert condition](/docs/infrastructure/new-relic-infrastructure/infrastructure-alert-conditions/infrastructure-alerts-add-edit-or-view-host-alert-information).
+* For infrastructure monitoring conditions, you can create the custom incident description when [creating an Infrastructure monitoring alert condition](/docs/infrastructure/new-relic-infrastructure/infrastructure-alert-conditions/infrastructure-alerts-add-edit-or-view-host-alert-information).
 * To learn about how to structure a custom incident description, see the [example template](#example) and the [attribute/tag instructions](#attributes-tags).
 
 ## Mentioning users or notifying channel in Slack [#mention-in-slack]

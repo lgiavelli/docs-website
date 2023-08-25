@@ -6,11 +6,11 @@ tags:
 metaDescription: "Part 3 of the New Relic implementation guide, where you become acquainted with the New Relic UI and organize your data."
 ---
 
-import nrnavigator from 'images/nrnavigator.png'
+import alertsNrnavigator from 'images/alerts_screenshot-full_nrnavigator-.webp'
 
-import newRelicViewChartNrqlQuery0 from 'images/new-relic-view-chart-nrql-query_0.png'
+import alertsNewRelicViewChartNrqlQuery from 'images/alerts_screenshot-crop_new-relic-view-chart-nrql-query.webp'
 
-import serviceLevelsIntro from 'images/service-levels-intro.png'
+import alertsServiceLevelsIntro from 'images/alerts_screenshot-crop_service-levels-intro.webp'
 
 *This is the third part of [our implementation guide](/docs/new-relic-solutions/get-started/implementation-guide-intro).*
 
@@ -29,7 +29,7 @@ Let's get started.
 <img
   title="New Relic Navigator"
   alt="New Relic Navigator"
-  src={nrnavigator}
+  src={alertsNrnavigator}
 />
 
 <figcaption>
@@ -38,11 +38,13 @@ New Relic Navigator is one of our platform experiences that help you quickly und
 
 Our platform makes it easy to get a high-level view of your system and all your entities. Here are some important features your team will probably use a lot. We recommend you spend some time exploring these and other UI experiences to get comfortable with the New Relic UI.
 
-* Use [New Relic Explorer](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts) to browse your monitored entities. To see all entities, click **All entities**. 
+* Use [our entity explorer](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts#find) to browse your monitored entities.  
 * Use [New Relic Navigator](/docs/new-relic-solutions/new-relic-one/core-concepts/new-relic-explorer-view-performance-across-apps-services-hosts/#view-navigator) to see a visualization of your entire system, with an emphasis on health/alerting status. 
 * Use [distributed tracing](/docs/distributed-tracing/ui-data/understand-use-distributed-tracing-ui) to see detailed time-based analysis of the requests that occur in your system. Recommended: [set up Infinite Tracing](/docs/distributed-tracing/infinite-tracing/introduction-infinite-tracing) to unlock more powerful tracing features. 
 * Use [service maps](/docs/understand-dependencies/understand-system-dependencies/service-maps/introduction-service-maps) or [automap views](/docs/new-relic-one/use-new-relic-one/ui-data/automaps) to see visual representations of your topology. 
 * Use the [Dependencies UI page](/docs/new-relic-one/use-new-relic-one/ui-data/explore-downstream-dependencies-new-relic-one) for a specific service to understand the inbound and outbound services an entity connects to. 
+
+Want to see a video with a tour of the platform? See [Get to know the platform](/docs/new-relic-solutions/new-relic-one/introduction-new-relic-platform).
 
 ## Organize your data [#organize-data]
 
@@ -50,14 +52,14 @@ Organizing your data in New Relic is important, because it helps you more quickl
 
 ### Set up custom dashboards [#dashboards]
 
-We provide many curated views and dashboards out of the box, but you'll likely need to create your own custom dashboards to keep an eye on business-relevant metrics or specific projects. You can share dashboards with other team members to track performance and troubleshoot issues.
+We provide many curated views and <InlinePopover type="dashboards" /> out of the box, but you'll likely need to create your own custom dashboards to keep an eye on business-relevant metrics or specific projects. You can share dashboards with other team members to track performance and troubleshoot issues.
 
 Creating custom charts and dashboards begins with querying your data. Our query language, NRQL, is a SQL-like language that gives you all the power that we use to build our curated views. 
 
 <img
   title="new-relic-view-chart-nrql-query.png"
   alt="New Relic view chart NRQL query"
-  src={newRelicViewChartNrqlQuery0}
+  src={alertsNewRelicViewChartNrqlQuery}
 />
 
 <figcaption>
@@ -131,7 +133,7 @@ Service levels are used to measure the performance of a service from the end use
 <img
   title="Example of several service levels.png"
   alt="Example of several service levels"
-  src={serviceLevelsIntro}
+  src={alertsServiceLevelsIntro}
 />
 <figcaption>
 A screenshot from our SLM UI (click to enlarge).
@@ -149,4 +151,4 @@ Observability-as-code resources:
 
 ## Next stage [#next]
 
-Ready to continue on your implementation journey? Go to the next stage: [**Alerting and proactive solutions**](**??). 
+Ready to continue on your implementation journey? Go to the next stage: [**Alerting and proactive solutions**](/docs/new-relic-solutions/get-started/implementation-guide-alerting-proactive-solutions/). 

@@ -4,7 +4,7 @@ tags:
   - Using New Relic
   - Welcome to New Relic
   - Get started
-metaDescription: 'New Relic''s global data hosting structure consists of two regions: the EU region and the US region.'
+metaDescription: 'The New Relic global data hosting structure consists of two regions: the EU region and the US region.'
 translationType: machine
 ---
 
@@ -17,9 +17,8 @@ New Relic EU 지역에 액세스하려면 최신 버전의 에이전트가 필�
 * 신규 고객: [최신 에이전트 버전을 설치합니다](/docs/agents/manage-apm-agents/installation/install-agent) .
 * 기존 고객의 경우: [최신 에이전트 버전으로 업데이트하십시오](/docs/agents/manage-apm-agents/installation/update-new-relic-agent) .
 
-필요한 최소 APM 에이전트 버전:
+최저한의 <InlinePopover type="apm"/>필요한 에이전트 버전:
 
-* [C SDK 1.0.0](/docs/release-notes/agent-release-notes/c-sdk-release-notes) 이상
 * [2.0.0 이상으로 이동](/docs/release-notes/agent-release-notes/go-release-notes)
 * [자바 4.0.0](/docs/release-notes/agent-release-notes/java-release-notes) 이상
 * [.NET 8.0.0](/docs/release-notes/agent-release-notes/net-release-notes) 이상
@@ -37,10 +36,13 @@ New Relic은 미국 지역에서 제공되는 것과 거의 동일한 활성 제
 **예외:** 다음은 EU 지역 계정에서 **지원되지 않습니다** .
 
 * APM의 [주간 실적 보고서](/docs/apm/reports/other-performance-analysis/weekly-performance-report) 는 사용할 수 없습니다.
-* [로그 패턴](/docs/logs/log-management/ui-data/find-unusual-logs-log-patterns/#availability)
 * 더 이상 사용되지 않는 제품 및 기능은 사용할 수 없습니다.
 
 [New Relic의 사고 정보](/docs/new-relic-one/use-new-relic-one/new-relic-ai/get-started-incident-intelligence) 서비스는 New Relic의 미국 지역 데이터 센터 또는 New Relic의 EU 지역 데이터 센터에 데이터를 저장하는지 여부에 관계없이 미국에서만 운영됩니다. New Relic 사고 정보를 사용하면 New Relic이 데이터를 미국 지역.
+
+## 데이터 비용 [#data-costs]
+
+데이터 수집 비용은 데이터 센터 지역에 따라 다릅니다. 자세한 내용은 [정가표](/docs/licenses/license-information/usage-plans/new-relic-one-usage-plan-descriptions/#list-price) 를 참조하십시오.
 
 ## 교차 지역 계정 [#account-structure]
 
@@ -49,9 +51,9 @@ New Relic에 가입하면 [New Relic 조직](/docs/accounts/accounts-billing/acc
 * 2022년 10월 이전에 두 지역에 계정이 있는 조직은 미국 지역 계정의 사용량에 대해서만 요금이 청구되었습니다. 2022년 10월 중순부터 이러한 조직은 두 지역 모두에서 사용 요금이 청구됩니다. 사용 UI는 데이터 센터 지역 전체의 데이터 수집을 표시하지 않습니다. 현재 계정과 해당[하위 계정](/docs/accounts/original-accounts-billing/original-users-roles/mastersub-account-structure) 에 대한 수집만 표시합니다.
 * 전체 파트너십 조직의 최상위 계정은 단일 지역에 있습니다. 해당 계정의 사용량을 볼 때 해당 지역의 계정 데이터 사용량만 볼 수 있습니다. 다른 데이터 센터 지역의 사용량을 보려면 다른 지역의[상위 계정](/docs/accounts/original-accounts-billing/original-users-roles/mastersub-account-structure) 으로 전환하고 해당 계정의 사용량 UI를 봅니다.
 
-## EU 지역 계정 만들기 [#create-eu-account]
+## EU 지역 조직 만들기 [#create-eu-account]
 
-EU 지역에서 New Relic 계정을 생성하려면:
+EU 지역에서 New Relic 조직을 생성하려면:
 
 1. New Relic [가입 페이지](https://newrelic.com/signup/) 로 이동합니다.
 
@@ -92,7 +94,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        sourcemaps.service.<var>eu</var>.newrelic.com
+        sourcemaps.service.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -104,7 +106,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        infrastructure-alert.service.<var>eu<var>.newrelic.com
+        infrastructure-alert.service.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -116,7 +118,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        rpm.<var>eu</var>.newrelic.com/mobile
+        rpm.eu.newrelic.com/mobile
         ```
       </td>
     </tr>
@@ -128,7 +130,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        api.<var>eu</var>.newrelic.com/graphiql
+        api.eu.newrelic.com/graphiql
         ```
       </td>
     </tr>
@@ -154,7 +156,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        api.<var>eu</var>.newrelic.com
+        api.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -166,7 +168,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        synthetics.<var>eu</var>.newrelic.com/synthetics/api
+        synthetics.eu.newrelic.com/synthetics/api
         ```
       </td>
     </tr>
@@ -178,7 +180,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        trace-api.<var>eu</var>.newrelic.com/trace/v1
+        trace-api.eu.newrelic.com/trace/v1
         ```
       </td>
     </tr>
@@ -190,7 +192,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        metric-api.<var>eu</var>.newrelic.com/metric/v1
+        metric-api.eu.newrelic.com/metric/v1
         ```
       </td>
     </tr>
@@ -202,7 +204,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        log-api.<var>eu</var>.newrelic.com/log/v1
+        log-api.eu.newrelic.com/log/v1
         ```
       </td>
     </tr>
@@ -214,7 +216,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        insights-collector.<var>eu01</var>.nr-data.net
+        insights-collector.eu01.nr-data.net
         ```
       </td>
     </tr>
@@ -226,7 +228,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
       <td>
         ```
-        insights-api.<var>eu</var>.newrelic.com
+        insights-api.eu.newrelic.com
         ```
       </td>
     </tr>
@@ -235,7 +237,7 @@ EU 지역 계정이 있는 경우 적절한 엔드포인트를 사용하여 다�
 
 ## 새로운 유물에 액세스 [#access]
 
-귀하의 계정이 [EU 데이터 센터](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center) 에 데이터를 보고하는 경우 다음 링크를 사용하여 New Relic: **[one.eu.newrelic.com](https://one.eu.newrelic.com)** 으로 이동하십시오.
+귀하의 New Relic 조직이 [EU 데이터 센터](/docs/using-new-relic/welcome-new-relic/getting-started/introduction-eu-region-data-center)에 데이터를 보고하는 경우 다음 링크를 사용하여 New Relic으로 이동하십시오: **[one.eu.newrelic.com](https://one.eu.newrelic.com)**.
 
 ## 청구 및 가격 책정 [#billing-pricing]
 
@@ -254,4 +256,9 @@ New Relic은 서비스 유지, 보안 또는 수행, 기술 지원 제공 또는
 다음 옵션 중 하나를 사용하여 계정 데이터가 EU 지역의 데이터 센터에서 호스팅되는지 확인하십시오.
 
 * APM에서 URL을 보려면 응용 프로그램 이름 위로 마우스를 가져갑니다. `rpm.eu.newrelic.com/` 으로 시작하는 경우 EU 기반 계정입니다.
-* [New Relic 라이센스 키](/docs/accounts/install-new-relic/account-setup/license-key) 를 확인하십시오. `EU` 으로 시작하는 경우 EU 기반 계정입니다.
+
+* 확인
+
+  <InlinePopover type="licenseKey"/>
+
+  . `EU` 로 시작하는 경우 EU 기반 계정입니다.

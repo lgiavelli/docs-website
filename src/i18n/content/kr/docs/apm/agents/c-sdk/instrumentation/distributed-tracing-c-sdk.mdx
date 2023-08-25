@@ -8,15 +8,11 @@ metaDescription: 'For the New Relic C SDK: how to implement distributed tracing 
 translationType: machine
 ---
 
-import logsInContextTraces from 'images/logs-in-context-traces.png'
-
-import clogo from 'images/clogo.png'
-
 <Callout
   variant="important"
   title="EOL 공지"
 >
-  2022년 4월부터 C SDK를 비롯한 여러 기능에 대한 지원이 중단됩니다. 이 전환을 쉽게 준비하는 방법을 비롯한 자세한 내용은 [Explorers Hub 게시물](https://discuss.newrelic.com/t/q1-bulk-eol-announcement-fy23/181744) 을 참조하세요.
+  2022년 4월부터 C SDK 기능을 지원하지 않습니다. 자세한 내용은 [지원 포럼 게시물 을](https://discuss.newrelic.com/t/q1-bulk-eol-announcement-fy23/181744)참조하십시오.
 </Callout>
 
 분산 추적을 사용하면 [분산 시스템](/docs/distributed-tracing/concepts/introduction-distributed-tracing) 전체에서 요청의 전체 여정을 볼 수 있습니다.[C SDK](https://github.com/newrelic/c-sdk) 는 헤드 기반 샘플링으로 [표준 분산 추적](/docs/distributed-tracing/concepts/how-new-relic-distributed-tracing-works/#head-based) 을 지원합니다.Infinite Tracing 또는 W3C Trace 컨텍스트라는 기능을 지원하지 않습니다.
@@ -32,7 +28,12 @@ C SDK에서는 다른 New Relic 에이전트의 자동 계측과 달리 C 서비
   시작하기 전에 더 많은 배경 지식을 얻으려면 다음 주제를 확인하십시오.
 
   * [스팬 샘플링 작동 방식은](/docs/understand-dependencies/distributed-tracing/get-started/how-new-relic-distributed-tracing-works#sampling) 분산 추적 옵션을 설명합니다.
-  * [APM에 미치는 영향](/docs/apm/distributed-tracing/getting-started/transition-guide-distributed-tracing) 은 현재 APM 사용자이지만 분산 추적을 설정하지 않은 경우 예상되는 결과를 알려줍니다.
+
+  * [APM에 대한 영향은](/docs/apm/distributed-tracing/getting-started/transition-guide-distributed-tracing) 현재 사용자인 경우 예상할 수 있는 사항을 알려줍니다.
+
+    <InlinePopover type="apm"/>
+
+    사용자이지만 분산 추적을 설정하지 않았습니다.
 </Callout>
 
 ## 샘플 프로그램 계측(권장): [#quick-start-apm]
@@ -74,21 +75,12 @@ int main(void) {
   newrelic_segment_t* seg;
 
   config = newrelic_create_app_config("<YOUR_APP_NAME>", "9931ae06b54780ab846c16fc602b5778ead3907f");
-  <var>config->distributed_tracing.enabled = true;</var>
+  config->distributed_tracing.enabled = true;
   ...
 
 ```
 
-샘플 프로그램을 사용해 보려면 이 타일을 클릭하십시오.
-
-<TechTileGrid>
-  <TechTile
-    name="Start sample"
-    variant="TechTile"
-    to="https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJ0dWNzb24ucGxnLWluc3RydW1lbnQtZXZlcnl0aGluZyJ9&cards[0]=eyJuZXJkbGV0SWQiOiJzZXR1cC1uZXJkbGV0cy5zZXR1cC1jLWludGVncmF0aW9uIiwiYWNjb3VudElkIjoyNjQwNDA5fQ==&platform[accountId]=2498654&platform[timeRange][duration]=1800000&platform[$isFallbackTimeRange]=true"
-    icon={<img src={clogo} alt="C"/>}
-  />
-</TechTileGrid>
+샘플 프로그램을 사용하려면 여기를 [클릭하십시오](https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJ0dWNzb24ucGxnLWluc3RydW1lbnQtZXZlcnl0aGluZyJ9&cards%5B0%5D=eyJuZXJkbGV0SWQiOiJzZXR1cC1uZXJkbGV0cy5zZXR1cC1jLWludGVncmF0aW9uIiwiYWNjb3VudElkIjoyNjQwNDA5fQ==&platform%5BaccountId%5D=2498654&platform%5BtimeRange%5D%5Bduration%5D=1800000&platform%5B$isFallbackTimeRange%5D=true) .
 
 ### 3단계. 추적 보기 [#view-traces]
 
@@ -101,12 +93,11 @@ APM 에이전트로 각 서비스를 계측한 후 일부 추적을 캡처할 �
   >
     다음은 특정 서비스에 대한 추적을 볼 수 있는 한 가지 방법입니다.
 
-    1. **[one.newrelic.com](https://one.newrelic.com/)** 으로 이동합니다.
-    2. 왼쪽 창에서 **APM 및 서비스** 를 클릭합니다.
-    3. 엔터티(서비스)를 클릭합니다.
-    4. 왼쪽 창의 **모니터** 섹션에서 **분산 추적** 을 클릭합니다.
-    5. 자세한 내용은 개별 추적을 클릭하십시오.상위 메뉴에 **Groupsimilar traces** 가 켜져 있으면 추적 그룹을 클릭한 다음 개별 추적을 클릭합니다.
-    6. 원하는 추적이 표시되지 않으면 `trace.id` 으로 필터링할 수 있습니다.
+    1. **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > APM & services** 로 이동합니다.
+    2. 엔터티(서비스)를 클릭합니다.
+    3. 왼쪽 창의 **모니터** 섹션에서 **분산 추적** 을 클릭합니다.
+    4. 자세한 내용은 개별 추적을 클릭하십시오.상위 메뉴에 **Groupsimilar traces** 가 켜져 있으면 추적 그룹을 클릭한 다음 개별 추적을 클릭합니다.
+    5. 원하는 추적이 표시되지 않으면 `trace.id` 으로 필터링할 수 있습니다.
   </Collapser>
 
   <Collapser
@@ -115,11 +106,10 @@ APM 에이전트로 각 서비스를 계측한 후 일부 추적을 캡처할 �
   >
     계정을 교차하는 추적을 보려면 다음 단계를 따르세요.
 
-    1. **[one.newrelic.com](https://one.newrelic.com/)** 으로 이동합니다.
-    2. 상단 메뉴 모음에서 **자세히** 를 클릭한 다음 **추적** 을 클릭합니다.
-    3. 왼쪽 창에서 엔터티(서비스)를 선택합니다.
-    4. 자세한 내용은 개별 추적을 클릭하십시오.상위 메뉴에 **Groupsimilar traces** 가 켜져 있으면 추적 그룹을 클릭한 다음 개별 추적을 클릭합니다.
-    5. 원하는 추적이 표시되지 않으면 `trace.id` 으로 필터링할 수 있습니다.
+    1. **[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) > Traces** 으로 이동합니다.
+    2. 왼쪽 창에서 엔터티(서비스)를 선택합니다.
+    3. 자세한 내용은 개별 추적을 클릭하십시오.상위 메뉴에 **Groupsimilar traces** 가 켜져 있으면 추적 그룹을 클릭한 다음 개별 추적을 클릭합니다.
+    4. 원하는 추적이 표시되지 않으면 `trace.id` 으로 필터링할 수 있습니다.
   </Collapser>
 
   <Collapser

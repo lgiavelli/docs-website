@@ -9,11 +9,11 @@ metaDescription: Advanced configuration New Relic's Kafka integration.
 translationType: machine
 ---
 
-このインテグレーションは、オープンソース・ソフトウェアです。つまり、 [そのソースコードを閲覧して](https://github.com/newrelic/nri-kafka "リンクが新しいウィンドウで開きます。") 改良点を送ったり、自分でフォークを作って構築することができます。
+この統合はオープン ソース ソフトウェアです。つまり[、ソース コードを参照して](https://github.com/newrelic/nri-kafka)改善を送信したり、独自のフォークを作成してビルドしたりできます。
 
-## ラベルとカスタムアトリビュート [#labels]
+## ラベルとカスタム属性 [#labels]
 
-環境変数は、ライセンスキーなどの構成設定の管理に使用された後、Infrastructureエージェントにパススルーされます。この機能の利用手順に関しては、[Infrastructureエージェントを設定する](/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#passthrough)を参照してください。
+環境変数は、次のような構成設定を制御するために使用できます。 <InlinePopover type="licenseKey"/>、そしてインフラストラクチャエージェントに渡されます。この機能の使用方法については、 [「インフラストラクチャ エージェントの構成」](/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#passthrough)を参照してください。
 
 また、ラベルを使ってメトリクスをさらに装飾することもできます。<br/> デフォルトのサンプル・コンフィグ・ファイルにはラベルの例が含まれていますが、必須ではないので、自分の好きなものを削除、変更、または新たに追加することができます。
 
@@ -2012,7 +2012,7 @@ Kafka統合は、MetricsとInventoryの両方の情報を収集します。以�
     kinitコマンドでkeytabを確認します。ハイライトされたフィールドをあなたの値に置き換えてください。
 
     ```shell
-    $ kinit -k -t <var>KEY_TAB_PATH</var> <var>USERNAME</var>
+    $ kinit -k -t KEY_TAB_PATH USERNAME
     ```
 
     ユーザー名とkeytabの組み合わせが正しければ、上記のコマンドはエラーを表示せずに終了します。

@@ -198,7 +198,7 @@ Here are the New Relic products to use for baselining, depending on the componen
 
 * [**APM**](/docs/apm): Monitor your web apps with APM. See [Compatibility and requirements for New Relic agents and products](/docs/agents/manage-apm-agents/installation/compatibility-requirements-new-relic-agents) to learn precise compatibility details for each supported language.
 * [**Infrastructure**](/docs/infrastructure): Monitor your hosts with infrastructure. See [Compatibility and requirements for infrastructure](/docs/infrastructure/new-relic-infrastructure/getting-started/compatibility-requirements-new-relic-infrastructure) for supported operating systems and environments. You can also instrument other products and services with [on-host integrations](/docs/integrations/host-integrations/host-integrations-list).
-* [**Synthetic monitoring**](/docs/synthetics): Monitor web frontends and APIs with [synthetic monitoring](/docs/synthetics). Sometimes, you may not be able to instrument your on-premise environment with APM or infrastructure. For example, maybe your organization's policy forbids installing an agent behind a firewall. In these cases, if the application has a web frontend, use synthetic monitoring, as it offers non-agent monitoring while still providing the ability to establish a baseline.
+* [**Synthetic monitoring**](/docs/synthetics): Monitor web frontends and APIs with [synthetic monitoring](/docs/synthetics). Sometimes, you may not be able to instrument your on-premise environment with <InlinePopover type="apm" /> or infrastructure. For example, maybe your organization's policy forbids installing an agent behind a firewall. In these cases, if the application has a web frontend, use synthetic monitoring, as it offers non-agent monitoring while still providing the ability to establish a baseline.
 
 <CollapserGroup>
   <Collapser
@@ -259,7 +259,7 @@ Here are the New Relic products to use for baselining, depending on the componen
           </td>
 
           <td>
-            APM, Infrastructure, Synthetic monitoring
+            APM, infrastructure monitoring, Synthetic monitoring
           </td>
         </tr>
 
@@ -380,7 +380,7 @@ Based on the component-product matches you made, deploy agents or monitors acros
     id="deploy-apm"
     title="Deploy APM"
   >
-    [Install the APM agent](/docs/agents/manage-apm-agents/installation/install-agent) on your application stack. The steps to install the APM agent are different based on language.
+    [Install the APM agent](/docs/agents/manage-apm-agents/installation/install-agent) on your application stack. The steps to install the <InlinePopover type="apm" /> agent are different based on language.
   </Collapser>
 
   <Collapser
@@ -438,11 +438,11 @@ For more detailed information about navigating, interpreting, and using APM, che
 
 ## 5. Set up dashboards
 
-After you define your KPIs, it's easy to visualize them in [dashboards](/docs/dashboards). Dashboards provide a single location to view all the data that New Relic products gather. Dashboards data consists of [events](/docs/using-new-relic/welcome-new-relic/get-started/glossary#event), and each event has an event type, a timestamp, and key-value [attributes](/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute).
+After you define your KPIs, it's easy to visualize them in [dashboards](/docs/dashboards). <InlinePopover type="dashboards" /> offer a single location to view all the data that New Relic products gather. Dashboards data consists of [events](/docs/using-new-relic/welcome-new-relic/get-started/glossary#event), and each event has an event type, a timestamp, and key-value [attributes](/docs/using-new-relic/welcome-new-relic/get-started/glossary#attribute).
 
 For more information about events, see [Data collection](/docs/data-analysis/metrics/analyze-your-metrics/data-collection-metric-timeslice-event-data) and [Default events for New Relic products](/docs/insights/insights-data-sources/default-data/insights-default-data-other-new-relic-products).
 
-You can locate your KPIs and business metrics data in New Relic using the [data explorer](/docs/query-your-data/explore-query-data/browse-data/introduction-data-explorer/) and the [NRQL query language](/docs/insights/nrql-new-relic-query-language/using-nrql/introduction-nrql). You can also [build dashboards](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) to track the performance of those KPIs:
+You can locate your KPIs and business metrics data in New Relic using [metrics and events](/docs/query-your-data/explore-query-data/browse-data/introduction-data-explorer/) and the [NRQL query language](/docs/insights/nrql-new-relic-query-language/using-nrql/introduction-nrql). You can also [build dashboards](/docs/dashboards/new-relic-one-dashboards/get-started/introduction-new-relic-one-dashboards) to track the performance of those KPIs:
 
 <CollapserGroup>
   <Collapser
@@ -673,7 +673,7 @@ After your migration, compare these baselines against your [migration acceptance
 
 If you find that you need data that is not captured by default instrumentation, we make it easy for you to capture custom data:
 
-* [APM custom instrumentation](/docs/agents/manage-apm-agents/agent-data/custom-instrumentation)
+* [APM custom instrumentation](/docs/apm/agents/manage-apm-agents/agent-data/custom-instrumentation/)
 * [Browser custom data](/docs/insights/insights-data-sources/custom-data/insert-data-via-new-relic-browser)
 * [Infrastructure custom attributes](/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#conf-custom_attributes)
 * [Custom event data](/docs/insights/insights-data-sources/custom-data/send-custom-data-insights)

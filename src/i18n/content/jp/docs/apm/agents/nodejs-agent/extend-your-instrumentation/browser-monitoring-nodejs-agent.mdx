@@ -35,13 +35,13 @@ Node.jsエージェントのインストルメンテーションは、アプリ�
   >
     この例では、ウェブアプリケーションフレームワークの [Express](http://expressjs.com) と、テンプレートモジュールの [jade](http://jade-lang.com) を使用しています。他のフレームワークでは仕様が異なりますが、この一般的なアプローチはほとんどの場合で機能するはずです。
 
-    ブラウザのタイミング見出しを挿入する最も簡単な方法は、 `newrelic`モジュールをテンプレートに渡し、テンプレート内から`newrelic.getBrowsertimingHeader()`を呼び出すことです。
+    ブラウザのタイミング見出しを挿入する最も簡単な方法は、 `newrelic`モジュールをテンプレートに渡し、テンプレート内から`newrelic.getBrowserTimingHeader()`を呼び出すことです。
 
     あなたの`app.js`で：
 
     ```js
-    var newrelic = require('newrelic');
-    var app = require('express')();
+    const newrelic = require('newrelic');
+    const app = require('express')();
     // in express, this lets you call newrelic from within a template
     app.locals.newrelic = newrelic;
 
@@ -69,18 +69,18 @@ Node.jsエージェントのインストルメンテーションは、アプリ�
     id="example-express-swig"
     title="エクスプレス＆スウィッグ"
   >
-    この例では、Express with [Swig](https://github.com/paularmstrong/swig "新しいウィンドウで開くリンク") を使用しています。
+    この例では、Express with [Swig](https://github.com/paularmstrong/swig "リンクが新しいウィンドウで開きます") を使用しています。
 
     あなたの`app.js`で：
 
     ```js
-    var newrelic = require('newrelic');
+    const newrelic = require('newrelic');
 
-    var http = require('http')
-    var path = require('path')
-    var swig = require('swig')
+    const http = require('http')
+    const path = require('path')
+    const swig = require('swig')
 
-    var app = require('express')();
+    const app = require('express')();
 
     app.locals.newrelic = newrelic;
 
@@ -121,9 +121,9 @@ Node.jsエージェントのインストルメンテーションは、アプリ�
     `app.js`で**hapi**を使用します：
 
     ```js
-    var newrelic = require('newrelic');
-    var Hapi = require('hapi');
-    var server = new Hapi.Server(parseInt(PORT), '0.0.0.0', {
+    const newrelic = require('newrelic');
+    const Hapi = require('hapi');
+    const server = new Hapi.Server(parseInt(PORT), '0.0.0.0', {
       views: {
         engines : {html: 'handlebars' },
         path : __dirname + '/templates'
@@ -131,7 +131,7 @@ Node.jsエージェントのインストルメンテーションは、アプリ�
     });
 
     function homepage(request, reply) {
-      var context = {
+      const context = {
         // pass in the header each request
         nreum : newrelic.getBrowserTimingHeader(),
         content : ...

@@ -10,9 +10,13 @@ metaDescription: 'Install and configure New Relic logging for the Cloudflare Log
 translationType: machine
 ---
 
-import cloudflareDashboard from 'images/cloudflare-dashboard.png'
+import logsCloudflareLogsDashboard from 'images/logs_screenshot-full_Cloudflare-logs-dashboard.webp'
 
 [Cloudflare Logpush](https://developers.cloudflare.com/logs/get-started/enable-destinations/new-relic/) サービスを設定し、Cloudflare ダッシュボードまたは API 経由で New Relic にログを送信します。
+
+<Callout variant="important">
+  Cloudflare は、2023 年 2 月 1 日にロールアウトを開始し、2023 年 8 月 1 日に終了する、Cloudflare ログのセキュリティ関連フィールドに対する一連の更新を発表しました。詳細については、 [Cloudflare の公式発表を](https://developers.cloudflare.com/logs/reference/change-notices/2023-02-01-security-fields-updates/) 確認してください。 Cloudflare から New Relic に送信されるすべてのログは、これらの変更の影響を受けます。
+</Callout>
 
 ## Cloudflareのダッシュボードで管理 [#dashboard]
 
@@ -30,19 +34,28 @@ Cloudflareのダッシュボード経由でNew RelicへのLogpushサービスを
 
 6. **New Relic** を選択します。
 
-7. New Relicの**ログエンドポイント**を入力してください：
+7. New Relic の **Logs Endpoint**を入力します。 `<NR_LICENSE_KEY>`をあなたの <InlinePopover type="licenseKey"/>.
 
-   私たち： `"https://log-api.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
+   * 私たち： `"https://log-api.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
+   * EU： `"https://log-api.eu.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
 
-   EU： `"https://log-api.eu.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
+   その他のヒント:
 
-   NewRelicアカウントで設定したリージョンを使用します。 `<NR_LICENSE_KEY>`を[、UIまたはAPIから取得](/docs/apis/intro-apis/new-relic-api-keys/#manage-license-key)できるNewRelicライセンスキーに置き換えます。
+   * New Relic アカウントに設定したリージョンを使用します。
+
+   * 複数の Cloudflare ゾーンがあると、新しい
+
+     <InlinePopover type="licenseKey"/>
+
+     ゾーンごとに。
 
 8. **アクセスを確認する** をクリックします。
 
 9. **Save and Start Pushing** をクリックして、Logpushの有効化を完了します。
 
 接続すると、Cloudflare は **Logs> Logpush** の下に接続されたサービスとして New Relic をリストアップします。ここから接続されているサービスを編集または削除します。
+
+<InstallFeedback/>
 
 ## Cloudflare APIによる管理 [#api]
 
@@ -54,15 +67,22 @@ Cloudflareのダッシュボード経由でNew RelicへのLogpushサービスを
 
 * `logpull_options` （オプション）：フィールド、サンプルレート、およびタイムスタンプ形式を構成するには、 [LogpushAPIオプション](https://developers.cloudflare.com/logs/reference/logpush-api-configuration#options)を参照してください。 Cloudflareログをクエリするために、NewRelicではフィールドをUnixタイムスタンプとして送信する必要があります。
 
-* `destination_conf`：エンドポイントURL、ライセンスキー、および次の文字列形式の形式で構成されるログの宛先：
+* `destination_conf`: エンドポイント URL、 <InlinePopover type="licenseKey"/>、および次の文字列形式の形式:
 
-  `<NR_ENDPOINT_URL>`：New Relic HTTPログ取り込みエンドポイント。これは、New Relicアカウントに設定されているリージョンに応じて、米国の場合は`https://log-api.newrelic.com/log/v1` 、EUの場合は`https://log-api.eu.newrelic.com/log/v1`です。 `<NR_LICENSE_KEY>` ： [UIまたはAPIから取得](/docs/apis/intro-apis/new-relic-api-keys/#manage-license-key)できるNewRelicライセンスキーに置き換えます。 `format` ：形式は`cloudflare`です。
+  * `<NR_ENDPOINT_URL>`: New Relic HTTP ログ取り込みエンドポイント。New Relic アカウントで設定されている地域に応じて、米国の場合は`https://log-api.newrelic.com/log/v1` 、EU の場合は`https://log-api.eu.newrelic.com/log/v1`です。
+
+  * `<NR_LICENSE_KEY>`: あなたの New Relic に置き換えます
+
+    <InlinePopover type="licenseKey"/>
+
+    、 [UI または API から取得](/docs/apis/intro-apis/new-relic-api-keys/#manage-license-key)できます。
+
+  * `format`: 形式は`cloudflare`です。
 
   例えば：
 
-  私たち： `"https://log-api.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
-
-  EU： `"https://log-api.eu.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
+  * 私たち： `"https://log-api.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
+  * EU： `"https://log-api.eu.newrelic.com/log/v1?Api-Key=<NR_LICENSE_KEY>&format=cloudflare"`
 
 * `max_upload_records` （オプション）：バッチごとのログ行の最大数。これは少なくとも1,000行以上である必要があります。バッチごとのログ行の最小数を指定する方法はないことに注意してください。これは、ログファイルに含まれる行が指定よりもはるかに少ない可能性があることを意味します。
 
@@ -156,7 +176,7 @@ Cloudflareネットワークログから主要なメトリックを確認する�
 <img
   title="Dashboard in Cloudflare network logs quickstart"
   alt="Dashboard in Cloudflare network logs quickstart"
-  src={cloudflareDashboard}
+  src={logsCloudflareLogsDashboard}
 />
 
 <figcaption>
@@ -165,7 +185,7 @@ Cloudflareネットワークログから主要なメトリックを確認する�
 
 * New Relic Instant Observability の[Cloudflare Network Logs クイックスタート](https://newrelic.com/instant-observability/cloudflare/fc2bb0ac-6622-43c6-8c1f-6a4c26ab5434)に移動し、 **+ Install now**をクリックします。
 * ブログ投稿を読んで統合の詳細をご覧ください： [CloudflareLogpush統合を使用してログインサイトをNewRelicに送信するためのより高速で安価な方法](https://newrelic.com/blog/how-to-relic/cloudflare-log-integration)
-* [Logs UI](/docs/logs/log-management/ui-data/use-logs-ui/)を使用して、プラットフォーム全体のログデータを調べます。
+* [ログ UI](/docs/logs/log-management/ui-data/use-logs-ui/)を使用して、プラットフォーム全体のログ データを調べます。
 * [ログインコンテキスト](/docs/logs/enable-log-management-new-relic/configure-logs-context/configure-logs-context-apm-agents/)機能を使用してログを転送することにより、アプリケーションとプラットフォームのパフォーマンスデータの両方をより深く把握できます。
 * [アラートを](/docs/alerts-applied-intelligence/new-relic-alerts/alert-conditions/create-alert-conditions/)設定します。
 * [データをクエリ](/docs/query-your-data/explore-query-data/get-started/introduction-querying-new-relic-data/)し、[ダッシュボードを作成します](/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards/)。

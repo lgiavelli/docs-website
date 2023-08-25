@@ -14,16 +14,21 @@ translationType: machine
 
 syslogクライアントを使ってログをNew Relicに転送するには、以下が必要です。
 
-* ログを送信したいアカウントの有効な [New Relic ライセンスキー](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key)
+* 有効な New Relic
+
+  <InlinePopover type="licenseKey"/>
+
+  ログを送信するアカウント
+
 * このドキュメントで説明されているように、syslogクライアントの設定にいくつかのマイナーな変更があります。
 
-## rsyslogの設定 [#rsyslog]
+## rsyslog バージョン 8 以降を構成する (Amazon Linux、Redhat、Centos) [#rsyslog]
 
 <Callout variant="important">
   EUリージョンアカウントを使用している場合は、エンドポイントとして`newrelic.syslog.nr-data.net`ではなく`newrelic.syslog.eu.nr-data.net`を使用する必要があります。 EUアカウントにUSエンドポイントを使用しても機能しないため、構成ファイルで置き換えることを忘れないでください。
 </Callout>
 
-ログを`rsyslog`でNewRelicに転送するには：
+Amazon Linux、Redhat、および Centos ディストリビューションの`rsyslog`を使用してログを New Relic に転送するには:
 
 1. `rsyslog`がTLS暗号化を使用してログを送信できるようにするために必要なパッケージをインストールします。
 
@@ -36,30 +41,25 @@ syslogクライアントを使ってログをNew Relicに転送するには、�
    ```properties
    module(load="imfile"
           PollingInterval="10"
-          statefile.directory="/var/spool/rsyslog"
    )
    ```
 
 3. `/etc/rsyslog.d/`ディレクトリに、 `newrelic.conf`という名前のテキストファイルを作成します。
 
-4. 新しく作成された`newrelic.conf`を`/etc/rsyslog.d/`ファイルに明示的に含めます。
+4. `/etc/rsyslog.conf`の下の`$IncludeConfig`オプションに、 `/etc/rsyslog.d`ディレクトリの下に新しく作成された`newrelic.conf`ファイルを含む一致するワイルドカードが既にあるかどうかを確認してください。それ以外の場合は、 `/etc/rsyslog.conf`に`/etc/rsyslog.d/newrelic.conf`を明示的に含める必要があります。 `$IncludeConfig /etc/rsyslog.d/newrelic.conf`
 
-   ```properties
-   include(file="/etc/rsyslog.conf.d/newrelic.conf")
-   ```
-
-5. 以下を`newrelic.conf`に追加し、 `YOUR_LICENSE_KEY`を[NewRelicライセンスキー](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key)に置き換えます。
+5. 以下を `newrelic.conf`に追加します。強調表示された値を置き換えます。`YOUR_LICENSE_KEY`には、New Relic を使用してください <InlinePopover type="licenseKey"/>:
 
    ```properties
    ## Specify each of the files to be tailed in case step 1 is done
 
-   input(type="imfile" ruleset="infiles" Tag="<YOUR_FILE_TAG>" File="<PATH_TO_FILE>" StateFile="<UNIQUE_STATEFILE_NAME >")
+   input(type="imfile" Tag="YOUR_FILE_TAG" File="PATH_TO_FILE")
 
    ## Template expected by the New Relic Syslog endpoint
 
    template(name="newrelic-rfc5424"
             type="string"
-            string="<YOUR_LICENSE_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% %structured-data% %msg%\n"
+            string="YOUR_LICENSE_KEY <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% %structured-data% %msg%\n"
    )
 
    ## Configure TLS and log forwarding
@@ -81,15 +81,45 @@ syslogクライアントを使ってログをNew Relicに転送するには、�
    )
    ```
 
-6. 次のコマンドを実行して、 `rsyslog`サービスを再起動します。
+6. (オプション): `syslog` データにカスタム属性を追加します。
+
+   `syslog` データを残りのテレメトリ データと一致させるために、カスタム属性を追加できます。これを行うには 2 つの方法があります。
+
+   * **カスタム属性をテンプレート文字列に直接追加します。** 文字列値の二重引用符 (`"`) をエスケープする必要があります。例えば：
+
+     `[<STRUCTURED_DATA_ID> <ATTR_NAME_1>="<ATTR_VALUE_1>" <ATTR_NAME_2>="<ATTR_VALUE_2>" ...]`
+
+     ```properties
+     template(name="newrelic-rfc5424"
+              type="string"
+              string="YOUR_LICENSE_KEY <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% [someId environment=\"prod\" region=\"US\"] %msg%\n"
+     )
+     ```
+
+   * **テンプレート文字列のカスタム プロパティ変数を使用してカスタム属性を追加します。** このメソッドにより、文字列値をエスケープする必要がなくなります。
+
+     ```properties
+     template(name="newrelic-rfc5424"
+              type="string"
+              string="YOUR_LICENSE_KEY <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% %!custom-structured-data% %msg%\n"
+     )
+
+     set $!custom-structured-data = '[someId1 environment="prod" region="US"][someId2 team="sre" cost-center="123"]';
+     ```
+
+テンプレート文字列の `%structured-data%` セクションをカスタム タグ/属性に置き換えてください。
+
+7. 次のコマンドを実行して、 `rsyslog`サービスを再起動します。
 
    ```bash
    sudo systemctl restart rsyslog
    ```
 
-7. [New Relic アカウント](/docs/logs/log-management/ui-data/explore-your-data-log-analytics) のログを確認してください。
+8. [New Relic アカウント](/docs/logs/log-management/ui-data/explore-your-data-log-analytics) のログを確認してください。
 
-## 圧縮を使用して rsyslog を構成する [#rsyslog-compression]
+## 圧縮を使用して rsyslog バージョン 8 以降を構成する (Amazon Linux、Redhat、Centos) [#rsyslog-compression]
+
+Amazon Linux、Redhat、Centos ディストリビューション用に`rsyslog`バージョン 8 以降を設定するには:
 
 1. [configure rsyslog](#rsyslog)で説明されているステップ 1 から 4 に従います。
 
@@ -97,18 +127,18 @@ syslogクライアントを使ってログをNew Relicに転送するには、�
   構成されたポート番号は &#x7B; `6514` } ではなく`6516`であることに注意してください。
 </Callout>
 
-2. 以下を`newrelic.conf`に追加し、 `YOUR_LICENSE_KEY`を[NewRelicライセンスキー](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key)に置き換えます。
+2. 以下を `newrelic.conf`に追加します。強調表示されたすべての値を置き換えます。`YOUR_LICENSE_KEY`には、New Relic を使用してください <InlinePopover type="licenseKey"/>:
 
    ```properties
    ## Specify each of the files to be tailed in case step 1 is done
 
-   input(type="imfile" ruleset="infiles" Tag="<YOUR_FILE_TAG>" File="<PATH_TO_FILE>" StateFile="<UNIQUE_STATEFILE_NAME >")
+   input(type="imfile" Tag="YOUR_FILE_TAG" File="PATH_TO_FILE"
 
    ## Template expected by the New Relic Syslog endpoint
 
    template(name="newrelic-rfc5424"
             type="string"
-            string="<YOUR_LICENSE_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% %structured-data% %msg%\n"
+            string="YOUR_LICENSE_KEY <%pri%>%protocol-version% %timestamp:::date-rfc3339% %hostname% %app-name% %procid% %msgid% %structured-data% %msg%\n"
    )
 
    ## Configure TLS and log forwarding
@@ -139,9 +169,9 @@ syslogクライアントを使ってログをNew Relicに転送するには、�
 
 4. [New Relic アカウント](/docs/logs/log-management/ui-data/explore-your-data-log-analytics) のログを確認してください。
 
-## rsyslog 7以前のレガシー設定ファイル [#legacy-rsyslog]
+## rsyslog バージョン 7 以下のレガシー構成ファイル (Amazon Linux、Redhat、Centos) [#legacy-rsyslog]
 
-rsyslogバージョン7以下を使用している場合は、設定ファイルを廃止されたレガシーフォーマットに合わせる必要があります。この形式はレトロな互換性のためにのみ残されています。 [rsyslog documentation](https://www.rsyslog.com/doc/master/configuration/conf_formats.html) で述べられているように、使用しないことを強くお勧めします。
+rsyslog バージョン 7 以下を使用している場合は、構成ファイルを廃止されたレガシー形式に適合させる必要があります。この形式は、レトロな互換性のためにのみ保持されています。[rsyslog ドキュメント](https://www.rsyslog.com/doc/master/configuration/conf_formats.html)に記載されているように、使用を避けることを強くお勧めします。Amazon Linux、Redhat、Centos ディストリビューションのログを設定するには:
 
 1. `rsyslog`がTLS暗号化を使用してログを送信できるようにするために必要なパッケージをインストールします。
 
@@ -160,13 +190,9 @@ rsyslogバージョン7以下を使用している場合は、設定ファイル
 
 3. `/etc/rsyslog.d/`ディレクトリに、 `newrelic.conf`という名前のテキストファイルを作成します。
 
-4. 新しく作成された`newrelic.conf`を`/etc/rsyslog.d/`ファイルに明示的に含めます。
+4. `/etc/rsyslog.conf`の下の`$IncludeConfig`オプションに、 `/etc/rsyslog.d`ディレクトリの下に新しく作成された`newrelic.conf`ファイルを含む一致するワイルドカードが既にあるかどうかを確認してください。それ以外の場合は、 `$IncludeConfig /etc/rsyslog.d/newrelic.conf` } を使用して`/etc/rsyslog.conf`に`/etc/rsyslog.d/newrelic.conf`を明示的に含める必要があります。
 
-   ```bash
-   $IncludeConfig /etc/rsyslog.conf.d/newrelic.conf
-   ```
-
-5. 以下を`newrelic.conf`に追加し、\`YOUR_LICENSE_KEYをNewRelic[ライセンスキー](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key)に置き換えます。
+5. 以下を `newrelic.conf`に追加します。強調表示された値を置き換えます。`YOUR_LICENSE_KEY`には、New Relic を使用してください <InlinePopover type="licenseKey"/>:
 
    ```properties
    ## Template expected by the New Relic Syslog endpoint
@@ -176,8 +202,7 @@ rsyslogバージョン7以下を使用している場合は、設定ファイル
    ## Specify each of the files to be tailed in case step 1 is done
 
    $InputFileName /path/to/file
-   $InputFileTag <YOUR_FILE_TAG>
-   $InputFileStateFile <UNIQUE_STATEFILE_NAME>
+   $InputFileTag YOUR_FILE_TAG
    $InputFileSeverity info
    $InputRunFileMonitor
 
@@ -224,13 +249,13 @@ rsyslogバージョン7以下を使用している場合は、設定ファイル
 
    ```properties
    source s_files {
-           file("<PATH_TO_FILE>");
+           file("PATH_TO_FILE");
    };
    ```
 
-5. New Relic `syslog`形式を定義し、 [NewRelicライセンスキー](/docs/apis/intro-apis/new-relic-api-keys/#ingest-license-key)を追加します。
+5. New Relic `syslog` 形式を定義します。`YOUR_LICENSE_KEY`には、New Relic を使用してください <InlinePopover type="licenseKey"/>。
 
-   ```
+   ```properties
    template NRFormat { template("YOUR_LICENSE_KEY <${PRI}>1 ${ISODATE} ${HOST:--} ${PROGRAM:--} ${PID:--} ${MSGID:--} ${SDATA:--} $MSG\n");
            template_escape(no);
    };
@@ -267,5 +292,5 @@ rsyslogバージョン7以下を使用している場合は、設定ファイル
 9. [New Relic アカウント](/docs/logs/ui-data/use-logs-ui) のログを確認してください。
 
 <Callout variant="tip">
-  もしDockerコンテナからsyslog-ngを実行していて問題がある場合は、 [balait/syslog image documentation](https://hub.docker.com/r/balabit/syslog-ng/) を確認してください。
+  Docker コンテナーから syslog-ng を実行していて問題が発生した場合は、 [balait/syslog イメージのドキュメント](https://hub.docker.com/r/balabit/syslog-ng/)を確認してください。
 </Callout>

@@ -1,5 +1,5 @@
 ---
-title: "NerdGraph: use historical data exports to return larger NRQL responses"
+title: "Historical data export: return larger NRQL responses"
 tags:
   - APIs
   - NerdGraph
@@ -12,9 +12,8 @@ When running a [NRQL query](/docs/query-your-data/nrql-new-relic-query-language/
 
 ## Requirements [#requirements]
 
-This feature requires [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices).
-
-This feature requires the use of our [NerdGraph API](/docs/apis/nerdgraph/get-started/introduction-new-relic-nerdgraph). 
+* Requires [Data Plus](/docs/accounts/accounts-billing/new-relic-one-pricing-billing/data-ingest-billing#data-prices)
+* To export data, you must be a [core or full platform user](/docs/accounts/accounts-billing/new-relic-one-user-management/user-type)
 
 ## Limits and restrictions [#limits-restrictions]
 
@@ -31,11 +30,7 @@ If you'd like higher limits, talk to your account representative.
 
 ### Data type restrictions [#data-type-restrictions]
 
-Some [data types](/docs/data-apis/understand-data/new-relic-data-types) are **not** available for export:
-
-* Metric timeslice data
-* Dimensional metrics (the `Metric` data type)
-* Infrastructure events `SystemSample`, `ProcessSample`, `StorageSample`, `NetworkSample`, `ContainerSample`
+[Metric timeslice data](/docs/data-apis/understand-data/new-relic-data-types/#timeslice-data) is not available for export. 
 
 ### Time range restrictions [#time-range-restrictions]
 
@@ -45,23 +40,28 @@ The historical data export feature doesn't support querying live data or data fr
 
 This feature supports selecting specific attribute names, and wildcards (`SELECT *`). For example, we support queries like these:
 
-```
+```sql
 SELECT * FROM MobileRequest SINCE 3 days ago until 2 days ago
 ```
 
-```FROM Transaction SELECT duration, appId 
-  WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' 
-  UNTIL '2022-06-11 11:10:00-0600'
+```sql
+SELECT duration, appId FROM Transaction
+WHERE appName = 'interesting-application' 
+SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'
 ```
 
-The following [NRQL components](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions) **cannot** be used: 
+The following [NRQL components](/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions) **cannot** be used in the query:
 
 * Aggregation functions (`sum`, `count`, `average`, `max`)
-* Evaluable functions (`numeric`, `log`, `concat`)
+* Evaluable functions (`numeric`, `log`, `concat`) are supported *only* in the `WHERE` clause
 * `FACET`
 * `TIMESERIES`
 * `COMPARE WITH`
+* `JOIN`
 * Nested aggregations
+* Subqueries
+* Variable bindings
+* Cross Account Queries
 
 ## Endpoint details [#endpoints]
 
@@ -76,15 +76,18 @@ The historical data export feature uses our NerdGraph API and makes use of three
 
 ### Create export [#create-export]
 
-One way to use NerdGraph is with the [NerdGraph explorer](/docs/apis/nerdgraph/get-started/nerdgraph-explorer). The instructions in this section will focus on using the explorer. If you're interested in running your own scripts, see [Scripts](#scripts).  
+One way to use NerdGraph is with the [NerdGraph explorer](/docs/apis/nerdgraph/get-started/nerdgraph-explorer). The instructions in this section will focus on using the NerdGraph explorer. If you're interested in running your own scripts, see [Scripts](#scripts).  
 
 In the NerdGraph schema, the `historicalDataExportCreateExport` endpoint can be found under `mutation > historicalDataExport`. Use a query like the one below to run an export. 
 
 It's recommended to select ID for the response body, as this will be used to get details for the export, and retrieve results.
 
-```
+```graphql
 mutation {
-  historicalDataExportCreateExport(accountId: <var>YOUR_ACCOUNT_ID</var>, nrql: "<var>FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'</var>") {
+  historicalDataExportCreateExport(
+    accountId: YOUR_ACCOUNT_ID, 
+    nrql: "FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'"
+  ) {
     percentComplete
     nrql
     status
@@ -92,10 +95,13 @@ mutation {
     message
   }
 }
+```
 
 #### Example response [#create-export-response]
 
-Here's an example response for creating an export: 
+Here's an example response for creating an export:
+
+```json
 {
   "data": {
     "historicalDataExportCreateExport": {
@@ -108,15 +114,16 @@ Here's an example response for creating an export:
   }
 }
 ```
+
 ### Cancel export [#cancel-export]
 
-In the NerdGraph schema, the `historicalDataExportCancelExport` endpoint can be found under `mutation > historicalDataExport`. Use a query like the one below to run an export. 
+In the NerdGraph schema, the `historicalDataExportCancelExport` endpoint can be found under `mutation` > `historicalDataExport`. Use a query like the one below to run an export. 
 
 It's recommended to select the status in the response body to verify that the export was cancelled successfully.
 
-```
+```graphql
 mutation {
-  historicalDataExportCancelExport(accountId: <var>YOUR_ACCOUNT_ID</var>, id: "<var>YOUR_EXPORT_ID</var>") {
+  historicalDataExportCancelExport(accountId: YOUR_ACCOUNT_ID, id: "YOUR_EXPORT_ID") {
     status
     id
   }
@@ -125,12 +132,13 @@ mutation {
 
 #### Example response [#cancel-export-response]
 
-Here's an example response for cancelling an export: 
-```
+Here's an example response for cancelling an export:
+
+```json
 {
   "data": {
     "historicalDataExportCancelExport": {
-      "id": "<var>YOUR_EXPORT_ID</var>",
+      "id": "YOUR_EXPORT_ID",
       "status": "CANCELED"
     }
   }
@@ -139,14 +147,14 @@ Here's an example response for cancelling an export:
 
 ### Get details for a specific export [#details-for-export]
 
-Use the export ID found in the response from the create endpoint to query details for the export, as shown below. This endpoint can be found in NerdGraph under `query > actor > account > historicalDataExport > export`.
+Use the export ID found in the response from the create endpoint to query details for the export, as shown below. This endpoint can be found in NerdGraph under `query` > `actor` > `account` > `historicalDataExport` > `export`.
 
-```
+```graphql
 {
   actor {
-    account(id: <var>YOUR_ACCOUNT_ID</var>) {
+    account(id: YOUR_ACCOUNT_ID) {
       historicalDataExport {
-        export(id: "<var>YOUR_EXPORT_ID</var>") {
+        export(id: "YOUR_EXPORT_ID") {
           availableUntil
           eventCount
           eventTypes
@@ -167,7 +175,7 @@ Use the export ID found in the response from the create endpoint to query detail
 
 Here's the response for getting the details for a specific export: 
 
-```
+```json
 {
   "data": {
     "actor": {
@@ -198,12 +206,12 @@ Here's the response for getting the details for a specific export:
 
 ### Get export details for an account [#get-details-account]
 
-You can use the account ID to get the details for all exports from that account, as shown below. The endpoint can be found in the NerdGraph schema under `query > actor > account > historicalDataExport > exports`.
+You can use the account ID to get the details for all exports from that account, as shown below. The endpoint can be found in the NerdGraph schema under `query` > `actor` > `account` > `historicalDataExport` > `exports`.
 
-```
+```graphql
 {
   actor {
-    account(id: <var>YOUR_ACCOUNT_ID</var>) {
+    account(id: YOUR_ACCOUNT_ID) {
       historicalDataExport {
         exports {
           availableUntil
@@ -226,7 +234,7 @@ You can use the account ID to get the details for all exports from that account,
 
 Here's an example response for getting export details for an account: 
 
-```
+```json
 {
   "data": {
     "actor": {
@@ -262,35 +270,36 @@ Here's an example response for getting export details for an account:
 It might be useful to query historical data exports programmatically, from a script. The following curl commands may be useful to get started. For response examples, see the responses in the Example queries section.
 
 ### Create export [#create-export-script]
-```
+
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var> \
---data-raw '{"query":"mutation {\n  historicalDataExportCreateExport(accountId: <var>YOUR_ACCOUNT_ID</var>, nrql: "<var>FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'</var>") {\n    percentComplete\n    nrql\n    status\n    message\n    id\n }","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"mutation {\n  historicalDataExportCreateExport(accountId: YOUR_ACCOUNT_ID, nrql: "FROM Transaction SELECT duration, appId WHERE appName = 'interesting-application' SINCE '2022-06-11 11:05:00-0600' UNTIL '2022-06-11 11:10:00-0600'") {\n    percentComplete\n    nrql\n    status\n    message\n    id\n }","variables":{}}'
 ```
 
 ### Cancel export [#cancel-export-script]
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var> \
---data-raw '{"query":"mutation {\n historicalDataExportCancelExport(accountId: <var>YOUR_ACCOUNT_ID</var>, id: "<var>YOUR_EXPORT_ID</var>") {\n status\n id\n }","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"mutation {\n historicalDataExportCancelExport(accountId: YOUR_ACCOUNT_ID, id: "YOUR_EXPORT_ID") {\n status\n id\n }","variables":{}}'
 ```
 
 ### Get details for export [#export-details-script]
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var>' \
---data-raw '{"query":"{\n  actor {\n    account(id: <var>YOUR_ACCOUNT_ID</var>) {\n      historicalDataExport {\n        export(id: \"<var>YOUR_EXPORT_ID</var>\") {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"{\n  actor {\n    account(id: YOUR_ACCOUNT_ID) {\n      historicalDataExport {\n        export(id: \"YOUR_EXPORT_ID\") {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}","variables":{}}'
 ```
 
 ### Get details for account exports [#export-details-account-script]
-```
+```bash
 curl --location --request POST 'https://api.newrelic.com/graphql' \
---header 'Content-Type: application/json' \
---header 'API-Key: <var>YOUR_USER_KEY</var>' \
---data-raw '{"query":"{\n  actor {\n    account(id: <var>YOUR_ACCOUNT_ID</var>) {\n      historicalDataExport {\n        exports {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}\n","variables":{}}'
+     --header 'Content-Type: application/json' \
+     --header 'API-Key: YOUR_USER_KEY' \
+     --data-raw '{"query":"{\n  actor {\n    account(id: YOUR_ACCOUNT_ID) {\n      historicalDataExport {\n        exports {\n          availableUntil\n          eventCount\n          eventTypes\n          id\n          message\n          nrql\n          percentComplete\n          results\n          status\n        }\n      }\n    }\n  }\n}\n","variables":{}}'
 ```
 
 ## Export results format [#export-results-format]
@@ -299,13 +308,13 @@ Results from the queries are in the results field from either of the two `get de
 
 An example unzipped results file is below:
 
-```
+```json
 [
   {
     "attributes": {
       "duration": 36,
       "eventType": "Transaction",
-      "account": ACCOUNTID,
+      "accountId": YOUR_ACCOUNT_ID,
       "timestamp": 1655174793213
     }
   },
@@ -313,7 +322,7 @@ An example unzipped results file is below:
     "attributes": {
       "duration": 3,
       "eventType": "MobileRequest",
-      "account": ACCOUNTID,
+      "accountId": YOUR_ACCOUNT_ID,
       "timestamp": 1655174793215
     }
   }
@@ -328,11 +337,11 @@ The `HistoricalDataExport` event type contains information such as the status of
 
 The following queries, which you can run in the [query builder](/docs/query-your-data/explore-query-data/query-builder/introduction-query-builder) or add to a dashboard, will return all the exports created in the last week and the number of those which were completed successfully and didn't have an error: 
 
-```
+```sql
 FROM HistoricalDataExport SELECT * WHERE status = 'Created' SINCE 1 WEEK AGO
 ```
 
-```
+```sql
 FROM HistoricalDataExport SELECT count(*) WHERE status != 'Completed' FACET status SINCE 1 WEEK AGO
 ```
 
@@ -341,6 +350,7 @@ FROM HistoricalDataExport SELECT count(*) WHERE status != 'Completed' FACET stat
 ### Account not yet enabled [#account-not-yet-enabled]
 
 When attempting to create an export, you may see an error message that reads: 
+
 ```
 Cannot query field \"historicalDataExportCreateExport\" on type \"RootMutationType\".
 ```
@@ -351,19 +361,16 @@ If you're getting this, it likely means that the historical data export feature 
 
 When attempting to download results using a pre-signed URL, you may see an error like this: 
 
-```
+```xml
 <Error>
-<Code>AccessDenied</Code>
-<Message>Request has expired</Message>
-<X-Amz-Expires>120</X-Amz-Expires>
-<Expires>2022-06-24T15:16:45Z</Expires>
-<ServerTime>2022-06-24T17:56:40Z</ServerTime>
-<RequestId>1234567890ABC</RequestId>
-<HostId>ABCD1234HOST-ID098765-XYZ</HostId>
+  <Code>AccessDenied</Code>
+  <Message>Request has expired</Message>
+  <X-Amz-Expires>120</X-Amz-Expires>
+  <Expires>2022-06-24T15:16:45Z</Expires>
+  <ServerTime>2022-06-24T17:56:40Z</ServerTime>
+  <RequestId>1234567890ABC</RequestId>
+  <HostId>ABCD1234HOST-ID098765-XYZ</HostId>
 </Error>
 ```
 
 An error like this indicates that the results URL has expired and you'll need to requery the export object for a fresh results url. You don't need to rerun the export, just get a new set of URLs for the results. 
-
-
-

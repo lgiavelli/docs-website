@@ -10,6 +10,25 @@ translationType: machine
 
 몇 가지 간단한 단계만 거치면 New Relic에서 Prometheus 데이터 흐름을 얻을 수 있습니다. 통합하면 쿼리 기반 대시보드(및 기타 쿼리 결과)에 데이터가 표시되며 보통 5분 이내에 표시됩니다. 이 페이지에서는 원격 쓰기 통합을 위한 기본 설정과 몇 가지 일반적인 문제 해결 주제를 다룹니다. 고가용성(HA) 구성에서 Prometheus 서버 통합에 대한 정보는 [Prometheus 고가용성](/docs/prometheus-high-availability-ha) 문서를 참조하십시오.
 
+### (선택 사항) Prometheus 운영자 구성
+
+[Prometheus Operator를](https://github.com/prometheus-operator/prometheus-operator)사용하는 경우 New Relic으로 시크릿을 생성해야 합니다. <InlinePopover type="licenseKey"/>데이터를 보고하려는 계정에 대해 API 키가 `Ingest - License` 유형인지 확인하십시오.
+
+```
+kubectl -n YOUR_PROM_NAMESPACE create secret generic nr-license-key --from-literal=value=YOUR_LICENSE_KEY
+```
+
+다음으로 Prometheus CRD( `kind:Prometheus` )에 다음을 추가합니다.
+
+```
+  remoteWrite:
+      - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=YOUR_CLUSTER_NAME
+        authorization:
+          credentials:
+            key: value
+            name: nr-license-key
+```
+
 ## 통합 설정 [#setup]
 
 [UI에서 Prometheus 원격 쓰기 설정 시작 관리자로](https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJwcm9tZXRoZXVzLXJlbW90ZS13cml0ZS1pbnRlZ3JhdGlvbi1uZXJkbGV0cy5zZXR1cC1wcm9tZXRoZXVzIn0=) 이동하고 다음 단계를 완료하여 Prometheus 데이터를 추가합니다.
@@ -32,18 +51,18 @@ translationType: machine
    **프로메테우스 v2.26 이상**
 
    ```
-   remote_write: 
-   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=<var>YOUR_DATA_SOURCE_NAME</var>  
+   remote_write:
+   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=YOUR_DATA_SOURCE_NAME
      authorization:
-       credentials: <var>YOUR_LICENSE_KEY</var>
+       credentials: YOUR_LICENSE_KEY
    ```
 
    **v2.26보다 오래된 프로메테우스**
 
    ```
-   remote_write: 
-   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=<var>YOUR_DATA_SOURCE_NAME</var>  
-     bearer_token:<var>YOUR_LICENSE_KEY</var>
+   remote_write:
+   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=YOUR_DATA_SOURCE_NAME
+     bearer_token:YOUR_LICENSE_KEY
    ```
 
    또는
@@ -51,8 +70,8 @@ translationType: machine
    **모든 Prometheus 버전**
 
    ```
-   remote_write: 
-   - url: https://metric-api.newrelic.com/prometheus/v1/write?X-License-Key=<var>YOUR_LICENSE_KEY</var>&prometheus_server=<var>YOUR_DATA_SOURCE_NAME</var>
+   remote_write:
+   - url: https://metric-api.newrelic.com/prometheus/v1/write?X-License-Key=YOUR_LICENSE_KEY&prometheus_server=YOUR_DATA_SOURCE_NAME
    ```
 
    _이 접근 방식은 URL의 자격 증명을 전달합니다. 이러한 다른 접근 방식 중 하나가 사용자 환경에서 작동하지 않는 경우가 아니면 사용하지 않는 것이 좋습니다._
@@ -66,14 +85,16 @@ translationType: machine
    **Kubernetes 및 Helm 원격 쓰기 통합:** 원격 쓰기 URL을 Helm [`values.yaml`](https://github.com/helm/charts/blob/c40486ab2eba0391119b7cc1509d6958fd21c31d/stable/prometheus/values.yaml#L631) 파일에 추가합니다. `remoteWrite: []` 을 다음 예와 유사한 두 줄로 바꿉니다. 원격 쓰기 URL을 사용하고 파일의 나머지 부분과 일치하는 들여쓰기를 사용해야 합니다.
 
    ```
-   remoteWrite: 
-   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=<var>YOUR_DATA_SOURCE_NAME</var> 
-     bearer_token:<var>YOUR_LICENSE_KEY</var>
+   remoteWrite:
+   - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=YOUR_DATA_SOURCE_NAME
+     bearer_token:YOUR_LICENSE_KEY
    ```
 
 3. Prometheus 서버를 다시 시작합니다.
 
 4. New Relic UI에서 데이터를 봅니다. 예를 들어 통합을 설정할 때 자동으로 생성되는 원격 쓰기 [대시보드](/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards) 를 사용합니다.
+
+<InstallFeedback/>
 
 ## Prometheus 및 New Relic 메트릭 유형 매핑 [#mapping]
 
@@ -146,7 +167,7 @@ New Relic에서 둘 이상의 계정에 작성하거나 둘 이상의 Prometheus
     id="x-license-key"
     title="X-라이센스 키"
   >
-    계정의 [라이선스 키](/docs/accounts/install-new-relic/account-setup/license-key) 는 API 키가 아닙니다. 라이센스 키는 인증 및 데이터를 쓸 계정을 식별하는 데 사용됩니다. 다른 New Relic 계정에 쓰도록 Prometheus를 구성하는 경우 각 원격 쓰기 URL에 다른 키를 사용하십시오.
+    당신의 <InlinePopover type="licenseKey"/>API 키가 아닙니다. 라이센스 키는 인증 및 데이터를 쓸 계정을 식별하는 데 사용됩니다. 다른 New Relic 계정에 쓰기 위해 Prometheus를 구성하는 경우 각 원격 쓰기 URL에 다른 키를 사용하십시오.
   </Collapser>
 
   <Collapser

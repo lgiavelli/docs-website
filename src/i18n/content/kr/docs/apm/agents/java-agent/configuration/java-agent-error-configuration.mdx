@@ -129,12 +129,6 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
         이 `noticeError()` API 호출을 사용하여 자동으로 보고되지 않는 오류를 보고하고 `newrelic.yml` 에서 [예상 오류](/docs/agents/java-agent/configuration/java-agent-error-configuration#enable-error-collector) 로 구성합니다.
 
         * ```
-          <a href="https://newrelic.github.io/java-agent-api/javadoc/com/newrelic/api/agent/NewRelic.html#noticeError-java.lang.String-">noticeError(String message)</a>
-          ```
-        * ```
-          <a href="https://newrelic.github.io/java-agent-api/javadoc/com/newrelic/api/agent/NewRelic.html#noticeError-java.lang.String-java.util.Map-">noticeError(String message, Map<String, String> params)</a>
-          ```
-        * ```
           <a href="https://newrelic.github.io/java-agent-api/javadoc/com/newrelic/api/agent/NewRelic.html#noticeError-java.lang.Throwable-">noticeError(Throwable throwable)</a>
           ```
         * ```
@@ -176,7 +170,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
       <td>
         버전 3.40.0 이상에서는 [YAML 기반 구성](/docs/agents/java-agent/configuration/java-agent-configuration-config-file#Error_Collector) 을 사용하여 오류가 보고되는 방식을 제어할 수 있습니다. 이를 통해 HTTP 상태 코드 **또는** 예외 클래스 이름 목록과 선택적 오류 메시지를 기반으로 오류를 무시하거나 오류를 예상할 수 있습니다.
 
-        * **오류를 무시하면** 지정된 예외 클래스나 코드가 APM에 전혀 보고되지 않습니다.
+        * **오류를 무시하면** 지정된 예외 클래스 또는 코드가 보고되지 않습니다. <InlinePopover type="apm"/>조금도.
 
         * **오류를 예상** 하면 지정된 예외 클래스 또는 코드가 애플리케이션의 [오류율](/docs/apis/rest-api-v2/application-examples-v2/application-error-rate-example-v2) 및 [Apdex 점수](/docs/apm/new-relic-apm/apdex/apdex-measuring-user-satisfaction) 에 영향을 미치지 않도록 방지합니다. 이를 통해 오류율 또는 Apdex 점수를 기반으로 한 경고를 방지하면서 문제 해결을 위해 오류 정보를 유지할 수 있습니다.
 
@@ -223,13 +217,13 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
           enabled: true
 
           ignore_classes:
-            - "<var>com.example.ErrorClassToIgnore</var>"
+            - "com.example.ErrorClassToIgnore"
 
           ignore_messages:
-            <var>com.example.OtherErrorClassToIgnore</var>:
-              - "<var>some error message to ignore</var>"
+            com.example.OtherErrorClassToIgnore:
+              - "some error message to ignore"
 
-          ignore_status_codes: <var>404,507-511</var>
+          ignore_status_codes: 404,507-511
       ```
   </Collapser>
 
@@ -246,13 +240,13 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
         enabled: true
 
         expected_classes:
-          - "<var>com.example.ExpectedErrorClass</var>"
+          - "com.example.ExpectedErrorClass"
 
         expected_messages:
-          <var>com.example.OtherExpectedErrorClass</var>:
-            - "<var>some expected error message</var>"
+          com.example.OtherExpectedErrorClass:
+            - "some expected error message"
 
-        expected_status_codes: <var>406,500-504</var>
+        expected_status_codes: 406,500-504
     ```
   </Collapser>
 </CollapserGroup>
@@ -278,7 +272,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       ignore_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     그리고
@@ -286,7 +280,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     API 호출:
 
     ```
-    noticeError(<var>com.example.ErrorClass</var>)
+    noticeError(com.example.ErrorClass)
     ```
 
     결과:
@@ -303,7 +297,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       expected_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     그리고
@@ -347,7 +341,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       ignore_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     그리고
@@ -372,7 +366,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       expected_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     그리고
@@ -397,7 +391,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       ignore_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     그리고
@@ -407,7 +401,7 @@ Java 에이전트는 오류가 보고되는 방식을 제어하는 몇 가지 �
     ```
     error_collector:
       expected_classes:
-        - "<var>com.example.ErrorClass</var>"
+        - "com.example.ErrorClass"
     ```
 
     결과:
